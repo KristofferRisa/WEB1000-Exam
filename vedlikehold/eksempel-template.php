@@ -5,7 +5,7 @@ include('./html/header.html');
 
 include('./html/admin-start.html');
 
-include('./html/logg.html');
+// Innhold
 
 include('./html/admin-slutt.html');
 
