@@ -1,9 +1,9 @@
 <?php 
 $title = "FLY - Admin";
 
-include('./html/header.html');
+include('./../html/header.html');
 
-include('./html/admin-start.html');
+include('./../html/admin-start.html');
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -35,8 +35,8 @@ include('./html/admin-start.html');
   <!-- /.content-wrapper -->
 
 <?php
-include('./html/admin-slutt.html');
+include('./../html/admin-slutt.html');
 
-include('./html/script.html');
+include('./../html/script.html');
 
 ?>

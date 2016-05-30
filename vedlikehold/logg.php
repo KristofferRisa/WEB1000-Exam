@@ -70,7 +70,7 @@ if(!$sidenr){
   $sidenr = 1;
 }
 
-print('sidenr = '.$sidenr);
+// print('sidenr = '.$sidenr);
 print($logg->AltPrSide(100,$sidenr));
 
 ?> 

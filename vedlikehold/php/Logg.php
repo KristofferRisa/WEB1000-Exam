@@ -53,7 +53,7 @@ class Logg{
             $offset = $sideNr;
         }
         
-        $html .= '<p>offset = '.$offset.'</p>';
+        //$html .= '<p>offset = '.$offset.'</p>';
         //db-tilkopling
         $queryPrSide = $db_connection->prepare("SELECT loggId,melding,nivaa,modul,bruker,opprettet FROM logg ORDER BY loggId DESC LIMIT ?,?"); // Retrieve rows 6-15
         $queryPrSide->bind_param('ss', $offset, $antallMeldinger);
