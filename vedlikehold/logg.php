@@ -51,22 +51,15 @@ include('./html/admin-start.html');
                       </tr>
                     </thead>
                     <tbody>
-                      <tr role="row" class="odd">
-                        <td class="sorting_1">1</td>
-                        <td>Error</td>
-                        <td>noe feilet</td>
-                        <td>innlogging</td>
-                        <td>1</td>
-                        <td>2016-02-02 21:13:00</td>
-                      </tr>
-                      <tr role="row" class="even">
-                        <td>2</td>
-                        <td>Info</td>
-                        <td>Bruker logget inn</td>
-                        <td>innlogging</td>
-                        <td>1</td>
-                        <td>2016-02-02 21:14:00</td>
-                      </tr>
+<?php 
+include('./php/Logg.php');
+
+$logg = new Logg();
+print($logg.Alt());
+
+?> 
+
+
                     </tbody>
                     <tfoot>
                       <tr>
