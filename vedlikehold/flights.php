@@ -6,29 +6,29 @@ include('./html/header.html');
 include('./html/admin-start.html');
 
 ?>
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-       <h1>
-        Logg
-        <small>Se alle loggmeldinger</small>
+    <h1>
+        Flyvninger
+        <small>Administrer flyvninger</small>
       </h1>
-       <ol class="breadcrumb">
+    <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Start</a></li>
-        <li class="active">Logg</li>
+        <li class="active">Flyvninger</li>
     </ol>
   </section>
-  <!-- Main content -->
+ <!-- Main content -->
   <section class="content">
-
+    
+    
     <!-- Your Page Content Here -->
     <div class="row">
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Meldinger</h3>
+            <h3 class="box-title">Alle flyvninger</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
@@ -43,11 +43,16 @@ include('./html/admin-start.html');
                     <thead>
                       <tr role="row">
                         <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id">ID</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nivå: Sortert etter meldingsnivået, INFO, ERROR, DEBUG.">Nivå</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Melding: Sortert etter meldingsinnhold.">Melding</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Module: Sortert etter modul meldingen opprettet i.">Modul</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="BrukerId: sortert etter bruker id">Bruker ID</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nivå: Sortert etter meldingsnivået, INFO, ERROR, DEBUG.">Link</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Melding: Sortert etter meldingsinnhold.">Type</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Module: Sortert etter modul meldingen opprettet i.">Fly</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="BrukerId: sortert etter bruker id">Fra</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Til</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Tidspunkt</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Dato</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Status</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Opprettet</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Hadling</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -57,7 +62,12 @@ include('./html/admin-start.html');
                         <td>noe feilet</td>
                         <td>innlogging</td>
                         <td>1</td>
+                        <td>Error</td>
+                        <td>Error</td>
+                        <td>Error</td>
+                        <td>Error</td>
                         <td>2016-02-02 21:13:00</td>
+                        <td><a href="#edit=1">Endre</a></td>
                       </tr>
                       <tr role="row" class="even">
                         <td>2</td>
@@ -65,17 +75,27 @@ include('./html/admin-start.html');
                         <td>Bruker logget inn</td>
                         <td>innlogging</td>
                         <td>1</td>
-                        <td>2016-02-02 21:14:00</td>
+                        <td>Error</td>
+                        <td>Error</td>
+                        <td>Error</td>
+                        <td>Error</td>
+                        <td>2016-02-02 21:13:00</td>
+                        <td><a href="#edit=1">Endre</a></td>
                       </tr>
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th rowspan="1" colspan="1">ID</th>
-                        <th rowspan="1" colspan="1">Nivå</th>
-                        <th rowspan="1" colspan="1">Melding</th>
-                        <th rowspan="1" colspan="1">Modul</th>
-                        <th rowspan="1" colspan="1">Bruker ID</th>
-                        <th rowspan="1" colspan="1">Opprettet</th>
+                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id">ID</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nivå: Sortert etter meldingsnivået, INFO, ERROR, DEBUG.">Link</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Melding: Sortert etter meldingsinnhold.">Type</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Module: Sortert etter modul meldingen opprettet i.">Fly</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="BrukerId: sortert etter bruker id">Fra</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Til</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Tidspunkt</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Dato</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Status</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Opprettet</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Hadling</th>
                       </tr>
                     </tfoot>
                   </table>
@@ -106,16 +126,15 @@ include('./html/admin-start.html');
         </div>
         <!-- /.box -->
       </div>
+    
       <!-- /.col -->
     </div>
-
+  
   </section>
   <!-- /.content -->
+  
   </div>
   <!-- /.content-wrapper -->
-
-
-
 <?php
 include('./html/admin-slutt.html');
 

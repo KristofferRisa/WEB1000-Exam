@@ -4,7 +4,7 @@
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="./" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
@@ -132,34 +132,34 @@
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
-        <li class="header">System admin</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Logg</span></a></li>
         <li class="header">Administrer data</li>
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <a href="#"><i class="fa fa-link"></i> <span>Fly og flyvninger</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
-            <li><a href="#">Link in level 2</a></li>
-            <li><a href="#">Link in level 2</a></li>
+            <li id="Fly"><a href="./planes.php" >Fly</a></li>
+            <li id="Flyvninger"><a href="./flights.php">Flyvninger</a></li>
+            <li id="Destinasjon"><a href="./destinations.php">Destinasjon</a></li>
+            <li id="Flyplasser"><a href="./airports.php">Flyplasser</a></li>
+            <li id="Typer"><a href="./flights-types.php">Typer</a></li>
           </ul>
         </li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Reiser og bestillinger</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+              <li><a href="./travles.php">Reise</a></li>
+              <li><a href="./travle-types.php">Type reiser</a></li>
+          </ul>
+        </li>
+        <li ><a href="./users.php"><i class="fa fa-link"></i> <span>Brukere</span></a></li>
+        <li class="header">System admin</li>
+        <!-- Optionally, you can add icons to the links -->
+        <li id="Logg"><a href="./logg.php"><i class="fa fa-link"></i> <span>Logg</span></a></li>
+        
       </ul>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
   </aside>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        System logg
-        <small>Se alle meldinger som logges</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Start</a></li>
-        <li class="active">Logg</li>
-      </ol>
-    </section>
+
+
