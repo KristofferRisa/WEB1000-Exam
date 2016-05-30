@@ -8,6 +8,6 @@
         , 'db_usr' => 'web-is-gr13w'
         , 'db_pass' => '59091' 
         , 'db_name' => 'web-is-gr13w'
-        , 'debug' => FALSE);
+        , 'debug' => 'FALSE');
     
 ?>

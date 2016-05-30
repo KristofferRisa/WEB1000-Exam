@@ -52,10 +52,14 @@ include('./html/admin-start.html');
                     </thead>
                     <tbody>
 <?php 
-include('./php/Logg.php');
 
+include('./php/Logg.php');
 $logg = new Logg();
-print($logg.Alt());
+$logg->Ny('Laster LOGG side', 'INFO','/vedlikehold/logg.php', 'ikke logget inn');
+
+
+print($logg->Alt());
+
 
 ?> 
 
