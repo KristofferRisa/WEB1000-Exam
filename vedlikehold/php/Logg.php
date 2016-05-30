@@ -38,24 +38,31 @@ class Logg{
     }
     
     
-    public function Siste($antallMeldinger,$sideNr){
+    public function AltPrSide($antallMeldinger,$sideNr){
         include('db.php');
         $html =  '';
         //CSS Styling
         $oddOrEven = TRUE;
         $printOddOrEven = '';
         
-        $start = $sideNr * $antallMeldinger;
+        $offset = 0;
         
+        if ($sideNr > 1) {
+            $offset = $sideNr*$antallMeldinger;    
+        } else {
+            $offset = $sideNr;
+        }
+        
+        $html .= '<p>offset = '.$offset.'</p>';
         //db-tilkopling
-        $query = $db_connection->prepare("SELECT loggId,melding,nivaa,modul,bruker,opprettet FROM logg ORDER BY loggId DESC LIMIT ?,?"); // Retrieve rows 6-15
-        $queryNy->bind_param('ss', $start, $antallMeldinger);
-        $query->execute();
+        $queryPrSide = $db_connection->prepare("SELECT loggId,melding,nivaa,modul,bruker,opprettet FROM logg ORDER BY loggId DESC LIMIT ?,?"); // Retrieve rows 6-15
+        $queryPrSide->bind_param('ss', $offset, $antallMeldinger);
+        $queryPrSide->execute();
 
-        $query->bind_result($id,$melding, $nivaa, $modul, $bruker, $opprettet);
+        $queryPrSide->bind_result($id,$melding, $nivaa, $modul, $bruker, $opprettet);
         
         //henter data
-        while ($query->fetch()) {
+        while ($queryPrSide->fetch()) {
             
             if($oddOrEven){
                 $oddOrEven = FALSE;
@@ -71,13 +78,35 @@ class Logg{
         
         
         //Lukker databasetilkopling
-        $query->close();
+        $queryPrSide->close();
         $db_connection->close();
         
         return $html;
     }
     
-    
+    public function AntallMeldinger(){
+        include('db.php');
+        $returnAntall = -1;
+        $query = "SELECT count(*) as ANTALL FROM logg";
+
+        if ($result = $db_connection->query($query)) {
+
+            /* fetch associative array */
+            while ($row = $result->fetch_assoc()) {
+                //printf ("%s (%s)\n", $row["Name"], $row["CountryCode"]);
+                $returnAntall = $row["ANTALL"];
+            }
+
+            /* free result set */
+            $result->free();
+        }
+
+        /* close connection */
+        $db_connection->close();
+        
+        return $returnAntall;
+
+    }
     
     //Slik bruker du logg modul
     // include('./php/Logg.php');
