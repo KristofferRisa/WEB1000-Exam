@@ -3,28 +3,38 @@
 if($_POST){
   include('./../php/Logg.php');
   $logg = new Logg();
-  $logg->Ny('POST av ny bruker skjema', 'DEBUG','users/add.php', 'NA');
+  $logg->Ny('POST av ny bruker skjema', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), 'NA');
+  
+  $fornavn = $_POST["inputFornavn"];
+  $etternavn = $_POST["inputEtternavn"];
+  $DOB = $_POST["inputDato"];
+  $kjonn = $_POST["inputKjonn"];
+  $mail = $_POST["inputEmail"];
+  $pass1 = $_POST["inputPassword3"];
+  $pass2 = $_POST["inputPassword4"];
+  $tlf = $_POST["inputTlf"];
+  $tittel = $_POST["inputTittel"];
+  
+  //Input parametere
+  $logg->Ny('Parameter Fornavn: '.$fornavn, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+  $logg->Ny('Parameter Etternav: '.$etternavn, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+  $logg->Ny('Parameter DOB: '.$DOB, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+  $logg->Ny('Parameter kjønn: '.$kjonn, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+  $logg->Ny('Parameter tittel: '.$tittel, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+  $logg->Ny($pass1.' - '.$pass2, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+  $logg->Ny('Parameter tlf: '.$tlf, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
   //Sjekk input parametere
-  if($_POST["inputFornavn"]
-    && $_POST["inputEtternavn"]
-    && $_POST["inputDato"]
-    && $_POST["inputKjonn"]
-    && $_POST["inputEmail"]
-    && $_POST["inputPassword3"]
-    && $_POST["inputPassword4"]
-    && $_POST["inputTlf"]){
+  if($fornavn
+    && $etternavn
+    && $DOB
+    && $kjonn
+    && $mail
+    && $pass1
+    && $pass2
+    && $tlf
+    && $tittel){
       
       $logg->Ny('Alle input felter funnet', 'DEBUG','users/add.php', 'NA');
-      
-      //Input parametere
-      $fornavn = $_POST["inputFornavn"];
-      $etternavn = $_POST["inputEtternavn"];
-      $fødselsdato = $_POST["inputDato"];
-      $kjonn = $_POST["inputKjonn"];
-      $mail = $_POST["inputEmail"];
-      $pass1 = $_POST["inputPassword3"];
-      $pass2 = $_POST["inputPassword4"];
-      $tlf = $_POST["inputTlf"];
       
       //RegEx pattern
       $klassekodepattern = "/^[A-Z]{2,}[0-9]{1,}$/";
@@ -32,9 +42,14 @@ if($_POST){
 
       //Validering av felter ved RegEx kode
       //http://php.net/manual/en/function.ereg.php 
-      if(preg_match($klassekodepattern, $klassekode)) {
+      // if(preg_match($klassekodepattern, $klassekode)) {
         
-      }
+      // }
+      
+      include('./../php/User.php');
+      $user = new User();
+      
+      $user->NewUser($fornavn, $etternavn, $DOB, $kjonn, $mail, $pass1, $tlf, $tittel, $logg);
       
     }
   
@@ -122,6 +137,25 @@ include('./../html/admin-start.html');
                       <span class="dropdown-wrapper" aria-hidden="true"></span>
                     </div>
                   </div>
+                  
+                  
+                  <!-- Tittel -->
+                <div class="form-group">
+                  <label for="inputTittel" class="col-sm-2 control-label">Tittel</label>
+                  <div class="col-sm-2">
+                    <!--<input type="text" class="form-control" id="inputTittel" name="inputTittel" placeholder="Tittel">-->
+                    <select class="form-control select2 select2-hidden-accessible" name="inputTittel" form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                    <?php
+                      include('./../php/Tittel.php');
+                      $t = new Tittel();
+                      
+                      print($t->TittelSelectOptions());
+                      
+                      ?>
+                      </select>
+                    
+                  </div>
+                </div>
                
                <!-- Email -->
                 <div class="form-group">
