@@ -1,5 +1,6 @@
 <?php
-class Logg{
+
+class Logg {
     public function Logg(){
     }
     

@@ -60,6 +60,9 @@ CREATE TABLE reiseType
 	CONSTRAINT fk_reiseType FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
 );
 
+
+
+
 CREATE TABLE reise
 (
 	reiseId INT NOT NULL AUTO_INCREMENT,
@@ -78,23 +81,6 @@ CREATE TABLE reise
 	CONSTRAINT fk_reise2 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
 );
 
-CREATE TABLE kunde 
-(
-	kundeId INT NOT NULL AUTO_INCREMENT,
-	fornavn VARCHAR(45) NOT NULL,
-	etternavn VARCHAR(45) NOT NULL,
-	epost VARCHAR(45) NOT NULL,
-	tlf VARCHAR(45) NOT NULL,
-	fødselsdato DATE NOT NULL,
-	kjønn VARCHAR(45),
-	passord VARCHAR(45) NOT NULL,
-	salt VARCHAR(45) NOT NULL ,
-	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	opprettet DATETIME NOT NULL,
-	statusKodeId INT NOT NULL, 
-	CONSTRAINT pk_kunde PRIMARY KEY (kundeId),
-	CONSTRAINT fk_kunde1 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
-);
 
 
 
@@ -159,18 +145,35 @@ CREATE TABLE brukerType
 	CONSTRAINT fk_brukerType FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
 );
 
+CREATE TABLE tittel
+(
+	tittelId INT NOT NULL AUTO_INCREMENT, 
+	navn VARCHAR(45),
+	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	opprettet DATETIME NOT NULL,
+	CONSTRAINT pk_tittel PRIMARY KEY (tittelId)
+);
+
 
 CREATE TABLE bruker 
 (
 	brukerId INT NOT NULL AUTO_INCREMENT,
-	navn VARCHAR(45),
+	fornavn VARCHAR(45) NOT NULL,
+	etternavn VARCHAR(45) NOT NULL,
+	epost VARCHAR(45) NOT NULL,
+	tlf VARCHAR(45) NOT NULL,
+	dob VARCHAR (45) NOT NULL,
+	tittelId INT NOT NULL,
+	passord VARCHAR (45) NOT NULL,
+	salt VARCHAR (45) NOT NULL,
 	brukerTypeId INT NOT NULL,
 	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	opprettet DATETIME NOT NULL,
 	statusKodeId INT NOT NULL,
 	CONSTRAINT pk_bruker PRIMARY KEY (brukerId),
 	CONSTRAINT fk_bruker1 FOREIGN KEY (brukerTypeId) REFERENCES brukerType (brukerTypeId),
-	CONSTRAINT fk_bruker2 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
+	CONSTRAINT fk_bruker2 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId),
+	CONSTRAINT fk_bruker3 FOREIGN KEY (tittelId) REFERENCES tittel (tittelId)
 );
 
 CREATE TABLE logg 
@@ -179,10 +182,9 @@ CREATE TABLE logg
 	nivaa VARCHAR (500),
 	melding VARCHAR (500),
 	modul VARCHAR (500), 
-	brukerId INT NOT NULL, 
+	bruker VARCHAR (50) NOT NULL, 
 	opprettet TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT pk_logg PRIMARY KEY (loggId),
-	CONSTRAINT fk_logg1 FOREIGN KEY (brukerId) REFERENCES bruker (brukerId)
+	CONSTRAINT pk_logg PRIMARY KEY (loggId)
 );
 
 
@@ -244,30 +246,20 @@ CREATE TABLE billett
 (
 	billettId INT NOT NULL AUTO_INCREMENT,
 	reiseId INT NOT NULL,
-	kundeId INT NOT NULL,
+	brukerId INT NOT NULL,
 	prisId INT NOT NULL,
 	billettTypeId INT NOT NULL,
 	antBagasje INT,
 	datoTid DATETIME,
 	statusKodeId INT NOT NULL,
 	CONSTRAINT pk_billett PRIMARY KEY (billettId),
-	CONSTRAINT  fk_billett1 FOREIGN KEY (reiseId) REFERENCES reise (reiseId),
-	CONSTRAINT fk_billett2 FOREIGN KEY (kundeId) REFERENCES kunde (kundeId),
+	CONSTRAINT fk_billett1 FOREIGN KEY (reiseId) REFERENCES reise (reiseId),
+	CONSTRAINT fk_billett2 FOREIGN KEY (brukerId) REFERENCES bruker (brukerId),
 	CONSTRAINT fk_billett3 FOREIGN KEY (prisId) REFERENCES pris (prisId),
 	CONSTRAINT fk_billett4 FOREIGN KEY (billettTypeId) REFERENCES billettType (billettTypeId),
 	CONSTRAINT fk_billett5 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
 );
 
-CREATE TABLE logg 
-(
-	loggId INT NOT NULL AUTO_INCREMENT,
-	nivaa VARCHAR (500),
-	melding VARCHAR (500),
-	modul VARCHAR (500), 
-	bruker VARCHAR(45) NOT NULL, 
-	opprettet TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	CONSTRAINT pk_logg PRIMARY KEY (loggId)
-);
 
 CREATE TABLE autentisering
 (
@@ -282,4 +274,5 @@ CREATE TABLE autentisering
 
 
 
-// DROP TABLE statusKode, billettType, fly, flyplass, reiseType, reise, kunde, flyvningsType, flyvning, destinasjon, brukerType, bruker, logg, rute, pris, prishistorikk, billett, logg, autentisering;
+// DROP TABLE billettType, billett, fly, bruker, brukerType, flyvningsType, flyvning, destinasjon, rute, pris, 
+prisHistorikk, reise, reiseType, flyplass, statusKode, logg, autentisering;
