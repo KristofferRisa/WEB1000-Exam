@@ -31,4 +31,9 @@ $(function () {
         
     }
     
+    $("#datepicker").datepicker({
+        dateFormat: "dd-MM-yyyy",
+        maxDate: '-1'
+    });
+    
 });
