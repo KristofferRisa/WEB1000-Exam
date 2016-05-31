@@ -1,9 +1,9 @@
 <?php 
 $title = "FLY - Admin";
 
-include('./html/header.html');
+include('../html/header.html');
 
-include('./html/admin-start.html');
+include('../html/admin-start.html');
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -15,10 +15,10 @@ include('./html/admin-start.html');
         <small>Viser en oversikt over alle fly.</small>
       </h1>
     <ol class="breadcrumb">
-      <li><a href="./"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Fly og flyvninger</li>
+      <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
+      <li>Fly</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Fly</li>
+      <li class="active">Vis alle fly</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -61,13 +61,13 @@ include('./html/admin-start.html');
                     <tbody>
 <?php 
 
-include('./php/Logg.php');
+include('../php/Logg.php');
 $logg = new Logg();
 
 
 $logg->Ny('Laster FLY side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
-include('./php/Planes.php');
+include('../php/Planes.php');
 
 $planes = new Planes();
 
@@ -132,8 +132,8 @@ print( $planes->ShowAllPlanes() );
   
 
 <?php
-include('./html/admin-slutt.html');
+include('../html/admin-slutt.html');
 
-include('./html/script.html');
+include('../html/script.html');
 
 ?>
