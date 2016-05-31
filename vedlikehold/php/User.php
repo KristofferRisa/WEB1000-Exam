@@ -1,8 +1,78 @@
 <?php
     class User{
-        function User()
+        public function User()
         {
             
+        }
+        
+        #public $AntallBrukere;
+        
+        public function VisAlle($sideNr,$logg){
+            include('db.php');
+            $html =  '';
+            $antallMeldinger = 100;
+            //CSS Styling
+            $oddOrEven = TRUE;
+            $printOddOrEven = '';
+            
+            $offset = 0;
+            
+            if ($sideNr > 1) {
+                $sideNr = $sideNr-1;
+                $offset = $sideNr*$antallMeldinger;    
+            } else {
+                $offset = $sideNr;
+            }
+            
+            // $html .= '<p>offset = '.$offset.'</p>';
+            
+            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type from bruker b
+                    inner join tittel t on t.tittelId = b.tittelId
+                    inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
+                    LIMIT ?,?;";
+            
+            $queryPrSide = $db_connection->prepare($sql);
+            
+            $queryPrSide->bind_param('ss', $offset, $antallMeldinger);
+            $queryPrSide->execute();
+
+            $queryPrSide->bind_result($id,$fornavn, $etternavn, $epost, $tlf, $dob, $tittel, $type);
+            
+            //henter data
+            while ($queryPrSide->fetch()) {
+                
+                if($oddOrEven){
+                    $oddOrEven = FALSE;
+                    $printOddOrEven = 'even';
+                } 
+                else {
+                    $oddOrEven = TRUE;
+                    $printOddOrEven = 'odd';
+                }
+                $html .= '
+                    <tr role="row" class="'.$printOddOrEven.'">
+                        <td>'.$id.'</td>
+                        <td>'.$fornavn.'</td>
+                        <td>'.$etternavn.'</td>
+                        <td>'.$epost.'</td>
+                        <td>'.$tittel.'</td>
+                        <td>'.$tlf.'</td>
+                        <td>'.$dob.'</td>
+                        <td>'.$type.'</td>
+                   </tr>';
+            }
+            
+            $this->AntallBrukere = $queryPrSide->num_rows;
+            
+            //Error logging
+            if($queryPrSide == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $queryPrSide->close();
+            $db_connection->close(); 
+            
+            return $html;
         }
         
         function NewUser($fname, $lname, $DOB, $sex, $mail, $pass, $phone, $tittel, $logg)
@@ -51,12 +121,6 @@
                 exit;    
             }
             
-            if (!mysqli_query($db_connection,"INSERT INTO Persons (FirstName) VALUES ('Glenn')"))
-            {
-                $logg->Ny('Failed to insert: '.mysqli_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
-                exit;    
-            }
-
             if ($insertUser->affected_rows == 1) {
                 $logg->Ny('Ny bruker opprettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } else {
@@ -140,6 +204,3 @@
         }
         
     }    
-
-
-?>
