@@ -133,10 +133,19 @@
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
         <li class="header">Administrer data</li>
+
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Fly og flyvninger</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <a href="#"><i class="fa fa-link"></i> <span>Fly</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">          
+            <li id="Vis alle fly"><a href="./Plane/planes.php" >Vis alle fly</a></li>
+            <li id="Legg til fly"><a href="./Plane/planesAdd.php">Legg til fly</a></li>
+            <li id="Endre fly"><a href="./Plane/planesEdit.php">Endre fly</a></li>
+          </ul>
+        </li>
+        
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Flyvninger</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
-            <li id="Fly"><a href="./planes.php" >Fly</a></li>
             <li id="Flyvninger"><a href="./flights.php">Flyvninger</a></li>
             <li id="Destinasjon"><a href="./destinations.php">Destinasjon</a></li>
             <li id="Flyplasser"><a href="./airports.php">Flyplasser</a></li>
