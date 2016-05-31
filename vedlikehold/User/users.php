@@ -1,34 +1,35 @@
 <?php 
 $title = "FLY - Admin";
 
-include('./html/header.html');
+include('./../html/header.html');
 
-include('./html/admin-start.html');
+include('./../html/admin-start.html');
 
 ?>
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-       <h1>
-        Logg
-        <small>Se alle loggmeldinger</small>
+      <h1>
+        [Header]
+        <small>[Description]</small>
       </h1>
-       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Start</a></li>
-        <li class="active">Logg</li>
+    <ol class="breadcrumb">
+      <li><a href="./"><i class="fa fa-dashboard"></i> Start</a></li>
+      <li>Brukere</li>
+      <!-- Denne brukes av javascript for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
+      <li class="active">Vis</li> 
     </ol>
   </section>
-  <!-- Main content -->
+ <!-- Main content -->
   <section class="content">
 
     <!-- Your Page Content Here -->
     <div class="row">
-      <div class="col-xs-12">
+   <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Meldinger</h3>
+            <h3 class="box-title">Brukere</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
@@ -42,6 +43,7 @@ include('./html/admin-start.html');
                   <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                     <thead>
                       <tr role="row">
+                        <!-- Legg inn kolonner -->
                         <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id">ID</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nivå: Sortert etter meldingsnivået, INFO, ERROR, DEBUG.">Nivå</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Melding: Sortert etter meldingsinnhold.">Melding</th>
@@ -52,17 +54,18 @@ include('./html/admin-start.html');
                     </thead>
                     <tbody>
 <?php 
+
 // PHP kode for å hente tabell HTML kode
 
-include('./php/Logg.php');
-$logg = new Logg();
-//Logger
-$logg->Ny('Laster LOGG side', 'INFO','/vedlikehold/logg.php', 'ikke logget inn');
+// include('./../php/Logg.php');
+// $logg = new Logg();
+// //Logger
+// $logg->Ny('Laster LOGG side', 'INFO','/vedlikehold/logg.php', 'ikke logget inn');
 
-//Logikk for å finne side tallet
-$antallMeldinger = $logg->AntallMeldinger();
-$antallSider = ceil($antallMeldinger / 100);
-error_reporting(1);
+// //Logikk for å finne side tallet
+// $antallMeldinger = $logg->AntallMeldinger();
+// $antallSider = ceil($antallMeldinger / 100);
+// error_reporting(1);
 
 $sidenr = $_GET['p'];
 
@@ -70,13 +73,14 @@ if(!$sidenr){
   $sidenr = 1;
 }
 
-// print('sidenr = '.$sidenr);
-print($logg->AltPrSide(100,$sidenr));
+print('sidenr = '.$sidenr);
+// print($logg->AltPrSide(100,$sidenr));
 
 ?> 
                     </tbody>
                     <tfoot>
                       <tr>
+                        <!-- Legg inn kolonner -->
                         <th rowspan="1" colspan="1">ID</th>
                         <th rowspan="1" colspan="1">Nivå</th>
                         <th rowspan="1" colspan="1">Melding</th>
@@ -100,15 +104,15 @@ print($logg->AltPrSide(100,$sidenr));
 <?php 
 //Håndtering av sideantall
 //printer li element pr side og finner hvilken side og hvilken knapp som er aktiv.
-for($i = 1; $i <= $antallSider; $i++){
-  if($i == $sidenr) { 
-    print('<li class="paginate_button active"><a href="logg.php?p='.$i.'" aria-controls="example2" data-dt-idx="1" tabindex="0">'.$i.'</a></li>');  
-  } else {
-    print('<li class="paginate_button"><a href="logg.php?p='.$i.'" aria-controls="example2" data-dt-idx="1" tabindex="0">'.$i.'</a></li>');  
-  }
-} 
+// for($i = 1; $i <= $antallSider; $i++){
+//   if($i == $sidenr) { 
+//     print('<li class="paginate_button active"><a href="?p='.$i.'" aria-controls="example2" data-dt-idx="1" tabindex="0">'.$i.'</a></li>');  
+//   } else {
+//     print('<li class="paginate_button"><a href="?p='.$i.'" aria-controls="example2" data-dt-idx="1" tabindex="0">'.$i.'</a></li>');  
+//   }
+// } 
 ?>
-                    </ul>
+                   </ul>
                   </div>
                 </div>
               </div>
@@ -123,14 +127,14 @@ for($i = 1; $i <= $antallSider; $i++){
 
   </section>
   <!-- /.content -->
+  
   </div>
   <!-- /.content-wrapper -->
-
-
+  
 
 <?php
-include('./html/admin-slutt.html');
+include('./../html/admin-slutt.html');
 
-include('./html/script.html');
+include('./../html/script.html');
 
 ?>
