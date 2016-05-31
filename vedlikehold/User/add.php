@@ -1,3 +1,47 @@
+<?php  // FORM POST
+
+if($_POST){
+  include('./../php/Logg.php');
+  $logg = new Logg();
+  $logg->Ny('POST av ny bruker skjema', 'DEBUG','users/add.php', 'NA');
+  //Sjekk input parametere
+  if($_POST["inputFornavn"]
+    && $_POST["inputEtternavn"]
+    && $_POST["inputDato"]
+    && $_POST["inputKjonn"]
+    && $_POST["inputEmail"]
+    && $_POST["inputPassword3"]
+    && $_POST["inputPassword4"]
+    && $_POST["inputTlf"]){
+      
+      $logg->Ny('Alle input felter funnet', 'DEBUG','users/add.php', 'NA');
+      
+      //Input parametere
+      $fornavn = $_POST["inputFornavn"];
+      $etternavn = $_POST["inputEtternavn"];
+      $fødselsdato = $_POST["inputDato"];
+      $kjonn = $_POST["inputKjonn"];
+      $mail = $_POST["inputEmail"];
+      $pass1 = $_POST["inputPassword3"];
+      $pass2 = $_POST["inputPassword4"];
+      $tlf = $_POST["inputTlf"];
+      
+      //RegEx pattern
+      $klassekodepattern = "/^[A-Z]{2,}[0-9]{1,}$/";
+      $klassenavnpattern = "/^[A-Za-z]{1,}/";
+
+      //Validering av felter ved RegEx kode
+      //http://php.net/manual/en/function.ereg.php 
+      if(preg_match($klassekodepattern, $klassekode)) {
+        
+      }
+      
+    }
+  
+}
+
+?>
+
 <?php 
 $title = "FLY - Admin";
 
@@ -34,58 +78,89 @@ include('./../html/admin-start.html');
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal">
+            <form class="form-horizontal" method="POST" id="nybruker">
               <div class="box-body">
-                <div class="form-group">
-                  <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-
-                  <div class="col-sm-10">
-                    <input type="email" class="form-control" id="inputEmail3" name="inputEmail3" placeholder="Email">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-
-                  <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword3" name="inputPassword3" placeholder="Password">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputPassword4" class="col-sm-2 control-label">Password</label>
-
-                  <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword4" name="inputPassword4" placeholder="Password">
-                  </div>
-                </div>
+               
+               <!-- Fornav -->
                 <div class="form-group">
                   <label for="inputFornavn" class="col-sm-2 control-label">Fornavn</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="inputFornavn" name="inputFornavn" placeholder="Fornavn">
                   </div>
                 </div>
+                
+                <!-- Etternav -->
                 <div class="form-group">
                   <label for="inputEtternavn" class="col-sm-2 control-label">Etternavn</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="inputEtternavn" name="inputEtternavn" placeholder="Etternavn">
                   </div>
                 </div>
+               
+               <!-- Dato -->
                 <div class="form-group">
-                <label class="col-sm-2 control-label">Date:</label>
+                <label class="col-sm-2 control-label">Fødselsdag:</label>
                 <div class="col-sm-10">
                   <div class="input-group date">
                     <div class="input-group-addon">
                       <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" class="form-control" id="datepicker">
+                    <input type="text" class="form-control" id="datepicker" name="inputDato">
+                  </div>
+                 </div>
+                <!-- /.input group -->
+                </div>
+                
+                <!-- Kjønn -->
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">Kjønn:</label>
+                    <div class="col-sm-2">
+                      <select class="form-control select2 select2-hidden-accessible" name="inputKjonn" form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                        <option>Mann</option>
+                        <option>Kvinne</option>
+                      </select>
+                      <span class="dropdown-wrapper" aria-hidden="true"></span>
+                    </div>
+                  </div>
+               
+               <!-- Email -->
+                <div class="form-group">
+                  <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                  <div class="col-sm-10">
+                    <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email">
                   </div>
                 </div>
-                <!-- /.input group -->
-              </div>
+                
+                <!-- Passord -->
+                <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                  <div class="col-sm-10">
+                    <input type="password" class="form-control" id="inputPassword3" name="inputPassword3" placeholder="Password">
+                  </div>
+                </div>
+                
+                <!-- Passord 2 -->
+                <div class="form-group">
+                  <label for="inputPassword4" class="col-sm-2 control-label">Password</label>
+                  <div class="col-sm-10">
+                    <input type="password" class="form-control" id="inputPassword4" name="inputPassword4" placeholder="Password">
+                  </div>
+                </div>
+                
+                <!-- TLF -->
+                <div class="form-group">
+                  <label for="inputTlf" class="col-sm-2 control-label">Tlf</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputTlf" name="inputTlf" placeholder="Telefon nummer">
+                  </div>
+                </div>
+                
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                <button type="submit" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-info pull-right">Sign in</button>
+                <button type="submit" class="btn btn-default" onclick="location.href='./';return false;">Tilbake</button>
+
+                <button type="submit" class="btn btn-info pull-right">Opprett</button>
               </div>
               <!-- /.box-footer -->
             </form>
