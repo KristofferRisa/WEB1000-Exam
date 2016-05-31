@@ -48,14 +48,18 @@ class Logg{
         $offset = 0;
         
         if ($sideNr > 1) {
+            $sideNr = $sideNr-1;
             $offset = $sideNr*$antallMeldinger;    
         } else {
             $offset = $sideNr;
         }
         
-        //$html .= '<p>offset = '.$offset.'</p>';
-        //db-tilkopling
-        $queryPrSide = $db_connection->prepare("SELECT loggId,melding,nivaa,modul,bruker,opprettet FROM logg ORDER BY loggId DESC LIMIT ?,?"); // Retrieve rows 6-15
+        // $html .= '<p>offset = '.$offset.'</p>';
+        
+        $sql = "SELECT loggId,melding,nivaa,modul,bruker,opprettet FROM logg ORDER BY loggId DESC LIMIT ?,?";
+        
+        $queryPrSide = $db_connection->prepare($sql);
+        
         $queryPrSide->bind_param('ss', $offset, $antallMeldinger);
         $queryPrSide->execute();
 

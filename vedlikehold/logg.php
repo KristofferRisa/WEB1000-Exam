@@ -102,9 +102,9 @@ print($logg->AltPrSide(100,$sidenr));
 //printer li element pr side og finner hvilken side og hvilken knapp som er aktiv.
 for($i = 1; $i <= $antallSider; $i++){
   if($i == $sidenr) { 
-    print('<li class="paginate_button active"><a href="?p='.$i.'" aria-controls="example2" data-dt-idx="1" tabindex="0">'.$i.'</a></li>');  
+    print('<li class="paginate_button active"><a href="logg.php?p='.$i.'" aria-controls="example2" data-dt-idx="1" tabindex="0">'.$i.'</a></li>');  
   } else {
-    print('<li class="paginate_button"><a href="?p='.$i.'" aria-controls="example2" data-dt-idx="1" tabindex="0">'.$i.'</a></li>');  
+    print('<li class="paginate_button"><a href="logg.php?p='.$i.'" aria-controls="example2" data-dt-idx="1" tabindex="0">'.$i.'</a></li>');  
   }
 } 
 ?>
