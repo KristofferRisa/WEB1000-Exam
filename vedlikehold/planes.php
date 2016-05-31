@@ -64,16 +64,15 @@ include('./html/admin-start.html');
 include('./php/Logg.php');
 $logg = new Logg();
 
-$self = htmlspecialchars($_SERVER["PHP_SELF"]);
 
-$logg->Ny('Laster FLY side', 'INFO', "$self" , 'ikke logget inn');
+$logg->Ny('Laster FLY side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
 include('./php/Planes.php');
 
 $planes = new Planes();
 
 
-print($planes->ShowAllPlanes());
+print( $planes->ShowAllPlanes() );
 
 
 ?> 
