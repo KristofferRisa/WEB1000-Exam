@@ -78,7 +78,9 @@
                         <td>'.$dob.'</td>
                         <td>'.$type.'</td>
                         <td>'.$status.'</td>
-                        <td><a href="./User/update.php?id='.$id.'">Endre</a></td>
+                        <td>
+                            <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> 
+                        </td>
                    </tr>';
             }
             
@@ -95,29 +97,33 @@
             return $html;
         }
         
-        function NewUser($fname, $lname, $DOB, $sex, $mail, $phone, $tittel, $logg)
-        {
+        function NewUser($fname, $lname, $DOB, $sex, $mail, $pass, $phone, $tittel,$logg)
+        {   
             include('db.php');
             
             $brukerTypeId = 1; //Må hentes fra FORM listbox
             $statusKodeId = 1; //Opprettet (lese fra database?)
             $salt = uniqid(mt_rand(), true);
 
-            if($logg) {
-                $logg->Ny('Salt opprettet: '.$salt, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');    
-            }
-            
             $options = [
                 'cost' => 11,
                 'salt' => $salt,
             ];
             $pass_hash = password_hash($pass, PASSWORD_BCRYPT, $options);
-
-            if($logg) {
-                $logg->Ny('Hashet passord: '.$pass_hash, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-            }
             
-            $sql = "insert into bruker (fornavn, etternavn, epost, tlf, dob, tittelId, passord, salt, brukerTypeId, statusKodeId, kjonn) values (?,?,?,?,?,?,?,?,?,?)";
+            $sql = "
+                insert into bruker (fornavn
+                                    , etternavn
+                                    , epost
+                                    , tlf
+                                    , dob
+                                    , tittelId
+                                    , passord
+                                    , salt
+                                    , brukerTypeId
+                                    , statusKodeId
+                                    , kjonn) 
+                            values (?,?,?,?,?,?,?,?,?,?,?)";
             
             $insertUser = $db_connection->prepare($sql);
             $insertUser->bind_param('ssssssssiis'
@@ -184,19 +190,23 @@
                                     , $tittel
                                     , $brukerTypeId
                                     , $statusKodeId
-                                    , $userid
-                                    , $sex);
+                                    , $sex
+                                    , $userid);
                                     
             $insertUser->execute();
+
+            $affectedRows = $insertUser->affected_rows;
             
-            $logg->Ny('Rows affected: '.$insertUser->affected_rows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+            $insertUser->close();
+            $db_connection->close(); 
+            
+            
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
 
             if($insertUser == false){
                 $logg->Ny('Failed to update user: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
                 exit;    
             }
-            
-            $affectedRows = $insertUser->affected_rows;
             
             if ($affectedRows == 1) {
                 $logg->Ny('Bruker ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
@@ -205,8 +215,6 @@
             } 
                 
             //Lukker databasetilkopling
-            $insertUser->close();
-            $db_connection->close(); 
             
             return $affectedRows;
         }
@@ -236,27 +244,42 @@
             }
         }
         
-        function Login($username, $password)
+        function Login($username, $password, $logg)
         {
             include('db.php');
         
-            $query = $db_connection->prepare("SELECT passord FROM BRUKER WHERE brukernavn = ?");
+            $query = $db_connection->prepare("SELECT passord FROM bruker WHERE epost = ?;");
             $query->bind_param('s', $username);
             $query->execute();
 
-            $query->bind_result($pass);
+            $query->bind_result($pass_stored);
             $query->fetch();
 
             //Lukker databasetilkopling
             $query->close();
             $db_connection->close();
             
-            if($pass && md5($password) == $pass)
-            {                
+            // $options = [
+            //     'cost' => 11,
+            //     'salt' => $salt,
+            // ];
+            
+            // $pass_hash = password_hash($password, PASSWORD_BCRYPT, $options);
+            
+            
+            if(password_verify($password, $pass_stored))
+            {
+                    
+                if($logg) {
+                    $logg->Ny('Vellykket validering av passord. ', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');    
+                }
                 return TRUE;
             }
             else 
             {
+                if($logg) {
+                    $logg->Ny('Validering av passord feilet. ', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');    
+                }
                 return FALSE;
             }
         }
@@ -316,5 +339,53 @@
             
             return $user;
         } 
+        
+        public function ChangePassword($userId, $password, $logg){
+            include('db.php');
+            
+            //TODO: Sjekk om brukeren finnes fra før
+            $salt = uniqid(mt_rand(), true);
+
+            $options = [
+                'cost' => 11,
+                'salt' => $salt,
+            ];
+            $pass_hash = password_hash($password, PASSWORD_BCRYPT, $options);
+
+            $sql = "
+            update bruker 
+            set passord = ?
+            where brukerId = ?;";
+            
+            $updateUser = $db_connection->prepare($sql);
+            $updateUser->bind_param('si'
+                                    , $pass_hash
+                                    , $userId);
+                                    
+            $updateUser->execute();
+            
+            $affectedRows = $updateUser->affected_rows;
+            
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+            
+            if($updateUser == false){
+                $logg->Ny('Failed to update user: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
+                exit;    
+            }
+            
+            if ($affectedRows == 1) {
+                $logg->Ny('Bruker ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+                header('location: ./../');
+                exit;
+            } else {
+                $logg->Ny('Klarte ikke å oppdatere bruker.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } 
+                
+            //Lukker databasetilkopling
+            $updateUser->close();
+            $db_connection->close(); 
+            
+            return $affectedRows;
+        }
         
     }    
