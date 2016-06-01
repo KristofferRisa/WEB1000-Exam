@@ -57,7 +57,7 @@ include('./html/admin-start.html');
 include('./php/Logg.php');
 $logg = new Logg();
 //Logger
-$logg->Ny('Laster LOGG side', 'INFO','/vedlikehold/logg.php', 'ikke logget inn');
+// $logg->Ny('Laster LOGG side', 'INFO','/vedlikehold/logg.php', 'ikke logget inn');
 
 //Logikk for å finne side tallet
 $antallMeldinger = $logg->AntallMeldinger();

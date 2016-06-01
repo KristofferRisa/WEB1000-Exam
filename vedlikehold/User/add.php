@@ -49,7 +49,7 @@ if($_POST){
       include('./../php/User.php');
       $user = new User();
       
-      $user->NewUser($fornavn, $etternavn, $DOB, $kjonn, $mail, $pass1, $tlf, $tittel, $logg);
+      $user->NewUser($fornavn, $etternavn, $DOB, $kjonn, $mail, $pass1, $tlf, $tittel,$logg);
       
     }
   
