@@ -11,10 +11,10 @@ class Planes {
         $printOddOrEven = '';
         
         //db-tilkopling
-        $query = $db_connection->prepare("SELECT flyId,flyNr,modell,type,plasser,laget,opprettet,statusKodeId FROM fly");
+        $query = $db_connection->prepare("SELECT flyId,flyNr,modell,type,plasser,aarsmodell,opprettet,statusKodeId FROM fly");
         $query->execute();
 
-        $query->bind_result($id, $flyNr, $modell, $type, $plasser, $laget, $opprettet, $statusKodeId);
+        $query->bind_result($id, $flyNr, $modell, $type, $plasser, $flyAarsmodell, $opprettet, $statusKodeId);
         
         //henter data
        
@@ -32,7 +32,7 @@ class Planes {
             }
 
             $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyNr.'</td><td>'.$modell.'</td><td>'.$type.'
-            </td><td>'.$plasser.'</td><td>'.$laget.'</td><td>'.$opprettet.'</td><td>'.$statusKodeId.'</td></tr>';
+            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td><td>'.$opprettet.'</td><td>'.$statusKodeId.'</td></tr>';
         
     }
         //Lukker databasetilkopling
@@ -45,23 +45,22 @@ class Planes {
     
 
 
-    public function AddNewPlane($flyId, $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyLaget,$flyStatusKode) {
+    public function AddNewPlane($flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$flyStatusKode) {
         
 
   include('../php/db.php');
         
-        //Bygger SQL statement
-        $query = $db_connection->prepare("INSERT INTO fly (flyId,flyNr,modell,type,plasser,laget,statusKodeId) VALUES (?,?,?,?,?,?,?)");
-        $query->bind_param('sssssss', $flyId, $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyLaget,$flyStatusKode);  
+        //Bygger SQL statementt
+        $query = $db_connection->prepare("INSERT INTO fly (flyNr,modell,type,plasser,aarsmodell,statusKodeId) VALUES (?,?,?,?,?,?)");
+        $query->bind_param('ssssss', $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$flyStatusKode);  
 
-            if ( $query->execute() === FALSE) { 
-                    echo "Error! Ble ikke opprettet";
-} else {      
-
-        //Lukker databasetilkopling
-        $query->close();
+            if ( $query->execute()) { 
+                $affectedRows = $query->affected_rows;
+                $query->close();
         $db_connection->close();
-        }
+
+         return $affectedRows;           
+} 
     }
 }
     
