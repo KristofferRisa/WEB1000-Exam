@@ -11,8 +11,8 @@ include('./../html/admin-start.html');
   <!-- Content Header (Page header) -->
   <section class="content-header">
       <h1>
-        [Header]
-        <small>[Description]</small>
+        Brukere
+        <small>Oversikt over alle brukere</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="./"><i class="fa fa-dashboard"></i> Start</a></li>
@@ -52,6 +52,8 @@ include('./../html/admin-start.html');
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Phone.">Tlf</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="DOB.">Bursdag</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Type</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Status</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Handling</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -91,6 +93,8 @@ include('./../html/admin-start.html');
                         <th rowspan="1" colspan="1">Tlf</th>
                         <th rowspan="1" colspan="1">Bursdag</th>
                         <th rowspan="1" colspan="1">Type</th>
+                        <th rowspan="1" colspan="1">Status</th>
+                        <th rowspan="1" colspan="1">Handling</th>
                       </tr>
                     </tfoot>
                   </table>
@@ -110,9 +114,9 @@ include('./../html/admin-start.html');
                     //printer li element pr side og finner hvilken side og hvilken knapp som er aktiv.
                     for($i = 1; $i <= $antallSider; $i++){
                       if($i == $sidenr) { 
-                        print('<li class="paginate_button active"><a href="?p='.$i.'" aria-controls="example2" data-dt-idx="1" tabindex="0">'.$i.'</a></li>');  
+                        print('<li class="paginate_button active"><a href="./User/users.php?p='.$i.'" aria-controls="example2" data-dt-idx="1" tabindex="0">'.$i.'</a></li>');  
                       } else {
-                        print('<li class="paginate_button"><a href="?p='.$i.'" aria-controls="example2" data-dt-idx="1" tabindex="0">'.$i.'</a></li>');  
+                        print('<li class="paginate_button"><a href="./User/users.php?p='.$i.'" aria-controls="example2" data-dt-idx="1" tabindex="0">'.$i.'</a></li>');  
                       }
                     } 
                     ?>
