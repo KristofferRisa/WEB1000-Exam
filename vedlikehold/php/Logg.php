@@ -116,7 +116,7 @@ class Logg {
     //Slik bruker du logg modul
     // include('./php/Logg.php');
     // $logg = new Logg();
-    // $logg->Ny('test melding', 'INFO','Der du er i programmet', '1')
+    // $logg->Ny('test melding', 'INFO',htmlspecialchars($_SERVER['PHP_SELF']), 'UserID');
     public function Ny($melding, $nivå, $modul, $bruker) {
         include('db.php');
         $datotid = date('Y-m-d H:i:s');

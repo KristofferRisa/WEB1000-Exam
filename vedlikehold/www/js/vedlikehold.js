@@ -21,13 +21,11 @@ $(function () {
                     //console.log(treeviews1)
                     treeviews1.className = 'treeview active';
                 }
-            }
-                           
+            } 
         }
         
         console.log(activeElemt);
         $('#'+activeElemt.text()).addClass('active');
-        
         
     }
     
