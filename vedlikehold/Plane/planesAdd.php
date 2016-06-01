@@ -36,7 +36,7 @@ include('../php/addPlaneFormInput.php');
       <div class="col-sm-12">   
                  <!-- Horizontal Form -->
           <div class="box box-info">
-            <div class="box-header with-border"><?php echo $errorMelding; ?>
+            <div class="box-header with-border"><?php echo $errorMelding; ?><div id="melding"></div>
            <h3 class="box-title">Skjema</h3>
             </div>
             <!-- /.box-header -->
@@ -45,7 +45,7 @@ include('../php/addPlaneFormInput.php');
 
             <!-- form start -->
 
-            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerFly()">
               <div class="box-body">        
 
                 <div class="form-group">
@@ -105,7 +105,7 @@ include('../php/addPlaneFormInput.php');
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <button type="submit" class="btn btn-default">Avbryt</button>
+                <button class="btn btn-default" onclick="fjernMelding();clearForm(this.form);return false;">Nullstill</button>
 
                 <button type="submit" class="btn btn-info pull-right">Legg til</button>
               </div>
