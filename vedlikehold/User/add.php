@@ -100,7 +100,8 @@ include('./../html/admin-start.html');
                 <div class="form-group">
                   <label for="inputFornavn" class="col-sm-2 control-label">Fornavn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputFornavn" name="inputFornavn" placeholder="Fornavn">
+                    <input type="text" class="form-control" id="inputFornavn" name="inputFornavn" 
+                    placeholder="Hans">
                   </div>
                 </div>
                 
@@ -108,7 +109,8 @@ include('./../html/admin-start.html');
                 <div class="form-group">
                   <label for="inputEtternavn" class="col-sm-2 control-label">Etternavn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputEtternavn" name="inputEtternavn" placeholder="Etternavn">
+                    <input type="text" class="form-control" id="inputEtternavn" name="inputEtternavn" 
+                    placeholder="Hansen">
                   </div>
                 </div>
                
@@ -130,7 +132,8 @@ include('./../html/admin-start.html');
                   <div class="form-group">
                     <label class="col-sm-2 control-label">Kjønn:</label>
                     <div class="col-sm-2">
-                      <select class="form-control select2 select2-hidden-accessible" name="inputKjonn" form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                      <select class="form-control select2 select2-hidden-accessible" name="inputKjonn" 
+                        form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         <option>Mann</option>
                         <option>Kvinne</option>
                       </select>
@@ -144,7 +147,8 @@ include('./../html/admin-start.html');
                   <label for="inputTittel" class="col-sm-2 control-label">Tittel</label>
                   <div class="col-sm-2">
                     <!--<input type="text" class="form-control" id="inputTittel" name="inputTittel" placeholder="Tittel">-->
-                    <select class="form-control select2 select2-hidden-accessible" name="inputTittel" form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                    <select class="form-control select2 select2-hidden-accessible" name="inputTittel" 
+                      form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
                     <?php
                       include('./../php/Tittel.php');
                       $t = new Tittel();
@@ -169,7 +173,7 @@ include('./../html/admin-start.html');
                 <div class="form-group">
                   <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
                   <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword3" name="inputPassword3" placeholder="Password">
+                    <input type="password" class="form-control" id="inputPassword3" name="inputPassword3" >
                   </div>
                 </div>
                 
@@ -177,7 +181,7 @@ include('./../html/admin-start.html');
                 <div class="form-group">
                   <label for="inputPassword4" class="col-sm-2 control-label">Password</label>
                   <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword4" name="inputPassword4" placeholder="Password">
+                    <input type="password" class="form-control" id="inputPassword4" name="inputPassword4" >
                   </div>
                 </div>
                 
@@ -185,7 +189,7 @@ include('./../html/admin-start.html');
                 <div class="form-group">
                   <label for="inputTlf" class="col-sm-2 control-label">Tlf</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputTlf" name="inputTlf" placeholder="Telefon nummer">
+                    <input type="text" class="form-control" id="inputTlf" name="inputTlf" placeholder="+47 999 99 999">
                   </div>
                 </div>
                 
