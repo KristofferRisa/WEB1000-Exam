@@ -45,13 +45,13 @@ include('../html/admin-start.html');
                     <thead>
                       <tr role="row">
                         <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id">ID</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyNr">FlyNr</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Modell">Modell</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Type</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Plasser">Plasser</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Laget">Laget</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyNr">Fly nr</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Modell">Fly modell</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Flytype</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Plasser">Antall sitteplasser</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Laget">Årsmodell</th>
                       
-                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Opprettet">Opprettet</th>
+                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Opprettet">Data opprettet</th>
                       
                       <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Statuskode Id">Statuskode Id</th></tr>
                       </tr>
@@ -80,12 +80,12 @@ print( $planes->ShowAllPlanes() );
                     <tfoot>
                       <tr>
                         <th rowspan="1" colspan="1">ID</th>
-                        <th rowspan="1" colspan="1">FlyNr</th>
-                        <th rowspan="1" colspan="1">Modell</th>
-                        <th rowspan="1" colspan="1">Type</th>
-                        <th rowspan="1" colspan="1">Plasser</th>
-                        <th rowspan="1" colspan="1">Startet</th>
-                        <th rowspan="1" colspan="1">Opprettet</th>
+                        <th rowspan="1" colspan="1">Fly nr</th>
+                        <th rowspan="1" colspan="1">Fly modell</th>
+                        <th rowspan="1" colspan="1">Flytype</th>
+                        <th rowspan="1" colspan="1">Antall sitteplasser</th>
+                        <th rowspan="1" colspan="1">Årsmodell</th>
+                        <th rowspan="1" colspan="1">Data opprettet</th>
                         <th rowspan="1" colspan="1">Statuskode Id</th>
                       </tr>
                     </tfoot>

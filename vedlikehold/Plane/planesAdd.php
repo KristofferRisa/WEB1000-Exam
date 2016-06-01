@@ -23,7 +23,7 @@ include('../php/addPlaneFormInput.php');
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Fly</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Registrere nytt fly</li>
+      <li class="active">Legg til fly</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -47,13 +47,6 @@ include('../php/addPlaneFormInput.php');
 
             <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
               <div class="box-body">        
-
-                <div class="form-group">
-                  <label for="flyId" class="col-sm-2 control-label">Fly id</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyId" name="flyId" placeholder="Fly id" value="<?php echo $_POST['flyId'] ?>">                      
-                  </div>
-                </div>
 
                 <div class="form-group">
                   <label for="flyNr" class="col-sm-2 control-label">Fly nr</label>
@@ -86,7 +79,7 @@ include('../php/addPlaneFormInput.php');
                 <div class="form-group">
                   <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyLaget" name="flyLaget" placeholder="Årsmodell" value="<?php echo $_POST['flyLaget'] ?>">
+                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="2011" value="<?php echo $_POST['flyAarsmodell'] ?>">
                   </div>
                 </div>
 
@@ -112,9 +105,9 @@ include('../php/addPlaneFormInput.php');
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <button type="submit" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-default">Avbryt</button>
 
-                <button type="submit" class="btn btn-info pull-right">Sign in</button>
+                <button type="submit" class="btn btn-info pull-right">Legg til</button>
               </div>
               <!-- /.box-footer -->
             </form>
