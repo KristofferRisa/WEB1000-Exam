@@ -41,5 +41,27 @@ class Planes {
         
         return $html;
     }
+
     
+
+
+    public function AddNewPlane($flyId, $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyLaget,$flyStatusKode) {
+        
+
+  include('../php/db.php');
+        
+        //Bygger SQL statement
+        $query = $db_connection->prepare("INSERT INTO fly (flyId,flyNr,modell,type,plasser,laget,statusKodeId) VALUES (?,?,?,?,?,?,?)");
+        $query->bind_param('sssssss', $flyId, $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyLaget,$flyStatusKode);  
+
+            if ( $query->execute() === FALSE) { 
+                    echo "Error! Ble ikke opprettet";
+} else {      
+
+        //Lukker databasetilkopling
+        $query->close();
+        $db_connection->close();
+        }
+    }
 }
+    

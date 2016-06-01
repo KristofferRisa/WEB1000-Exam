@@ -67,7 +67,7 @@ $logg->Ny('Laster FLY side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'i
 
 include('../php/Planes.php');
 
-$planes = new Planes();
+$planes = new Planes;
 
 
 print( $planes->ShowAllPlanes() );
