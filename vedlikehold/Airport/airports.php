@@ -1,9 +1,16 @@
 <?php 
-$title = "FLY - Admin";
+$title = "FLYPLASSER - Admin ";
 
 include('../html/header.html');
 
 include('../html/admin-start.html');
+
+include('../php/Logg.php');
+
+$logg = new Logg();
+
+
+$logg->Ny('Laster FLYPLASS VIS side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -11,14 +18,14 @@ include('../html/admin-start.html');
   <!-- Content Header (Page header) -->
   <section class="content-header">
       <h1>
-        Vis alle fly
-        <small>Viser en oversikt over alle fly.</small>
+        Vis alle flyplasser
+        <small>Viser en oversikt over alle flyplasser.</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Fly</li>
+      <li>Flyplasser</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Vis alle fly</li>
+      <li class="active">Vis alle flyplasser</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -44,29 +51,22 @@ include('../html/admin-start.html');
                   <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                     <thead>
                       <tr role="row">
-                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FlyplassId">ID</th>
+                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FlyplassId">Flyplass id</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassNavn">Flyplass navn</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassLand">Land</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassStatuskode  ">Statuskode</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassEndret">Data endret</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassOpprettet">Data opprettet</th></tr>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassEndret">Data endret</th></tr>
                       
                     </thead>
                     <tbody>
 <?php 
 
-include('../php/Logg.php');
-$logg = new Logg();
+include('../php/AdminClasses.php');
+
+$airports = new Airport;
 
 
-$logg->Ny('Laster FLY side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
-
-include('../php/Planes.php');
-
-$planes = new Planes;
-
-
-print( $planes->ShowAllPlanes() );
+print( $airports->ShowAllAirports() );
 
 
 ?> 
@@ -75,14 +75,11 @@ print( $planes->ShowAllPlanes() );
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th rowspan="1" colspan="1">ID</th>
-                        <th rowspan="1" colspan="1">Fly nr</th>
-                        <th rowspan="1" colspan="1">Fly modell</th>
-                        <th rowspan="1" colspan="1">Flytype</th>
-                        <th rowspan="1" colspan="1">Antall sitteplasser</th>
-                        <th rowspan="1" colspan="1">Årsmodell</th>
-                        <th rowspan="1" colspan="1">Data opprettet</th>
-                        <th rowspan="1" colspan="1">Statuskode Id</th>
+                        <th rowspan="1" colspan="1">Flyplass id</th>
+                        <th rowspan="1" colspan="1">Flyplass navn</th>
+                        <th rowspan="1" colspan="1">Land</th>
+                        <th rowspan="1" colspan="1">Statuskode</th>
+                        <th rowspan="1" colspan="1">Data endret</th>
                       </tr>
                     </tfoot>
                   </table>
@@ -91,20 +88,6 @@ print( $planes->ShowAllPlanes() );
               <div class="row">
                 <div class="col-sm-5">
                   <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
-                </div>
-                <div class="col-sm-7">
-                  <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                    <ul class="pagination">
-                      <li class="paginate_button previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a></li>
-                      <li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li>
-                      <li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">Next</a></li>
-                    </ul>
-                  </div>
                 </div>
               </div>
             </div>
