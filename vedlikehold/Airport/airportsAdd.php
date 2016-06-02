@@ -131,10 +131,4 @@ include('../html/admin-slutt.html');
 
 include('../html/script.html');
 
-include('../php/Logg.php');
-$logg = new Logg();
-
-
-$logg->Ny('Laster FLY leggtilside', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
-
 ?>
