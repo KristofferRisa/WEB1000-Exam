@@ -15,9 +15,9 @@ $logg = new Logg();
 
 $logg->Ny('Laster FLYPLASS LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
-
-
 ?>
+
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -69,11 +69,13 @@ $logg->Ny('Laster FLYPLASS LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PH
                     <input type="text" class="form-control" id="flyplassLand" name="flyplassLand" placeholder="Flyplass land" value="<?php echo $_POST['flyplassLand'] ?>">
                   </div> -->
               
-
-                <div class="ui fluid search selection dropdown">
+  <label for="flyplassLand" class="col-sm-2 control-label">Land</label>
+  <div class="col-sm-10">        
+  <div class="ui fluid search selection dropdown" id="flyplassLand">
   <input type="hidden" name="country">
   <i class="dropdown icon"></i>
   <div class="default text">Select Country</div>
+  
   <div class="menu">
   <div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
   <div class="item" data-value="ax"><i class="ax flag"></i>Aland Islands</div>
@@ -318,8 +320,10 @@ $logg->Ny('Laster FLYPLASS LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PH
   <div class="item" data-value="zm"><i class="zm flag"></i>Zambia</div>
   <div class="item" data-value="zw"><i class="zw flag"></i>Zimbabwe</div>
 </div>
+
 </div>
 
+  </div>
   </div>
                 <div class="form-group">
                   <label for="flyplassStatuskode" class="col-sm-2 control-label">Statuskode</label>
