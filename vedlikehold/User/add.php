@@ -1,4 +1,11 @@
-<?php  // FORM POST
+<?php
+$title = "FLY - Admin";
+include('./../html/start.php');
+include('./../html/header.html');
+include('./../html/admin-start.html');
+include('./../php/Tittel.php');
+
+$t = new Tittel();
 
 if($_POST){
   include('./../php/Logg.php');
@@ -59,17 +66,6 @@ if($_POST){
 }
 
 ?>
-
-<?php 
-$title = "FLY - Admin";
-
-include('./../html/start.php');
-
-include('./../html/header.html');
-
-include('./../html/admin-start.html');
-
-?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -104,36 +100,45 @@ include('./../html/admin-start.html');
                
                <!-- Brukernavn -->
                 <div class="form-group">
-                  <label for="inputBrukernavn" class="col-sm-2 control-label">Brukernavn</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputBrukernavn" name="inputBrukernavn" 
-                    placeholder="Brukernavn">
+                  <label for="inputBrukernavn" class="col-md-2 control-label">Brukernavn</label>
+                  <div class="col-md-10">
+                    <input type="text" class="form-control" id="inputBrukernavn" name="inputBrukernavn" required placeholder="">
                   </div>
                 </div>
                 
                
                <!-- Fornav -->
                 <div class="form-group">
-                  <label for="inputFornavn" class="col-sm-2 control-label">Fornavn</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputFornavn" name="inputFornavn" 
-                    placeholder="Hans">
+                  <label for="inputFornavn" class="col-md-2 control-label">Fornavn</label>
+                  <div class="col-md-10">
+                    <input type="text" class="form-control" id="inputFornavn" name="inputFornavn" required
+                    placeholder="Ola">
                   </div>
                 </div>
                 
                 <!-- Etternav -->
                 <div class="form-group">
-                  <label for="inputEtternavn" class="col-sm-2 control-label">Etternavn</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputEtternavn" name="inputEtternavn" 
-                    placeholder="Hansen">
+                  <label for="inputEtternavn" class="col-md-2 control-label">Etternavn</label>
+                  <div class="col-md-10">
+                    <input type="text" class="form-control" id="inputEtternavn" name="inputEtternavn" required 
+                    placeholder="Norman">
                   </div>
                 </div>
+                
+               <!-- Email -->
+                <div class="form-group">
+                  <label for="inputEmail" class="col-md-2 control-label">Email</label>
+                  <div class="col-md-10">
+                    <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder=""
+                      required>
+                  </div>
+                </div>
+             
                
                <!-- Dato -->
                 <div class="form-group">
-                <label class="col-sm-2 control-label">Fødselsdag:</label>
-                <div class="col-sm-10">
+                <label class="col-md-2 control-label">Fødselsdag:</label>
+                <div class="col-md-2">
                   <div class="input-group date">
                     <div class="input-group-addon">
                       <i class="fa fa-calendar"></i>
@@ -142,12 +147,12 @@ include('./../html/admin-start.html');
                   </div>
                  </div>
                 <!-- /.input group -->
-                </div>
+                <!--</div>-->
                 
                 <!-- Kjønn -->
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Kjønn:</label>
-                    <div class="col-sm-2">
+                  <!--<div class="form-group">-->
+                    <label class="col-md-1 control-label">Kjønn:</label>
+                    <div class="col-md-2">
                       <select class="form-control select2 select2-hidden-accessible" name="inputKjonn" 
                         form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         <option>Mann</option>
@@ -155,59 +160,46 @@ include('./../html/admin-start.html');
                       </select>
                       <span class="dropdown-wrapper" aria-hidden="true"></span>
                     </div>
-                  </div>
+                  <!--</div>-->
                   
                   
                   <!-- Tittel -->
-                <div class="form-group">
-                  <label for="inputTittel" class="col-sm-2 control-label">Tittel</label>
-                  <div class="col-sm-2">
-                    <!--<input type="text" class="form-control" id="inputTittel" name="inputTittel" placeholder="Tittel">-->
-                    <select class="form-control select2 select2-hidden-accessible" name="inputTittel" 
-                      form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                    <?php
-                      include('./../php/Tittel.php');
-                      $t = new Tittel();
+                <!--<div class="form-group">-->
+                  <label for="inputTittel" class="col-md-1 control-label">Tittel</label>
+                  <div class="col-md-2">
                       
-                      print($t->TittelSelectOptions());
-                      
-                      ?>
+                      <select class="form-control select2 select2-hidden-accessible" name="inputTittel"  form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                          <?php print($t->TittelSelectOptions()); ?>
                       </select>
-                    
-                  </div>
-                </div>
-               
-               <!-- Email -->
-                <div class="form-group">
-                  <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-                  <div class="col-sm-10">
-                    <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="Email">
+                      
                   </div>
                 </div>
                 
+                <!-- TLF -->
+                <div class="form-group">
+                  <label for="inputTlf" class="col-md-2 control-label">Tlf</label>
+                  <div class="col-md-10">
+                    <input type="text" class="form-control" id="inputTlf" name="inputTlf" placeholder="+47 999 99 999">
+                  </div>
+                </div>
+                
+                  
                 <!-- Passord -->
                 <div class="form-group">
-                  <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                  <div class="col-sm-10">
+                  <label for="inputPassword3" class="col-md-2 control-label">Passord</label>
+                  <div class="col-md-10">
                     <input type="password" class="form-control" id="inputPassword3" name="inputPassword3" >
                   </div>
                 </div>
                 
                 <!-- Passord 2 -->
                 <div class="form-group">
-                  <label for="inputPassword4" class="col-sm-2 control-label">Password</label>
-                  <div class="col-sm-10">
+                  <label for="inputPassword4" class="col-md-2 control-label">Gjenta passord</label>
+                  <div class="col-md-10">
                     <input type="password" class="form-control" id="inputPassword4" name="inputPassword4" >
                   </div>
                 </div>
                 
-                <!-- TLF -->
-                <div class="form-group">
-                  <label for="inputTlf" class="col-sm-2 control-label">Tlf</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputTlf" name="inputTlf" placeholder="+47 999 99 999">
-                  </div>
-                </div>
                 
               </div>
               <!-- /.box-body -->

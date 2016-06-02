@@ -109,7 +109,7 @@ include('./../html/admin-start.html');
               </div>
               <div class="row">
                 <div class="col-sm-5">
-                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 100 of <?php print($antallMeldinger);?> entries</div>
+                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Totalt <?php print($antallMeldinger);?> brukere</div>
                 </div>
                 <div class="col-sm-7">
                   <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
