@@ -69,6 +69,8 @@ if($_GET && $_GET['id']){
 <?php 
 $title = "FLY - Admin";
 
+include('./../html/start.php');
+
 include('./../html/header.html');
 
 include('./../html/admin-start.html');
@@ -138,7 +140,7 @@ include('./../html/admin-start.html');
                 
                 <button type="submit" class="btn btn-default" onclick="location.href='./User/users.php';return false;">Nullstill</button>
                 
-                <button type="submit" class="btn btn-info pull-right">Opprett</button>
+                <button type="submit" class="btn btn-info pull-right">Bytt</button>
               </div>
               <!-- /.box-footer -->
             </form>
