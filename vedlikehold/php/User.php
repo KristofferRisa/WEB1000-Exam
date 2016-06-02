@@ -119,14 +119,13 @@
                                     , dob
                                     , tittelId
                                     , passord
-                                    , salt
                                     , brukerTypeId
                                     , statusKodeId
                                     , kjonn) 
-                            values (?,?,?,?,?,?,?,?,?,?,?)";
+                            values (?,?,?,?,?,?,?,?,?,?)";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('ssssssssiis'
+            $insertUser->bind_param('sssssssiis'
                                     , $fname
                                     , $lname
                                     , $mail
@@ -134,7 +133,6 @@
                                     , $DOB
                                     , $tittel
                                     , $pass_hash
-                                    , $salt
                                     , $brukerTypeId
                                     , $statusKodeId
                                     , $sex);
@@ -258,14 +256,6 @@
             //Lukker databasetilkopling
             $query->close();
             $db_connection->close();
-            
-            // $options = [
-            //     'cost' => 11,
-            //     'salt' => $salt,
-            // ];
-            
-            // $pass_hash = password_hash($password, PASSWORD_BCRYPT, $options);
-            
             
             if(password_verify($password, $pass_stored))
             {

@@ -11,15 +11,23 @@ include('./html/admin-start.html');
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
+       
        <h1>
-        Logg
-        <small>Se alle loggmeldinger</small>
+        Logg<small>Se alle loggmeldinger</small>
       </h1>
+       
+       
        <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Start</a></li>
+         <li>
+            <a href="#">
+                <i class="fa fa-dashboard"></i> Start
+            </a>
+        </li>
         <li class="active">Logg</li>
-    </ol>
+      </ol>
+    
   </section>
+  
   <!-- Main content -->
   <section class="content">
 
