@@ -6,9 +6,11 @@
     <!-- Logo -->
     <a href="./" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+
+
+      <span class="logo-mini"><b>B</b> <b>A</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b>B</b>JARUM <b>A</b>IRLINES</span>
     </a>
 
     <!-- Header Navbar -->
@@ -20,7 +22,7 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-         
+
           <!-- Notifications Menu -->
           <li class="dropdown notifications-menu">
             <!-- Menu toggle button -->
@@ -33,7 +35,8 @@
               <li>
                 <!-- Inner Menu: contains the notifications -->
                 <ul class="menu">
-                  <li><!-- start notification -->
+                  <li>
+                    <!-- start notification -->
                     <a href="#">
                       <i class="fa fa-users text-aqua"></i> 5 new members joined today
                     </a>
@@ -56,7 +59,8 @@
               <li>
                 <!-- Inner menu: contains the tasks -->
                 <ul class="menu">
-                  <li><!-- Task item -->
+                  <li>
+                    <!-- Task item -->
                     <a href="#">
                       <!-- Task title and progress text -->
                       <h3>
@@ -118,16 +122,17 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
 
+
       <!-- search form (Optional) -->
-      <!--<form action="#" method="get" class="sidebar-form">
+      <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
+          <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
               </span>
         </div>
-      </form>-->
+      </form>
       <!-- /.search form -->
 
       <!-- Sidebar Menu -->
@@ -136,10 +141,19 @@
 
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Fly</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">          
-            <li id="Vis alle fly"><a href="./Plane/planes.php" >Vis alle fly</a></li>
+          <ul class="treeview-menu">
+            <li id="Vis alle fly"><a href="./Plane/planes.php">Vis alle fly</a></li>
             <li id="Legg til fly"><a href="./Plane/planesAdd.php">Legg til fly</a></li>
             <li id="Endre fly"><a href="./Plane/planesEdit.php">Endre fly</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Flyplasser</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">          
+            <li id="Vis alle flyplasser"><a href="./Airport/airports.php" >Vis alle flyplasser</a></li>
+            <li id="Legg til flyplasser"><a href="./Airport/airportsAdd.php">Legg til flyplass</a></li>
+            <li id="Endre flyplass"><a href="./Airport/airportsEdit.php">Endre flyplass</a></li>
           </ul>
         </li>
         
@@ -155,28 +169,26 @@
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Reiser og bestillinger</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
-              <li><a href="./travles.php">Reise</a></li>
-              <li><a href="./travle-types.php">Type reiser</a></li>
+            <li><a href="./travles.php">Reise</a></li>
+            <li><a href="./travle-types.php">Type reiser</a></li>
           </ul>
         </li>
-         <li class="treeview">
+        <!--<li id="Brukere"><a href="./User/users.php"><i class="fa fa-link"></i> <span>Brukere</span></a></li>-->
+        <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Brukere</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
             <li id="Vis"><a href="./User/users.php"><i class="fa fa-link"></i> <span>Vis</span></a></li>
             <li id="Ny"><a href="./User/add.php"><i class="fa fa-link"></i> <span>Ny</span></a></li>
             <li id="Endre"><a href="./User/update.php"><i class="fa fa-link"></i> <span>Endre</span></a></li>
-            <li id="Slett"><a href="./User/delete.php"><i class="fa fa-link"></i> <span>Slett</span></a></li>
+            <!--<li id="Slett"><a href="./User/delete.php"><i class="fa fa-link"></i> <span>Slett</span></a></li>-->
           </ul>
         </li>
         <li class="header">System admin</li>
         <!-- Optionally, you can add icons to the links -->
         <li id="Logg"><a href="./logg.php"><i class="fa fa-link"></i> <span>Logg</span></a></li>
-        
+
       </ul>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
   </aside>
-
-
-

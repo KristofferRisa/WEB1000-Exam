@@ -8,7 +8,7 @@ class TableListBox {
 		 $listBox = "";
 
 
-		$sql="SELECT navn FROM statusKode";
+		$sql="SELECT statusKodeId, navn FROM statusKode";
 
 		$result = $db_connection->query($sql);
 
@@ -16,7 +16,7 @@ class TableListBox {
 
 			while($row = $result->fetch_assoc()) {       
 
-            $listBox .= "<option value=". $row['navn'] . ">". $row['navn'] ."</option>";
+            $listBox .= "<option value=". $row['statusKodeId'] . ">". $row['navn'] ." - Id: ".$row['statusKodeId']."</option>";
         
     	}
 

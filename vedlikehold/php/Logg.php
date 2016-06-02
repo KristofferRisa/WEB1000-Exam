@@ -52,7 +52,7 @@ class Logg {
             $sideNr = $sideNr-1;
             $offset = $sideNr*$antallMeldinger;    
         } else {
-            $offset = $sideNr;
+            $offset = $sideNr-1;
         }
         
         // $html .= '<p>offset = '.$offset.'</p>';
