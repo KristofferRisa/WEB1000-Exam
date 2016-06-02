@@ -49,14 +49,15 @@ include('./../html/admin-start.html');
                       <tr role="row">
                         <!-- Legg inn kolonner -->
                         <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id">ID</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="UserID">Brukernavn</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Firstname">Fornavn</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Lastname">Etternavn</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Mail">epost</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Tittle">Tittel</th>
+                        <!--<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Tittle">Tittel</th>-->
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Phone.">Tlf</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="DOB.">Bursdag</th>
+                        <!--<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="DOB.">Bursdag</th>-->
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Type</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Status</th>
+                        <!--<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Status</th>-->
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Handling</th>
                       </tr>
                     </thead>
@@ -76,7 +77,9 @@ include('./../html/admin-start.html');
 
                       $logg = new Logg();
 
+                      //Printer ut HTML tabell
                       print($user->VisAlle($sidenr,$logg));
+                      
                       $antallMeldinger = $user->AntallBrukere;
                       
                       $antallSider = ceil($antallMeldinger / 100);
@@ -89,14 +92,15 @@ include('./../html/admin-start.html');
                       <tr>
                         <!-- Legg inn kolonner -->
                         <th rowspan="1" colspan="1">ID</th>
+                        <th rowspan="1" colspan="1">Brukernavn</th>
                         <th rowspan="1" colspan="1">Fornavn</th>
                         <th rowspan="1" colspan="1">Etternavn</th>
                         <th rowspan="1" colspan="1">Epost</th>
-                        <th rowspan="1" colspan="1">Tittel</th>
+                        <!--<th rowspan="1" colspan="1">Tittel</th>-->
                         <th rowspan="1" colspan="1">Tlf</th>
-                        <th rowspan="1" colspan="1">Bursdag</th>
+                        <!--<th rowspan="1" colspan="1">Bursdag</th>-->
                         <th rowspan="1" colspan="1">Type</th>
-                        <th rowspan="1" colspan="1">Status</th>
+                        <!--<th rowspan="1" colspan="1">Status</th>-->
                         <th rowspan="1" colspan="1">Handling</th>
                       </tr>
                     </tfoot>

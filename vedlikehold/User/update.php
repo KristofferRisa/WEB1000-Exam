@@ -54,7 +54,7 @@ if($_POST){
 
       $userId = $_GET['id'];
       
-      $result = $user->UpdateUser($userId, $fornavn, $etternavn, $DOB, $kjonn, $mail, $tlf, $tittel, $logg);     
+      $result = $user->UpdateUser($userId, $brukernavn, $fornavn, $etternavn, $DOB, $kjonn, $mail, $tlf, $tittel, $logg);     
       
       if($result == 1){
         $responseMsg = "<div class='alert alert-success alert-dismissible'><strong>Success!</strong> Brukeren ble oppdatert.</div>";

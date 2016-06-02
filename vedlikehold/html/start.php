@@ -7,7 +7,7 @@
 
     if (!$innloggetBruker)
     {
-        header('Location: ./login.php');
+        header('Location: '.$_SERVER['SERVERNAME'].'/WEB1000-Exam/vedlikehold/login.php');
         exit;
     }
   

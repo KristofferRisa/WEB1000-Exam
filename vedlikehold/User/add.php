@@ -35,7 +35,8 @@ if($_POST){
     && $pass1
     && $pass2
     && $tlf
-    && $tittel){
+    && $tittel
+    && $pass1 == $pass2){
       
       $logg->Ny('Alle input felter funnet', 'DEBUG','users/add.php', 'NA');
       

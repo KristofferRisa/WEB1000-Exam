@@ -27,6 +27,7 @@
             $sql = "
             select 
                 brukerId
+                , brukernavn
                 ,fornavn
                 ,etternavn
                 ,epost
@@ -47,7 +48,8 @@
             $queryPrSide->execute();
 
             $queryPrSide->bind_result($id
-                ,$fornavn
+                , $brukernavn
+                , $fornavn
                 , $etternavn
                 , $epost
                 , $tlf
@@ -70,15 +72,16 @@
                 $html .= '
                     <tr role="row" class="'.$printOddOrEven.'">
                         <td>'.$id.'</td>
+                        <td>'.$brukernavn.'</td>
                         <td>'.$fornavn.'</td>
                         <td>'.$etternavn.'</td>
                         <td>'.$epost.'</td>
-                        <td>'.$tittel.'</td>
-                        <td>'.$tlf.'</td>
-                        <td>'.$dob.'</td>
-                        <td>'.$type.'</td>
-                        <td>'.$status.'</td>
-                        <td>
+                        '//<td>'.$tittel.'</td>
+                        .'<td>'.$tlf.'</td>
+                        '//<td>'.$dob.'</td>
+                        .'<td>'.$type.'</td>
+                        '//<td>'.$status.'</td>
+                        .'<td>
                             <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> 
                         </td>
                    </tr>';
@@ -97,21 +100,24 @@
             return $html;
         }
         
-        function NewUser($brukernavn, $fname, $lname, $DOB, $sex, $mail, $pass, $phone, $tittel,$logg)
+        public function NewUser($brukernavn, $fname, $lname, $DOB, $sex, $mail, $new_pass, $phone, $tittel,$logg)
         {   
             include('db.php');
             
              $logg->Ny('Forsøker å opprette ny bruker.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+             
+             $logg->Ny('PASSORD = '.$new_pass, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
             
             $brukerTypeId = 1; //Må hentes fra FORM listbox
             $statusKodeId = 1; //Opprettet (lese fra database?)
+            
             $salt = uniqid(mt_rand(), true);
 
             $options = [
                 'cost' => 11,
                 'salt' => $salt,
             ];
-            $pass_hash = password_hash($pass, PASSWORD_BCRYPT, $options);
+            $pass_hash = password_hash($new_pass, PASSWORD_BCRYPT, $options);
             
             $sql = "
                 insert into bruker (brukernavn
@@ -161,7 +167,7 @@
             $db_connection->close(); 
         }
         
-        public function UpdateUser($userid, $fname, $lname, $DOB, $sex, $mail, $phone, $tittel, $logg){
+        public function UpdateUser($userid, $brukernavn, $fname, $lname, $DOB, $sex, $mail, $phone, $tittel, $logg){
             include('db.php');
             
             $brukerTypeId = 1; //Må hentes fra FORM listbox
@@ -171,7 +177,8 @@
             
             $sql = "
             update bruker 
-            set fornavn = ?
+            set brukernavn = ?
+                , fornavn = ?
                 , etternavn = ?
                 , epost = ?
                 , tlf = ?
@@ -183,7 +190,8 @@
             where brukerId = ?;";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('ssssssiiis'
+            $insertUser->bind_param('sssssssiiis'
+                                    , $brukernavn
                                     , $fname
                                     , $lname
                                     , $mail
@@ -221,7 +229,7 @@
             return $affectedRows;
         }
         
-        function Exsits($brukernavn)
+        public function Exsits($brukernavn)
         {
             include('db.php');
         
@@ -246,7 +254,7 @@
             }
         }
         
-        function Login($username, $password, $logg)
+        public function Login($username, $password, $logg)
         {
             include('db.php');
         
@@ -278,17 +286,17 @@
             }
         }
         
-        function ValidateUsername($username)
+        public function ValidateUsername($username)
         {
             return preg_match('/[a-zA-Z0-9]{1,}/', $username);
         }
         
-        function setUserCookie($uid)
+        public function setUserCookie($uid)
         {
             setcookie("uid", md5($uid), time() + 21600, '/', NULL, 0); /* expire in 5 hour */ 
         }
         
-        function sjekkUserCookie()
+        public function sjekkUserCookie()
         {
             // GET cocike
             // Print an individual cookie - http://php.net/manual/en/function.setcookie.php
