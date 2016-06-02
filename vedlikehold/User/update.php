@@ -1,13 +1,18 @@
 <?php  
+$title = "FLY - Admin";
 
 //Includes
+include('./../html/start.php');
+include('./../html/header.html');
+include('./../html/admin-start.html');
+
 include('./../php/Logg.php');
-include('./../php/User.php');
+include('./../php/Tittel.php');
 
 //Globale variabler
 $user = new User();
 $logg = new Logg();
-
+$t = new Tittel();
 $responseMsg = "";
 
 if($_POST){
@@ -65,36 +70,8 @@ if($_POST){
   
 } 
 
-
-if($_GET && $_GET['id']){
-  
-  $id = $_GET['id'];
-  
-  header('x-uid:'.$id);
-  
-  //returnerer en array med bruker info    
-  $userinfo = $user->GetUser($id, $logg);
-  
-  //DEBUG
-  //print_r($userinfo);
-  
-} else {
-  header('location: ./users.php');
-  exit;
-}
-
 ?>
 
-<?php 
-$title = "FLY - Admin";
-
-include('./../html/start.php');
-
-include('./../html/header.html');
-
-include('./../html/admin-start.html');
-
-?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -113,9 +90,21 @@ include('./../html/admin-start.html');
  <!-- Main content -->
   <section class="content">
 
+<?php
+
+if($_GET && $_GET['id']){
+  
+  $id = $_GET['id'];
+  
+  //returnerer en array med bruker info    
+  $userinfo = $user->GetUser($id, $logg);
+  
+  print_r($userinfo);
+  
+?>
     <!-- Your Page Content Here -->
     <div class="row">
-   <div class="col-md-12">
+      <div class="col-md-12">
           <!-- Horizontal Form -->
           <div class="box box-info">
             <div class="box-header with-border">
@@ -130,8 +119,8 @@ include('./../html/admin-start.html');
                
                <!-- ID -->
                 <!--<div class="form-group">
-                  <label for="inputId" class="col-sm-2 control-label">Id</label>
-                  <div class="col-sm-10">
+                  <label for="inputId" class="col-md-2 control-label">Id</label>
+                  <div class="col-md-10">
                     <input type="text" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>">
                   </div>
                 </div>
@@ -142,8 +131,8 @@ include('./../html/admin-start.html');
                
                <!-- Brukernavn -->
                 <div class="form-group">
-                  <label for="inputBrukernavn" class="col-sm-2 control-label">Brukernavn</label>
-                  <div class="col-sm-10">
+                  <label for="inputBrukernavn" class="col-md-2 control-label">Brukernavn</label>
+                  <div class="col-md-10">
                     <input type="text" class="form-control" id="inputBrukernavn" name="inputBrukernavn" 
                     value="<?php echo $userinfo[0][9]; ?>">
                   </div>
@@ -151,8 +140,8 @@ include('./../html/admin-start.html');
                
                <!-- Fornav -->
                 <div class="form-group">
-                  <label for="inputFornavn" class="col-sm-2 control-label">Fornavn</label>
-                  <div class="col-sm-10">
+                  <label for="inputFornavn" class="col-md-2 control-label">Fornavn</label>
+                  <div class="col-md-10">
                     <input type="text" class="form-control" id="inputFornavn" name="inputFornavn" 
                     value="<?php echo $userinfo[0][1]; ?>">
                   </div>
@@ -160,17 +149,18 @@ include('./../html/admin-start.html');
                 
                 <!-- Etternav -->
                 <div class="form-group">
-                  <label for="inputEtternavn" class="col-sm-2 control-label">Etternavn</label>
-                  <div class="col-sm-10">
+                  <label for="inputEtternavn" class="col-md-2 control-label">Etternavn</label>
+                  <div class="col-md-10">
                     <input type="text" class="form-control" id="inputEtternavn" name="inputEtternavn" 
                     value="<?php echo $userinfo[0][2]; ?>">
                   </div>
                 </div>
                
-               <!-- Dato -->
+              
+                <!-- Dato -->
                 <div class="form-group">
-                <label class="col-sm-2 control-label">Fødselsdag:</label>
-                <div class="col-sm-10">
+                <label class="col-md-2 control-label">Fødselsdag:</label>
+                <div class="col-md-2">
                   <div class="input-group date">
                     <div class="input-group-addon">
                       <i class="fa fa-calendar"></i>
@@ -180,43 +170,41 @@ include('./../html/admin-start.html');
                   </div>
                  </div>
                 <!-- /.input group -->
-                </div>
+                <!--</div>-->
                 
                 <!-- Kjønn -->
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Kjønn:</label>
-                    <div class="col-sm-2">
-                      <select class="form-control select2 select2-hidden-accessible" name="inputKjonn" form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                        <option>Mann</option>
-                        <option>Kvinne</option>
+                  <!--<div class="form-group">-->
+                    <label class="col-md-1 control-label">Kjønn:</label>
+                    <div class="col-md-2">
+                      <select class="form-control select2 select2-hidden-accessible" name="inputKjonn" 
+                        form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                   
+                        <option <?php if($userinfo[0][9] == 'Mann') {echo 'selected'; } ?>>Mann</option>
+                        <option <?php if($userinfo[0][9] == 'Kvinne') {echo 'selected'; } ?>>Kvinne</option>
+                        
                       </select>
                       <span class="dropdown-wrapper" aria-hidden="true"></span>
                     </div>
-                  </div>
+                  <!--</div>-->
                   
                   
                   <!-- Tittel -->
-                <div class="form-group">
-                  <label for="inputTittel" class="col-sm-2 control-label">Tittel</label>
-                  <div class="col-sm-2">
-                    <!--<input type="text" class="form-control" id="inputTittel" name="inputTittel" placeholder="Tittel">-->
-                    <select class="form-control select2 select2-hidden-accessible" name="inputTittel" form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                    <?php
-                      include('./../php/Tittel.php');
-                      $t = new Tittel();
+                <!--<div class="form-group">-->
+                  <label for="inputTittel" class="col-md-1 control-label">Tittel</label>
+                  <div class="col-md-2">
                       
-                      print($t->TittelSelectOptions());
-                      
-                      ?>
+                      <select class="form-control select2 select2-hidden-accessible" name="inputTittel"  form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                          <?php print($t->TittelSelectOptions($userinfo[0][6])); ?>
                       </select>
-                    
+                      
                   </div>
                 </div>
+                
                
                <!-- Email -->
                 <div class="form-group">
-                  <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-                  <div class="col-sm-10">
+                  <label for="inputEmail" class="col-md-2 control-label">Email</label>
+                  <div class="col-md-10">
                     <input type="email" class="form-control" id="inputEmail" name="inputEmail" 
                     value="<?php echo $userinfo[0][3]; ?>">
                   </div>
@@ -225,8 +213,8 @@ include('./../html/admin-start.html');
               
                 <!-- TLF -->
                 <div class="form-group">
-                  <label for="inputTlf" class="col-sm-2 control-label">Tlf</label>
-                  <div class="col-sm-10">
+                  <label for="inputTlf" class="col-md-2 control-label">Tlf</label>
+                  <div class="col-md-10">
                     <input type="text" class="form-control" id="inputTlf" name="inputTlf" 
                     value="<?php echo $userinfo[0][4]; ?>">
                   </div>
@@ -249,16 +237,47 @@ include('./../html/admin-start.html');
       <!-- /.col -->
     </div>
 
-  </section>
-  <!-- /.content -->
   
+<?php  
+  } else {
+    //lister en select box med brukere 
+?>
+<!-- Your Page Content Here -->
+<form class="form-horizontal" method="GET" id="nybruker">
+    <div class="row">
+      <div class="col-md-12">
+        
+         <div class="box box-info">
+            <div class="box-body">
+
+               <div class="form-group col-md-6">
+                  <select class="form-control select2 select2-hidden-accessible" name="id" style="width: 100%;" tabindex="-1" aria-hidden="true">
+              
+                      <?php print($user->UsersSelectOptions()); ?>
+                
+                  </select>
+              </div>
+              
+              <div class="form-group col-md-2">
+                <button type="submit" class="btn btn-info pull-right">Hent</button>
+              </div>
+          
+      </div>
+    </div>
+  </form>
+
+
+<?php } ?>
+  
+  
+    </section>
+    <!-- /.content -->
+    
   </div>
   <!-- /.content-wrapper -->
-  
 
 <?php
+
 include('./../html/admin-slutt.html');
-
 include('./../html/script.html');
-
 ?>
