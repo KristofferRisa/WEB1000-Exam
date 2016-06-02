@@ -16,7 +16,7 @@ include('./../html/admin-start.html');
       </h1>
     <ol class="breadcrumb">
       <li><a href="./"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Brukere</li>
+      <li >Brukere</li>
       <!-- Denne brukes av javascript for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
       <li class="active">Vis</li> 
     </ol>
@@ -29,7 +29,9 @@ include('./../html/admin-start.html');
    <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Brukere</h3>
+            <h3 class="box-title">Brukere
+           </h3>
+            
           </div>
           <!-- /.box-header -->
           <div class="box-body">
@@ -120,6 +122,8 @@ include('./../html/admin-start.html');
                       }
                     } 
                     ?>
+                    
+                    
                    </ul>
                   </div>
                 </div>

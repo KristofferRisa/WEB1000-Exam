@@ -1,6 +1,6 @@
 <?php
 
-    $config = require('config.php');
+    $config = require(realpath(dirname(__FILE__)).'/config.php');
     
     $host = $config['db_host'];
     $usr = $config['db_usr'];
