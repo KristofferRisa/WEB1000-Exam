@@ -33,5 +33,7 @@ $(function () {
         dateFormat: "dd-MM-yyyy",
         maxDate: '-1'
     });
+
+    $('#flyplassLand').dropdown();
     
 });
