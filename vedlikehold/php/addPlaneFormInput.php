@@ -36,8 +36,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
   
   else {
 
-    include('../php/ValiderData.php');
-    include('../php/Planes.php');
+    include('../php/AdminClasses.php');
 
     $valider = new ValiderData;
 
@@ -54,24 +53,14 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
 
     if($result == 1){
       //Success
-             $errorMelding = "<div class='alert alert-success'><strong>Info! </strong>Data lagt inn i tabell.</div>";
+             $errorMelding = "<div class='alert alert-success'><strong>Info! </strong>Data lagt inn i database.</div>";
 
     } else {
       //not succesfull
-             $errorMelding = "<div class='alert alert-warning'><strong>Error! </strong>Data lagt inn i tabell.</div>";
+             $errorMelding = "<div class='alert alert-warning'><strong>Error! </strong>Data ble ikke lagt inn i database.</div>";
 
     }
 
   }
 
 }
-
-//Test om data går igjennom validering
-
-  echo $flyId;
-  echo $flyNr;
-  echo $flyModell;
-  echo $flyType;
-  echo $flyAntallPlasser;
-  echo $flyAarsmodell;
-  echo $flyStatusKode;

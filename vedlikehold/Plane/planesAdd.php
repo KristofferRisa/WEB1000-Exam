@@ -9,6 +9,13 @@ include('../html/admin-start.html');
 // Validering og innsending av skjemadata
 include('../php/addPlaneFormInput.php');
 
+include('../php/Logg.php');
+
+$logg = new Logg();
+
+
+$logg->Ny('Laster FLY LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
+
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -130,11 +137,5 @@ include('../php/addPlaneFormInput.php');
 include('../html/admin-slutt.html');
 
 include('../html/script.html');
-
-include('../php/Logg.php');
-$logg = new Logg();
-
-
-$logg->Ny('Laster FLY leggtilside', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
 ?>
