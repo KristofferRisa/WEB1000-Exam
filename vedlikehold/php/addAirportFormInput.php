@@ -1,23 +1,17 @@
 <?php 
 
-//$flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $flyStatusKode = $errMsg = "";
+$flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $flyStatusKode = $errMsg = "";
 
-//$errorMelding = "";
+$errorMelding = "";
 
 // Validering av skjemainput
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-  if ( empty($_POST["flyplassNavn"]) || empty($_POST["flyplassLand"]) || empty($_POST["flyplassStatuskode"])) {
+  if ( empty($_POST["flyplassNavn"]) || empty($_POST["flyplassLand"]) ) {
 
     $errorMelding = "<div class='alert alert-error'><strong>Error! </strong>Alle felt må fylles ut.</div>";
-
-}
-
-
-elseif (filter_var($_POST["flyplassStatuskode"], FILTER_VALIDATE_INT) === false || strlen($_POST["flyplassStatuskode"]) > 11 ) {
-  $errorMelding = "<div class='alert alert-error'><strong>Error! </strong>Statuskode må være siffer og maks 11 tegn.</div>";
 
 }
 
@@ -32,9 +26,10 @@ elseif (strlen($_POST["flyplassNavn"]) > 45 || strlen($_POST["flyplassLand"]) > 
 
     $valider = new ValiderData;
 
+
     $flyplassNavn = $valider->valider($_POST["flyplassNavn"]);
     $flyplassLand = $valider->valider($_POST["flyplassLand"]);
-    $flyplassStatuskode = $valider->valider($_POST["flyplassStatuskode"]);
+    $flyplassStatuskode = 1;
 
     $innIDataBaseMedData = new Airport;
 

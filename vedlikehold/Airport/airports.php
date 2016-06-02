@@ -87,7 +87,7 @@ print( $airports->ShowAllAirports() );
               </div>
               <div class="row">
                 <div class="col-sm-5">
-                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"><?php $rader = new Count; print( $rader->AntallRader('flyplass') ); ?></div>
                 </div>
               </div>
             </div>
