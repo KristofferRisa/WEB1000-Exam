@@ -2,9 +2,11 @@
 
 if($_POST){
   include('./../php/Logg.php');
+  include('./../php/User.php');
   $logg = new Logg();
   $logg->Ny('POST av ny bruker skjema', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), 'NA');
   
+  $brukernavn = $_POST["inputBrukernavn"];
   $fornavn = $_POST["inputFornavn"];
   $etternavn = $_POST["inputEtternavn"];
   $DOB = $_POST["inputDato"];
@@ -24,7 +26,8 @@ if($_POST){
   $logg->Ny($pass1.' - '.$pass2, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
   $logg->Ny('Parameter tlf: '.$tlf, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
   //Sjekk input parametere
-  if($fornavn
+  if($brukernavn
+    && $fornavn
     && $etternavn
     && $DOB
     && $kjonn
@@ -32,7 +35,8 @@ if($_POST){
     && $pass1
     && $pass2
     && $tlf
-    && $tittel){
+    && $tittel
+    && $pass1 == $pass2){
       
       $logg->Ny('Alle input felter funnet', 'DEBUG','users/add.php', 'NA');
       
@@ -46,10 +50,9 @@ if($_POST){
         
       // }
       
-      include('./../php/User.php');
       $user = new User();
       
-      $user->NewUser($fornavn, $etternavn, $DOB, $kjonn, $mail, $pass1, $tlf, $tittel, $logg);
+      $user->NewUser($brukernavn, $fornavn, $etternavn, $DOB, $kjonn, $mail, $pass1, $tlf, $tittel,$logg);
       
     }
   
@@ -59,6 +62,8 @@ if($_POST){
 
 <?php 
 $title = "FLY - Admin";
+
+include('./../html/start.php');
 
 include('./../html/header.html');
 
@@ -70,8 +75,7 @@ include('./../html/admin-start.html');
   <!-- Content Header (Page header) -->
   <section class="content-header">
       <h1>
-        [Header]
-        <small>[Description]</small>
+        Opprett ny bruker
       </h1>
     <ol class="breadcrumb">
       <li><a href="./"><i class="fa fa-dashboard"></i> Start</a></li>
@@ -89,12 +93,24 @@ include('./../html/admin-start.html');
           <!-- Horizontal Form -->
           <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Ny bruker</h3>
+              <h3 class="box-title">Bruker</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
             <form class="form-horizontal" method="POST" id="nybruker">
               <div class="box-body">
+               
+               <!--TODO:  Sjekke at brukernavn ikke finnes fra før! NB! Husk update.php-->
+               
+               <!-- Brukernavn -->
+                <div class="form-group">
+                  <label for="inputBrukernavn" class="col-sm-2 control-label">Brukernavn</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputBrukernavn" name="inputBrukernavn" 
+                    placeholder="Brukernavn">
+                  </div>
+                </div>
+                
                
                <!-- Fornav -->
                 <div class="form-group">

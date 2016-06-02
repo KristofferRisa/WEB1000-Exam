@@ -1,6 +1,8 @@
 <?php 
 $title = "FLY - Admin";
 
+include('./../html/start.php');
+
 include('./../html/header.html');
 
 include('./../html/admin-start.html');
@@ -16,7 +18,7 @@ include('./../html/admin-start.html');
       </h1>
     <ol class="breadcrumb">
       <li><a href="./"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Brukere</li>
+      <li >Brukere</li>
       <!-- Denne brukes av javascript for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
       <li class="active">Vis</li> 
     </ol>
@@ -29,7 +31,9 @@ include('./../html/admin-start.html');
    <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Brukere</h3>
+            <h3 class="box-title">Brukere
+           </h3>
+            
           </div>
           <!-- /.box-header -->
           <div class="box-body">
@@ -45,14 +49,15 @@ include('./../html/admin-start.html');
                       <tr role="row">
                         <!-- Legg inn kolonner -->
                         <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id">ID</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="UserID">Brukernavn</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Firstname">Fornavn</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Lastname">Etternavn</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Mail">epost</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Tittle">Tittel</th>
+                        <!--<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Tittle">Tittel</th>-->
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Phone.">Tlf</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="DOB.">Bursdag</th>
+                        <!--<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="DOB.">Bursdag</th>-->
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Type</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Status</th>
+                        <!--<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Status</th>-->
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Handling</th>
                       </tr>
                     </thead>
@@ -60,7 +65,6 @@ include('./../html/admin-start.html');
                     <?php 
 
                       // PHP kode for å hente tabell HTML kode
-                      include('./../php/User.php');
                       include('./../php/Logg.php');
                       $user = new User();
 
@@ -73,7 +77,9 @@ include('./../html/admin-start.html');
 
                       $logg = new Logg();
 
+                      //Printer ut HTML tabell
                       print($user->VisAlle($sidenr,$logg));
+                      
                       $antallMeldinger = $user->AntallBrukere;
                       
                       $antallSider = ceil($antallMeldinger / 100);
@@ -86,14 +92,15 @@ include('./../html/admin-start.html');
                       <tr>
                         <!-- Legg inn kolonner -->
                         <th rowspan="1" colspan="1">ID</th>
+                        <th rowspan="1" colspan="1">Brukernavn</th>
                         <th rowspan="1" colspan="1">Fornavn</th>
                         <th rowspan="1" colspan="1">Etternavn</th>
                         <th rowspan="1" colspan="1">Epost</th>
-                        <th rowspan="1" colspan="1">Tittel</th>
+                        <!--<th rowspan="1" colspan="1">Tittel</th>-->
                         <th rowspan="1" colspan="1">Tlf</th>
-                        <th rowspan="1" colspan="1">Bursdag</th>
+                        <!--<th rowspan="1" colspan="1">Bursdag</th>-->
                         <th rowspan="1" colspan="1">Type</th>
-                        <th rowspan="1" colspan="1">Status</th>
+                        <!--<th rowspan="1" colspan="1">Status</th>-->
                         <th rowspan="1" colspan="1">Handling</th>
                       </tr>
                     </tfoot>
@@ -120,6 +127,8 @@ include('./../html/admin-start.html');
                       }
                     } 
                     ?>
+                    
+                    
                    </ul>
                   </div>
                 </div>

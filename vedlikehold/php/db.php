@@ -1,10 +1,10 @@
 <?php
 
-    $config = require('config.php');
+    $config = require(realpath(dirname(__FILE__)).'/config.php');
     
     $host = $config['db_host'];
     $usr = $config['db_usr'];
-    $pass = $config['db_pass'];
+    $db_pass = $config['db_pass'];
     $db_name = $config['db_name'];
     // $debug = $config['debug'];
     
@@ -12,7 +12,7 @@
 
     // MYSQL tilkopling
     // Opprett tilkopling mot database
-    $db_connection = new mysqli($host, $usr, $pass, $db_name);
+    $db_connection = new mysqli($host, $usr, $db_pass, $db_name);
     
     // sjekk UTF8 mode!
     // if (!$db_connection->set_charset("utf8")) {
