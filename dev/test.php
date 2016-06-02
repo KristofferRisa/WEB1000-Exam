@@ -21,3 +21,19 @@ echo '<p>ny hash:</p>';
 echo $pass_hash;
 
 ?>
+
+<br>
+
+<?php
+
+echo '<p>baner:</p>';
+
+//require_once(realpath($_SERVER["DOCUMENT_ROOT"]) .'/mysite/php/includes/dbconn.inc');
+
+echo realpath($_SERVER["DOCUMENT_ROOT"]);
+
+echo  '<p>relative baner</p>';
+
+echo realpath(dirname(__FILE__)); //
+
+?>

@@ -15,6 +15,16 @@
         , 'db_usr' => 'eksamen'
         , 'db_pass' => 'eksamen' 
         , 'db_name' => 'eksamen'
-        , 'debug' => 'FALSE');
+        , 'debug' => 'FALSE'
+        , 'base_url' => 'http://localhost/WEB1000-Exam/vedlikehold/'
+       // , 'base_url' => 'http://localhost/WEB1000-Exam/vedlikehold/'
+        );
+
+
 
 ?>
+
+
+<base href="">
+    <base href="https://home.hbv.no/web-is-gr13w/dev/vedlikehold/">
+    https://github.com/joshbuchea/HEAD
