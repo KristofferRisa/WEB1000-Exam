@@ -1,5 +1,15 @@
 <?php
 
+class ValiderData {
+
+    public function valider($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+}
+
 class Planes {
   
     public function ShowAllPlanes(){
@@ -19,8 +29,6 @@ class Planes {
         //henter data
        
         while ($query->fetch()) {
-            
-
 
             if($oddOrEven){
                 $oddOrEven = FALSE;
@@ -43,8 +51,6 @@ class Planes {
     }
 
     
-
-
     public function AddNewPlane($flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$flyStatusKode) {
         
 
@@ -63,4 +69,68 @@ class Planes {
 } 
     }
 }
+
+
+class Airport {
+  
+    public function ShowAllAirports(){
+
+        include('db.php');
+        $html =  '';
+        //CSS Styling
+        $oddOrEven = TRUE;
+        $printOddOrEven = '';
+        
+        //db-tilkopling
+        $query = $db_connection->prepare("SELECT flyplassId,navn,land,statusKodeId,endret FROM flyplass");
+        $query->execute();
+
+        $query->bind_result($id, $navn, $land, $statuskode, $endret);
+        
+        //henter data
+       
+        while ($query->fetch()) {
+            
+
+
+            if($oddOrEven){
+                $oddOrEven = FALSE;
+                $printOddOrEven = 'even';
+            } 
+            else {
+                $oddOrEven = TRUE;
+                $printOddOrEven = 'odd';
+            }
+
+            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$statuskode.'
+            </td><td>'.$endret.'</td></tr>';
+        
+    }
+        //Lukker databasetilkopling
+        $query->close();
+        $db_connection->close();
+        
+        return $html;
+    }
+
     
+
+
+    public function AddNewAirport($flyplassNavn, $flyplassLand,$flyplassStatusKode) {
+        
+
+  include('../php/db.php');
+        
+        //Bygger SQL statementt
+        $query = $db_connection->prepare("INSERT INTO flyplass (navn,land,statusKodeId) VALUES (?,?,?)");
+        $query->bind_param('sss', $flyplassNavn, $flyplassLand,$flyplassStatusKode);  
+
+            if ( $query->execute()) { 
+                $affectedRows = $query->affected_rows;
+                $query->close();
+        $db_connection->close();
+
+         return $affectedRows;           
+} 
+    }
+}
