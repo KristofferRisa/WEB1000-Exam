@@ -3,7 +3,6 @@ session_start();
 
 include('./php/Logg.php');
 $logg = new Logg();
-  
 
 $htmlmsg = "";
 
@@ -15,15 +14,19 @@ if ($_POST) {
     $brukernavn = $_POST["brukernavn"];
     $password = $_POST["passord"];
     
+    $logg->Ny($brukernavn.' forsøker å logge inn', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $brukernavn);
+    
     if ($user->Login($brukernavn, $password,$logg)) {
         $user->setUserCookie($brukernavn);
         
+        $logg->Ny('Logget inn', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $brukernavn);
         $_SESSION["brukernavn"] = $brukernavn;
         
         header("Location: ./");
         
     }
     else {
+        $logg->Ny('Klarte ikke å logge inn.', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $brukernavn);
         $responseMsg = "<div class='alert alert-error'>Feil brukernavn eller passord.</div>";
     }
 }
@@ -60,17 +63,22 @@ if ($_POST) {
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <?php echo $htmlmsg ?>
+        <?php echo @$responseMsg; ?>
         <p class="login-box-msg">Logg inn</p>
         <form method="POST">
+        
+        <!--Brukernavn-->
         <div class="form-group has-feedback">
-            <input type="email" class="form-control" placeholder="E-post" name="brukernavn">
+            <input type="text" class="form-control" placeholder="Brukernavn" name="brukernavn">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
+        
+        <!--Passord-->
         <div class="form-group has-feedback">
             <input type="password" class="form-control" placeholder="Passord" name="passord">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
+        
         <div class="row">
             <div class="col-xs-8">
             <div class="checkbox icheck">

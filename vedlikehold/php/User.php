@@ -97,9 +97,11 @@
             return $html;
         }
         
-        function NewUser($fname, $lname, $DOB, $sex, $mail, $pass, $phone, $tittel,$logg)
+        function NewUser($brukernavn, $fname, $lname, $DOB, $sex, $mail, $pass, $phone, $tittel,$logg)
         {   
             include('db.php');
+            
+             $logg->Ny('Forsøker å opprette ny bruker.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
             
             $brukerTypeId = 1; //Må hentes fra FORM listbox
             $statusKodeId = 1; //Opprettet (lese fra database?)
@@ -112,7 +114,8 @@
             $pass_hash = password_hash($pass, PASSWORD_BCRYPT, $options);
             
             $sql = "
-                insert into bruker (fornavn
+                insert into bruker (brukernavn
+                                    , fornavn
                                     , etternavn
                                     , epost
                                     , tlf
@@ -122,10 +125,11 @@
                                     , brukerTypeId
                                     , statusKodeId
                                     , kjonn) 
-                            values (?,?,?,?,?,?,?,?,?,?)";
+                            values (?,?,?,?,?,?,?,?,?,?,?)";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('sssssssiis'
+            $insertUser->bind_param('ssssssssiis'
+                                    , $brukernavn
                                     , $fname
                                     , $lname
                                     , $mail
@@ -217,22 +221,22 @@
             return $affectedRows;
         }
         
-        function Exsits($username)
+        function Exsits($brukernavn)
         {
             include('db.php');
         
-            $query = $db_connection->prepare("SELECT brukerId FROM BRUKER WHERE epost = ?");
-            $query->bind_param('s', $username);
+            $query = $db_connection->prepare("SELECT brukerId FROM bruker WHERE brukernavn = ?");
+            $query->bind_param('s', $brukernavn);
             $query->execute();
 
-            $query->bind_result($bnavn);
+            $query->bind_result($userid);
             $query->fetch();
 
             //Lukker databasetilkopling
             $query->close();
             $db_connection->close();
             
-            if($bnavn)
+            if($userid)
             {
                 return TRUE;
             }
@@ -246,7 +250,7 @@
         {
             include('db.php');
         
-            $query = $db_connection->prepare("SELECT passord FROM bruker WHERE epost = ?;");
+            $query = $db_connection->prepare("SELECT passord FROM bruker WHERE brukernavn = ?;");
             $query->bind_param('s', $username);
             $query->execute();
 
@@ -299,7 +303,7 @@
             include('db.php');
             
             
-            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type,kjonn from bruker b
+            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type,kjonn,brukernavn from bruker b
                     inner join tittel t on t.tittelId = b.tittelId
                     inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
                     WHERE brukerId = ?;";
@@ -329,6 +333,35 @@
             
             return $user;
         } 
+        
+        public function GetUsername($username){
+            include('db.php');
+            
+            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type,kjonn from bruker b
+                    inner join tittel t on t.tittelId = b.tittelId
+                    inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
+                    WHERE brukernavn = ?;";
+            
+            $queryPrSide = $db_connection->prepare($sql);
+            
+            $queryPrSide->bind_param('s', $username);
+            $queryPrSide->execute();
+            //$queryPrSide->bind_result($id,$fornavn, $etternavn, $epost, $tlf, $dob, $tittel, $type);
+
+            //henter data
+            //http://php.net/manual/en/pdostatement.fetchall.php
+            //http://stackoverflow.com/questions/13297094/how-do-i-use-fetchall-in-php
+            
+            //henter result set
+            $resultSet = $queryPrSide->get_result();
+            
+            $user =  $resultSet->fetch_all();
+            
+            $queryPrSide->close();
+            $db_connection->close(); 
+            
+            return $user;
+        }
         
         public function ChangePassword($userId, $password, $logg){
             include('db.php');

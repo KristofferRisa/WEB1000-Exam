@@ -14,6 +14,7 @@ if($_POST){
 
   $logg->Ny('POST av ny bruker skjema', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), 'NA');
   
+  $brukernavn = $_POST["inputBrukernavn"];
   $fornavn = $_POST["inputFornavn"];
   $etternavn = $_POST["inputEtternavn"];
   $DOB = $_POST["inputDato"];
@@ -30,12 +31,13 @@ if($_POST){
   $logg->Ny('Parameter tittel: '.$tittel, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
   $logg->Ny('Parameter tlf: '.$tlf, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
   //Sjekk input parametere
-  if($fornavn
+  if($brukernavn
+    && $fornavn
     && $etternavn
     && $DOB
     && $kjonn
     && $mail
-    && $tlf
+    //&& $tlf
     && $tittel){
       
       $logg->Ny('Alle input felter funnet', 'DEBUG','users/add.php', 'NA');
@@ -86,6 +88,8 @@ if($_GET && $_GET['id']){
 <?php 
 $title = "FLY - Admin";
 
+include('./../html/start.php');
+
 include('./../html/header.html');
 
 include('./../html/admin-start.html');
@@ -123,11 +127,25 @@ include('./../html/admin-start.html');
             <form class="form-horizontal" method="POST" id="nybruker">
               <div class="box-body">
                
-               <!-- Fornav -->
-                <div class="form-group">
+               
+               <!-- ID -->
+                <!--<div class="form-group">
                   <label for="inputId" class="col-sm-2 control-label">Id</label>
                   <div class="col-sm-10">
                     <input type="text" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>">
+                  </div>
+                </div>
+                -->
+                <input type="hidden" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>">
+               
+               <!--TODO:  Sjekke at brukernavn ikke finnes fra før!-->
+               
+               <!-- Brukernavn -->
+                <div class="form-group">
+                  <label for="inputBrukernavn" class="col-sm-2 control-label">Brukernavn</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputBrukernavn" name="inputBrukernavn" 
+                    value="<?php echo $userinfo[0][9]; ?>">
                   </div>
                 </div>
                
@@ -158,7 +176,7 @@ include('./../html/admin-start.html');
                       <i class="fa fa-calendar"></i>
                     </div>
                     <input type="text" class="form-control" id="datepicker" name="inputDato"
-                    value="<?php echo $userinfo[0][6]; ?>">
+                    value="<?php echo $userinfo[0][5]; ?>">
                   </div>
                  </div>
                 <!-- /.input group -->
@@ -221,7 +239,7 @@ include('./../html/admin-start.html');
                 
                 <button type="submit" class="btn btn-default" onclick="location.href='./User/users.php';return false;">Nullstill</button>
                 
-                <button type="submit" class="btn btn-info pull-right">Opprett</button>
+                <button type="submit" class="btn btn-info pull-right">Oppdater</button>
               </div>
               <!-- /.box-footer -->
             </form>

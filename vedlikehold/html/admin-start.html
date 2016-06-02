@@ -89,7 +89,12 @@
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
+              
+               <span class="hidden-xs">
+                <?php
+                  echo $_SESSION['brukernavn']; 
+                ?>
+              </span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -97,8 +102,15 @@
                 <img src="./www/img/avatar5.png" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  <?php
+                  
+                    echo $userInfo[0][1].' '.$userInfo[0][2];
+                  ?>
+                  <small>
+                  <?php 
+                    echo $userInfo[0][3];
+                  ?>  
+                  </small>
                 </p>
               </li>
               <!-- Menu Footer-->
@@ -107,7 +119,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="./logout.php" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
