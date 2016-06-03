@@ -3,7 +3,7 @@
     class HtmlHelperClass{
         public function GeneratSelectionBox($dataset, $inputname, $text, $cssClasses){
             $html = '
-                    <div id="fyplassLandValg" class="ui fluid search selection dropdown">
+                    <div id="flyplassLandValg" class="ui fluid search selection dropdown">
                     <input type="hidden" name="'.$inputname.'">
                     <i class="dropdown icon"></i>
                     <div class="default text">'.$text.'</div>
@@ -18,7 +18,7 @@
 
                 //echo '<p> ' . $row[3] .' '. $row[1] .'</p>';
             
-                $html .= '<div class="item" data-value="'.$row[0].'"><i class="'.$cssClasses.'"></i>'.$row[0].'</div>';
+                $html .= '<div class="item" data-value="'.$row[0].'"><i class="'.$cssClasses.'"></i>'.$row[1].'</div>';
     
             }
 
