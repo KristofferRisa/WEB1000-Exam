@@ -1,6 +1,7 @@
 <?php 
 $title = "FLYPLASS - Admin - Legg til";
 
+include('../html/start.php');
 
 include('../html/header.html');
 

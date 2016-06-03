@@ -1,6 +1,7 @@
 <?php 
 $title = "FLYRUTE - Admin - Legg til";
 
+include('../html/start.php');
 
 include('../html/header.html');
 
@@ -9,10 +10,17 @@ include('../html/admin-start.html');
 // Validering og innsending av skjemadata
 include('../php/addRouteFormInput.php');
 
+include('../php/TabelListBox.php');
+
 include('../php/Logg.php');
 
 $logg = new Logg();
 
+include('../php/AdminClasses.php');
+
+$data = new Airport();
+
+$dataset = $data->ShowAllAirportsDataset();
 
 $logg->Ny('Laster FLYRUTE LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
@@ -65,16 +73,32 @@ $logg->Ny('Laster FLYRUTE LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP
                 <div class="form-group">
                   <label for="fraFlyplassId" class="col-sm-2 control-label">Fra flyplass</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="fraFlyplassId" name="fraFlyplassId" placeholder="Fra flyplass" value="<?php echo @$_POST['fraFlyplassId'] ?>">
+
+                    
+                    <?php                       include('../php/HtmlHelperClass.php');
+
+                      $helper = new HtmlHelperClass;
+
+                      print $helper->GenerateSearchSelectionbox($dataset,'fraFlyplassId','fraFlyplassId','Velg flyplass',''); ?>
+                    
                   </div>
                 </div>
+
 
                 <div class="form-group">
                   <label for="tilFlyplassId" class="col-sm-2 control-label">Til flyplass</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="tilFlyplassId" name="tilFlyplassId" placeholder="Til flyplass" value="<?php echo @$_POST['tilFlyplassId'] ?>">
+
+                    
+                    <?php                       
+
+                     
+
+                     print $helper->GenerateSearchSelectionbox($dataset,'tilFlyplassId','tilFlyplassId','Velg flyplass',''); ?>
+                    
                   </div>
                 </div>
+
 
                 <div class="form-group">
                   <label for="aktivFra" class="col-sm-2 control-label">Aktiv fra dato</label>

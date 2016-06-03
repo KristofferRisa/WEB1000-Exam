@@ -336,6 +336,7 @@
                 $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
             }
             
+            $resultSet->free();
             $queryPrSide->close();
             $db_connection->close(); 
             
@@ -401,13 +402,9 @@
             
             if($updateUser == false){
                 $logg->Ny('Failed to update user: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
-                exit;    
             }
-            
             if ($affectedRows == 1) {
                 $logg->Ny('Bruker ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-                header('location: ./../');
-                exit;
             } else {
                 $logg->Ny('Klarte ikke å oppdatere bruker.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } 

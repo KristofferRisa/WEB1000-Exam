@@ -1,6 +1,8 @@
 <?php 
 $title = "FLY - Admin ";
 
+include('../html/start.php');
+
 include('../html/header.html');
 
 include('../html/admin-start.html');

@@ -34,6 +34,7 @@ $(function () {
         maxDate: '-1'
     });
 
-    $('#flyplassLandValg').dropdown();
+    //$('#flyplassLandValg').dropdown();
+    $('.ui.search.selection.dropdown').dropdown();
     
 });
