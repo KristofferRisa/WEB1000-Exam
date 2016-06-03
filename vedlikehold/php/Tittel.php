@@ -5,8 +5,8 @@ class Tittel {
         
     }
     
-    public function TittelSelectOptions($aktivTittel){
-        include('../php/db.php');
+    public function TittelSelectOptions($aktivTittel = NULL){
+        include('db.php');
         $listBox = "";
 
 
