@@ -42,7 +42,7 @@ class Planes {
             $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyNr.'</td><td>'.$modell.'</td><td>'.$type.'
             </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td><td>'.$statusKodeId.'</td></tr>';
         
-    }
+        }
         //Lukker databasetilkopling
         $query->close();
         $db_connection->close();
@@ -52,9 +52,7 @@ class Planes {
 
     
     public function AddNewPlane($flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$flyStatusKode) {
-        
-
-  include('../php/db.php');
+        include('../php/db.php');
         
         //Bygger SQL statementt
         $query = $db_connection->prepare("INSERT INTO fly (flyNr,modell,type,plasser,aarsmodell,statusKodeId) VALUES (?,?,?,?,?,?)");
@@ -82,7 +80,6 @@ class Airport {
         $printOddOrEven = '';
         
        
-            include('db.php');
         //  db-tilkopling
         $query = $db_connection->prepare("SELECT flyplassId,navn,land,statusKodeId,endret FROM flyplass");
         $query->execute();
