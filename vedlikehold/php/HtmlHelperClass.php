@@ -16,7 +16,7 @@
                 $isFirst = ($i == 0);
                 $isLast = ($i == $last);
 
-                $html .= '<div class="item" data-value="'.$row[0].'"><i class="'.$cssClasses.'"></i>'.$row[1].'</div>';
+                $html .= '<div class="item customItem" data-value="'.$row[0].'"><i class="'.$cssClasses.'"></i>'.$row[1].'</div>';
     
             }
 
