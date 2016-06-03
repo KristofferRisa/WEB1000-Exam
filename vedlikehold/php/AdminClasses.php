@@ -21,10 +21,10 @@ class Planes {
         $printOddOrEven = '';
         
         //db-tilkopling
-        $query = $db_connection->prepare("SELECT flyId,flyNr,modell,type,plasser,aarsmodell,opprettet,statusKodeId FROM fly");
+        $query = $db_connection->prepare("SELECT flyId,flyNr,modell,type,plasser,aarsmodell,statusKodeId FROM fly");
         $query->execute();
 
-        $query->bind_result($id, $flyNr, $modell, $type, $plasser, $flyAarsmodell, $opprettet, $statusKodeId);
+        $query->bind_result($id, $flyNr, $modell, $type, $plasser, $flyAarsmodell, $statusKodeId);
         
         //henter data
        
@@ -40,7 +40,7 @@ class Planes {
             }
 
             $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyNr.'</td><td>'.$modell.'</td><td>'.$type.'
-            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td><td>'.$opprettet.'</td><td>'.$statusKodeId.'</td></tr>';
+            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td><td>'.$statusKodeId.'</td></tr>';
         
     }
         //Lukker databasetilkopling
@@ -133,4 +133,24 @@ class Airport {
          return $affectedRows;           
 } 
     }
+}
+
+class Count {
+
+
+        public function AntallRader($tabell){
+        include('../php/db.php');  
+  
+
+        $query = $db_connection->query('SELECT COUNT(*) FROM ' . $tabell .'');
+        $query = $query->fetch_row();
+
+        $antallRader = 'Antall rader i tabellen: ' . $query[0]  ;   
+
+
+         return $antallRader;
+
+    }
+
+
 }

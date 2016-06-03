@@ -1,5 +1,5 @@
 <?php 
-$title = "FLY - Admin";
+$title = "FLYRUTE - Admin - Legg til";
 
 
 include('../html/header.html');
@@ -7,14 +7,14 @@ include('../html/header.html');
 include('../html/admin-start.html');
 
 // Validering og innsending av skjemadata
-include('../php/addPlaneFormInput.php');
+include('../php/addRouteFormInput.php');
 
 include('../php/Logg.php');
 
 $logg = new Logg();
 
 
-$logg->Ny('Laster FLY LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
+$logg->Ny('Laster FLYRUTE LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -23,14 +23,14 @@ $logg->Ny('Laster FLY LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SEL
   <section class="content-header">
 
       <h1>
-        Registrere nytt fly
-        <small>Her kan du registrere nye fly i databasen</small>
+        Registrere ny flyrute
+        <small>Her kan du registrere nye flyruter i databasen</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Fly</li>
+      <li>Flyrute</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Legg til fly</li>
+      <li class="active">Legg til flyrute</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -52,41 +52,48 @@ $logg->Ny('Laster FLY LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SEL
 
             <!-- form start -->
 
-            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerFly()">
+            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerFlyrute()">
               <div class="box-body">        
 
                 <div class="form-group">
-                  <label for="flyNr" class="col-sm-2 control-label">Flynr</label>
+                  <label for="hovedRute" class="col-sm-2 control-label">Hovedrute</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Fly nr" value="<?php echo @$_POST['flyNr'] ?>">
+                    <input type="text" class="form-control" id="hovedRute" name="hovedRute" placeholder="Navn på hovedrute" value="<?php echo @$_POST['hovedRute'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="flyModell" class="col-sm-2 control-label">Flymodell</label>
+                  <label for="fraFlyplassId" class="col-sm-2 control-label">Fra flyplass</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Fly modell" value="<?php echo @$_POST['flyModell'] ?>">
+                    <input type="text" class="form-control" id="fraFlyplassId" name="fraFlyplassId" placeholder="Fra flyplass" value="<?php echo @$_POST['fraFlyplassId'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="flyType" class="col-sm-2 control-label">Flytype</label>
+                  <label for="tilFlyplassId" class="col-sm-2 control-label">Til flyplass</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$_POST['flyType'] ?>">
+                    <input type="text" class="form-control" id="tilFlyplassId" name="tilFlyplassId" placeholder="Til flyplass" value="<?php echo @$_POST['tilFlyplassId'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="flyAntallPlasser" class="col-sm-2 control-label">Antall sitteplasser</label>
+                  <label for="aktivFra" class="col-sm-2 control-label">Aktiv fra dato</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$_POST['flyAntallPlasser'] ?>">
+                    <input type="text" class="form-control" id="aktivFra" name="aktivFra" placeholder="Aktiv fra dato" value="<?php echo @$_POST['aktivFra'] ?>">
                      </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
+                  <label for="aktivTil" class="col-sm-2 control-label">Aktiv til dato</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="2011" value="<?php echo @$_POST['flyAarsmodell'] ?>">
+                    <input type="text" class="form-control" id="aktivTil" name="aktivTil" placeholder="Aktiv til dato" value="<?php echo @$_POST['aktivTil'] ?>">
+                  </div>
+                </div>
+
+                  <div class="form-group">
+                  <label for="reiseTid" class="col-sm-2 control-label">Reisetid</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="reiseTid" name="reiseTid" placeholder="Reisetid i minutter" value="<?php echo @$_POST['reiseTid'] ?>">
                   </div>
                 </div>
 

@@ -1,5 +1,5 @@
 <?php 
-$title = "FLY - Admin ";
+$title = "FLYRUTER - Admin ";
 
 include('../html/header.html');
 
@@ -10,7 +10,7 @@ include('../php/Logg.php');
 $logg = new Logg();
 
 
-$logg->Ny('Laster FLY side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
+$logg->Ny('Laster FLYRUTER side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -18,14 +18,14 @@ $logg->Ny('Laster FLY side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'i
   <!-- Content Header (Page header) -->
   <section class="content-header">
       <h1>
-        Vis alle fly
-        <small>Viser en oversikt over alle fly.</small>
+        Vis alle flyruter
+        <small>Viser en oversikt over alle flyruter.</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Fly</li>
+      <li>Flyruter</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Vis alle fly</li>
+      <li class="active">Vis alle flyruter</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -37,7 +37,7 @@ $logg->Ny('Laster FLY side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'i
       <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Liste over fly</h3>
+            <h3 class="box-title">Liste over flyruter</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
@@ -52,13 +52,15 @@ $logg->Ny('Laster FLY side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'i
                     <thead>
                       <tr role="row">
                         <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id">ID</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyNr">Flynr</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Modell">Flymodell</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Flytype</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Plasser">Antall sitteplasser</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Laget">Årsmodell</th>                      
-                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Statuskode Id">Statuskode Id</th></tr>
-                      </tr>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="hovedRute">Hovedrute</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="fraFlyplassId">Fra flyplass</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="tilFlyplassId">Til flyplass</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="aktivFra">Aktiv fra dato</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="aktivTil">Aktiv til dato</th>                      
+                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="reiseTid">Reisetid</th>
+                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="statusKodeId">Statuskode id</th>
+                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="endret">Data endret</th></tr>
+                      
                     </thead>
                     <tbody>
 <?php 
@@ -78,12 +80,14 @@ print( $planes->ShowAllPlanes() );
                     <tfoot>
                       <tr>
                         <th rowspan="1" colspan="1">ID</th>
-                        <th rowspan="1" colspan="1">Flynr</th>
-                        <th rowspan="1" colspan="1">Flymodell</th>
-                        <th rowspan="1" colspan="1">Flytype</th>
-                        <th rowspan="1" colspan="1">Antall sitteplasser</th>
-                        <th rowspan="1" colspan="1">Årsmodell</th>
+                        <th rowspan="1" colspan="1">Hovedrute</th>
+                        <th rowspan="1" colspan="1">Fra flyplass</th>
+                        <th rowspan="1" colspan="1">Til flyplass</th>
+                        <th rowspan="1" colspan="1">Aktiv fra dato</th>
+                        <th rowspan="1" colspan="1">Aktiv til dato</th>
+                        <th rowspan="1" colspan="1">Reisetid</th>
                         <th rowspan="1" colspan="1">Statuskode Id</th>
+                        <th rowspan="1" colspan="1">Data endret</th>
                       </tr>
                     </tfoot>
                   </table>
@@ -91,7 +95,7 @@ print( $planes->ShowAllPlanes() );
               </div>
               <div class="row">
                 <div class="col-sm-5">
-                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"><?php $rader = new Count; print( $rader->AntallRader('fly') ); ?></div>
+                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"><?php $rader = new Count; print( $rader->AntallRader('rute') ); ?></div>
                 </div>
               </div>
             </div>

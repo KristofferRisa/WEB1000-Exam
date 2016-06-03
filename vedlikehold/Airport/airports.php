@@ -51,7 +51,7 @@ $logg->Ny('Laster FLYPLASS VIS side', 'INFO', htmlspecialchars($_SERVER['PHP_SEL
                   <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                     <thead>
                       <tr role="row">
-                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FlyplassId">Flyplass id</th>
+                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FlyplassId">ID</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassNavn">Flyplass navn</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassLand">Land</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassStatuskode  ">Statuskode</th>
@@ -75,7 +75,7 @@ print( $airports->ShowAllAirports() );
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th rowspan="1" colspan="1">Flyplass id</th>
+                        <th rowspan="1" colspan="1">ID</th>
                         <th rowspan="1" colspan="1">Flyplass navn</th>
                         <th rowspan="1" colspan="1">Land</th>
                         <th rowspan="1" colspan="1">Statuskode</th>
@@ -87,7 +87,7 @@ print( $airports->ShowAllAirports() );
               </div>
               <div class="row">
                 <div class="col-sm-5">
-                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"><?php $rader = new Count; print( $rader->AntallRader('flyplass') ); ?></div>
                 </div>
               </div>
             </div>
