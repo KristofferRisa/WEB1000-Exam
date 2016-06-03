@@ -6,12 +6,8 @@ include('./html/start.php');
 include('./html/header.html');
 include('./html/admin-start.html');
 
-include('./php/Logg.php');
 include('./php/Tittel.php');
 
-//Globale variabler
-$user = new User();
-$logg = new Logg();
 $t = new Tittel();
 
 

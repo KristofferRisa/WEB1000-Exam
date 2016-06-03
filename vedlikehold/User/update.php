@@ -5,13 +5,8 @@ $title = "FLY - Admin";
 include('./../html/start.php');
 include('./../html/header.html');
 include('./../html/admin-start.html');
-
-include('./../php/Logg.php');
 include('./../php/Tittel.php');
 
-//Globale variabler
-$user = new User();
-$logg = new Logg();
 $t = new Tittel();
 $responseMsg = "";
 
@@ -35,8 +30,15 @@ if($_POST){
   $logg->Ny('Parameter kjønn: '.$kjonn, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
   $logg->Ny('Parameter tittel: '.$tittel, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
   $logg->Ny('Parameter tlf: '.$tlf, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+  
+  //sjekk om brukernavn finnes fra før
+  if($brukernavn != $_SESSION["brukernavn"]
+      && $user->Exsits($brukernavn)) {
+    $responseMsg = $html->errorMsg('Brukernavnet opptatt.');
+  }
+  
   //Sjekk input parametere
-  if($brukernavn
+  elseif($brukernavn
     && $fornavn
     && $etternavn
     && $DOB
@@ -62,12 +64,11 @@ if($_POST){
       $result = $user->UpdateUser($userId, $brukernavn, $fornavn, $etternavn, $DOB, $kjonn, $mail, $tlf, $tittel, $logg);     
       
       if($result == 1){
-        $responseMsg = "<div class='alert alert-success alert-dismissible'><strong>Success!</strong> Brukeren ble oppdatert.</div>";
+        $responseMsg .= $html->successMsg("Brukeren ble oppdatert.");
       } else {
-        $responseMsg = "<div class='alert alert-error'><strong>Error!</strong> Klarte ikke å oppdatere bruker</div>";
+        $responseMsg .= $html->errorMsg("Noe feilet, klarte ikke å opprette bruker!");
       } 
-    }
-  
+    }  
 } 
 
 ?>
@@ -89,19 +90,17 @@ if($_POST){
   </section>
  <!-- Main content -->
   <section class="content">
+ 
+  <?php
 
-<?php
-
-if($_GET && $_GET['id']){
-  
-  $id = $_GET['id'];
-  
-  //returnerer en array med bruker info    
-  $userinfo = $user->GetUser($id, $logg);
-  
-  print_r($userinfo);
-  
-?>
+    if($_GET && $_GET['id']){
+    $id = $_GET['id'];
+    
+    //returnerer en array med bruker info    
+    $userinfo = $user->GetUser($id, $logg);
+    //print_r($userinfo);
+    
+  ?>
     <!-- Your Page Content Here -->
     <div class="row">
       <div class="col-md-12">
@@ -116,18 +115,8 @@ if($_GET && $_GET['id']){
             <form class="form-horizontal" method="POST" id="nybruker">
               <div class="box-body">
                
-               
                <!-- ID -->
-                <!--<div class="form-group">
-                  <label for="inputId" class="col-md-2 control-label">Id</label>
-                  <div class="col-md-10">
-                    <input type="text" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>">
-                  </div>
-                </div>
-                -->
-                <input type="hidden" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>">
-               
-               <!--TODO:  Sjekke at brukernavn ikke finnes fra før!-->
+               <input type="hidden" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>">
                
                <!-- Brukernavn -->
                 <div class="form-group">
@@ -156,7 +145,6 @@ if($_GET && $_GET['id']){
                   </div>
                 </div>
                
-              
                 <!-- Dato -->
                 <div class="form-group">
                 <label class="col-md-2 control-label">Fødselsdag:</label>
@@ -169,34 +157,28 @@ if($_GET && $_GET['id']){
                     value="<?php echo $userinfo[0][5]; ?>">
                   </div>
                  </div>
-                <!-- /.input group -->
-                <!--</div>-->
                 
                 <!-- Kjønn -->
-                  <!--<div class="form-group">-->
-                    <label class="col-md-1 control-label">Kjønn:</label>
-                    <div class="col-md-2">
-                      <select class="form-control select2 select2-hidden-accessible" name="inputKjonn" 
-                        form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                   
-                        <option <?php if($userinfo[0][9] == 'Mann') {echo 'selected'; } ?>>Mann</option>
-                        <option <?php if($userinfo[0][9] == 'Kvinne') {echo 'selected'; } ?>>Kvinne</option>
-                        
-                      </select>
-                      <span class="dropdown-wrapper" aria-hidden="true"></span>
-                    </div>
-                  <!--</div>-->
-                  
-                  
-                  <!-- Tittel -->
-                <!--<div class="form-group">-->
-                  <label for="inputTittel" class="col-md-1 control-label">Tittel</label>
+                  <label class="col-md-1 control-label">Kjønn:</label>
                   <div class="col-md-2">
+                    <select class="form-control select2 select2-hidden-accessible" name="inputKjonn" 
+                      form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                  
+                      <option <?php if($userinfo[0][9] == 'Mann') {echo 'selected'; } ?>>Mann</option>
+                      <option <?php if($userinfo[0][9] == 'Kvinne') {echo 'selected'; } ?>>Kvinne</option>
                       
-                      <select class="form-control select2 select2-hidden-accessible" name="inputTittel"  form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                          <?php print($t->TittelSelectOptions($userinfo[0][6])); ?>
-                      </select>
-                      
+                    </select>
+                    <span class="dropdown-wrapper" aria-hidden="true"></span>
+                  </div>
+                  
+                  
+                <!-- Tittel -->
+                <label for="inputTittel" class="col-md-1 control-label">Tittel</label>
+                <div class="col-md-2">
+                    
+                    <select class="form-control select2 select2-hidden-accessible" name="inputTittel"  form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                        <?php print($t->TittelSelectOptions($userinfo[0][6])); ?>
+                    </select>  
                   </div>
                 </div>
                 
@@ -223,9 +205,9 @@ if($_GET && $_GET['id']){
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                <button type="submit" class="btn btn-default" onclick="location.href='./User/users.php';return false;">Tilbake</button>
+                <div type="submit" class="btn btn-default" onclick="location.href='./User/users.php';return false;">Tilbake</div>
                 
-                <button type="submit" class="btn btn-default" onclick="location.href='./User/users.php';return false;">Nullstill</button>
+                <div type="submit" class="btn btn-default" onclick="location.href='./User/users.php';return false;">Nullstill</div>
                 
                 <button type="submit" class="btn btn-info pull-right">Oppdater</button>
               </div>
@@ -269,10 +251,8 @@ if($_GET && $_GET['id']){
 
 <?php } ?>
   
-  
     </section>
     <!-- /.content -->
-    
   </div>
   <!-- /.content-wrapper -->
 

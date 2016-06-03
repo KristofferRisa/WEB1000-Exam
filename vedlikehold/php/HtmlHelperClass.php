@@ -24,5 +24,13 @@
 
             return $html;
         }
+        
+        public function errorMsg($msg) {
+            return "<div class='alert alert-error'><strong>Error!</strong> ".$msg."</div>";
+        }
+        
+        public function successMsg($msg) {
+            return "<div class='alert alert-success alert-dismissible'><strong>Success!</strong> ".$msg."</div>";
+        }
     }
 

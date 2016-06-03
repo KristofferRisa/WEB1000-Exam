@@ -4,10 +4,11 @@ include('./../html/start.php');
 include('./../html/header.html');
 include('./../html/admin-start.html');
 include('./../php/Tittel.php');
-include('./../php/Logg.php');
+include('./../php/UserType.php');
 
 $t = new Tittel();
-$logg = new Logg();
+$ut = new UserType();
+$types = $ut->GetUserTypes($logg);
 
 if($_POST){  
   $logg->Ny('POST av ny bruker skjema', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), 'NA');
@@ -32,7 +33,9 @@ if($_POST){
   $logg->Ny($pass1.' - '.$pass2, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
   $logg->Ny('Parameter tlf: '.$tlf, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
   //Sjekk input parametere
-  if($brukernavn
+  if($user->Exsits($brukernavn)) {
+    $responseMsg = $html->errorMsg('Brukernavnet opptatt.');
+  } elseif ($brukernavn
     && $fornavn
     && $etternavn
     && $DOB
@@ -56,10 +59,7 @@ if($_POST){
         
       // }
       
-      $user = new User();
-      
-      $user->NewUser($brukernavn, $fornavn, $etternavn, $DOB, $kjonn, $mail, $pass1, $tlf, $tittel,$logg);
-      
+      $user->NewUser($brukernavn, $fornavn, $etternavn, $DOB, $kjonn, $mail, $pass1, $tlf, $tittel,$logg); 
     }
   
 }
@@ -133,6 +133,18 @@ if($_POST){
                   </div>
                 </div>
              
+             
+             <!-- Bruker type -->
+                <div class="form-group">
+                  <label for="inputEmail" class="col-md-2 control-label">Email</label>
+                  <div class="col-md-10">
+                    
+                    <?php
+                          echo $html->GenerateSearchSelectionbox($types, 'userTypes', 'inputUserTypeId','Velg brukertype', '');
+                    ?>
+                    
+                  </div>
+                </div>
                
                <!-- Dato -->
                 <div class="form-group">
