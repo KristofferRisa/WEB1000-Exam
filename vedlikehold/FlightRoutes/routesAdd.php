@@ -12,7 +12,6 @@ include('../php/addRouteFormInput.php');
 
 include('../php/TabelListBox.php');
 
-include('../php/Logg.php');
 
 $logg = new Logg();
 
@@ -21,8 +20,6 @@ include('../php/AdminClasses.php');
 $data = new Airport();
 
 $dataset = $data->ShowAllAirportsDataset();
-
-$logg->Ny('Laster FLYRUTE LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -103,15 +100,25 @@ $logg->Ny('Laster FLYRUTE LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP
                 <div class="form-group">
                   <label for="aktivFra" class="col-sm-2 control-label">Aktiv fra dato</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="aktivFra" name="aktivFra" placeholder="Aktiv fra dato" value="<?php echo @$_POST['aktivFra'] ?>">
-                     </div>
+                  <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input class="form-control pull-right" id="aktivFra" name="aktivFra" type="text" value="<?php echo @$_POST['aktivFra'] ?>">
+                </div>
+                </div>
                 </div>
 
                 <div class="form-group">
                   <label for="aktivTil" class="col-sm-2 control-label">Aktiv til dato</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="aktivTil" name="aktivTil" placeholder="Aktiv til dato" value="<?php echo @$_POST['aktivTil'] ?>">
+                  <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
                   </div>
+                  <input class="form-control pull-right" id="aktivTil" name="aktivTil" type="text" value="<?php echo @$_POST['aktivTil'] ?>">
+                </div>
+                </div>
                 </div>
 
                   <div class="form-group">

@@ -73,7 +73,7 @@ class Airport {
   
     public function ShowAllAirports(){
 
-        include('db.php');
+        include('../php/db.php');  
         $html =  '';
         //CSS Styling
         $oddOrEven = TRUE;
@@ -83,7 +83,13 @@ class Airport {
         //  db-tilkopling
         $query = $db_connection->prepare("SELECT flyplassId,navn,land,statusKodeId,endret FROM flyplass");
         $query->execute();
-        $queryFlyplass->bind_result($id, $navn, $land, $statuskode, $endret);
+        $query->bind_result($id, $navn, $land, $statuskode, $endret);
+
+
+
+        //henter data
+       
+        while ($query->fetch()) {
 
 
             if($oddOrEven){
@@ -95,8 +101,9 @@ class Airport {
                 $printOddOrEven = 'odd';
             }
 
-            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$statuskode.'
-            </td><td>'.$endret.'</td></tr>';
+            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$statuskode.'</td><td>'.$endret.'</td></tr>';
+
+        }
         
     
         //Lukker databasetilkopling

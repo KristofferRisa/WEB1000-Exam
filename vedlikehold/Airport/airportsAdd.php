@@ -10,12 +10,6 @@ include('../html/admin-start.html');
 // Validering og innsending av skjemadata
 include('../php/addAirportFormInput.php');
 
-include('../php/Logg.php');
-$logg = new Logg();
-
-
-$logg->Ny('Laster FLYPLASS LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
-
 ?>
 
 

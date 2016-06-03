@@ -29,7 +29,7 @@ $(function () {
         
     }
     
-    $("#datepicker").datepicker({
+    $("#datepicker,#aktivFra,#aktivTil").datepicker({
         dateFormat: "dd-MM-yyyy",
         maxDate: '-1'
     });
