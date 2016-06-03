@@ -1,11 +1,14 @@
 <?php 
 $title = "FLY - Admin";
 
+include('../html/start.php');
+
 include('../html/header.html');
 
 include('../html/admin-start.html');
 
 include('../php/Logg.php');
+
 $logg = new Logg();
 
 

@@ -1,6 +1,7 @@
 <?php 
 $title = "FLYRUTE - Admin - Legg til";
 
+include('../html/start.php');
 
 include('../html/header.html');
 
@@ -9,10 +10,17 @@ include('../html/admin-start.html');
 // Validering og innsending av skjemadata
 include('../php/addRouteFormInput.php');
 
+include('../php/TabelListBox.php');
+
 include('../php/Logg.php');
 
 $logg = new Logg();
 
+include('../php/AdminClasses.php');
+
+$data = new Airport();
+
+$dataset = $data->ShowAllAirportsDataset();
 
 $logg->Ny('Laster FLYRUTE LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
@@ -65,8 +73,21 @@ $logg->Ny('Laster FLYRUTE LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP
                 <div class="form-group">
                   <label for="fraFlyplassId" class="col-sm-2 control-label">Fra flyplass</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="fraFlyplassId" name="fraFlyplassId" placeholder="Fra flyplass" value="<?php echo @$_POST['fraFlyplassId'] ?>">
+
+                    <select class="form-control" id="fraFlyplassId" name="fraFlyplassId" placeholder="Fra flyplass" value="<?php echo @$_POST['fraFlyplassId'] ?>">
+                    <?php $listeBox = new TableListBox; print( $listeBox->makeListBoxFlyplass() ); ?>
+                    </select>
                   </div>
+                </div>
+
+                <div>
+                  <h1>
+                    <?php
+                      print_r($dataset);
+                    ?>
+
+                  </h1>
+
                 </div>
 
                 <div class="form-group">

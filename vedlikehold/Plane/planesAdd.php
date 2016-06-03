@@ -1,6 +1,7 @@
 <?php 
 $title = "FLY - Admin";
 
+include('../html/start.php');
 
 include('../html/header.html');
 
@@ -58,14 +59,14 @@ $logg->Ny('Laster FLY LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SEL
                 <div class="form-group">
                   <label for="flyNr" class="col-sm-2 control-label">Flynr</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Fly nr" value="<?php echo @$_POST['flyNr'] ?>">
+                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$_POST['flyNr'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyModell" class="col-sm-2 control-label">Flymodell</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Fly modell" value="<?php echo @$_POST['flyModell'] ?>">
+                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$_POST['flyModell'] ?>">
                   </div>
                 </div>
 
@@ -86,7 +87,7 @@ $logg->Ny('Laster FLY LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SEL
                 <div class="form-group">
                   <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="2011" value="<?php echo @$_POST['flyAarsmodell'] ?>">
+                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$_POST['flyAarsmodell'] ?>">
                   </div>
                 </div>
 

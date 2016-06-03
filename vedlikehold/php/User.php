@@ -336,6 +336,7 @@
                 $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
             }
             
+            $resultSet->free();
             $queryPrSide->close();
             $db_connection->close(); 
             
