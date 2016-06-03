@@ -1,25 +1,38 @@
 <?php
 
-	class HtmlHelperClass{
-		public function GeneratSelectionBox($data){
-			$html = "<div>";
+    class HtmlHelperClass{
+        public function GeneratSelectionBox($dataset, $inputname, $text, $cssClasses){
+            $html = '
+                    <div class="ui fluid search selection dropdown">
+                    <input type="hidden" name="'.$inputname.'">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select Country</div>
+                    <div class="menu">';
 
-			foreach($colm in $data) {
-				$html .= $colm;
-			}
+            $last = count($dataset) - 1;
 
-			$html .= "</div>"
+            foreach ($dataset as $i => $row)
+            {
+                $isFirst = ($i == 0);
+                $isLast = ($i == $last);
 
-			return $html;
+                //echo '<p> ' . $row[3] .' '. $row[1] .'</p>';
+            
+                $html .= '<div class="item" data-value="'.$row[0].'"><i class="'.$cssClasses.'"></i>'.$row[0].'</div>';
+    
+            }
 
-		}
+            $html .= '</div></div>';
 
-		public function CreateDataTable($data){	
+            return $html;
+        }
 
-			$html =  '';
-	        //CSS Styling
-	        $oddOrEven = TRUE;
-	        $printOddOrEven = '';
+        public function CreateDataTable($data){    
+
+            $html =  '';
+            //CSS Styling
+            $oddOrEven = TRUE;
+            $printOddOrEven = '';
 
             if($oddOrEven){
                 $oddOrEven = FALSE;
@@ -31,11 +44,11 @@
             }
 
             $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$statuskode.'
-            </td><td>'.$endret.'</td></tr>'	
+            </td><td>'.$endret.'</td></tr>'    
 
 
-			$html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$statuskode.'
+            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$statuskode.'
             </td><td>'.$endret.'</td></tr>'
-		}
-	}
+        }
+    }
 
