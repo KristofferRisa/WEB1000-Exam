@@ -79,7 +79,7 @@ $logg->Ny('Laster FLYRUTE LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP
 
                       $helper = new HtmlHelperClass;
 
-                      print $helper->GeneratSelectionBox($dataset,'fraFlyplassId','Velg flyplass',''); ?>
+                      print $helper->GenerateSearchSelectionbox($dataset,'fraFlyplassId','fraFlyplassId','Velg flyplass',''); ?>
                     
                   </div>
                 </div>
@@ -94,7 +94,7 @@ $logg->Ny('Laster FLYRUTE LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP
 
                      
 
-                      print $helper->GeneratSelectionBox($dataset,'tilFlyplassId','Velg flyplass',''); ?>
+                     print $helper->GenerateSearchSelectionbox($dataset,'tilFlyplassId','tilFlyplassId','Velg flyplass',''); ?>
                     
                   </div>
                 </div>
