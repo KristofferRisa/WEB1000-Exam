@@ -1,8 +1,11 @@
 <?php  
+$title = "FLY - Admin";
 
 //Includes
+include('./../html/start.php');
+include('./../html/header.html');
+include('./../html/admin-start.html');
 include('./../php/Logg.php');
-include('./../php/User.php');
 
 //Globale variabler
 $user = new User();
@@ -42,8 +45,12 @@ if($_POST){
         $responseMsg = "<div class='alert alert-success alert-dismissible'><strong>Success!</strong> Brukeren ble oppdatert.</div>";
       } else {
         $responseMsg = "<div class='alert alert-error'><strong>Error!</strong> Klarte ikke å oppdatere bruker</div>";
-      } 
-    }
+      }
+      
+      echo $result; 
+    }  else {
+        $responseMsg = "<div class='alert alert-error'><strong>Error!</strong> Passordene er ikke like!</div>";
+        }
   
 } 
 
@@ -51,31 +58,19 @@ if($_GET && $_GET['id']){
   
   $id = $_GET['id'];
   
-  header('x-uid:'.$id);
-  
   //returnerer en array med bruker info    
   $userinfo = $user->GetUser($id, $logg);
   
   //DEBUG
   //print_r($userinfo);
   
-} else {
-  header('location: ./users.php');
-  exit;
-}
+} elseif($_GET) {
+  // header('location: ./users.php');
+  // exit;
+} 
 
 ?>
 
-<?php 
-$title = "FLY - Admin";
-
-include('./../html/start.php');
-
-include('./../html/header.html');
-
-include('./../html/admin-start.html');
-
-?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -101,7 +96,6 @@ include('./../html/admin-start.html');
           <div class="box box-info">
             <div class="box-header with-border">
               <?php echo $responseMsg ?>
-              
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -136,9 +130,8 @@ include('./../html/admin-start.html');
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                <button type="submit" class="btn btn-default" onclick="location.href='./User/users.php';return false;">Tilbake</button>
+                <div class="btn btn-default" onclick="location.href='./User/users.php';">Tilbake</div>
                 
-                <button type="submit" class="btn btn-default" onclick="location.href='./User/users.php';return false;">Nullstill</button>
                 
                 <button type="submit" class="btn btn-info pull-right">Bytt</button>
               </div>
@@ -158,6 +151,7 @@ include('./../html/admin-start.html');
   
 
 <?php
+
 include('./../html/admin-slutt.html');
 
 include('./../html/script.html');

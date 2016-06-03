@@ -117,6 +117,15 @@ $t = new Tittel();
                       <button class="btn btn-default">Ny</button>
                   </div>
                   
+                  <div class="col-md-6">
+                    <form>
+                      
+                        <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                        <button type="submit" class="btn btn-info">Sign in</button>
+                        
+                    </form>
+                    
+                  </div>
                   
                 </div>
                 
