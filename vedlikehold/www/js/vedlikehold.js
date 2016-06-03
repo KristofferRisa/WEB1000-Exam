@@ -35,6 +35,6 @@ $(function () {
     });
 
     //$('#flyplassLandValg').dropdown();
-    $('.ui .search .selection .dropdown').dropdown();
+    $('.ui.search.selection.dropdown').dropdown();
     
 });

@@ -4,9 +4,9 @@
         public function GenerateSearchSelectionbox($dataset,$elementId, $inputname, $text, $cssClasses){
             $html = '
                     <div id="'.$elementId.'" class="ui fluid search selection dropdown">
-                    <input type="hidden" name="'.$inputname.'">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">'.$text.'</div>
+                        <input type="hidden" name="'.$inputname.'">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">'.$text.'</div>
                     <div class="menu">';
 
             $last = count($dataset) - 1;
