@@ -3,10 +3,10 @@
     class HtmlHelperClass{
         public function GeneratSelectionBox($dataset, $inputname, $text, $cssClasses){
             $html = '
-                    <div class="ui fluid search selection dropdown">
+                    <div id="fyplassLandValg" class="ui fluid search selection dropdown">
                     <input type="hidden" name="'.$inputname.'">
                     <i class="dropdown icon"></i>
-                    <div class="default text">Select Country</div>
+                    <div class="default text">'.$text.'</div>
                     <div class="menu">';
 
             $last = count($dataset) - 1;
@@ -29,26 +29,26 @@
 
         public function CreateDataTable($data){    
 
-            $html =  '';
-            //CSS Styling
-            $oddOrEven = TRUE;
-            $printOddOrEven = '';
+            // $html =  '';
+            // //CSS Styling
+            // $oddOrEven = TRUE;
+            // $printOddOrEven = '';
 
-            if($oddOrEven){
-                $oddOrEven = FALSE;
-                $printOddOrEven = 'even';
-            } 
-            else {
-                $oddOrEven = TRUE;
-                $printOddOrEven = 'odd';
-            }
+            // if($oddOrEven){
+            //     $oddOrEven = FALSE;
+            //     $printOddOrEven = 'even';
+            // } 
+            // else {
+            //     $oddOrEven = TRUE;
+            //     $printOddOrEven = 'odd';
+            // }
 
-            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$statuskode.'
-            </td><td>'.$endret.'</td></tr>'    
+            // $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$statuskode.'
+            // </td><td>'.$endret.'</td></tr>'    
 
 
-            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$statuskode.'
-            </td><td>'.$endret.'</td></tr>'
+            // $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$statuskode.'
+            // </td><td>'.$endret.'</td></tr>'
         }
     }
 
