@@ -336,6 +336,7 @@
                 $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
             }
             
+            $resultSet->free();
             $queryPrSide->close();
             $db_connection->close(); 
             
@@ -401,13 +402,9 @@
             
             if($updateUser == false){
                 $logg->Ny('Failed to update user: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
-                exit;    
             }
-            
             if ($affectedRows == 1) {
                 $logg->Ny('Bruker ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-                header('location: ./../');
-                exit;
             } else {
                 $logg->Ny('Klarte ikke å oppdatere bruker.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } 
@@ -419,4 +416,39 @@
             return $affectedRows;
         }
         
+        public function UsersSelectOptions(){
+            include('db.php');
+            $htmlSelect =  '';
+            
+            $sql = "
+            select 
+                brukerId
+                , brukernavn
+            from bruker;";
+            
+            $queryUsers = $db_connection->prepare($sql);
+            
+            $queryUsers->execute();
+
+            $queryUsers->bind_result($id, $bnavn);
+                        
+            //$htmlSelect .=  '<select class="form-control select2 select2-hidden-accessible" name="userid" form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">';
+            
+            //henter data
+            while ($queryUsers->fetch()) {
+                
+                $htmlSelect .= "<option value=".$id. ">".$bnavn."</option>";
+            }
+            
+            //$htmlSelect .= '</select>';
+            //Error logging
+            if($queryUsers == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $queryUsers->close();
+            $db_connection->close(); 
+            
+            return $htmlSelect;
+        }
     }    

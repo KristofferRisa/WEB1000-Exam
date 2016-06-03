@@ -1,6 +1,7 @@
 <?php 
 $title = "FLY - Admin";
 
+include('../html/start.php');
 
 include('../html/header.html');
 
@@ -8,13 +9,6 @@ include('../html/admin-start.html');
 
 // Validering og innsending av skjemadata
 include('../php/addPlaneFormInput.php');
-
-include('../php/Logg.php');
-
-$logg = new Logg();
-
-
-$logg->Ny('Laster FLY LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -56,59 +50,39 @@ $logg->Ny('Laster FLY LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SEL
               <div class="box-body">        
 
                 <div class="form-group">
-                  <label for="flyNr" class="col-sm-2 control-label">Fly nr</label>
+                  <label for="flyNr" class="col-sm-2 control-label">Flynr</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Fly nr" value="<?php echo $_POST['flyNr'] ?>">
+                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$_POST['flyNr'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="flyModell" class="col-sm-2 control-label">Fly modell</label>
+                  <label for="flyModell" class="col-sm-2 control-label">Flymodell</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Fly modell" value="<?php echo $_POST['flyModell'] ?>">
+                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$_POST['flyModell'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyType" class="col-sm-2 control-label">Flytype</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo $_POST['flyType'] ?>">
+                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$_POST['flyType'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyAntallPlasser" class="col-sm-2 control-label">Antall sitteplasser</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo $_POST['flyAntallPlasser'] ?>">
+                    <input type="text" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$_POST['flyAntallPlasser'] ?>">
                      </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="2011" value="<?php echo $_POST['flyAarsmodell'] ?>">
+                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$_POST['flyAarsmodell'] ?>">
                   </div>
                 </div>
-
-                <div class="form-group">
-                  <label for="flyStatusKode" class="col-sm-2 control-label">Statuskode</label>
-                  <div class="col-sm-10">
-                    <!--<input type="text" class="form-control" id="flyStatusKode" name="flyStatusKode" placeholder="Statuskode">
-                  </div>-->
-
-                 <select class="form-control" id="flyStatusKode" name="flyStatusKode">
-                  <?php 
-
-                  include('../php/TabelListBox.php');
-                  $tabell = new TableListBox;
-
-                  print( $tabell->makeListBox() );
-
-                  ?>
-                  </select>
-    
-                </div>
-              </div>
 
               <!-- /.box-body -->
               <div class="box-footer">

@@ -5,8 +5,8 @@ class Tittel {
         
     }
     
-    public function TittelSelectOptions(){
-        include('../php/db.php');
+    public function TittelSelectOptions($aktivTittel = NULL){
+        include('db.php');
         $listBox = "";
 
 
@@ -21,8 +21,11 @@ class Tittel {
         //henter data
         while ($querytittel->fetch()) {
             
-            $listBox .= "<option value=". $id . ">". $navn ."</option>";
-        
+            if($aktivTittel && $navn == $aktivTittel){
+                $listBox .= "<option value=". $id . " selected>". $navn ."</option>";    
+            } else {
+                $listBox .= "<option value=". $id . ">". $navn ."</option>";    
+            }
         }
 
         //Lukker databasetilkopling

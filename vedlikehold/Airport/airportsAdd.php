@@ -1,6 +1,7 @@
 <?php 
 $title = "FLYPLASS - Admin - Legg til";
 
+include('../html/start.php');
 
 include('../html/header.html');
 
@@ -9,15 +10,9 @@ include('../html/admin-start.html');
 // Validering og innsending av skjemadata
 include('../php/addAirportFormInput.php');
 
-include('../php/Logg.php');
-$logg = new Logg();
-
-
-$logg->Ny('Laster FLYPLASS LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
-
-
-
 ?>
+
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -59,21 +54,19 @@ $logg->Ny('Laster FLYPLASS LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PH
                 <div class="form-group">
                   <label for="flyplassNavn" class="col-sm-2 control-label">Navn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo $_POST['flyplassNavn'] ?>">
+                    <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$_POST['flyplassNavn'] ?>">
                   </div>
                 </div>
 
                  <div class="form-group">
-                  <!-- <label for="flyplassLand" class="col-sm-2 control-label">Land</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyplassLand" name="flyplassLand" placeholder="Flyplass land" value="<?php echo $_POST['flyplassLand'] ?>">
-                  </div> -->
               
-
-                <div class="ui fluid search selection dropdown">
-  <input type="hidden" name="country">
+  <label for="flyplassLand" class="col-sm-2 control-label">Land</label>
+  <div class="col-sm-10">        
+  <div class="ui fluid search selection dropdown" id="flyplassLandValg">
+  <input type="hidden" name="flyplassLand" id="flyplassLand" >
   <i class="dropdown icon"></i>
-  <div class="default text">Select Country</div>
+  <div class="default text">Velg land</div>
+  
   <div class="menu">
   <div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
   <div class="item" data-value="ax"><i class="ax flag"></i>Aland Islands</div>
@@ -318,26 +311,22 @@ $logg->Ny('Laster FLYPLASS LEGG TIL side', 'INFO', htmlspecialchars($_SERVER['PH
   <div class="item" data-value="zm"><i class="zm flag"></i>Zambia</div>
   <div class="item" data-value="zw"><i class="zw flag"></i>Zimbabwe</div>
 </div>
+
 </div>
 
   </div>
-                <div class="form-group">
-                  <label for="flyplassStatuskode" class="col-sm-2 control-label">Statuskode</label>
-                  <div class="col-sm-10">
+  </div>
 
-                 <select class="form-control" id="flyplassStatuskode" name="flyplassStatuskode">
                   <?php 
-
+                  /*
                   include('../php/TabelListBox.php');
                   $tabell = new TableListBox;
 
                   print( $tabell->makeListBox() );
+                  */
 
                   ?>
-                  </select>
-    
-                </div>
-              </div>
+
 
               <!-- /.box-body -->
               <div class="box-footer">
