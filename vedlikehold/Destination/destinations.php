@@ -2,7 +2,9 @@
 $title = "FLY - Admin";
 
 include('./../html/start.php');
+
 include('./../html/header.html');
+
 include('./../html/admin-start.html');
 
 ?>
@@ -11,12 +13,12 @@ include('./../html/admin-start.html');
   <!-- Content Header (Page header) -->
   <section class="content-header">
       <h1>
-        Brukere
-        <small>Oversikt over alle brukere</small>
+        Destinasjoner
+        <small>Oversikt over alle destinasjoner</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="./"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li >Brukere</li>
+      <li >Destinasjoner</li>
       <!-- Denne brukes av javascript for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
       <li class="active">Vis</li> 
     </ol>
@@ -29,7 +31,7 @@ include('./../html/admin-start.html');
    <div class="col-xs-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Brukere
+            <h3 class="box-title">Destinasjoner
            </h3>
             
           </div>
