@@ -16,13 +16,21 @@
                 $isFirst = ($i == 0);
                 $isLast = ($i == $last);
 
-                $html .= '<div class="item" data-value="'.$row[0].'"><i class="'.$cssClasses.'"></i>'.$row[1].'</div>';
+                $html .= '<div class="item customItem" data-value="'.$row[0].'"><i class="'.$cssClasses.'"></i>'.$row[1].'</div>';
     
             }
 
             $html .= '</div></div>';
 
             return $html;
+        }
+        
+        public function errorMsg($msg) {
+            return "<div class='alert alert-error'><strong>Error!</strong> ".$msg."</div>";
+        }
+        
+        public function successMsg($msg) {
+            return "<div class='alert alert-success alert-dismissible'><strong>Success!</strong> ".$msg."</div>";
         }
     }
 

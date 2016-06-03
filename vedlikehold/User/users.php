@@ -63,18 +63,12 @@ include('./../html/admin-start.html');
                     <?php 
 
                       // PHP kode for å hente tabell HTML kode
-                      include('./../php/Logg.php');
-                      $user = new User();
-
                       error_reporting(0);
                       $sidenr = $_GET['p'];
 
                       if(!$sidenr){
                         $sidenr = 1;
                       }
-
-                      $logg = new Logg();
-
                       //Printer ut HTML tabell
                       print($user->VisAlle($sidenr,$logg));
                       

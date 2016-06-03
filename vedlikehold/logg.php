@@ -63,9 +63,6 @@ include('./html/admin-start.html');
                     <tbody>
 <?php 
 // PHP kode for å hente tabell HTML kode
-
-
-$logg = new Logg();
 //Logger
 // $logg->Ny('Laster LOGG side', 'INFO','/vedlikehold/logg.php', 'ikke logget inn');
 
