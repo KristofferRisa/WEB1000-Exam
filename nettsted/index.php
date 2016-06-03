@@ -12,6 +12,7 @@
 
   <link rel="stylesheet" type="text/css" href="semantic/dropdown.min.css">
   <link rel="stylesheet" type="text/css" href="semantic/transition.min.css">
+  <link rel="stylesheet" type="text/css" href="www/css/adminLTE.min.css">
 
   <link rel="stylesheet" type="text/css" href="semantic/daterangepicker.css">
   <link rel="stylesheet" type="text/css" href="semantic/jquery-ui.css">
@@ -25,11 +26,19 @@
 </head>
 
 <body>
+  
+  <?php
+  include ("./html/nav.html");
+  ?>
 
 
   <div class="jumbotron text-center">
-    <h1>BJARUM AIRLINES</h1>
+    <div class="login-logo">
+     <b>B</b>JARUM <b>A</b>IRLINES  
+    </div>
   </div>
+  
+  
 
 
   <div class="container">
@@ -209,7 +218,9 @@ $(document).ready(function(){
 })
    </script>
 
-
+  <?php
+  include ("./html/footer.html");
+  ?>
 
 </body>
 
