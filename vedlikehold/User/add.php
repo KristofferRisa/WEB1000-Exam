@@ -4,13 +4,12 @@ include('./../html/start.php');
 include('./../html/header.html');
 include('./../html/admin-start.html');
 include('./../php/Tittel.php');
+include('./../php/Logg.php');
 
 $t = new Tittel();
+$logg = new Logg();
 
-if($_POST){
-  include('./../php/Logg.php');
-  include('./../php/User.php');
-  $logg = new Logg();
+if($_POST){  
   $logg->Ny('POST av ny bruker skjema', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), 'NA');
   
   $brukernavn = $_POST["inputBrukernavn"];
