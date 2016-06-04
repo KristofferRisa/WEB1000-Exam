@@ -27,6 +27,6 @@
     $logg = new Logg();
     $html = new HtmlHelperClass();
 
-    $logg->Ny('Laster side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , $innloggetBruker);
+    // $logg->Ny('Laster side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , $innloggetBruker);
     
 ?>

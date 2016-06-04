@@ -38,7 +38,6 @@ class Logg {
         return $html;
     }
     
-    
     public function AltPrSide($antallMeldinger,$sideNr){
         include('db.php');
         $html =  '';
@@ -117,9 +116,19 @@ class Logg {
     // include('./php/Logg.php');
     // $logg = new Logg();
     // $logg->Ny('test melding', 'INFO',htmlspecialchars($_SERVER['PHP_SELF']), 'UserID');
-    public function Ny($melding, $nivå, $modul, $bruker) {
+    public function Ny($melding, $nivå = NULL, $modul = NULL, $bruker = NULL) {
         include('db.php');
         $datotid = date('Y-m-d H:i:s');
+        
+        if(!$nivå) {
+            $nivå = 'INFO';
+        }
+        if(!$modul){
+            $modul = 'NA';
+        }
+        if(!$bruker){
+            $bruker = 'NA';
+        }
         
         //Bygger SQL statement
         $queryNy = $db_connection->prepare("INSERT INTO logg(melding,nivaa,modul,bruker,opprettet) VALUES(?,?,?,?,?)");
