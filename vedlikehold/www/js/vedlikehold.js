@@ -38,3 +38,4 @@ $(function () {
     $('.ui.search.selection.dropdown').dropdown();
     
 });
+
