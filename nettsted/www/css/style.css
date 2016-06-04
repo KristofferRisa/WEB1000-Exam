@@ -60,3 +60,7 @@ footer p {
     height: 90px;
     width: 90px;
 }
+
+.ui.dropdown .menu>.item {
+    font-size: 1.4rem;
+}

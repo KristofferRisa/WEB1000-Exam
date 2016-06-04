@@ -13,8 +13,11 @@
   <link rel="stylesheet" type="text/css" href="semantic/dropdown.min.css">
   <link rel="stylesheet" type="text/css" href="semantic/transition.min.css">
   <link rel="stylesheet" type="text/css" href="www/css/adminLTE.min.css">
+  <link rel="stylesheet" type="text/css" href="www/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 
   <link rel="stylesheet" type="text/css" href="semantic/daterangepicker.css">
+  <link rel="stylesheet" href="./www/plugins/datepicker/datepicker3.css">
   <link rel="stylesheet" type="text/css" href="semantic/jquery-ui.css">
 
   <script src="semantic/jquery-ui.js"></script>
@@ -22,6 +25,7 @@
   <script src="semantic/dropdown.min.js"></script>
   <script src="semantic/transition.min.js"></script>
 
+<script src="./www/plugins/datepicker/bootstrap-datepicker.js"></script>
 
 </head>
 
@@ -71,7 +75,17 @@
 
             <table>
               <tr>
-                <td><input style="text" id="datepickerfrom" /></td>
+                <td>
+                  <!--<input style="text" class="form-control" id="datepickerfrom" />-->
+                  <div class="form-group">
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input style="text" class="form-control" id="datepickerfrom" />
+                      </div>
+                    </div>
+                </td>
               </tr>
             </table>
 
@@ -108,7 +122,16 @@
 
             <table>
               <tr>
-                <td><input style="text" id="datepickerto"/> </td>
+                <td>
+                    <div class="form-group" id="fromDatePicker">
+                      <div class="input-group date">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input style="text" class="form-control"  id="datepickerto"/>
+                      </div>
+                    </div>
+                </td>
               </tr>
             </table>
 
@@ -125,10 +148,10 @@
           <div class="form-group">
             <form role="form">
               <label class="checkbox-inline">
-                      <input type="radio" onclick="$('#datepickerto').show();" name="turreturenkel" value="Tur/retur" checked="checked"> Tur/retur
+                      <input type="radio" onclick="$('#fromDatePicker').show();" name="turreturenkel" value="Tur/retur" checked="checked"> Tur/retur
                     </label>
               <label class="checkbox-inline">
-                      <input onclick="$('#datepickerto').hide();" type="radio" name="turreturenkel" value="Enkel"> Enkel
+                      <input onclick="$('#fromDatePicker').hide();" type="radio" name="turreturenkel" value="Enkel"> Enkel
                     </label>
             </form>
           </div>
@@ -183,31 +206,50 @@
 
 
   <script type="text/javascript">
-    $(function() {
-    var currentDate = new Date();
-    $('#datepickerto').datepicker({
-        inline: true,
-        showOtherMonths: true,
-        dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        dateFormat: 'dd/mm/yy'
+$(function() {
+  var currentDate = new Date();
+  
+  $('#datepickerto,#datepickerfrom').datepicker({
+      inline: true,
+      showOtherMonths: true,
+      startDate:currentDate,
+      calendarWeeks: true,
+      todayBtn: "linked",
+      todayHighlight: true,
+      dayNamesMin: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat','Sun'],
+      autoclose: true,
+      format: 'dd/mm/yyyy'
+  });
+
+
+  $("#datepickerfrom").on('changeDate', function(ev) {
+        // alert($(this).val());
+        $("#datepickerto").datepicker("setDate", $(this).val());
+        
+        var currentDate = new Date();
+        var d = parseDate($(this).val());
+        var newDate = new Date(d);
+        console.log(currentDate);
+        console.log(d);
+        
+        $("#datepickerto").datepicker("setStartDate", newDate);
+        
     });
-    $("#datepickerto").datepicker("setDate", currentDate);
+  
+  $("#datepickerto").datepicker("setDate", currentDate);
+
+
+  $("#datepickerfrom").datepicker("setDate", currentDate);
+
+
 });
+function parseDate(str) {
+    var d = str.split('/')
+    return new Date(parseInt(d[2]),parseInt(d[1]) - 1, parseInt(d[0]));
+}
+
   </script>
 
-  <script type="text/javascript">
-    $(function() {
-    var currentDate = new Date();
-    $('#datepickerfrom').datepicker({
-        inline: true,
-        showOtherMonths: true,
-        dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        dateFormat: 'dd/mm/yy'
-    });
-    $("#datepickerfrom").datepicker("setDate", currentDate);
-    
-});
-  </script>
   
   <script>
 $(document).ready(function(){
