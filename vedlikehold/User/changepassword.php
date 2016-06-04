@@ -107,7 +107,7 @@ if($_GET && $_GET['id']){
                
                <!-- Passord -->
                 <div class="form-group">
-                  <label for="passord1" class="col-sm-2 control-label">Password</label>
+                  <label for="passord1" class="col-sm-2 control-label">Nytt passord</label>
                   <div class="col-sm-10">
                     <input type="password" class="form-control" id="inputPassword3" name="passord1" >
                   </div>
@@ -115,7 +115,7 @@ if($_GET && $_GET['id']){
                 
                 <!-- Passord 2 -->
                 <div class="form-group">
-                  <label for="passord2" class="col-sm-2 control-label">Password</label>
+                  <label for="passord2" class="col-sm-2 control-label">Gjenta passord</label>
                   <div class="col-sm-10">
                     <input type="password" class="form-control" id="inputPassword4" name="passord2" >
                   </div>

@@ -15,8 +15,7 @@ $responseMsg = "";
 $brukernavnPattern = "/^[A-Za-z0-9]{2,}$/";
 $navnPattern = "/^[A-Za-z]{2,}$/";
 $passordPattern = "/^[A-Za-z0-9#$@!%&*?]{3,}$/";
-$inputDatoPattern = "/(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)
-/";
+$inputDatoPattern = "/(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/";
 
 
 if($_POST){
@@ -65,7 +64,11 @@ if($_POST){
         
         $validert = FALSE;
         
-        //Validering start
+        /*
+          Validering start!!
+        */
+        
+        /* Validering brukernavn */
         if(!preg_match($brukernavnPattern, $brukernavn)){
           //validering feilet for brukernavn
           $validert = FALSE;
@@ -76,6 +79,7 @@ if($_POST){
           $validert = TRUE;
         }
         
+        /* Validering fornavn og etternavn */
         if(!preg_match($navnPattern, $fornavn) || !preg_match($navnPattern, $etternavn)){
           //validering feilet for fornavn eller etternavn
           $validert = FALSE;
@@ -85,6 +89,7 @@ if($_POST){
           $logg->Ny('Ny bruker: Navn validering var vellykket.');
         }
         
+        /* Validering Passord 1 og 2 */
         if($pass1 != $pass2){
           $validert = FALSE;
           $responseMsg .= $html->errorMsg('Passordene må være like');
@@ -93,6 +98,7 @@ if($_POST){
           $logg->Ny('Passordene var like.');
         }
         
+        /* Validering passord med regex pattern */
         if(!preg_match($passordPattern, $pass1)){
           //validering av passord feilet
           $validert = FALSE;
@@ -102,16 +108,28 @@ if($_POST){
           $logg->Ny('Ny bruker: Passord validering var vellykket');
         }
         
+        /* Validering epost med PHP funksjon  */
         if (!filter_var($mail, FILTER_VALIDATE_EMAIL) === false) {
-          $logg->Ny("$email is a valid email address");
+          $logg->Ny("email is a valid email address");
         } else {
           $validert = FALSE;
           $responseMsg .= $html->errorMsg('Vennligst angi en korrekt epost adresse.');
-          $logg->Ny("$email is not a valid email address");
+          $logg->Ny("email is not a valid email address");
         }
 
+        if($DOB && !preg_match($inputDatoPattern, $DOB)){
+          $validert = FALSE;
+          $responseMsg .= $html->errorMsg('Feil dato format i fødselsdag felt.');
+          $logg-Ny('Feil dato format i fødselsdags felt.', 'WARNING');
+        } else {
+          $logg->Ny('Ny bruker:Vellykket validering av dato.');
+        }
+        
         //Validere brukerType?
         
+        /*
+          Validering slutt
+        */
         if($validert){
           //Alle påkrevde felter er blitt validert, forsøker å legge inn ny bruker
           

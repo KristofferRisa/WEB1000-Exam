@@ -170,10 +170,9 @@
             
         }
         
-        public function UpdateUser($userid, $brukernavn, $fname, $lname, $DOB, $sex, $mail, $phone, $tittel, $logg){
+        public function UpdateUser($userid, $brukernavn, $fname, $lname, $DOB, $sex, $mail, $phone, $tittel, $brukerTypeId, $logg){
             include('db.php');
             
-            $brukerTypeId = 1; //Må hentes fra FORM listbox
             $statusKodeId = 1; //Opprettet (lese fra database?)
             
             //TODO: Sjekk om brukeren finnes fra før
@@ -193,7 +192,7 @@
             where brukerId = ?;";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('sssssssiiis'
+            $insertUser->bind_param('sssssssiisi'
                                     , $brukernavn
                                     , $fname
                                     , $lname
