@@ -18,21 +18,22 @@
 
   <link rel="stylesheet" type="text/css" href="semantic/daterangepicker.css">
   <link rel="stylesheet" href="./www/plugins/datepicker/datepicker3.css">
-  <link rel="stylesheet" type="text/css" href="semantic/jquery-ui.css">
 
-  <script src="semantic/jquery-ui.js"></script>
+  <!--<link rel="stylesheet" type="text/css" href="semantic/jquery-ui.css">-->
+  <!--<script src="semantic/jquery-ui.js"></script>-->
+
   <script src="semantic/daterangepicker.js"></script>
   <script src="semantic/dropdown.min.js"></script>
   <script src="semantic/transition.min.js"></script>
 
-<script src="./www/plugins/datepicker/bootstrap-datepicker.js"></script>
+  <script src="./www/plugins/datepicker/bootstrap-datepicker.js"></script>
 
 </head>
 
 <body>
   
   <?php
-  include ("./html/nav.html");
+    include ("./html/nav.html");
   ?>
 
 
@@ -42,10 +43,7 @@
     </div>
   </div>
   
-
-
   <div class="container">
-
     <div class="row">
 
 
@@ -93,10 +91,8 @@
           </div>
         </form>
       </div>
-
-
-
-
+      
+      
       <div class="col-sm-4 ">
         <form class="form-inline " role="form ">
           <div class="form-group ">
@@ -141,8 +137,6 @@
         </form>
       </div>
 
-
-
       <div class="col-sm-4">
         <form role="form">
           <div class="form-group">
@@ -165,7 +159,7 @@
         <option>4</option>
       </select>
 
-          <select class="form-control" id="barn">
+      <select class="form-control" id="barn">
         <option>0 barn (2-16 år)</option>
         <option>1</option>
         <option>2</option>
@@ -174,7 +168,7 @@
       </select>
 
 
-          <select class="form-control" id="bebis">
+      <select class="form-control" id="bebis">
         <option>0 bebis (0-23 mnd)</option>
         <option>1</option>
         <option>2</option>
@@ -193,19 +187,10 @@
   </div>
 
 
-  <script type="text/javascript">
-    $('#search-select-to').dropdown();
-  </script>
-
-
-  <script type="text/javascript">
-    $('#search-select-from').dropdown();
-  </script>
-
-
-
-
-  <script type="text/javascript">
+<script type="text/javascript">
+$('#search-select-from').dropdown();
+$('#search-select-to').dropdown();
+  
 $(function() {
   var currentDate = new Date();
   
