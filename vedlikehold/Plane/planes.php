@@ -19,7 +19,7 @@ include('../html/admin-start.html');
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Fly</li>
+      <li>Fly og seteoversikt</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
       <li class="active">Vis alle fly</li>
     </ol>
