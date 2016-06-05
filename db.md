@@ -23,7 +23,7 @@ Viser alle flyplasser
 
 ### Destinasjon
 En destinasjon er sammensatt av land, stedsnavn og flyplass
-| id | navn | land |  landskode | stedsnavn | flyplassId | geo_lat | geo_lang | endret  |
+| id | navn | land |  landskode | stedsnavn | flyplassId| geo_lat | geo_lang | endret  |
 |----|--------|--------------|------------|----------|-----------|--------------|-------------|----------|
 | 1 | Oslo (Torp)  | Norge | NO | Sandefjord | 1 | 59.000053 | 10.019490 | 2016-06-04 |
 | 2 | Oslo (Gardemoen) | Norge | NO | Oslo | 1 | 60.197591 | 11.100910 | 2016-06-06 |
@@ -36,10 +36,9 @@ En destinasjon er sammensatt av land, stedsnavn og flyplass
 | 2 | vår | 2016-05-06 |
 | 2 | sommer 2016 | 2016-06-06 |
 
-
 ### Rute
 (tidligere flyvning) består av en fra desitnasjon og til destinasjon.
-Dette er en overordnet tabell til rutetabellen. 
+Dette er en overordnet tabell til avgang tabellen som viser alle flyavganger mellom destinasjoner. 
 
 | id | navn | fraDestId | tilDestId | sesong | endret |
 |----|-----------|-----------|--------|---------|
@@ -54,47 +53,44 @@ Dette er en overordnet tabell til rutetabellen.
 | 1 | 1 | 2 | 2016-06-01 05:00 | 1 | 2016-06-06 21:00 |  1 | null | 1 |
 | 2 | 2 | 3 | 2016-07-01 12:10 | 2 | null | 2 | 1 | 1 |
 
-### Billett typer
-| id | navn | status |
-|----|--------|----------|
-| 1 | billig | 1 |
-| 2 | billig+  | 1 | 
-| 3 | flex | 1 |
+## Priskategori
+
+| id | navn  | prosentpåslagg |
+|---|--------|---------|----------------|
+| 1 | normal  | null |
+| 2 | first class | 200 |
+| 3 | billig ++  | -50 |
+
+
+## Sete
+
+| id | flyModellId | seteNr | nodutgang | priskategoriId |
+|---|--------------|--------|-----------|-------------|
+| 1 | 1 | 1A | FALSE | 1 | 
+
+## Kunde
+|id | fornavn | etternavn | kjonn  | tlf | epost |
+|--|---------|------------|--------|---------|----|-------|
+
+##Bestilling
+
+|id | bestillingDato | kundeId | refno |  reiseDato | returDato | antallVoksen | antallBarn | antallBebis  |
+|---|----------------|---------|-------|------------|-----------|--------------|------------|---------------|
 
 ### Billett
-| id | reiseId | ref no | kundeId | prisId | billett type | antall bagasje | datotid | publisert | status |
+| id | bestillingId | avgangId | ref no | kundeId | prisId | billett type | antall bagasje | datotid 
 |----|-----------|---------|------------|---------|---------------|---------------------|----------|-------------|----------|
 | 1 | 1 | NO123123 | 1 | 1 | 1 | 0 | 2016-05-13 22:40 | true | 1 |
 | 2 | 1 | NO992134 | 1 | 2 | 1 | 2 | 2016-09-01 14:50 | true | 1 |
 
 
-
-### Pris 
-Pris tabellen viser alle historiske utgitte priser, både ved søk og salg. (må revideres basert på issue #7 )
-
-| id | reiseId| fradato |  pris |  Reisetype | status |
-|----|----------|------------|--------|------|---------|
-| 1 | 1 | 2015-01-01 | 1000,00 | 1 | 1 |
-| 2 | 3 | 2015-01-01 | 14000,00 | 2 | 1 |
-
-## Sete
-
-| id | flyId | seteNr | nodUtgang |
-|---|--------|----------|-----------------|
-| 1 | 1 | 1A | false | 
-
-
-
-### Innsjekk  (ikke påkrevd)
-
-
 ### Bruker
-| id | brukerTypeId | fornavn | etternavn | epost | tlf | fødselsdato | kjønn |  password | salt |
-|---|--------------------|------------|--------------|---------|----|-----------------|---------|---------------|-------|
-| 1 | 3 | Hans | Hansen | ha@sen.no | 213111 12 | 1955-01-12 | mann | zxczxcsd | salg |
-| 2 | 3  |Ola | Norma | ola@norman.com | 90090013 | 1977-12-12 | mann | asdfasdf | salt |
-| 1 | 1 | kristoffer | risa | k@k.k | null | null | null | dsafopsdfi | salt | 
-| 2 | 2 | Normal | user | sadfsf@dsaf.no | null | null | null | ewrq1| salt | 
+| id | brukerTypeId | fornavn | etternavn | epost | tlf | fødselsdato | kjønn |  password  |
+|---|--------------------|------------|--------------|---------|----|-----------------|---------|---------------|
+| 1 | 3 | Hans | Hansen | ha@sen.no | 213111 12 | 1955-01-12 | mann | zxczxcsd |
+| 2 | 3  |Ola | Norma | ola@norman.com | 90090013 | 1977-12-12 | mann | asdfasdf |
+| 1 | 1 | kristoffer | risa | k@k.k | null | null | null | dsafopsdfi |
+| 2 | 2 | Normal | user | sadfsf@dsaf.no | null | null | null | ewrq1| 
 
 ### Autentisering
 Vi lager en autentisering tabell for å holde styr på sesjons guid pr bruker som er innlogget. Da ser vi kun i __bruker__ tabellen ved innlogging også brukes autentisering tabellen ved alle autentisering sjekker. 
@@ -106,13 +102,6 @@ Da må vi selv lagre autentisering cookie som vi sjekker og kontrollerer mot.
 | 1 | 1 | a566fe95-272e-4084-858e-23e89fd8f5a5 | 2016-05-05 23:00:00 |
 | 2 | 1 | a566fe95-272e-4084-858e-23e89fd8f5a5 | 2016-05-06 23:00:00 |
 | 3 | 2 | 00a9c38b-a3e6-4ef7-a2b6-9c1f4d3af622 | 2016-05-06 23:23:00 |
-
-### Brukertype
-| id | navn | aktiv | status |
-|----|--------|--------|---------|
-| 1 | Admin | true | 1 | 
-| 2 | Bruker | true | 1 |
-| 3 | Kunde | true | 1 |
 
 ### Logg
 | id | nivå | melding | modul | brukerId | opprettet |
