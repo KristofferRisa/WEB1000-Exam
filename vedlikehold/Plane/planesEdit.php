@@ -1,5 +1,5 @@
 <?php 
-$title = "FLY - Admin";
+$title = "FLY - ENDRE - Admin";
 
 include('../html/start.php');
 
@@ -7,116 +7,171 @@ include('../html/header.html');
 
 include('../html/admin-start.html');
 
+// Validering og innsending av skjemadata
+include('../php/AdminClasses.php');
+
+
+if($_GET['id']){
+  
+  //returnerer en array
+  //brukes av både GET OG POST    
+  $id = $_GET['id'];
+  $fly = new Planes;
+  $flyinfo = $fly->GetPlane($id,$logg);
+  print_r($flyinfo);
+  
+
+}
+
+
+$flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $errMsg = "";
+
+  $errorMelding = "";
+
+// Validering av skjemainput
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+  if ( empty($_POST["flyNr"]) || empty($_POST["flyModell"]) || empty($_POST["flyType"]) || empty($_POST["flyAntallPlasser"]) || empty($_POST["flyAarsmodell"]) ) {
+
+    $errorMelding = $html->errorMsg("Alle felt må fylles ut!");
+
+}
+
+
+elseif (filter_var($_POST["flyAntallPlasser"], FILTER_VALIDATE_INT) === false || strlen($_POST["flyAntallPlasser"]) > 11 ) {
+  $$errorMelding =  $html->errorMsg("Antall plasser må kun være siffer og maks 11 tegn tegn!");
+
+}
+
+elseif (strlen($_POST["flyNr"]) > 45 || strlen($_POST["flyModell"]) > 45 ) {
+  $errorMelding =  $html->errorMsg("Modell, type og flynr må være maks 45 tegn!");
+}
+elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
+  $errorMelding = $html->errorMsg("Årsmodell må bestå av 4 siffer!");
+}
+
+  
+  else {
+
+    $valider = new ValiderData;
+
+    $flyNr = $valider->valider($_POST["flyNr"]);
+    $flyModell = $valider->valider($_POST["flyModell"]);
+    $flyType = $valider->valider($_POST["flyType"]);
+    $flyAntallPlasser = $valider->valider($_POST["flyAntallPlasser"]);
+    $flyAarsmodell = $valider->valider($_POST["flyAarsmodell"]);
+
+    $result = $fly->UpdatePlane($id, $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$logg );
+
+    echo $result;
+
+     $flyinfo = $fly->GetPlane($id,$logg);
+
+    if($result == 1){
+      //Success
+             $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
+
+    } else {
+      //not succesfull
+             $errorMelding = $html->errorMsg("Data ble ikke lagt inn i databasen.!");
+
+    }
+
+  }
+
+}
+
 
 ?>
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
+
       <h1>
-        Vis alle fly
-        <small>Viser en oversikt over alle fly.</small>
+        Endre fly data
+          <small>Her kan du endre et registrere fly i databasen</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Fly</li>
+      <li>Endre fly</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Vis alle fly</li>
+      <li class="active">Endre fly</li>
     </ol>
   </section>
  <!-- Main content -->
   <section class="content">
 
+
     <!-- Your Page Content Here -->
 
         <div class="row">
-      <div class="col-xs-12">
-        <div class="box">
-          <div class="box-header">
-            <h3 class="box-title">Liste over fly</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-              <div class="row">
-                <div class="col-sm-6"></div>
-                <div class="col-sm-6"></div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12">
-                  <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
-                    <thead>
-                      <tr role="row">
-                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id">ID</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyNr">FlyNr</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Modell">Modell</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Type</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Plasser">Plasser</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Laget">Laget</th>
-                      
-                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Startet">Startet</th>
-                      
-                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Opprettet">Opprettet</th>
-                      
-                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Statuskode Id">Statuskode Id</th></tr>
-                      </tr>
-                    </thead>
-                    <tbody>
-<?php 
+      <div class="col-sm-12">   
+                 <!-- Horizontal Form -->
+          <div class="box box-info">
+            <div class="box-header with-border"><?php echo $errorMelding; ?><div id="melding"></div>
+           <h3 class="box-title">Skjema</h3>
+            </div>
+            <!-- /.box-header -->
 
 
-include('../php/Planes.php');
 
-$planes = new Planes();
+            <!-- form start -->
 
+            <form method="POST" class="form-horizontal" onsubmit="return validerRegistrerFly()">
+              <div class="box-body">        
 
-print( $planes->ShowAllPlanes() );
-
-
-?> 
+                      <input type="hidden" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>">
 
 
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th rowspan="1" colspan="1">ID</th>
-                        <th rowspan="1" colspan="1">FlyNr</th>
-                        <th rowspan="1" colspan="1">Modell</th>
-                        <th rowspan="1" colspan="1">Type</th>
-                        <th rowspan="1" colspan="1">Plasser</th>
-                        <th rowspan="1" colspan="1">Laget</th>
-                        <th rowspan="1" colspan="1">Startet</th>
-                        <th rowspan="1" colspan="1">Opprettet</th>
-                        <th rowspan="1" colspan="1">Statuskode Id</th>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-5">
-                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
-                </div>
-                <div class="col-sm-7">
-                  <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                    <ul class="pagination">
-                      <li class="paginate_button previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a></li>
-                      <li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li>
-                      <li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">Next</a></li>
-                    </ul>
+                <div class="form-group">
+                  <label for="flyNr" class="col-sm-2 control-label">Flynr</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$flyinfo[0][1] ?>">
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label for="flyModell" class="col-sm-2 control-label">Flymodell</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$flyinfo[0][2] ?>">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="flyType" class="col-sm-2 control-label">Flytype</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$flyinfo[0][3] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="flyAntallPlasser" class="col-sm-2 control-label">Antall sitteplasser</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$flyinfo[0][4] ?>">
+                     </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$flyinfo[0][5] ?>">
+                  </div>
+                </div>
+
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <div class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
+
+                <button type="submit" class="btn btn-info pull-right">Legg til</button>
               </div>
-            </div>
+              <!-- /.box-footer -->
+            </form>
           </div>
-          <!-- /.box-body -->
-        </div>
-        <!-- /.box -->
+          <!-- /.box -->
+
       </div>
    
       <!-- /.col -->
