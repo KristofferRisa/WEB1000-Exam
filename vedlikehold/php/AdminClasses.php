@@ -21,10 +21,10 @@ class Planes {
         $printOddOrEven = '';
         
         //db-tilkopling
-        $query = $db_connection->prepare("SELECT flyId,flyNr,modell,type,plasser,aarsmodell FROM fly");
+        $query = $db_connection->prepare("SELECT flyId,flyNr,flyModell,type,plasser,aarsmodell,endret FROM fly");
         $query->execute();
 
-        $query->bind_result($id, $flyNr, $modell, $type, $plasser, $flyAarsmodell);
+        $query->bind_result($id, $flyNr, $modell, $type, $plasser, $flyAarsmodell,$endret);
         
         //henter data
        
@@ -40,7 +40,7 @@ class Planes {
             }
 
             $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyNr.'</td><td>'.$modell.'</td><td>'.$type.'
-            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td></tr>';
+            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td><td>'.$endret.'</td></tr>';
         
         }
         //Lukker databasetilkopling
@@ -55,8 +55,8 @@ class Planes {
         include('../php/db.php');
         
         //Bygger SQL statementt
-        $query = $db_connection->prepare("INSERT INTO fly (flyNr,modell,type,plasser,aarsmodell) VALUES (?,?,?,?,?)");
-        $query->bind_param('ssssss', $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell);  
+        $query = $db_connection->prepare("INSERT INTO fly (flyNr,flyModell,type,plasser,aarsmodell) VALUES (?,?,?,?,?)");
+        $query->bind_param('sssss', $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell);  
 
             if ( $query->execute()) { 
                 $affectedRows = $query->affected_rows;
@@ -66,6 +66,73 @@ class Planes {
          return $affectedRows;           
 } 
     }
+
+    public function UpdatePlane($flyId,$flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell, $logg){
+            include('db.php');
+            
+            $sql = "
+            update fly 
+            set flynr = ?, flyModell = ?, type = ?, plasser = ?, aarsmodell = ?
+            where flyId = ?;";
+            
+            $insertFly = $db_connection->prepare($sql);
+            $insertFly->bind_param('sssiii'
+                                    , $flyNr,$flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell
+                                    , $flyId);
+                                    
+            $insertFly->execute();
+
+            $affectedRows = $insertFly->affected_rows;
+            
+            $insertFly->close();
+            $db_connection->close(); 
+            
+            
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+
+            if($insertFly == false){
+                $logg->Ny('Failed to update: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
+                exit;    
+            }
+            
+            if ($affectedRows == 1) {
+                $logg->Ny('Fly ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } else {
+                $logg->Ny('Klarte ikke å oppdatere fly.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } 
+                
+            //Lukker databasetilkopling
+            
+            return $affectedRows;
+        }
+        
+            public function GetPlane($flyId, $logg){
+            include('db.php');
+            
+            
+            $sql = "select * FROM fly WHERE flyId=?;";
+            
+            $queryPlanes = $db_connection->prepare($sql);
+            
+            $queryPlanes->bind_param('i', $flyId);
+            $queryPlanes->execute();
+            
+            //henter result set
+            $resultSet = $queryPlanes->get_result();
+            
+            $fly =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryPlanes == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryPlanes->close();
+            $db_connection->close(); 
+            
+            return $fly;
+        } 
 }
 
 
@@ -180,3 +247,4 @@ class Count {
 
 
 }
+

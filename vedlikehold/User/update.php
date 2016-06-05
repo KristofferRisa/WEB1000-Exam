@@ -5,12 +5,7 @@ $title = "FLY - Admin";
 include('./../html/start.php');
 include('./../html/header.html');
 include('./../html/admin-start.html');
-include('./../php/Tittel.php');
-include('./../php/UserType.php');
 
-$t = new Tittel();
-$ut = new UserType();
-$types = $ut->GetUserTypes($logg);
 
 $responseMsg = "";
 //RegEx pattern
@@ -35,25 +30,19 @@ if($_POST){
   $brukernavn = $_POST["inputBrukernavn"];
   $fornavn = $_POST["inputFornavn"];
   $etternavn = $_POST["inputEtternavn"];
-  $DOB = $_POST["inputDato"];
-  $kjonn = $_POST["inputKjonn"];
   $mail = $_POST["inputEmail"];
   $tlf = $_POST["inputTlf"];
-  $tittel = $_POST["inputTittel"];
-  $brukerType = $_POST['inputUserTypeId'];
+  $isAdmin = $_POST["inputIsAdmin"];
   
   
   //Input parametere
   $logg->Ny('Parameter Fornavn: '.$fornavn, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
   $logg->Ny('Parameter Etternav: '.$etternavn, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-  $logg->Ny('Parameter DOB: '.$DOB, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-  $logg->Ny('Parameter kjønn: '.$kjonn, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-  $logg->Ny('Parameter tittel: '.$tittel, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-  $logg->Ny('Parameter brukterType: '.$brukerType);
+  $logg->Ny('Parameter administrator: '.$isAdmin);
   $logg->Ny('Parameter tlf: '.$tlf, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
   
   //sjekk om brukernavn finnes fra før
-  if($brukernavn != $userinfo[0][9]
+  if($brukernavn != $userinfo[0][5]
   && $user->Exsits($brukernavn)) {
     
     $responseMsg = $html->errorMsg('Brukernavnet opptatt.');
@@ -62,11 +51,8 @@ if($_POST){
   } elseif ($brukernavn //Påkrevde felter
     && $fornavn
     && $etternavn
-    && $DOB
-    && $kjonn
     && $mail
-    && $brukerType
-    && $tittel){
+    && $isAdmin){
       
       $logg->Ny('Alle input felter funnet', 'DEBUG','users/add.php', 'NA');
       
@@ -102,18 +88,19 @@ if($_POST){
       } else {
         $validert = FALSE;
         $responseMsg .= $html->errorMsg('Vennligst angi en korrekt epost adresse.');
-        $logg->Ny("email is not a valid email address");
+        $logg->Ny("Epost adresse validerer ikke.$_COOKIE");
       }
       
-      if(!preg_match($inputDatoPattern, $DOB)){
-        $validert = FALSE;
-        $responseMsg .= $html->errorMsg('Feil dato format i fødselsdag felt.');
-        $logg-Ny('Feil dato format i fødselsdags felt.', 'WARNING');
-      } else {
-        $logg->Ny('Ny bruker:Vellykket validering av dato.');
-      }
+      /* validering av administrator */
+      if($isAdmin 
+        && ($isAdmin == 'Ja' || $isAdmin == 'Nei')) {
+          $logg->Ny("Validering av administrator er riktig");
+        } else {
+          $validert = FALSE;
+          $responseMsg .= $html->errorMsg('Vennligst angi korrent administartor felt.');
+        $logg->Ny("Validering av administrator feilet.");
+        }
       
-      //Validere brukerType?
       
       /*
         Validering slutt
@@ -122,7 +109,7 @@ if($_POST){
         //Alle påkrevde felter er blitt validert, forsøker å legge inn ny bruker
         $logg->Ny('Validering OK. Forsøker å oppdatere bruker.');
         
-        $result = $user->UpdateUser($id, $brukernavn, $fornavn, $etternavn, $DOB, $kjonn, $mail, $tlf, $tittel, $brukerType, $logg);     
+        $result = $user->UpdateUser($id, $brukernavn, $fornavn, $etternavn, $mail, $tlf, $isAdmin, $logg);     
         
         $userinfo = $user->GetUser($id, $logg);
         
@@ -182,7 +169,7 @@ if($_POST){
                   <div class="col-md-10">
                     <input type="text" class="form-control" id="inputBrukernavn" name="inputBrukernavn"
                     pattern="<?php echo str_replace('/', '',$brukernavnPattern); ?>" 
-                    value="<?php echo $userinfo[0][9]; ?>">
+                    value="<?php echo $userinfo[0][5]; ?>">
                   </div>
                 </div>
                
@@ -205,74 +192,24 @@ if($_POST){
                     value="<?php echo $userinfo[0][2]; ?>">
                   </div>
                 </div>
-               
-                <!-- Bruker type -->
+           
+           
+                <!-- IsAdmin -->
                 <div class="form-group">
-                  <label for="inputUserTypeId" class="col-md-2 control-label">Type</label>
-                  <div class="col-md-10">
-                    
-                    <?php
-                      $textBrukerType = '';
-                      $valueBrukerType = 0;
-                      if(@!$userinfo[0][7]){
-                        $textBrukerType = 'Velg brukertype';
-                      } else {
-                          $last = count($types) - 1;
-                         foreach ($types as $i => $row)
-                          {
-                              $isFirst = ($i == 0);
-                              $isLast = ($i == $last);
-                              if($userinfo[0][7] == $row[1]){
-                                //konverterer brukertype ID til brukertype navn
-                                $valueBrukerType = $row[0];
-                              }                  
-                          }
-                      }
-                      
-                      echo $html->GenerateSearchSelectionbox($types, 'userTypes', 'inputUserTypeId',@$userinfo[0][7], '','required', $valueBrukerType); 
-                      ?>
-                    
-                  </div>
-                </div>
-               
-                <!-- Dato -->
-                <div class="form-group">
-                <label class="col-md-2 control-label">Fødselsdag:</label>
-                <div class="col-md-2">
-                  <div class="input-group date">
-                    <div class="input-group-addon">
-                      <i class="fa fa-calendar"></i>
+                  <label for="inputIsAdmin" class="col-md-2 control-label">Administrator</label>
+                  <div class="col-md-5">
+                      <div class="ui fluid search selection dropdown">
+                        <input type="hidden" required name="inputIsAdmin" value="<?php echo $userinfo[0][6] ?>">
+                        <i class="dropdown icon"></i>
+                        <div class="default text"></div>
+                    <div class="menu">
+                      <div class="item customItem" data-value="Ja" ><i></i>Ja</div>
+                      <div class="item customItem" data-value="Nei" ><i></i>Nei</div>
+                     </div>
                     </div>
-                    <input type="text" class="form-control" id="datepicker" name="inputDato"
-                    pattern="<?php echo str_replace('/', '',$inputDatoPattern); ?>" 
-                    value="<?php echo $userinfo[0][5]; ?>" >
-                  </div>
-                 </div>
-                
-                <!-- Kjønn -->
-                  <label class="col-md-1 control-label">Kjønn:</label>
-                  <div class="col-md-2">
-                    <select class="form-control select2 select2-hidden-accessible" name="inputKjonn" 
-                      form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                  
-                      <option <?php if($userinfo[0][8] == 'Mann') {echo 'selected'; } ?>>Mann</option>
-                      <option <?php if($userinfo[0][8] == 'Kvinne') {echo 'selected'; } ?>>Kvinne</option>
-                      
-                    </select>
-                    <span class="dropdown-wrapper" aria-hidden="true"></span>
-                  </div>
-                  
-                  
-                <!-- Tittel -->
-                <label for="inputTittel" class="col-md-1 control-label">Tittel</label>
-                <div class="col-md-2">
-                    
-                    <select class="form-control select2 select2-hidden-accessible" name="inputTittel"  form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                        <?php print($t->TittelSelectOptions($userinfo[0][6])); ?>
-                    </select>  
                   </div>
                 </div>
-                
+           
                
                <!-- Email -->
                 <div class="form-group">
