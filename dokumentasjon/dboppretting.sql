@@ -1,19 +1,4 @@
-DROP TABLE IF EXISTS logg;
-DROP TABLE IF EXISTS autentisering;
-DROP TABLE IF EXISTS billett;
-DROP TABLE IF EXISTS pris;
-DROP TABLE IF EXISTS prisHistorikk;
-DROP TABLE IF EXISTS billett;
-DROP TABLE IF EXISTS bruker;
-DROP TABLE IF EXISTS tittel;
-DROP TABLE IF EXISTS brukerType;
-DROP TABLE IF EXISTS destinasjon;
-DROP TABLE IF EXISTS reise;
-DROP TABLE IF EXISTS reiseType;
-DROP TABLE IF EXISTS fly;
-DROP TABLE IF EXISTS billettType;
-DROP TABLE IF EXISTS flyplass;
-DROP TABLE IF EXISTS statusKode;
+DROP TABLE bruker, billett, bestilling, kunde, sete, prisKategori, avgang, rute, sesong, destinasjon, flyplass, fly;
 
 
 
@@ -123,33 +108,22 @@ CREATE TABLE sete
 );
 
 
-CREATE TABLE kunde 
-(
-	kundeId INT NOT NULL AUTO_INCREMENT,
-	fornavn VARCHAR (50) NOT NULL,
-	etternavn VARCHAR (50) NOT NULL,
-	kjonn VARCHAR (50) NOT NULL, 
-	telefon VARCHAR (25) NOT NULL,
-	epost VARCHAR (100) NOT NULL,
-	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_kunde PRIMARY KEY (kundeId)
-);
-
-
 CREATE TABLE bestilling
 (
 	bestillingId INT NOT NULL AUTO_INCREMENT,
-	kundeId INT NOT NULL,
 	bestillingsDato CHAR (10) NOT NULL, -- 01/01/206
 	refNo varchar(200) NOT NULL,
 	reiseDato CHAR (10) NOT NULL, -- 01/01/2016
 	returDato CHAR (10) NOT NULL, -- 01/01/2016
+	bestillerFornavn VARCHAR (50) NOT NULL,
+	bestillerEtternavn VARCHAR (50) NOT NULL,
+	bestillerEpost VARCHAR (100) NOT NULL,
+	bestillerTlf VARCHAR (50) NOT NULL,
 	antallVoksne INT NOT NULL,
 	antallBarn INT NOT NULL,
 	antallBebis INT NOT NULL,
 	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_bestilling PRIMARY KEY (bestillingId),
-	CONSTRAINT fk_betilling FOREIGN KEY (kundeId) REFERENCES kunde (kundeId)		
+	CONSTRAINT pk_bestilling PRIMARY KEY (bestillingId)
 );
 
 

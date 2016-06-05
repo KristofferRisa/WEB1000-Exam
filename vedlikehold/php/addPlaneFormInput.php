@@ -1,6 +1,6 @@
 <?php 
 
-$flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $flyStatusKode = $errMsg = "";
+$flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $errMsg = "";
 
 $errorMelding = "";
 
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 elseif (filter_var($_POST["flyAntallPlasser"], FILTER_VALIDATE_INT) === false || strlen($_POST["flyAntallPlasser"]) > 11 ) {
-  $errorMelding = "<div class='alert alert-error'><strong>Error! </strong>Antall Plasser må være siffer og maks 11 tegn.</div>";
+  $$errorMelding =  $html->errorMsg("Antall plasser må kun være siffer og maks 11 tegn tegn!");
 
 }
 
@@ -42,15 +42,14 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
     $flyType = $valider->valider($_POST["flyType"]);
     $flyAntallPlasser = $valider->valider($_POST["flyAntallPlasser"]);
     $flyAarsmodell = $valider->valider($_POST["flyAarsmodell"]);
-    $flyStatusKode = 1;
 
     $innIDataBaseMedData = new Planes;
 
-    $result = $innIDataBaseMedData->AddNewPlane($flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$flyStatusKode);
+    $result = $innIDataBaseMedData->AddNewPlane($flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell);
 
     if($result == 1){
       //Success
-             $errorMelding = $html->successMsg("Data ble lagt inn i databasen.");
+             $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
 
     } else {
       //not succesfull
