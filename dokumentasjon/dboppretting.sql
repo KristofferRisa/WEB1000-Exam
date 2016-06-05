@@ -87,7 +87,7 @@ CREATE TABLE prisKategori
 (
 	prisKategoriId INT NOT NULL AUTO_INCREMENT,
 	navn VARCHAR (100) NOT NULL,
-	prosentpaaslag INT,
+	prosentPaaslag INT,
 	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT pk_prisKategori PRIMARY KEY (prisKategoriId)
 );
@@ -114,7 +114,7 @@ CREATE TABLE bestilling
 	bestillingsDato CHAR (10) NOT NULL, -- 01/01/206
 	refNo varchar(200) NOT NULL,
 	reiseDato CHAR (10) NOT NULL, -- 01/01/2016
-	returDato CHAR (10) NOT NULL, -- 01/01/2016
+	returDato CHAR (10), -- 01/01/2016
 	bestillerFornavn VARCHAR (50) NOT NULL,
 	bestillerEtternavn VARCHAR (50) NOT NULL,
 	bestillerEpost VARCHAR (100) NOT NULL,
@@ -153,7 +153,7 @@ CREATE TABLE bruker
 	etternavn VARCHAR(45) NOT NULL,
 	epost VARCHAR(45) NOT NULL,
 	tlf VARCHAR(45),
-	isAdmin BIT NOT NULL DEFAULT 0, -- 0 = bruker, 1= admin.
+	isAdmin VARCHAR (5) NOT NULL,
 	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT pk_bruker PRIMARY KEY (brukerId)
 );
