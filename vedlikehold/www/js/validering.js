@@ -11,17 +11,16 @@ function validerRegistrerFly()
   var flyType=document.getElementById("flyType").value;
   var flyAntallPlasser=document.getElementById("flyAntallPlasser").value;
   var flyAarsmodell=document.getElementById("flyAarsmodell").value;
-  var flyStatusKode=document.getElementById("flyStatusKode").value;
 
   var feilmelding="<div class='alert alert-error'>";
 
   if (!flyNr)
     {
-        feilmelding=feilmelding + "Fly nr er ikke korrekt fylt ut.<br />";
+        feilmelding=feilmelding + "Flynr er ikke fylt ut.<br />";
     }
   if (!flyModell)
     {
-        feilmelding=feilmelding + "Fly modell er ikke fylt ut. <br />";
+        feilmelding=feilmelding + "Flymodell er ikke fylt ut. <br />";
     }
   if (!flyType)
     {
@@ -37,14 +36,39 @@ function validerRegistrerFly()
         feilmelding=feilmelding + "Årsmodell er ikke fylt ut. <br />";
     }
 
-    if (!flyStatusKode)
+    else {feilmelding=feilmelding + "</div>"}
+
+  if (flyNr && flyModell && flyType && flyAntallPlasser && flyAarsmodell)
     {
-        feilmelding=feilmelding + "Statuskode mangler. <br />";
+        return true;
+    }
+  else
+    {
+        document.getElementById("melding").style.color="red"; 
+        document.getElementById("melding").innerHTML=feilmelding; 
+        return false;
+    } 
+}
+
+function validerRegistrerFlyplass()
+{
+  var flyplassNavn=document.getElementById("flyplassNavn").value;
+  var flyplassLand=document.getElementById("flyplassLand").value;
+
+  var feilmelding="<div class='alert alert-error'>";
+
+  if (!flyplassNavn)
+    {
+        feilmelding=feilmelding + "Flyplass navn er ikke fylt ut.<br />";
+    }
+  if (!flyplassLand)
+    {
+        feilmelding=feilmelding + "Flyplass land er ikke fylt ut. <br />";
     }
 
     else {feilmelding=feilmelding + "</div>"}
 
-  if (flyNr && flyModell && flyType && flyAntallPlasser && flyAarsmodell && flyStatusKode)
+  if (flyplassNavn && flyplassLand)
     {
         return true;
     }

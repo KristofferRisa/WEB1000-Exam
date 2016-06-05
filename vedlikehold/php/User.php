@@ -27,6 +27,7 @@
             $sql = "
             select 
                 brukerId
+                , brukernavn
                 ,fornavn
                 ,etternavn
                 ,epost
@@ -47,7 +48,8 @@
             $queryPrSide->execute();
 
             $queryPrSide->bind_result($id
-                ,$fornavn
+                , $brukernavn
+                , $fornavn
                 , $etternavn
                 , $epost
                 , $tlf
@@ -70,16 +72,17 @@
                 $html .= '
                     <tr role="row" class="'.$printOddOrEven.'">
                         <td>'.$id.'</td>
+                        <td>'.$brukernavn.'</td>
                         <td>'.$fornavn.'</td>
                         <td>'.$etternavn.'</td>
                         <td>'.$epost.'</td>
-                        <td>'.$tittel.'</td>
-                        <td>'.$tlf.'</td>
-                        <td>'.$dob.'</td>
-                        <td>'.$type.'</td>
-                        <td>'.$status.'</td>
-                        <td>
-                            <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> 
+                        '//<td>'.$tittel.'</td>
+                        .'<td class="hidden-xs">'.$tlf.'</td>
+                        '//<td>'.$dob.'</td>
+                        .'<td class="hidden-xs">'.$type.'</td>
+                        '//<td>'.$status.'</td>
+                        .'<td>
+                            <a href="./User/add.php">Ny</a> | <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> 
                         </td>
                    </tr>';
             }
@@ -97,22 +100,27 @@
             return $html;
         }
         
-        function NewUser($fname, $lname, $DOB, $sex, $mail, $pass, $phone, $tittel,$logg)
+        public function NewUser($brukernavn, $fname, $lname, $DOB, $sex, $mail, $new_pass, $phone, $tittel,$brukerTypeId,$logg)
         {   
             include('db.php');
             
-            $brukerTypeId = 1; //Må hentes fra FORM listbox
-            $statusKodeId = 1; //Opprettet (lese fra database?)
+             $logg->Ny('Forsøker å opprette ny bruker.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+             
+             $logg->Ny('PASSORD = '.$new_pass, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+            
+            $statusKodeId = 1; //Opprettet (lese fra database?) Fjernes!
+            
             $salt = uniqid(mt_rand(), true);
 
             $options = [
                 'cost' => 11,
                 'salt' => $salt,
             ];
-            $pass_hash = password_hash($pass, PASSWORD_BCRYPT, $options);
+            $pass_hash = password_hash($new_pass, PASSWORD_BCRYPT, $options);
             
             $sql = "
-                insert into bruker (fornavn
+                insert into bruker (brukernavn
+                                    , fornavn
                                     , etternavn
                                     , epost
                                     , tlf
@@ -122,10 +130,11 @@
                                     , brukerTypeId
                                     , statusKodeId
                                     , kjonn) 
-                            values (?,?,?,?,?,?,?,?,?,?)";
+                            values (?,?,?,?,?,?,?,?,?,?,?)";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('sssssssiis'
+            $insertUser->bind_param('ssssssssiis'
+                                    , $brukernavn
                                     , $fname
                                     , $lname
                                     , $mail
@@ -138,15 +147,16 @@
                                     , $sex);
                                     
             $insertUser->execute();
+            $affectedRows = $insertUser->affected_rows;
             
-            $logg->Ny('Rows affected: '.$insertUser->affected_rows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
 
             if($insertUser == false){
                 $logg->Ny('Failed to insert: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
                 exit;    
             }
             
-            if ($insertUser->affected_rows == 1) {
+            if ($affectedRows == 1) {
                 $logg->Ny('Ny bruker opprettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } else {
                 $logg->Ny('Klarte ikke å opprette ny bruker.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
@@ -155,19 +165,22 @@
             //Lukker databasetilkopling
             $insertUser->close();
             $db_connection->close(); 
+            
+            return $affectedRows;
+            
         }
         
-        public function UpdateUser($userid, $fname, $lname, $DOB, $sex, $mail, $phone, $tittel, $logg){
+        public function UpdateUser($userid, $brukernavn, $fname, $lname, $DOB, $sex, $mail, $phone, $tittel, $brukerTypeId, $logg){
             include('db.php');
             
-            $brukerTypeId = 1; //Må hentes fra FORM listbox
             $statusKodeId = 1; //Opprettet (lese fra database?)
             
             //TODO: Sjekk om brukeren finnes fra før
             
             $sql = "
             update bruker 
-            set fornavn = ?
+            set brukernavn = ?
+                , fornavn = ?
                 , etternavn = ?
                 , epost = ?
                 , tlf = ?
@@ -179,7 +192,8 @@
             where brukerId = ?;";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('ssssssiiis'
+            $insertUser->bind_param('sssssssiisi'
+                                    , $brukernavn
                                     , $fname
                                     , $lname
                                     , $mail
@@ -217,22 +231,22 @@
             return $affectedRows;
         }
         
-        function Exsits($username)
+        public function Exsits($brukernavn)
         {
             include('db.php');
         
-            $query = $db_connection->prepare("SELECT brukerId FROM BRUKER WHERE epost = ?");
-            $query->bind_param('s', $username);
+            $query = $db_connection->prepare("SELECT brukerId FROM bruker WHERE brukernavn = ?");
+            $query->bind_param('s', $brukernavn);
             $query->execute();
 
-            $query->bind_result($bnavn);
+            $query->bind_result($userid);
             $query->fetch();
 
             //Lukker databasetilkopling
             $query->close();
             $db_connection->close();
             
-            if($bnavn)
+            if($userid)
             {
                 return TRUE;
             }
@@ -242,11 +256,11 @@
             }
         }
         
-        function Login($username, $password, $logg)
+        public function Login($username, $password, $logg)
         {
             include('db.php');
         
-            $query = $db_connection->prepare("SELECT passord FROM bruker WHERE epost = ?;");
+            $query = $db_connection->prepare("SELECT passord FROM bruker WHERE brukernavn = ?;");
             $query->bind_param('s', $username);
             $query->execute();
 
@@ -274,17 +288,17 @@
             }
         }
         
-        function ValidateUsername($username)
+        public function ValidateUsername($username)
         {
             return preg_match('/[a-zA-Z0-9]{1,}/', $username);
         }
         
-        function setUserCookie($uid)
+        public function setUserCookie($uid)
         {
             setcookie("uid", md5($uid), time() + 21600, '/', NULL, 0); /* expire in 5 hour */ 
         }
         
-        function sjekkUserCookie()
+        public function sjekkUserCookie()
         {
             // GET cocike
             // Print an individual cookie - http://php.net/manual/en/function.setcookie.php
@@ -299,7 +313,7 @@
             include('db.php');
             
             
-            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type,kjonn from bruker b
+            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type,kjonn,brukernavn from bruker b
                     inner join tittel t on t.tittelId = b.tittelId
                     inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
                     WHERE brukerId = ?;";
@@ -324,11 +338,41 @@
                 $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
             }
             
+            $resultSet->free();
             $queryPrSide->close();
             $db_connection->close(); 
             
             return $user;
         } 
+        
+        public function GetUsername($username){
+            include('db.php');
+            
+            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type,kjonn from bruker b
+                    inner join tittel t on t.tittelId = b.tittelId
+                    inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
+                    WHERE brukernavn = ?;";
+            
+            $queryPrSide = $db_connection->prepare($sql);
+            
+            $queryPrSide->bind_param('s', $username);
+            $queryPrSide->execute();
+            //$queryPrSide->bind_result($id,$fornavn, $etternavn, $epost, $tlf, $dob, $tittel, $type);
+
+            //henter data
+            //http://php.net/manual/en/pdostatement.fetchall.php
+            //http://stackoverflow.com/questions/13297094/how-do-i-use-fetchall-in-php
+            
+            //henter result set
+            $resultSet = $queryPrSide->get_result();
+            
+            $user =  $resultSet->fetch_all();
+            
+            $queryPrSide->close();
+            $db_connection->close(); 
+            
+            return $user;
+        }
         
         public function ChangePassword($userId, $password, $logg){
             include('db.php');
@@ -360,13 +404,9 @@
             
             if($updateUser == false){
                 $logg->Ny('Failed to update user: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
-                exit;    
             }
-            
             if ($affectedRows == 1) {
                 $logg->Ny('Bruker ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-                header('location: ./../');
-                exit;
             } else {
                 $logg->Ny('Klarte ikke å oppdatere bruker.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } 
@@ -378,4 +418,39 @@
             return $affectedRows;
         }
         
+        public function UsersSelectOptions(){
+            include('db.php');
+            $htmlSelect =  '';
+            
+            $sql = "
+            select 
+                brukerId
+                , brukernavn
+            from bruker;";
+            
+            $queryUsers = $db_connection->prepare($sql);
+            
+            $queryUsers->execute();
+
+            $queryUsers->bind_result($id, $bnavn);
+                        
+            //$htmlSelect .=  '<select class="form-control select2 select2-hidden-accessible" name="userid" form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">';
+            
+            //henter data
+            while ($queryUsers->fetch()) {
+                
+                $htmlSelect .= "<option value=".$id. ">".$bnavn."</option>";
+            }
+            
+            //$htmlSelect .= '</select>';
+            //Error logging
+            if($queryUsers == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $queryUsers->close();
+            $db_connection->close(); 
+            
+            return $htmlSelect;
+        }
     }    

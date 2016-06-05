@@ -1,6 +1,8 @@
 <?php 
 $title = "FLY - Admin";
 
+include('./html/start.php');
+
 include('./html/header.html');
 
 include('./html/admin-start.html');
@@ -61,9 +63,6 @@ include('./html/admin-start.html');
                     <tbody>
 <?php 
 // PHP kode for å hente tabell HTML kode
-
-include('./php/Logg.php');
-$logg = new Logg();
 //Logger
 // $logg->Ny('Laster LOGG side', 'INFO','/vedlikehold/logg.php', 'ikke logget inn');
 
@@ -98,7 +97,7 @@ print($logg->AltPrSide(100,$sidenr));
               </div>
               <div class="row">
                 <div class="col-sm-5">
-                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 100 of <?php print($antallMeldinger);?> entries</div>
+                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Totalt <?php print($antallMeldinger);?> logg meldinger.</div>
                 </div>
                 <div class="col-sm-7">
                   <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">

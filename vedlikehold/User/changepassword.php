@@ -1,12 +1,10 @@
 <?php  
+$title = "FLY - Admin";
 
 //Includes
-include('./../php/Logg.php');
-include('./../php/User.php');
-
-//Globale variabler
-$user = new User();
-$logg = new Logg();
+include('./../html/start.php');
+include('./../html/header.html');
+include('./../html/admin-start.html');
 
 $responseMsg = "";
 
@@ -42,8 +40,12 @@ if($_POST){
         $responseMsg = "<div class='alert alert-success alert-dismissible'><strong>Success!</strong> Brukeren ble oppdatert.</div>";
       } else {
         $responseMsg = "<div class='alert alert-error'><strong>Error!</strong> Klarte ikke å oppdatere bruker</div>";
-      } 
-    }
+      }
+      
+      echo $result; 
+    }  else {
+        $responseMsg = "<div class='alert alert-error'><strong>Error!</strong> Passordene er ikke like!</div>";
+        }
   
 } 
 
@@ -51,29 +53,19 @@ if($_GET && $_GET['id']){
   
   $id = $_GET['id'];
   
-  header('x-uid:'.$id);
-  
   //returnerer en array med bruker info    
   $userinfo = $user->GetUser($id, $logg);
   
   //DEBUG
   //print_r($userinfo);
   
-} else {
-  header('location: ./users.php');
-  exit;
-}
+} elseif($_GET) {
+  // header('location: ./users.php');
+  // exit;
+} 
 
 ?>
 
-<?php 
-$title = "FLY - Admin";
-
-include('./../html/header.html');
-
-include('./../html/admin-start.html');
-
-?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
@@ -99,7 +91,6 @@ include('./../html/admin-start.html');
           <div class="box box-info">
             <div class="box-header with-border">
               <?php echo $responseMsg ?>
-              
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -116,17 +107,17 @@ include('./../html/admin-start.html');
                
                <!-- Passord -->
                 <div class="form-group">
-                  <label for="passord1" class="col-sm-2 control-label">Password</label>
+                  <label for="passord1" class="col-sm-2 control-label">Nytt passord</label>
                   <div class="col-sm-10">
-                    <input type="password" class="form-control" id="passord1" name="passord1" >
+                    <input type="password" class="form-control" id="inputPassword3" name="passord1" >
                   </div>
                 </div>
                 
                 <!-- Passord 2 -->
                 <div class="form-group">
-                  <label for="passord2" class="col-sm-2 control-label">Password</label>
+                  <label for="passord2" class="col-sm-2 control-label">Gjenta passord</label>
                   <div class="col-sm-10">
-                    <input type="password" class="form-control" id="passord2" name="passord2" >
+                    <input type="password" class="form-control" id="inputPassword4" name="passord2" >
                   </div>
                 </div>
            
@@ -134,11 +125,10 @@ include('./../html/admin-start.html');
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                <button type="submit" class="btn btn-default" onclick="location.href='./User/users.php';return false;">Tilbake</button>
+                <div class="btn btn-default" onclick="location.href='./User/users.php';">Tilbake</div>
                 
-                <button type="submit" class="btn btn-default" onclick="location.href='./User/users.php';return false;">Nullstill</button>
                 
-                <button type="submit" class="btn btn-info pull-right">Opprett</button>
+                <button type="submit" class="btn btn-info pull-right">Bytt</button>
               </div>
               <!-- /.box-footer -->
             </form>
@@ -156,6 +146,7 @@ include('./../html/admin-start.html');
   
 
 <?php
+
 include('./../html/admin-slutt.html');
 
 include('./../html/script.html');

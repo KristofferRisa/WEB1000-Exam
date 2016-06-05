@@ -89,7 +89,12 @@
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
+              
+               <span class="hidden-xs">
+                <?php
+                  echo $_SESSION['brukernavn']; 
+                ?>
+              </span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -97,8 +102,15 @@
                 <img src="./www/img/avatar5.png" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  <?php
+                  
+                    echo $userInfo[0][1].' '.$userInfo[0][2];
+                  ?>
+                  <small>
+                  <?php 
+                    echo $userInfo[0][3];
+                  ?>  
+                  </small>
                 </p>
               </li>
               <!-- Menu Footer-->
@@ -107,7 +119,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="./logout.php" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -149,11 +161,29 @@
         </li>
 
         <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Flyplasser</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">          
+            <li id="Vis alle flyplasser"><a href="./Airport/airports.php" >Vis alle flyplasser</a></li>
+            <li id="Legg til flyplasser"><a href="./Airport/airportsAdd.php">Legg til flyplass</a></li>
+            <li id="Endre flyplass"><a href="./Airport/airportsEdit.php">Endre flyplass</a></li>
+          </ul>
+        </li>
+
+                <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Flyruter</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">          
+            <li id="Vis alle flyruter"><a href="./FlightRoutes/routes.php" >Vis alle flyruter</a></li>
+            <li id="Legg til flyrute"><a href="./FlightRoutes/routesAdd.php">Legg til flyrute</a></li>
+            <li id="Endre flyrute"><a href="./FlightRoutes/routesEdit.php">Endre flyrute</a></li>
+          </ul>
+        </li>
+        
+        <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Flyvninger</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
-            <li id="Flyvninger"><a href="./flights.php">Flyvninger</a></li>
+            <
             <li id="Destinasjon"><a href="./destinations.php">Destinasjon</a></li>
-            <li id="Flyplasser"><a href="./airports.php">Flyplasser</a></li>
+            
             <li id="Typer"><a href="./flights-types.php">Typer</a></li>
           </ul>
         </li>
@@ -177,7 +207,7 @@
         <li class="header">System admin</li>
         <!-- Optionally, you can add icons to the links -->
         <li id="Logg"><a href="./logg.php"><i class="fa fa-link"></i> <span>Logg</span></a></li>
-
+        <li id="Systemoppsett"><a href="./system.php"><i class="fa fa-link"></i> <span>Systemoppsett</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>
