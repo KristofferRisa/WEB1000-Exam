@@ -3,20 +3,13 @@ $title = "FLY - Admin";
 include('./../html/start.php');
 include('./../html/header.html');
 include('./../html/admin-start.html');
-include('./../php/Tittel.php');
-include('./../php/UserType.php');
 
 //Felles objekter
-$t = new Tittel();
-$ut = new UserType();
-$types = $ut->GetUserTypes($logg);
 $responseMsg = "";
 //RegEx pattern
 $brukernavnPattern = "/^[A-Za-z0-9]{2,}$/";
 $navnPattern = "/^[A-Za-z]{2,}$/";
 $passordPattern = "/^[A-Za-z0-9#$@!%&*?]{3,}$/";
-$inputDatoPattern = "/(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/";
-
 
 if($_POST){
     $logg->Ny('POST av ny bruker skjema', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), 'NA');
@@ -25,23 +18,17 @@ if($_POST){
     $brukernavn = $_POST["inputBrukernavn"];
     $fornavn = $_POST["inputFornavn"];
     $etternavn = $_POST["inputEtternavn"];
-    $DOB = $_POST["inputDato"];
-    $kjonn = $_POST["inputKjonn"];
     $mail = $_POST["inputEmail"];
     $pass1 = $_POST["inputPassword3"];
     $pass2 = $_POST["inputPassword4"];
     $tlf = $_POST["inputTlf"];
-    $brukerType = $_POST['inputUserTypeId'];
-    $tittel = $_POST["inputTittel"];
+    $isAdmin = $_POST["inputIsAdmin"];
     
     //Logging av input parametere
     $logg->Ny('Parameter Fornavn: '.$fornavn, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
     $logg->Ny('Parameter Etternav: '.$etternavn, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-    $logg->Ny('Parameter DOB: '.$DOB, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-    $logg->Ny('Parameter kjønn: '.$kjonn, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-    $logg->Ny('Parameter tittel: '.$tittel, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+    $logg->Ny('Parameter isAdmin: '.$isAdmin, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
     $logg->Ny($pass1.' - '.$pass2, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-    $logg->Ny('Parameter brukterType: '.$brukerType);
     $logg->Ny('Parameter tlf: '.$tlf, 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
     
     //Sjekk input parametere
@@ -57,16 +44,14 @@ if($_POST){
         && $mail
         && $pass1
         && $pass2
-        && $brukerType
         ){
         
         $logg->Ny('Alle input felter funnet', 'DEBUG','users/add.php', 'NA');
         
-        $validert = FALSE;
-        
         /*
           Validering start!!
         */
+        $validert = FALSE;
         
         /* Validering brukernavn */
         if(!preg_match($brukernavnPattern, $brukernavn)){
@@ -116,16 +101,6 @@ if($_POST){
           $responseMsg .= $html->errorMsg('Vennligst angi en korrekt epost adresse.');
           $logg->Ny("email is not a valid email address");
         }
-
-        if($DOB && !preg_match($inputDatoPattern, $DOB)){
-          $validert = FALSE;
-          $responseMsg .= $html->errorMsg('Feil dato format i fødselsdag felt.');
-          $logg-Ny('Feil dato format i fødselsdags felt.', 'WARNING');
-        } else {
-          $logg->Ny('Ny bruker:Vellykket validering av dato.');
-        }
-        
-        //Validere brukerType?
         
         /*
           Validering slutt
@@ -133,7 +108,7 @@ if($_POST){
         if($validert){
           //Alle påkrevde felter er blitt validert, forsøker å legge inn ny bruker
           
-          $result = $user->NewUser($brukernavn, $fornavn, $etternavn, $DOB, $kjonn, $mail, $pass1, $tlf, $tittel, $brukerType, $logg);
+          $result = $user->NewUser($brukernavn, $fornavn, $etternavn, $mail, $pass1, $tlf, $isAdmin, $logg);
           $logg->Ny('Resultat fra NewUser funksjon. '.$result);
           if($result == 1){
               $responseMsg .= $html->successMsg("Ny bruker ble opprettet.");
@@ -141,12 +116,10 @@ if($_POST){
               
               $brukernavn = "";
               $mail = "";
-              $DOB = "";
               $fornavn = "";
               $etternavn = "";
-              $kjonn = "";
+              $isAdmin = "";
               $tlf = "";
-              $brukerType = "";
               
           }
           else {
@@ -218,70 +191,28 @@ if($_POST){
                   </div>
                 </div>
                 
-               <!-- Email -->
+               <!-- IsAdmin -->
+                <div class="form-group">
+                  <label for="inputIsAdmin" class="col-md-2 control-label">Administrator</label>
+                  <div class="col-md-5">
+                      <div class="ui fluid search selection dropdown">
+                        <input type="hidden" required name="inputIsAdmin" value="">
+                        <i class="dropdown icon"></i>
+                        <div class="default text"></div>
+                    <div class="menu">
+                      <div class="item customItem" data-value="Ja" ><i></i>Ja</div>
+                      <div class="item customItem" data-value="Nei" ><i></i>Nei</div>
+                     </div>
+                    </div>
+                  </div>
+                </div>
+           
+                
+                 <!-- Email -->
                 <div class="form-group">
                   <label for="inputEmail" class="col-md-2 control-label">Email</label>
                   <div class="col-md-10">
                     <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="" required value="<?php echo @$mail ?>">
-                  </div>
-                </div>
-                
-             <!-- Bruker type -->
-                <div class="form-group">
-                  <label for="inputUserTypeId" class="col-md-2 control-label">Type</label>
-                  <div class="col-md-10">
-                    
-                    <?php
-                      if(@!$brukerType){
-                        $textBrukerType = 'Velg brukertype';
-                      } else {
-                          $last = count($types) - 1;
-                         foreach ($types as $i => $row)
-                          {
-                              $isFirst = ($i == 0);
-                              $isLast = ($i == $last);
-                              if($brukerType == $row[0]){
-                                //konverterer brukertype ID til brukertype navn
-                                $textBrukerType = $row[1];
-                              }                  
-                          }
-                      }
-                      echo $html->GenerateSearchSelectionbox($types, 'userTypes', 'inputUserTypeId',$textBrukerType, '','required',@$brukerType); 
-                      ?>
-                    
-                  </div>
-                </div>
-                
-                
-               <!-- Dato -->
-                <div class="form-group">
-                <label class="col-md-2 control-label">Fødselsdag:</label>
-                <div class="col-md-2">
-                  <div class="input-group date">
-                    <div class="input-group-addon">
-                      <i class="fa fa-calendar"></i>
-                    </div>
-                    <input type="text" class="form-control" id="datepicker" name="inputDato" pattern="<?php echo str_replace('/', '',$inputDatoPattern); ?>" value="<?php echo @$DOB ?>">
-                  </div>
-                 </div>
-                
-                    <!-- Kjønn -->
-                    <label class="col-md-1 control-label">Kjønn:</label>
-                    <div class="col-md-2">
-                      <select class="form-control select2 select2-hidden-accessible" name="inputKjonn" 
-                        form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                        <option <?php if(@$kjonn == 'Mann') echo 'selected'; ?>>Mann</option>
-                        <option <?php if(@$kjonn == 'Kvinne') echo 'selected'; ?>>Kvinne</option>
-                      </select>
-                      <span class="dropdown-wrapper" aria-hidden="true"></span>
-                    </div>
-                 
-                  <!-- Tittel -->
-                  <label for="inputTittel" class="col-md-1 control-label">Tittel</label>
-                  <div class="col-md-2">
-                      <select class="form-control select2 select2-hidden-accessible" name="inputTittel"  form="nybruker" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                          <?php print($t->TittelSelectOptions(@$tittel));?>
-                      </select>
                   </div>
                 </div>
                 

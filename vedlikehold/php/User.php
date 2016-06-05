@@ -118,7 +118,7 @@
                             values (?,?,?,?,?,?,?)";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('ssssssssiis'
+            $insertUser->bind_param('sssssss'
                                     , $brukernavn
                                     , $fname
                                     , $lname
@@ -169,7 +169,7 @@
             where brukerId = ?;";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('sssssii'
+            $insertUser->bind_param('ssssssi'
                                     , $brukernavn
                                     , $fname
                                     , $lname
