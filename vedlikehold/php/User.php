@@ -32,14 +32,8 @@
                 ,etternavn
                 ,epost
                 ,tlf
-                ,dob
-                ,t.navn as tittel
-                ,bt.navn as type
-                ,s.navn as status
+                ,isAdmin
             from bruker b
-                inner join tittel t on t.tittelId = b.tittelId
-                inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
-                inner join statusKode s on b.statusKodeId = s.statusKodeId
             LIMIT ?,?;";
             
             $queryPrSide = $db_connection->prepare($sql);
@@ -47,16 +41,14 @@
             $queryPrSide->bind_param('ss', $offset, $antallMeldinger);
             $queryPrSide->execute();
 
-            $queryPrSide->bind_result($id
+            $queryPrSide->bind_result(
+                $id
                 , $brukernavn
                 , $fornavn
                 , $etternavn
                 , $epost
                 , $tlf
-                , $dob
-                , $tittel
-                , $type
-                , $status);
+                , $isAdmin);
             
             //henter data
             while ($queryPrSide->fetch()) {
@@ -75,12 +67,9 @@
                         <td>'.$brukernavn.'</td>
                         <td>'.$fornavn.'</td>
                         <td>'.$etternavn.'</td>
-                        <td>'.$epost.'</td>
-                        '//<td>'.$tittel.'</td>
-                        .'<td class="hidden-xs">'.$tlf.'</td>
-                        '//<td>'.$dob.'</td>
-                        .'<td class="hidden-xs">'.$type.'</td>
-                        '//<td>'.$status.'</td>
+                        <td>'.$epost.'</td>'
+                        .'<td class="hidden-xs">'.$tlf.'</td>'
+                        .'<td class="hidden-xs">'.$isAdmin.'</td>'
                         .'<td>
                             <a href="./User/add.php">Ny</a> | <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> 
                         </td>
@@ -100,7 +89,7 @@
             return $html;
         }
         
-        public function NewUser($brukernavn, $fname, $lname, $DOB, $sex, $mail, $new_pass, $phone, $tittel,$brukerTypeId,$logg)
+        public function NewUser($brukernavn, $fname, $lname, $mail, $new_pass, $phone, $isAdmin ,$logg)
         {   
             include('db.php');
             
@@ -124,13 +113,9 @@
                                     , etternavn
                                     , epost
                                     , tlf
-                                    , dob
-                                    , tittelId
                                     , passord
-                                    , brukerTypeId
-                                    , statusKodeId
-                                    , kjonn) 
-                            values (?,?,?,?,?,?,?,?,?,?,?)";
+                                    , isAdmin) 
+                            values (?,?,?,?,?,?,?)";
             
             $insertUser = $db_connection->prepare($sql);
             $insertUser->bind_param('ssssssssiis'
@@ -139,12 +124,8 @@
                                     , $lname
                                     , $mail
                                     , $phone
-                                    , $DOB
-                                    , $tittel
                                     , $pass_hash
-                                    , $brukerTypeId
-                                    , $statusKodeId
-                                    , $sex);
+                                    , $isAdmin);
                                     
             $insertUser->execute();
             $affectedRows = $insertUser->affected_rows;
@@ -170,7 +151,7 @@
             
         }
         
-        public function UpdateUser($userid, $brukernavn, $fname, $lname, $DOB, $sex, $mail, $phone, $tittel, $brukerTypeId, $logg){
+        public function UpdateUser($userid, $brukernavn, $fname, $lname, $mail, $phone, $isAdmin, $logg){
             include('db.php');
             
             $statusKodeId = 1; //Opprettet (lese fra database?)
@@ -184,25 +165,17 @@
                 , etternavn = ?
                 , epost = ?
                 , tlf = ?
-                , dob = ?
-                , tittelId = ?
-                , brukerTypeId = ? 
-                , statusKodeId = ?
-                , kjonn = ?
+                , isAdmin = ?
             where brukerId = ?;";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('sssssssiisi'
+            $insertUser->bind_param('sssssii'
                                     , $brukernavn
                                     , $fname
                                     , $lname
                                     , $mail
                                     , $phone
-                                    , $DOB
-                                    , $tittel
-                                    , $brukerTypeId
-                                    , $statusKodeId
-                                    , $sex
+                                    , $isAdmin
                                     , $userid);
                                     
             $insertUser->execute();
@@ -313,10 +286,7 @@
             include('db.php');
             
             
-            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type,kjonn,brukernavn from bruker b
-                    inner join tittel t on t.tittelId = b.tittelId
-                    inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
-                    WHERE brukerId = ?;";
+            $sql = "select brukerId,fornavn,etternavn,epost,tlf,brukernavn,isAdmin from bruker WHERE brukerId = ?;";
             
             $queryPrSide = $db_connection->prepare($sql);
             
@@ -345,24 +315,16 @@
             return $user;
         } 
         
-        public function GetUsername($username){
+        public function GetUserFromUsername($username){
             include('db.php');
             
-            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type,kjonn from bruker b
-                    inner join tittel t on t.tittelId = b.tittelId
-                    inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
-                    WHERE brukernavn = ?;";
+            $sql = "select brukerId,fornavn,etternavn,epost,tlf,isAdmin from bruker WHERE brukernavn = ?;";
             
             $queryPrSide = $db_connection->prepare($sql);
             
             $queryPrSide->bind_param('s', $username);
             $queryPrSide->execute();
-            //$queryPrSide->bind_result($id,$fornavn, $etternavn, $epost, $tlf, $dob, $tittel, $type);
 
-            //henter data
-            //http://php.net/manual/en/pdostatement.fetchall.php
-            //http://stackoverflow.com/questions/13297094/how-do-i-use-fetchall-in-php
-            
             //henter result set
             $resultSet = $queryPrSide->get_result();
             

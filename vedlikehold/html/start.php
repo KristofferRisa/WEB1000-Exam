@@ -23,7 +23,7 @@
   
     //Global variables
     $user = new User();
-    $userInfo = $user->GetUsername($_SESSION['brukernavn']);
+    $userInfo = $user->GetUserFromUsername($_SESSION['brukernavn']);
     $logg = new Logg();
     $html = new HtmlHelperClass();
 
