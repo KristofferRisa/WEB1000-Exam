@@ -71,7 +71,7 @@
                         .'<td class="hidden-xs">'.$tlf.'</td>'
                         .'<td class="hidden-xs">'.$isAdmin.'</td>'
                         .'<td>
-                            <a href="./User/add.php">Ny</a> | <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> 
+                            <a href="./User/add.php">Ny</a> | <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette bruker?\')" href="./User/delete.php?id='.$id.'">Slett</a> 
                         </td>
                    </tr>';
             }
@@ -197,6 +197,43 @@
                 $logg->Ny('Bruker ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } else {
                 $logg->Ny('Klarte ikke å oppdatere bruker.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } 
+                
+            //Lukker databasetilkopling
+            
+            return $affectedRows;
+        }
+        
+        public function DeleteUser($userid, $logg){
+            include('db.php');
+            
+            $sql = "delete from bruker where brukerId = ?;";
+            
+            $logg->Ny('Forsøker å slette brukerId: '.$userid);
+            
+            $deleteUser = $db_connection->prepare($sql);
+            $deleteUser->bind_param('i'
+                                    , $userid);
+                                    
+            $deleteUser->execute();
+
+            $affectedRows = $deleteUser->affected_rows;
+            
+            $deleteUser->close();
+            $db_connection->close(); 
+            
+            
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+
+            if($deleteUser == false){
+                $logg->Ny('Klarte ikke slette bruker, feilmelding: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
+                exit;    
+            }
+            
+            if ($affectedRows == 1) {
+                $logg->Ny('Bruker ble slettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } else {
+                $logg->Ny('Klarte ikke å slette bruker.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } 
                 
             //Lukker databasetilkopling
