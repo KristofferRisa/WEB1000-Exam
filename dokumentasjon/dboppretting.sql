@@ -1,146 +1,172 @@
-CREATE TABLE statusKode
-(
-	statusKodeId INT NOT NULL AUTO_INCREMENT, 
-	navn VARCHAR(45),
-	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_statusKode PRIMARY KEY (statusKodeId)
-);
+DROP TABLE IF EXISTS logg;
+DROP TABLE IF EXISTS autentisering;
+DROP TABLE IF EXISTS billett;
+DROP TABLE IF EXISTS pris;
+DROP TABLE IF EXISTS prisHistorikk;
+DROP TABLE IF EXISTS billett;
+DROP TABLE IF EXISTS bruker;
+DROP TABLE IF EXISTS tittel;
+DROP TABLE IF EXISTS brukerType;
+DROP TABLE IF EXISTS destinasjon;
+DROP TABLE IF EXISTS reise;
+DROP TABLE IF EXISTS reiseType;
+DROP TABLE IF EXISTS fly;
+DROP TABLE IF EXISTS billettType;
+DROP TABLE IF EXISTS flyplass;
+DROP TABLE IF EXISTS statusKode;
 
-CREATE TABLE billettType
-(
-	billettTypeId INT NOT NULL AUTO_INCREMENT,
-	navn VARCHAR(45),
-	statusKodeId INT NOT NULL,
-	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_billetType PRIMARY KEY (billettTypeId),
-	CONSTRAINT fk_billetType1 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
-);
 
 
 CREATE TABLE fly
 (
 	flyId INT NOT NULL AUTO_INCREMENT,
-	flyNr VARCHAR(45),
-	modell VARCHAR(45),
-	type VARCHAR(45),
-	plasser INT,
-	aarsmodell CHAR (4),
-	statusKodeId INT NOT NULL,
-	CONSTRAINT pk_fly PRIMARY KEY (flyId),
-	CONSTRAINT fk_fly1 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
+	flyNr VARCHAR(45) NOT NULL,
+	flyModell VARCHAR(45) NOT NULL,
+	type VARCHAR(45) NOT NULL,
+	plasser INT NOT NULL,
+	aarsmodell CHAR (4) NOT NULL,
+    endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT pk_fly PRIMARY KEY (flyId)
 );
-
-
 
 CREATE TABLE flyplass
 (
 	flyplassId INT NOT NULL AUTO_INCREMENT,
-	navn VARCHAR(45),
-	land VARCHAR(45),
-	statusKodeId INT NOT NULL,
+	navn VARCHAR(45) NOT NULL,
 	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_flyplass PRIMARY KEY (flyplassId),
-	CONSTRAINT fk_flypass1 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
+	CONSTRAINT pk_flyplass PRIMARY KEY (flyplassId)
 );
-
-
-CREATE TABLE reiseType
-(
-	reiseTypeId INT NOT NULL AUTO_INCREMENT,
-	navn VARCHAR(45),
-	statusKodeId INT NOT NULL,
-	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_reiseType PRIMARY KEY (reiseTypeId),
-	CONSTRAINT fk_reiseType FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
-);
-
-
-
-CREATE TABLE reise
-(
-	reiseId INT NOT NULL AUTO_INCREMENT,
-	reiseFra VARCHAR(45),
-	reiseTil VARCHAR(45),
-	utreiseDato DATE,
-	reiseTypeId INT NOT NULL,
-	returDato DATE,
-	voksne INT,
-	barn INT,
-	statusKodeId INT NOT NULL,
-	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_reise PRIMARY KEY (reiseId),
-	CONSTRAINT fk_reise1 FOREIGN KEY (reiseTypeId) REFERENCES reiseType (reiseTypeId),
-	CONSTRAINT fk_reise2 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
-);
-
-
-
-CREATE TABLE flyvningsType
-(
-	flyvningsTypeId INT NOT NULL AUTO_INCREMENT,
-	navn VARCHAR(500),
-	statusKodeId INT NOT NULL,
-	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_flyvningsType PRIMARY KEY (flyvningsTypeId),
-	CONSTRAINT fk_flyvningsType FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
-);
-
-
-
-CREATE TABLE flyvning
-(
-	flyvningId INT NOT NULL AUTO_INCREMENT,
-	linkId INT, 
-	flyvningsTypeId INT,
-	flyId INT NOT NULL, 
-	fraFlyplassId INT NOT NULL,
-	tilFlyplassId INT NOT NULL,
-	dato DATE,
-	statusKodeId INT NOT NULL,
-	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_flyvning PRIMARY KEY (flyvningId),
-	CONSTRAINT fk_flyvning1 FOREIGN KEY (flyvningsTypeId) REFERENCES flyvningsType (flyvningsTypeId),
-	CONSTRAINT fk_flyvning2 FOREIGN KEY (flyId) REFERENCES fly (flyId),
-	CONSTRAINT fk_flyvning3 FOREIGN KEY (fraFlyplassId) REFERENCES flyplass (flyplassId),
-	CONSTRAINT fk_flyvning4 FOREIGN KEY (tilFlyplassId) REFERENCES flyplass (flyplassId),
-	CONSTRAINT fk_flyvning5 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
-);
-
 
 
 CREATE TABLE destinasjon
 (
 	destinasjonId INT NOT NULL AUTO_INCREMENT,
-	navn VARCHAR(500),
 	flyplassId INT NOT NULL,
-	aktivFra DATE NOT NULL,
-	aktivTil DATE NOT NULL,
-	statusKodeId INT NOT NULL,
+	navn VARCHAR(500) NOT NULL,
+    land varchar(500) NOT NULL, 
+    landskode CHAR(2) NOT NULL,
+    stedsnavn VARCHAR(100) NOT NULL,
 	geo_lat DECIMAL (11, 8) NOT NULL,
 	geo_lng DECIMAL(10, 8) NOT NULL,
 	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT pk_destinasjon PRIMARY KEY (destinasjonId),
-	CONSTRAINT fk_destinasjon1 FOREIGN KEY (flyplassId) REFERENCES flyplass (flyplassId),
-	CONSTRAINT fk_destinasjon2 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
+	CONSTRAINT fk_destinasjon1 FOREIGN KEY (flyplassId) REFERENCES flyplass (flyplassId)
 );
 
-CREATE TABLE brukerType
+
+CREATE TABLE sesong
 (
-	brukerTypeId INT NOT NULL AUTO_INCREMENT,
-	navn VARCHAR(45),
-	opprettet DATETIME NOT NULL,
-	statusKodeId INT NOT NULL, 
-	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_brukerType PRIMARY KEY (brukerTypeId),
-	CONSTRAINT fk_brukerType FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
+	sesongId INT NOT NULL AUTO_INCREMENT,
+    navn varchar(200) NOT NULL,
+    endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT pk_sesong PRIMARY KEY (sesongId)
 );
 
-CREATE TABLE tittel
+
+CREATE TABLE rute
 (
-	tittelId INT NOT NULL AUTO_INCREMENT, 
-	navn VARCHAR(45),
+	ruteId INT NOT NULL AUTO_INCREMENT,
+    fraDestId INT NOT NULL,
+    tilDestId INT NOT NULL,
+    sesongId INT NOT NULL,
+	navn VARCHAR (45) NOT NULL,
+    endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT pk_rute PRIMARY KEY (ruteId),
+    CONSTRAINT fk_rute1 FOREIGN KEY (sesongId) REFERENCES sesong (sesongId),
+    CONSTRAINT fk_rute2 FOREIGN KEY (fraDestId) REFERENCES destinasjon (destinasjonId),
+    CONSTRAINT fk_rute3 FOREIGN KEY (tilDestId) REFERENCES destinasjon (destinasjonId)
+);
+
+
+CREATE TABLE avgang
+(
+	avgangId INT NOT NULL AUTO_INCREMENT,
+    ruteId INT NOT NULL,
+    fraFlyplassId INT NOT NULL,
+    tilFlyplassId INT NOT NULL,
+    direkte BIT NOT NULL,
+    avgang DATETIME NOT NULL,
+	reiseTid INT NOT NULL,
+	ukedagNr INT NOT NULL,
+	klokkeslett CHAR (5) NOT NULL, -- 00:00 
+	fastpris DECIMAL (14,2) NOT NULL,
 	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_tittel PRIMARY KEY (tittelId)
+	CONSTRAINT pk_avgang PRIMARY KEY (avgangId),
+	CONSTRAINT fk_avgang1 FOREIGN KEY (ruteId) REFERENCES rute (ruteId),
+	CONSTRAINT fk_avgang2 FOREIGN KEY (tilFlyplassId) REFERENCES flyplass (flyplassId),
+	CONSTRAINT fk_avgang3 FOREIGN KEY (fraFlyplassId) REFERENCES flyplass (flyplassId)
+);
+
+
+CREATE TABLE prisKategori
+(
+	prisKategoriId INT NOT NULL AUTO_INCREMENT,
+	navn VARCHAR (100) NOT NULL,
+	prosentpaaslag INT,
+	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT pk_prisKategori PRIMARY KEY (prisKategoriId)
+);
+
+
+CREATE TABLE sete
+(
+	seteId INT NOT NULL AUTO_INCREMENT,
+	flyId INT NOT NULL,
+	prisKategoriId INT NOT NULL, 
+    seteNr VARCHAR(10),
+    nodutgang BIT NOT NULL,
+	forklaring VARCHAR (100) NOT NULL, -- gang/midt/vindu
+	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT pk_sete PRIMARY KEY (seteId),
+    CONSTRAINT fk_sete1 FOREIGN KEY (flyId) REFERENCES fly (flyId),
+	CONSTRAINT fk_sete2 FOREIGN KEY (prisKategoriId) REFERENCES prisKategori (prisKategoriId)
+);
+
+
+CREATE TABLE kunde 
+(
+	kundeId INT NOT NULL AUTO_INCREMENT,
+	fornavn VARCHAR (50) NOT NULL,
+	etternavn VARCHAR (50) NOT NULL,
+	kjonn VARCHAR (50) NOT NULL, 
+	telefon VARCHAR (25) NOT NULL,
+	epost VARCHAR (100) NOT NULL,
+	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT pk_kunde PRIMARY KEY (kundeId)
+);
+
+
+CREATE TABLE bestilling
+(
+	bestillingId INT NOT NULL AUTO_INCREMENT,
+	kundeId INT NOT NULL,
+	bestillingsDato CHAR (10) NOT NULL, -- 01/01/206
+	refNo varchar(200) NOT NULL,
+	reiseDato CHAR (10) NOT NULL, -- 01/01/2016
+	returDato CHAR (10) NOT NULL, -- 01/01/2016
+	antallVoksne INT NOT NULL,
+	antallBarn INT NOT NULL,
+	antallBebis INT NOT NULL,
+	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT pk_bestilling PRIMARY KEY (bestillingId),
+	CONSTRAINT fk_betilling FOREIGN KEY (kundeId) REFERENCES kunde (kundeId)		
+);
+
+
+CREATE TABLE billett
+(
+	billettId INT NOT NULL AUTO_INCREMENT,
+	bestillingId INT NOT NULL,
+	avgangId INT NOT NULL,
+	seteId INT NOT NULL,
+	fornavn VARCHAR(100) NOT NULL,
+	etternavn VARCHAR(100) NOT NULL,
+	kjonn VARCHAR (50),
+	antBagasje INT NOT NULL,
+	CONSTRAINT pk_billett PRIMARY KEY (billettId),
+	CONSTRAINT fk_billett2 FOREIGN KEY (bestillingId) REFERENCES bestilling (bestillingId),
+	CONSTRAINT fk_billett3 FOREIGN KEY (avgangId) REFERENCES avgang (avgangId),
+	CONSTRAINT fk_billett4 FOREIGN KEY (seteId) REFERENCES sete (seteId)
 );
 
 
@@ -152,101 +178,11 @@ CREATE TABLE bruker
 	fornavn VARCHAR(45) NOT NULL,
 	etternavn VARCHAR(45) NOT NULL,
 	epost VARCHAR(45) NOT NULL,
-	tlf VARCHAR(45) NOT NULL,
-	dob VARCHAR (45) NOT NULL,
-	kjonn VARCHAR (50) NOT NULL,
-	tittelId INT NOT NULL,
-	brukerTypeId INT NOT NULL,
-	statusKodeId INT NOT NULL,
+	tlf VARCHAR(45),
+	isAdmin BIT NOT NULL DEFAULT 0, -- 0 = bruker, 1= admin.
 	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_bruker PRIMARY KEY (brukerId),
-	CONSTRAINT fk_bruker1 FOREIGN KEY (brukerTypeId) REFERENCES brukerType (brukerTypeId),
-	CONSTRAINT fk_bruker2 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId),
-	CONSTRAINT fk_bruker3 FOREIGN KEY (tittelId) REFERENCES tittel (tittelId)
+	CONSTRAINT pk_bruker PRIMARY KEY (brukerId)
 );
-
-
-
-CREATE TABLE rute
-(
-	ruterId INT NOT NULL AUTO_INCREMENT,
-	hovedRute INT,
-	fraFlyplassId INT NOT NULL,
-	tilFlyplassId INT NOT NULL,
-	aktivFra DATE NOT NULL,
-	aktivTil DATE NOT NULL,
-	reiseTid DECIMAL(2,0),
-	statusKodeId INT NOT NULL,
-	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_ruter PRIMARY KEY (ruterId),
-	CONSTRAINT fk_ruter1 FOREIGN KEY (fraFlyplassId) REFERENCES destinasjon (flyplassId),
-	CONSTRAINT fk_ruter2 FOREIGN KEY (tilFlyplassId) REFERENCES destinasjon (flyplassId),
-	CONSTRAINT fk_ruter3 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
-);
-
-
-CREATE TABLE pris
-(
-	prisId INT NOT NULL AUTO_INCREMENT,
-	reiseId INT NOT NULL,
-	fraDato DATE,
-	pris DECIMAL(12,2),
-	reiseTypeId INT NOT NULL,
-	statusKodeId INT NOT NULL,
-	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_pris PRIMARY KEY (prisId),
-	CONSTRAINT fk_pris1 FOREIGN KEY (reiseId) REFERENCES reise (reiseId),
-	CONSTRAINT fk_pris2 FOREIGN KEY (reiseTypeId) REFERENCES reiseType (reiseTypeId),
-	CONSTRAINT fk_pris3 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
-);
-
-
-
-CREATE TABLE prisHistorikk 
-(
-	prisHistorikkId INT NOT NULL AUTO_INCREMENT,
-	reiseId INT NOT NULL,
-	fraDato DATE,
-	reiseTypeId INT NOT NULL,
-	dato DATE,
-	statusKodeId INT NOT NULL,
-	endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	CONSTRAINT pk_prishistorikk PRIMARY KEY (prisHistorikkId),
-	CONSTRAINT fk_prishistorikk1 FOREIGN KEY (reiseId) REFERENCES reise (reiseId),
-	CONSTRAINT fk_prishistorikk2 FOREIGN KEY (reiseTypeId) REFERENCES reiseType (reiseTypeId),
-	CONSTRAINT fk_prishistorikk3 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
-);
-
-
-CREATE TABLE billett
-(
-	billettId INT NOT NULL AUTO_INCREMENT,
-	reiseId INT NOT NULL,
-	brukerId INT NOT NULL,
-	prisId INT NOT NULL,
-	billettTypeId INT NOT NULL,
-	antBagasje INT,
-	datoTid DATETIME,
-	statusKodeId INT NOT NULL,
-	CONSTRAINT pk_billett PRIMARY KEY (billettId),
-	CONSTRAINT fk_billett1 FOREIGN KEY (reiseId) REFERENCES reise (reiseId),
-	CONSTRAINT fk_billett2 FOREIGN KEY (brukerId) REFERENCES bruker (brukerId),
-	CONSTRAINT fk_billett3 FOREIGN KEY (prisId) REFERENCES pris (prisId),
-	CONSTRAINT fk_billett4 FOREIGN KEY (billettTypeId) REFERENCES billettType (billettTypeId),
-	CONSTRAINT fk_billett5 FOREIGN KEY (statusKodeId) REFERENCES statusKode (statusKodeId)
-);
-
-
-CREATE TABLE autentisering
-(
-	autentiseringId INT NOT NULL,
-	brukertypeId INT NOT NULL,
-	sesjon_guide INT NOT NULL,
-	utgårstidspunkt DATETIME NOT NULL,
-	CONSTRAINT pk_autentisering PRIMARY KEY (autentiseringId),
-	CONSTRAINT fk_autentisering1 FOREIGN KEY (brukertypeId) REFERENCES brukerType (brukertypeId)
-);
-
 
 
 
@@ -262,15 +198,3 @@ CREATE TABLE logg
 );
 
 
-DROP TABLE logg, autentisering;
-DROP TABLE flyvning, flyvningsType, billett, pris, prisHistorikk, rute, bruker, tittel, brukerType, destinasjon, reise, reiseType, fly, billettType, flyplass, statusKode; 
-
-
-insert into statusKode (navn) values ('Opprettet');
-insert into statusKode (navn) values ('Slettet');
-​
-insert into brukerType (navn,statusKodeId) Values ('Admin',1);
-insert into brukerType (navn,statusKodeId) Values ('Kunde',1);
-insert into brukerType (navn,statusKodeId) Values ('Ansatt',1);
-
-insert into tittel (navn) values ('Hr.'),('Fru.'),('Dr.');

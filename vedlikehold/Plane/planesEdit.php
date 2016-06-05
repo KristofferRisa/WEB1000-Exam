@@ -1,15 +1,12 @@
 <?php 
 $title = "FLY - Admin";
 
+include('../html/start.php');
+
 include('../html/header.html');
 
 include('../html/admin-start.html');
 
-include('../php/Logg.php');
-$logg = new Logg();
-
-
-$logg->Ny('Laster FLY ENDRE side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -67,11 +64,6 @@ $logg->Ny('Laster FLY ENDRE side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']
                     <tbody>
 <?php 
 
-include('../php/Logg.php');
-$logg = new Logg();
-
-
-$logg->Ny('Laster FLY side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
 
 include('../php/Planes.php');
 

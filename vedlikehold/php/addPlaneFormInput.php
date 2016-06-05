@@ -1,17 +1,19 @@
 <?php 
 
-//$flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $flyStatusKode = $errMsg = "";
+$flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $flyStatusKode = $errMsg = "";
 
-//$errorMelding = "";
+$errorMelding = "";
 
 // Validering av skjemainput
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-  if ( empty($_POST["flyNr"]) || empty($_POST["flyModell"]) || empty($_POST["flyType"]) || empty($_POST["flyAntallPlasser"]) || empty($_POST["flyAarsmodell"]) || empty($_POST["flyStatusKode"]) ) {
+  if ( empty($_POST["flyNr"]) || empty($_POST["flyModell"]) || empty($_POST["flyType"]) || empty($_POST["flyAntallPlasser"]) || empty($_POST["flyAarsmodell"]) ) {
 
-    $errorMelding = "<div class='alert alert-error'><strong>Error! </strong>Alle felt må fylles ut.</div>";
+    $errorMelding = $html->errorMsg("Alle felt må fylles ut!");
+
+
 
 }
 
@@ -21,16 +23,11 @@ elseif (filter_var($_POST["flyAntallPlasser"], FILTER_VALIDATE_INT) === false ||
 
 }
 
-elseif (filter_var($_POST["flyStatusKode"], FILTER_VALIDATE_INT) === false || strlen($_POST["flyStatusKode"]) > 11 ) {
-  $errorMelding = "<div class='alert alert-error'><strong>Error! </strong>Statuskode må være siffer og maks 11 tegn.</div>";
-
-}
-
-elseif (strlen($_POST["flyNr"]) > 45 || strlen($_POST["flyStatusKode"]) > 45 || strlen($_POST["flyModell"]) > 45 ) {
-  $errorMelding = "<div class='alert alert-error'><strong>Error! </strong>Modell, type og flynr må være maks 45 tegn.</div>";
+elseif (strlen($_POST["flyNr"]) > 45 || strlen($_POST["flyModell"]) > 45 ) {
+  $errorMelding =  $html->errorMsg("Modell, type og flynr må være maks 45 tegn!");
 }
 elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
-  $errorMelding = "<div class='alert alert-error'><strong>Error! </strong>Årsmodell må bestå av 4 siffer.</div>";
+  $errorMelding = $html->errorMsg("Årsmodell må bestå av 4 siffer!");
 }
 
   
@@ -45,7 +42,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
     $flyType = $valider->valider($_POST["flyType"]);
     $flyAntallPlasser = $valider->valider($_POST["flyAntallPlasser"]);
     $flyAarsmodell = $valider->valider($_POST["flyAarsmodell"]);
-    $flyStatusKode = $valider->valider($_POST["flyStatusKode"]);
+    $flyStatusKode = 1;
 
     $innIDataBaseMedData = new Planes;
 
@@ -53,11 +50,11 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
 
     if($result == 1){
       //Success
-             $errorMelding = "<div class='alert alert-success'><strong>Info! </strong>Data lagt inn i database.</div>";
+             $errorMelding = $html->successMsg("Data ble lagt inn i databasen.");
 
     } else {
       //not succesfull
-             $errorMelding = "<div class='alert alert-warning'><strong>Error! </strong>Data ble ikke lagt inn i database.</div>";
+             $errorMelding = $html->errorMsg("Data ble ikke lagt inn i databasen.!");
 
     }
 

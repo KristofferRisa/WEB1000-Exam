@@ -29,11 +29,15 @@ $(function () {
         
     }
     
-    $("#datepicker").datepicker({
-        dateFormat: "dd-MM-yyyy",
-        maxDate: '-1'
+    //Flere formater: http://eternicode.github.io/bootstrap-datepicker/
+    $("#datepicker,#aktivFra,#aktivTil").datepicker({
+        format: "dd/mm/yyyy",
+        startView: 1,
+        endDate: "-15y"
     });
 
-    $('#flyplassLand').dropdown();
+    //$('#flyplassLandValg').dropdown();
+    $('.ui.search.selection.dropdown').dropdown();
     
 });
+

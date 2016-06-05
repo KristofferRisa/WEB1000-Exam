@@ -32,14 +32,8 @@
                 ,etternavn
                 ,epost
                 ,tlf
-                ,dob
-                ,t.navn as tittel
-                ,bt.navn as type
-                ,s.navn as status
+                ,isAdmin
             from bruker b
-                inner join tittel t on t.tittelId = b.tittelId
-                inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
-                inner join statusKode s on b.statusKodeId = s.statusKodeId
             LIMIT ?,?;";
             
             $queryPrSide = $db_connection->prepare($sql);
@@ -47,16 +41,14 @@
             $queryPrSide->bind_param('ss', $offset, $antallMeldinger);
             $queryPrSide->execute();
 
-            $queryPrSide->bind_result($id
+            $queryPrSide->bind_result(
+                $id
                 , $brukernavn
                 , $fornavn
                 , $etternavn
                 , $epost
                 , $tlf
-                , $dob
-                , $tittel
-                , $type
-                , $status);
+                , $isAdmin);
             
             //henter data
             while ($queryPrSide->fetch()) {
@@ -75,14 +67,11 @@
                         <td>'.$brukernavn.'</td>
                         <td>'.$fornavn.'</td>
                         <td>'.$etternavn.'</td>
-                        <td>'.$epost.'</td>
-                        '//<td>'.$tittel.'</td>
-                        .'<td>'.$tlf.'</td>
-                        '//<td>'.$dob.'</td>
-                        .'<td>'.$type.'</td>
-                        '//<td>'.$status.'</td>
+                        <td>'.$epost.'</td>'
+                        .'<td class="hidden-xs">'.$tlf.'</td>'
+                        .'<td class="hidden-xs">'.$isAdmin.'</td>'
                         .'<td>
-                            <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> 
+                            <a href="./User/add.php">Ny</a> | <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> 
                         </td>
                    </tr>';
             }
@@ -100,7 +89,7 @@
             return $html;
         }
         
-        public function NewUser($brukernavn, $fname, $lname, $DOB, $sex, $mail, $new_pass, $phone, $tittel,$logg)
+        public function NewUser($brukernavn, $fname, $lname, $mail, $new_pass, $phone, $isAdmin ,$logg)
         {   
             include('db.php');
             
@@ -108,8 +97,7 @@
              
              $logg->Ny('PASSORD = '.$new_pass, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
             
-            $brukerTypeId = 1; //Må hentes fra FORM listbox
-            $statusKodeId = 1; //Opprettet (lese fra database?)
+            $statusKodeId = 1; //Opprettet (lese fra database?) Fjernes!
             
             $salt = uniqid(mt_rand(), true);
 
@@ -125,13 +113,9 @@
                                     , etternavn
                                     , epost
                                     , tlf
-                                    , dob
-                                    , tittelId
                                     , passord
-                                    , brukerTypeId
-                                    , statusKodeId
-                                    , kjonn) 
-                            values (?,?,?,?,?,?,?,?,?,?,?)";
+                                    , isAdmin) 
+                            values (?,?,?,?,?,?,?)";
             
             $insertUser = $db_connection->prepare($sql);
             $insertUser->bind_param('ssssssssiis'
@@ -140,23 +124,20 @@
                                     , $lname
                                     , $mail
                                     , $phone
-                                    , $DOB
-                                    , $tittel
                                     , $pass_hash
-                                    , $brukerTypeId
-                                    , $statusKodeId
-                                    , $sex);
+                                    , $isAdmin);
                                     
             $insertUser->execute();
+            $affectedRows = $insertUser->affected_rows;
             
-            $logg->Ny('Rows affected: '.$insertUser->affected_rows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
 
             if($insertUser == false){
                 $logg->Ny('Failed to insert: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
                 exit;    
             }
             
-            if ($insertUser->affected_rows == 1) {
+            if ($affectedRows == 1) {
                 $logg->Ny('Ny bruker opprettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } else {
                 $logg->Ny('Klarte ikke å opprette ny bruker.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
@@ -165,12 +146,14 @@
             //Lukker databasetilkopling
             $insertUser->close();
             $db_connection->close(); 
+            
+            return $affectedRows;
+            
         }
         
-        public function UpdateUser($userid, $brukernavn, $fname, $lname, $DOB, $sex, $mail, $phone, $tittel, $logg){
+        public function UpdateUser($userid, $brukernavn, $fname, $lname, $mail, $phone, $isAdmin, $logg){
             include('db.php');
             
-            $brukerTypeId = 1; //Må hentes fra FORM listbox
             $statusKodeId = 1; //Opprettet (lese fra database?)
             
             //TODO: Sjekk om brukeren finnes fra før
@@ -182,25 +165,17 @@
                 , etternavn = ?
                 , epost = ?
                 , tlf = ?
-                , dob = ?
-                , tittelId = ?
-                , brukerTypeId = ? 
-                , statusKodeId = ?
-                , kjonn = ?
+                , isAdmin = ?
             where brukerId = ?;";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('sssssssiiis'
+            $insertUser->bind_param('sssssii'
                                     , $brukernavn
                                     , $fname
                                     , $lname
                                     , $mail
                                     , $phone
-                                    , $DOB
-                                    , $tittel
-                                    , $brukerTypeId
-                                    , $statusKodeId
-                                    , $sex
+                                    , $isAdmin
                                     , $userid);
                                     
             $insertUser->execute();
@@ -311,10 +286,7 @@
             include('db.php');
             
             
-            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type,kjonn,brukernavn from bruker b
-                    inner join tittel t on t.tittelId = b.tittelId
-                    inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
-                    WHERE brukerId = ?;";
+            $sql = "select brukerId,fornavn,etternavn,epost,tlf,brukernavn,isAdmin from bruker WHERE brukerId = ?;";
             
             $queryPrSide = $db_connection->prepare($sql);
             
@@ -336,30 +308,23 @@
                 $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
             }
             
+            $resultSet->free();
             $queryPrSide->close();
             $db_connection->close(); 
             
             return $user;
         } 
         
-        public function GetUsername($username){
+        public function GetUserFromUsername($username){
             include('db.php');
             
-            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type,kjonn from bruker b
-                    inner join tittel t on t.tittelId = b.tittelId
-                    inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
-                    WHERE brukernavn = ?;";
+            $sql = "select brukerId,fornavn,etternavn,epost,tlf,isAdmin from bruker WHERE brukernavn = ?;";
             
             $queryPrSide = $db_connection->prepare($sql);
             
             $queryPrSide->bind_param('s', $username);
             $queryPrSide->execute();
-            //$queryPrSide->bind_result($id,$fornavn, $etternavn, $epost, $tlf, $dob, $tittel, $type);
 
-            //henter data
-            //http://php.net/manual/en/pdostatement.fetchall.php
-            //http://stackoverflow.com/questions/13297094/how-do-i-use-fetchall-in-php
-            
             //henter result set
             $resultSet = $queryPrSide->get_result();
             
@@ -401,13 +366,9 @@
             
             if($updateUser == false){
                 $logg->Ny('Failed to update user: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
-                exit;    
             }
-            
             if ($affectedRows == 1) {
                 $logg->Ny('Bruker ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-                header('location: ./../');
-                exit;
             } else {
                 $logg->Ny('Klarte ikke å oppdatere bruker.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } 
