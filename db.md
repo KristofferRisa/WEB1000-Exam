@@ -15,11 +15,11 @@ Viser en oversikt over alle tilgjengelig fly og deres kapasitet.
 ### Flyplass
 Viser alle flyplasser
 
-| id | navn | land | status |
-|----|--------|-------|----------|
-| 1 | Torp | Norge | 1 |
-| 2 | Gardemoen | Norge | 1 |
-| 3 | Heathrow | Storbritannia | 1 |
+| id | navn |
+|----|--------|
+| 1 | Torp | 
+| 2 | Gardemoen | 
+| 3 | Heathrow | 
 
 ### Destinasjon
 En destinasjon er sammensatt av land, stedsnavn og flyplass
@@ -37,35 +37,37 @@ En destinasjon er sammensatt av land, stedsnavn og flyplass
 | 2 | sommer 2016 | 2016-06-06 |
 
 
-### Rute (må oppdateres i db-oppretting script)
+### Rute
 (tidligere flyvning) består av en fra desitnasjon og til destinasjon.
 Dette er en overordnet tabell til rutetabellen. 
 
-| id | fraDestId | tilDestId | sesong | endret |
+| id | navn | fraDestId | tilDestId | sesong | endret |
 |----|-----------|-----------|--------|---------|
 | 1 | 1 | 2 |  1 | 2015-06-06 |
 | 2 | 2 | 3 |  1 | 2015-06-06 |
 
-
-### RuteTabellType
-| id | navn | status |
-|----|--------|---------|
-| 1 | Direkte | 1 |
-| 2 | Mellom landing | 1 |
-
 # Fortsett HER!
 
-### RutrTabell
-| id | reiseFra | reiseTil | utreise (dato) | type | retur (dato) | antall voksne | antall barn | status |
-|----|-------------|-----------|---------------|------------|--------------|-------------------|----------------|-----------|
+### Avgang
+| id | ruteId | fraFlyplassId | tilFlyplassID | ukedag | klokkeslette | reiseTid | direkte |
+|----|-------------|-----------|---------------|------------|
 | 1 | 1 | 2 | 2016-06-01 05:00 | 1 | 2016-06-06 21:00 |  1 | null | 1 |
 | 2 | 2 | 3 | 2016-07-01 12:10 | 2 | null | 2 | 1 | 1 |
 
-### Reise type
-| id | navn | aktiv | status |
-|----|--------|--------|---------|
-| 1 | enkel | true | 1 |
-| 2 | tur/retur | true | 1 |
+### Billett typer
+| id | navn | status |
+|----|--------|----------|
+| 1 | billig | 1 |
+| 2 | billig+  | 1 | 
+| 3 | flex | 1 |
+
+### Billett
+| id | reiseId | ref no | kundeId | prisId | billett type | antall bagasje | datotid | publisert | status |
+|----|-----------|---------|------------|---------|---------------|---------------------|----------|-------------|----------|
+| 1 | 1 | NO123123 | 1 | 1 | 1 | 0 | 2016-05-13 22:40 | true | 1 |
+| 2 | 1 | NO992134 | 1 | 2 | 1 | 2 | 2016-09-01 14:50 | true | 1 |
+
+
 
 ### Pris 
 Pris tabellen viser alle historiske utgitte priser, både ved søk og salg. (må revideres basert på issue #7 )
@@ -75,34 +77,13 @@ Pris tabellen viser alle historiske utgitte priser, både ved søk og salg. (må
 | 1 | 1 | 2015-01-01 | 1000,00 | 1 | 1 |
 | 2 | 3 | 2015-01-01 | 14000,00 | 2 | 1 |
 
-### Prishistorikk
-
-| id | reiseId | fradato |  pris | type | dato | status |
-|----|----------|------------|-------|-------|--------|---------|
-| 1 | 1 | 2015-01-01 | 1000,00 | 1 | 2016-04-15 | 1 | 
-| 2 | 3 | 2015-02-01 | 14000,00 | 1 |  2016-05-13 | 1 |
-
-### Kunde (utgår) 
-Opprettet kunde som en brukertype
-
 ## Sete
 
 | id | flyId | seteNr | nodUtgang |
 |---|--------|----------|-----------------|
 | 1 | 1 | 1A | false | 
 
-### Billett
-| id | reiseId | ref no | kundeId | prisId | billett type | antall bagasje | datotid | publisert | status |
-|----|-----------|---------|------------|---------|---------------|---------------------|----------|-------------|----------|
-| 1 | 1 | NO123123 | 1 | 1 | 1 | 0 | 2016-05-13 22:40 | true | 1 |
-| 2 | 1 | NO992134 | 1 | 2 | 1 | 2 | 2016-09-01 14:50 | true | 1 |
 
-### Billett typer
-| id | navn | status |
-|----|--------|----------|
-| 1 | billig | 1 |
-| 2 | billig+  | 1 | 
-| 3 | flex | 1 |
 
 ### Innsjekk  (ikke påkrevd)
 
