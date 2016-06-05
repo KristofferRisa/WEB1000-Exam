@@ -53,7 +53,7 @@ include('../html/admin-start.html');
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Flytype</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Plasser">Antall sitteplasser</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Laget">Årsmodell</th>                      
-                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Statuskode Id">Statuskode Id</th></tr>
+                     
                       </tr>
                     </thead>
                     <tbody>
@@ -79,8 +79,7 @@ print( $planes->ShowAllPlanes() );
                         <th rowspan="1" colspan="1">Flytype</th>
                         <th rowspan="1" colspan="1">Antall sitteplasser</th>
                         <th rowspan="1" colspan="1">Årsmodell</th>
-                        <th rowspan="1" colspan="1">Statuskode Id</th>
-                      </tr>
+                        </tr>
                     </tfoot>
                   </table>
                 </div>

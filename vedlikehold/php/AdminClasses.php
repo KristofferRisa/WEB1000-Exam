@@ -21,10 +21,10 @@ class Planes {
         $printOddOrEven = '';
         
         //db-tilkopling
-        $query = $db_connection->prepare("SELECT flyId,flyNr,modell,type,plasser,aarsmodell,statusKodeId FROM fly");
+        $query = $db_connection->prepare("SELECT flyId,flyNr,modell,type,plasser,aarsmodell FROM fly");
         $query->execute();
 
-        $query->bind_result($id, $flyNr, $modell, $type, $plasser, $flyAarsmodell, $statusKodeId);
+        $query->bind_result($id, $flyNr, $modell, $type, $plasser, $flyAarsmodell);
         
         //henter data
        
@@ -40,7 +40,7 @@ class Planes {
             }
 
             $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyNr.'</td><td>'.$modell.'</td><td>'.$type.'
-            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td><td>'.$statusKodeId.'</td></tr>';
+            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td></tr>';
         
         }
         //Lukker databasetilkopling
@@ -51,12 +51,12 @@ class Planes {
     }
 
     
-    public function AddNewPlane($flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$flyStatusKode) {
+    public function AddNewPlane($flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell) {
         include('../php/db.php');
         
         //Bygger SQL statementt
-        $query = $db_connection->prepare("INSERT INTO fly (flyNr,modell,type,plasser,aarsmodell,statusKodeId) VALUES (?,?,?,?,?,?)");
-        $query->bind_param('ssssss', $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$flyStatusKode);  
+        $query = $db_connection->prepare("INSERT INTO fly (flyNr,modell,type,plasser,aarsmodell) VALUES (?,?,?,?,?)");
+        $query->bind_param('ssssss', $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell);  
 
             if ( $query->execute()) { 
                 $affectedRows = $query->affected_rows;
@@ -81,9 +81,9 @@ class Airport {
         
        
         //  db-tilkopling
-        $query = $db_connection->prepare("SELECT flyplassId,navn,land,statusKodeId,endret FROM flyplass");
+        $query = $db_connection->prepare("SELECT flyplassId,navn,land,endret FROM flyplass");
         $query->execute();
-        $query->bind_result($id, $navn, $land, $statuskode, $endret);
+        $query->bind_result($id, $navn, $land, $endret);
 
 
 
@@ -101,7 +101,7 @@ class Airport {
                 $printOddOrEven = 'odd';
             }
 
-            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$statuskode.'</td><td>'.$endret.'</td></tr>';
+            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$endret.'</td></tr>';
 
         }
         
@@ -116,7 +116,7 @@ class Airport {
     public function ShowAllAirportsDataset(){
 
             include('db.php');
-            $sql = "SELECT flyplassId,navn,land,statusKodeId,endret FROM flyplass";
+            $sql = "SELECT flyplassId,navn,land,endret FROM flyplass";
             
             $queryFlyplass = $db_connection->prepare($sql);
             
@@ -140,12 +140,12 @@ class Airport {
     }
 
     
-    public function AddNewAirport($flyplassNavn, $flyplassLand,$flyplassStatusKode) {
+    public function AddNewAirport($flyplassNavn, $flyplassLand) {
         include('../php/db.php');
         
         //Bygger SQL statementt
-        $query = $db_connection->prepare("INSERT INTO flyplass (navn,land,statusKodeId) VALUES (?,?,?)");
-        $query->bind_param('sss', $flyplassNavn, $flyplassLand,$flyplassStatusKode);  
+        $query = $db_connection->prepare("INSERT INTO flyplass (navn,land) VALUES (?,?)");
+        $query->bind_param('ss', $flyplassNavn, $flyplassLand);  
 
             if ( $query->execute()) { 
                 $affectedRows = $query->affected_rows;
