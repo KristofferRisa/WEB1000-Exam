@@ -102,9 +102,13 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
       <li class="active">Endre fly</li>
     </ol>
   </section>
+
+
+
  <!-- Main content -->
   <section class="content">
 
+   
 
     <!-- Your Page Content Here -->
 
@@ -112,7 +116,15 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
       <div class="col-sm-12">   
                  <!-- Horizontal Form -->
           <div class="box box-info">
+
+<?php 
+  //Viser skjema dersom det både er en GET request med querstring id
+  if($_GET && $_GET['id']){ ?>
+
+
             <div class="box-header with-border"><?php echo $errorMelding; ?><div id="melding"></div>
+
+             
            <h3 class="box-title">Skjema</h3>
             </div>
             <!-- /.box-header -->
@@ -169,22 +181,60 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
               </div>
               <!-- /.box-footer -->
             </form>
+
+            <?php } 
+             else {
+    //lister en select box med brukere 
+?>
+<!-- Your Page Content Here -->
+<form class="form-horizontal" method="GET" id="redigerFly">
+    <div class="row">
+      <div class="col-md-12">
+        
+         <div class="box box-info">
+            <div class="box-body">
+
+               <div class="form-group col-md-6">
+                  <select class="form-control select2 select2-hidden-accessible" name="id" style="width: 100%;" tabindex="-1" aria-hidden="true">
+              
+                      <?php $planeselect = new Planes; print($planeselect-> PlaneSelectOptions()); ?>
+                
+                  </select>
+              </div>
+              
+              <div class="form-group col-md-2">
+                <button type="submit" class="btn btn-info pull-right">Hent</button>
+              </div>
+          
+      </div>
+    </div>
+  </form>
+
+
+<?php } ?>
+            
           </div>
           <!-- /.box -->
 
+
       </div>
+
    
       <!-- /.col -->
     </div>
 
+
   </section>
   <!-- /.content -->
+ 
   
   </div>
   <!-- /.content-wrapper -->
   
 
 <?php
+
+
 include('../html/admin-slutt.html');
 
 include('../html/script.html');

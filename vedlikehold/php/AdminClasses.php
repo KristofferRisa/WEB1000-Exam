@@ -40,7 +40,7 @@ class Planes {
             }
 
             $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyNr.'</td><td>'.$modell.'</td><td>'.$type.'
-            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td><td>'.$endret.'</td></tr>';
+            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td><td>'.$endret.'</td><td><a href="../vedlikehold/Plane/planesEdit.php?id='.$id.'"">Endre</a></td></tr>';
         
         }
         //Lukker databasetilkopling
@@ -133,8 +133,37 @@ class Planes {
             
             return $fly;
         } 
-}
 
+            public function PlaneSelectOptions(){
+            include('db.php');
+             $listBox = "";
+            
+            $sql="SELECT flyId, flyNr, flyModell from fly";
+            
+            $queryPlanes = $db_connection->prepare($sql);
+            
+            $queryPlanes->execute();
+
+            $queryPlanes->bind_result($id, $flyNr, $flyModell);
+                        
+            while ($queryPlanes->fetch()) {
+                
+                 $listBox .= "<option value=".$id. ">ID:".$id." Flynr:".$flyNr." Modell:".$flyModell."</option>";
+            }
+            
+            //$htmlSelect .= '</select>';
+            //Error logging
+            if($queryPlanes == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $queryPlanes->close();
+            $db_connection->close();  
+
+            return $listBox;        
+         
+}
+}
 
 class Airport {
   
