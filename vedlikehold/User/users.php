@@ -52,9 +52,9 @@ include('./../html/admin-start.html');
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Lastname">Etternavn</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Mail">epost</th>
                         <!--<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Tittle">Tittel</th>-->
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Phone.">Tlf</th>
+                        <th class="hidden-xs sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Phone.">Tlf</th>
                         <!--<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="DOB.">Bursdag</th>-->
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Type</th>
+                        <th class="hidden-xs sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Type</th>
                         <!--<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Status</th>-->
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Handling</th>
                       </tr>
@@ -89,9 +89,9 @@ include('./../html/admin-start.html');
                         <th rowspan="1" colspan="1">Etternavn</th>
                         <th rowspan="1" colspan="1">Epost</th>
                         <!--<th rowspan="1" colspan="1">Tittel</th>-->
-                        <th rowspan="1" colspan="1">Tlf</th>
+                        <th class="hidden-xs" rowspan="1" colspan="1">Tlf</th>
                         <!--<th rowspan="1" colspan="1">Bursdag</th>-->
-                        <th rowspan="1" colspan="1">Type</th>
+                        <th class="hidden-xs" rowspan="1" colspan="1">Type</th>
                         <!--<th rowspan="1" colspan="1">Status</th>-->
                         <th rowspan="1" colspan="1">Handling</th>
                       </tr>

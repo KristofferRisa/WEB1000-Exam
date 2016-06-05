@@ -1,10 +1,13 @@
 <?php
 
     class HtmlHelperClass{
-        public function GenerateSearchSelectionbox($dataset,$elementId, $inputname, $text, $cssClasses){
+        public function GenerateSearchSelectionbox($dataset,$elementId, $inputname, $text, $cssClasses,$required = NULL,$value=NULL){
+            if(!$required){
+                $required = '';
+            }
             $html = '
                     <div id="'.$elementId.'" class="ui fluid search selection dropdown">
-                        <input type="hidden" name="'.$inputname.'">
+                        <input type="hidden" '.$required.' name="'.$inputname.'" value="'.$value.'">
                         <i class="dropdown icon"></i>
                         <div class="default text">'.$text.'</div>
                     <div class="menu">';

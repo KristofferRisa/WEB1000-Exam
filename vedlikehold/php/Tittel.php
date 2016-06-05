@@ -21,7 +21,7 @@ class Tittel {
         //henter data
         while ($querytittel->fetch()) {
             
-            if($aktivTittel && $navn == $aktivTittel){
+            if($aktivTittel && ($navn == $aktivTittel || $id == $aktivTittel)){
                 $listBox .= "<option value=". $id . " selected>". $navn ."</option>";    
             } else {
                 $listBox .= "<option value=". $id . ">". $navn ."</option>";    

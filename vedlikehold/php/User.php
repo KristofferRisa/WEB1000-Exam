@@ -77,12 +77,12 @@
                         <td>'.$etternavn.'</td>
                         <td>'.$epost.'</td>
                         '//<td>'.$tittel.'</td>
-                        .'<td>'.$tlf.'</td>
+                        .'<td class="hidden-xs">'.$tlf.'</td>
                         '//<td>'.$dob.'</td>
-                        .'<td>'.$type.'</td>
+                        .'<td class="hidden-xs">'.$type.'</td>
                         '//<td>'.$status.'</td>
                         .'<td>
-                            <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> 
+                            <a href="./User/add.php">Ny</a> | <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> 
                         </td>
                    </tr>';
             }
@@ -100,7 +100,7 @@
             return $html;
         }
         
-        public function NewUser($brukernavn, $fname, $lname, $DOB, $sex, $mail, $new_pass, $phone, $tittel,$logg)
+        public function NewUser($brukernavn, $fname, $lname, $DOB, $sex, $mail, $new_pass, $phone, $tittel,$brukerTypeId,$logg)
         {   
             include('db.php');
             
@@ -108,8 +108,7 @@
              
              $logg->Ny('PASSORD = '.$new_pass, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
             
-            $brukerTypeId = 1; //Må hentes fra FORM listbox
-            $statusKodeId = 1; //Opprettet (lese fra database?)
+            $statusKodeId = 1; //Opprettet (lese fra database?) Fjernes!
             
             $salt = uniqid(mt_rand(), true);
 
@@ -148,15 +147,16 @@
                                     , $sex);
                                     
             $insertUser->execute();
+            $affectedRows = $insertUser->affected_rows;
             
-            $logg->Ny('Rows affected: '.$insertUser->affected_rows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
 
             if($insertUser == false){
                 $logg->Ny('Failed to insert: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
                 exit;    
             }
             
-            if ($insertUser->affected_rows == 1) {
+            if ($affectedRows == 1) {
                 $logg->Ny('Ny bruker opprettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } else {
                 $logg->Ny('Klarte ikke å opprette ny bruker.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
@@ -165,12 +165,14 @@
             //Lukker databasetilkopling
             $insertUser->close();
             $db_connection->close(); 
+            
+            return $affectedRows;
+            
         }
         
-        public function UpdateUser($userid, $brukernavn, $fname, $lname, $DOB, $sex, $mail, $phone, $tittel, $logg){
+        public function UpdateUser($userid, $brukernavn, $fname, $lname, $DOB, $sex, $mail, $phone, $tittel, $brukerTypeId, $logg){
             include('db.php');
             
-            $brukerTypeId = 1; //Må hentes fra FORM listbox
             $statusKodeId = 1; //Opprettet (lese fra database?)
             
             //TODO: Sjekk om brukeren finnes fra før
@@ -190,7 +192,7 @@
             where brukerId = ?;";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('sssssssiiis'
+            $insertUser->bind_param('sssssssiisi'
                                     , $brukernavn
                                     , $fname
                                     , $lname

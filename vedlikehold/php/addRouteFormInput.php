@@ -1,6 +1,6 @@
 <?php 
 
-$flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $flyStatusKode = $errMsg = "";
+$ruterId = $hovedRute = $fraFlyplassId = $tilFlyplassId = $aktivFra = $aktivTil = $reiseTid = $statusKodeId = "";
 
 $errorMelding = "";
 
@@ -9,7 +9,7 @@ $errorMelding = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-  if ( empty($_POST["flyplassNavn"]) || empty($_POST["flyplassLand"]) ) {
+  if ( empty($_POST["hovedRute"]) || empty($_POST["fraFlyplassId"]) || empty($_POST["tilFlyplassId"]) || empty($_POST["aktivFra"]) || empty($_POST["aktivTil"]) ) {
 
     $errorMelding = "<div class='alert alert-error'><strong>Error! </strong>Alle felt må fylles ut.</div>";
 
