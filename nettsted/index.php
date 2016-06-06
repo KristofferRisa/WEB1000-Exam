@@ -69,7 +69,7 @@
                        <span class="glyphicon glyphicon-plane"></span>
                         '.$row[1].'
                         <div>
-                        Fra: '.$row[2]
+                        Fra: '.$row[3].' -  Til: '.$row[4].'
                         </div>
                       </a>
                     </div>';
@@ -226,7 +226,8 @@
         
       </div>
       <!--ROW SLUTT-->
-     <input type="submit" value="Søk og bestill" >
+     <input type="submit" class="btn btn-primary " value="Søk og bestill" >
+     
     </form>
     <hr>
     
@@ -240,6 +241,9 @@
     
  </div>
  <!--INNHOLD SLUTT-->
+ 
+ 
+  <?php include ("./html/footer.html"); ?>
  
   
 <script type="text/javascript">
@@ -310,6 +314,5 @@ function parseDate(str) {
 }
   </script>
 
-  <?php include ("./html/footer.html"); ?>
 </body>
 </html>
