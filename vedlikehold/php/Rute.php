@@ -54,12 +54,12 @@
             include('db.php');
             
             $sql = 
-            "update rute
-            set navn = ?
-            where ruteId = ?;";
+            "UPDATE rute
+            SET navn = ?
+            WHERE ruteId = ?;";
             
             $insertRute = $db_connection->prepare($sql);
-            $insertRute->bind_param('sssss'
+            $insertRute->bind_param('ssss'
                                     , $fraDestId, $tilDestid, $sesongId, $navn);
                                                                         
             $insertRute->execute();
