@@ -24,7 +24,7 @@
         $innloggetBruker = NULL;
     }
     
-    $logg->Ny('Logget inn.', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $innloggetBruker);
+    // $logg->Ny('Logget inn.', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $innloggetBruker);
     
     if (!$innloggetBruker)
     {
