@@ -24,7 +24,7 @@ Viser alle flyplasser
 ### Destinasjon
 En destinasjon er sammensatt av land, stedsnavn og flyplass
 | id | navn | land |  landskode | stedsnavn | flyplassId| geo_lat | geo_lang | endret  |
-|----|--------|--------------|------------|----------|-----------|--------------|-------------|----------|
+|----|------|------|------------|----------|------------|----------|----------|-------|
 | 1 | Oslo (Torp)  | Norge | NO | Sandefjord | 1 | 59.000053 | 10.019490 | 2016-06-04 |
 | 2 | Oslo (Gardemoen) | Norge | NO | Oslo | 1 | 60.197591 | 11.100910 | 2016-06-06 |
 | 3 | London (Heathrow)  |England | EN | London  | 51.469996 | -0.454006  | 2016-06-06 |
