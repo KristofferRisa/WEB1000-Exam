@@ -12,7 +12,20 @@
     @session_start();
     
     @$innloggetBruker=$_SESSION["brukernavn"];
-
+     
+    //Global variables
+    $user = new User();
+    $userInfo = $user->GetUserFromUsername($_SESSION['brukernavn']);
+    $logg = new Logg();
+    $html = new HtmlHelperClass();
+    
+    if(!$user->ValidateAdminCookie($innloggetBruker,$logg)){
+        $logg->Ny('Feil med Admin cookie.', 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), $innloggetBruker);    
+        $innloggetBruker = NULL;
+    }
+    
+    $logg->Ny('Logget inn.', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $innloggetBruker);
+    
     if (!$innloggetBruker)
     {
         //CHANGE ON DEPLOYMENT
@@ -21,12 +34,5 @@
         exit;
     }
   
-    //Global variables
-    $user = new User();
-    $userInfo = $user->GetUserFromUsername($_SESSION['brukernavn']);
-    $logg = new Logg();
-    $html = new HtmlHelperClass();
-
-    // $logg->Ny('Laster side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , $innloggetBruker);
     
 ?>
