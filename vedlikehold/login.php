@@ -16,8 +16,12 @@ if ($_POST) {
     
     $logg->Ny($brukernavn.' forsøker å logge inn', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $brukernavn);
     
-    if ($user->Login($brukernavn, $password,$logg)) {
+    if ($user->Login($brukernavn, $password,$logg,TRUE)) {
         $user->setUserCookie($brukernavn);
+        //Sett en admin cookie, sesjon varer i 10 timer.
+        $user->setAdminCookie($brukernavn);
+        
+        $logg->Ny('feil med admin cookie');
         
         $logg->Ny('Logget inn', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $brukernavn);
         $_SESSION["brukernavn"] = $brukernavn;

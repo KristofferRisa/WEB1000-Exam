@@ -266,12 +266,18 @@
             }
         }
         
-        public function Login($username, $password, $logg)
+        public function Login($username, $password, $logg, $admin = FALSE)
         {
             include('db.php');
-        
-            $query = $db_connection->prepare("SELECT passord FROM bruker WHERE brukernavn = ?;");
-            $query->bind_param('s', $username);
+            
+            $isAdmin = "Nei";
+            
+            if($admin){
+                $isAdmin = "Ja";
+            }
+            
+            $query = $db_connection->prepare("SELECT passord FROM bruker WHERE brukernavn = ? and isAdmin = ?;");
+            $query->bind_param('ss', $username, $isAdmin);
             $query->execute();
 
             $query->bind_result($pass_stored);
@@ -306,6 +312,28 @@
         public function setUserCookie($uid)
         {
             setcookie("uid", md5($uid), time() + 21600, '/', NULL, 0); /* expire in 5 hour */ 
+        }
+        
+        public function setAdminCookie($username)
+        {
+            
+            $username = md5($username.'isAdmin123');
+
+            setcookie("admin", $username, time() + 43200, '/', NULL, 0); /* expire in 10 hour */ 
+        }
+        
+        public function ValidateAdminCookie($username, $logg)
+        {
+            $logg->ny('Forsøker å validere admin cookie, '.$_COOKIE["admin"].' med '.md5($username.'isAdmin123'));
+            if($_COOKIE["admin"] == md5($username.'isAdmin123')){
+                $logg->Ny('Riktig admin cookie.');
+                return TRUE;
+                exit;
+            } else {
+                $logg->Ny('Feil admin cookie.');
+                return FALSE;
+            }
+            
         }
         
         public function sjekkUserCookie()

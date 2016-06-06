@@ -196,7 +196,7 @@ if($_POST){
                   <label for="inputIsAdmin" class="col-md-2 control-label">Administrator</label>
                   <div class="col-md-5">
                       <div class="ui fluid search selection dropdown">
-                        <input type="hidden" required name="inputIsAdmin" value="">
+                        <input type="hidden" required name="inputIsAdmin" value="Nei">
                         <i class="dropdown icon"></i>
                         <div class="default text"></div>
                     <div class="menu">
