@@ -1,4 +1,4 @@
-DROP TABLE bruker, billett, bestilling, kunde, sete, prisKategori, avgang, rute, sesong, destinasjon, flyplass, fly;
+DROP TABLE bruker, billett, bestilling, sete, prisKategori, avgang, rute, sesong, destinasjon, flyplass, fly;
 
 
 
@@ -39,25 +39,15 @@ CREATE TABLE destinasjon
 );
 
 
-CREATE TABLE sesong
-(
-    sesongId INT NOT NULL AUTO_INCREMENT,
-    navn varchar(200) NOT NULL,
-    endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT pk_sesong PRIMARY KEY (sesongId)
-);
-
 
 CREATE TABLE rute
 (
     ruteId INT NOT NULL AUTO_INCREMENT,
     fraDestId INT NOT NULL,
     tilDestId INT NOT NULL,
-    sesongId INT NOT NULL,
     navn VARCHAR (45) NOT NULL,
     endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT pk_rute PRIMARY KEY (ruteId),
-    CONSTRAINT fk_rute1 FOREIGN KEY (sesongId) REFERENCES sesong (sesongId),
     CONSTRAINT fk_rute2 FOREIGN KEY (fraDestId) REFERENCES destinasjon (destinasjonId),
     CONSTRAINT fk_rute3 FOREIGN KEY (tilDestId) REFERENCES destinasjon (destinasjonId)
 );
@@ -69,9 +59,10 @@ CREATE TABLE avgang
     ruteId INT NOT NULL,
     fraFlyplassId INT NOT NULL,
     tilFlyplassId INT NOT NULL,
-    direkte BIT NOT NULL,
-    avgang DATETIME NOT NULL,
-    reiseTid INT NOT NULL,
+    tilgjFraDato DATE NOT NULL,
+    tilgjTilDato DATE,
+    direkte VARCHAR (5) NOT NULL,
+    reiseTid CHAR (5) NOT NULL,
     ukedagNr INT NOT NULL,
     klokkeslett CHAR (5) NOT NULL, -- 00:00 
     fastpris DECIMAL (14,2) NOT NULL,
@@ -111,7 +102,7 @@ CREATE TABLE sete
 CREATE TABLE bestilling
 (
     bestillingId INT NOT NULL AUTO_INCREMENT,
-    bestillingsDato CHAR (10) NOT NULL, -- 01/01/206
+    bestillingsDato CHAR (10) NOT NULL, -- 01/01/2016
     refNo varchar(200) NOT NULL,
     reiseDato CHAR (10) NOT NULL, -- 01/01/2016
     returDato CHAR (10), -- 01/01/2016
