@@ -49,8 +49,9 @@ Dette er en overordnet tabell til avgang tabellen som viser alle flyavganger mel
 # Fortsett HER!
 
 ### Avgang
+
 | id | ruteId | fraFlyplassId | tilFlyplassID | ukedag | klokkeslette | reiseTid | direkte |
-|----|-------------|-----------|---------------|------------|
+|----|--------|---------------|---------------|--------|--------------|----------|---------|
 | 1 | 1 | 2 | 2016-06-01 05:00 | 1 | 2016-06-06 21:00 |  1 | null | 1 |
 | 2 | 2 | 3 | 2016-07-01 12:10 | 2 | null | 2 | 1 | 1 |
 
@@ -70,6 +71,7 @@ Dette er en overordnet tabell til avgang tabellen som viser alle flyavganger mel
 | 1 | 1 | 1A | FALSE | 1 | 
 
 ## Kunde
+
 |id | fornavn | etternavn | kjonn  | tlf | epost |
 |--|---------|------------|--------|---------|----|-------|
 
@@ -86,12 +88,12 @@ Dette er en overordnet tabell til avgang tabellen som viser alle flyavganger mel
 
 
 ### Bruker
-| id | brukerTypeId | fornavn | etternavn | epost | tlf | fødselsdato | kjønn |  password  |
-|---|--------------------|------------|--------------|---------|----|-----------------|---------|---------------|
-| 1 | 3 | Hans | Hansen | ha@sen.no | 213111 12 | 1955-01-12 | mann | zxczxcsd |
-| 2 | 3  |Ola | Norma | ola@norman.com | 90090013 | 1977-12-12 | mann | asdfasdf |
-| 1 | 1 | kristoffer | risa | k@k.k | null | null | null | dsafopsdfi |
-| 2 | 2 | Normal | user | sadfsf@dsaf.no | null | null | null | ewrq1| 
+| id  | fornavn | etternavn | epost | tlf  |  password  |
+|---|-----------|-----------|-------|------|----------|
+| 1 | Hans | Hansen | ha@sen.no | 213111 12  | zxczxcsd |
+| 2 |Ola | Norma | ola@norman.com | 90090013  |  asdfasdf |
+| 1 | kristoffer | risa | k@k.k | null | dsafopsdfi |
+| 2 | Normal | user | sadfsf@dsaf.no  | null | ewrq1| 
 
 ### Autentisering
 Vi lager en autentisering tabell for å holde styr på sesjons guid pr bruker som er innlogget. Da ser vi kun i __bruker__ tabellen ved innlogging også brukes autentisering tabellen ved alle autentisering sjekker. 
