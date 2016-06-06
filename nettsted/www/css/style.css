@@ -64,3 +64,5 @@ footer p {
 .ui.dropdown .menu>.item {
     font-size: 1.4rem;
 }
+
+.top-buffer { margin-top:20px; }

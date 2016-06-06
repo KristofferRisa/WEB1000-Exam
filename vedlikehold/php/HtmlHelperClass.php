@@ -28,6 +28,24 @@
             return $html;
         }
         
+        //Value må være row[0] og navn må være row[1]
+        public function GenerateSearchSelectionItem($dataset){
+            $html = "";
+            $last = count($dataset) - 1;
+
+            foreach ($dataset as $i => $row)
+            {
+                $isFirst = ($i == 0);
+                $isLast = ($i == $last);
+
+                $html .= '<div class="item customItem" data-value="'.$row[0].'"><i></i>'.$row[1].'</div>';
+    
+            }
+
+
+            return $html;
+        }
+        
         public function errorMsg($msg) {
             return "<div class='alert alert-error'><strong>Error!</strong> ".$msg."</div>";
         }
