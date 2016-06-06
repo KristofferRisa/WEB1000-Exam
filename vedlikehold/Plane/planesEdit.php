@@ -177,7 +177,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
               <div class="box-footer">
                 <div class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
 
-                <button type="submit" class="btn btn-info pull-right">Legg til</button>
+                <button type="submit" class="btn btn-info pull-right">Endre</button>
               </div>
               <!-- /.box-footer -->
             </form>
@@ -197,7 +197,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
                <div class="form-group col-md-6">
                   <select class="form-control select2 select2-hidden-accessible" name="id" style="width: 100%;" tabindex="-1" aria-hidden="true">
               
-                      <?php $airportselect = new Airport; print($airportselect-> AirportSelectOptions()); ?>
+                      <?php $planeselect = new Planes; print($planeselect-> PlaneSelectOptions()); ?>
                 
                   </select>
               </div>

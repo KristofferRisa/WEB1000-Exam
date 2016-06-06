@@ -428,7 +428,7 @@ elseif (strlen($_POST["flyplassNavn"]) > 45 ) {
                <div class="form-group col-md-6">
                   <select class="form-control select2 select2-hidden-accessible" name="id" style="width: 100%;" tabindex="-1" aria-hidden="true">
               
-                      <?php $planeselect = new Planes; print($planeselect-> PlaneSelectOptions()); ?>
+                      <?php $airportselect = new Planes; print($airportselect-> AirportSelectOptions()); ?>
                 
                   </select>
               </div>
