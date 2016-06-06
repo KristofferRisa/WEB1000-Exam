@@ -48,8 +48,8 @@ include('../html/admin-start.html');
                     <thead>
                       <tr role="row">
                         <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id">ID</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Navn">Flynr</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Prosent påslag">Flymodell</th>                    
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Navn">Navn</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Prosentpaaslag">Prosentpåslag</th>                    
                       </tr>
                     </thead>
                     <tbody>

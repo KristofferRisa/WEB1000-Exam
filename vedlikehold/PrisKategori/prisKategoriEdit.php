@@ -1,5 +1,5 @@
 <?php 
-$title = "FLY - ENDRE - Admin";
+$title = "PRISKATEGORI - ENDRE - Admin";
 
 include('../html/start.php');
 
@@ -16,14 +16,14 @@ if($_GET['id']){
   //returnerer en array
   //brukes av både GET OG POST    
   $id = $_GET['id'];
-  $fly = new Planes;
-  $flyinfo = $fly->GetPlane($id,$logg);
+  $prisKat = new Priskategoier;
+  $prisKatInfo = $prisKat->GetPlane($id,$logg);
  
 
 }
 
 
-$flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $errMsg = "";
+$prisKatID = $prisKatNavn = $prisKatProsentpaaslag = $errMsg = "";
 
   $errorMelding = "";
 
@@ -32,7 +32,7 @@ $flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $errMs
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-  if ( empty($_POST["flyNr"]) || empty($_POST["flyModell"]) || empty($_POST["flyType"]) || empty($_POST["flyAntallPlasser"]) || empty($_POST["flyAarsmodell"]) ) {
+  if ( empty($_POST["prisKatId"]) || empty($_POST["prisKatNavn"]) || empty($_POST["prisKatProsentpaaslag"])  ) {
 
     $errorMelding = $html->errorMsg("Alle felt må fylles ut!");
 

@@ -1,5 +1,5 @@
 <?php 
-$title = "FLY - Admin";
+$title = "PRISKAT - Admin";
 
 include('../html/start.php');
 
@@ -17,14 +17,14 @@ include('../php/addPlaneFormInput.php');
   <section class="content-header">
 
       <h1>
-        Registrere nytt fly
-        <small>Her kan du registrere nye fly i databasen</small>
+        Registrere ny priskategori
+        <small>Her kan du registrere nye priskategorier i databasen</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Fly og seteoversikt</li>
+      <li>Priskategorier oversikt</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Legg til fly</li>
+      <li class="active">Legg til prisoversikt</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -46,42 +46,24 @@ include('../php/addPlaneFormInput.php');
 
             <!-- form start -->
 
-            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerFly()">
+            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerPrisKat()">
               <div class="box-body">        
 
                 <div class="form-group">
-                  <label for="flyNr" class="col-sm-2 control-label">Flynr</label>
+                  <label for="navn" class="col-sm-2 control-label">Navn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$_POST['flyNr'] ?>">
+                    <input type="text" class="form-control" id="navn" name="navn" placeholder="Navn" value="<?php echo @$_POST['navn'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="flyModell" class="col-sm-2 control-label">Flymodell</label>
+                  <label for="prosentPaaslag" class="col-sm-2 control-label">Prosentpåslag</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$_POST['flyModell'] ?>">
+                    <input type="text" class="form-control" id="prosentpaslag" name="prosentpaslag" placeholder="Prosentpåslag" value="<?php echo @$_POST['flyModell'] ?>">
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label for="flyType" class="col-sm-2 control-label">Flytype</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$_POST['flyType'] ?>">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="flyAntallPlasser" class="col-sm-2 control-label">Antall sitteplasser</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$_POST['flyAntallPlasser'] ?>">
-                     </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$_POST['flyAarsmodell'] ?>">
-                  </div>
+ 
                 </div>
 
               <!-- /.box-body -->
