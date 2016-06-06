@@ -8,6 +8,45 @@
             
         }
       
+        public function SokLedigeAvganger($fra, $til, $dato , $logg)
+        {
+            include('db.php');
+            
+            $logg->Ny("Forsøker å finne ledige avganger fra: ".$fra." og til: ".$til." den ".$dato);
+            
+            $sql = "
+            SELECT * FROM eksamen.LedigePlasser
+            where dato > ?
+            and fraDestId = ?
+            and tilDestId = ?;";
+            
+            
+            $queryLedige = $db_connection->prepare($sql);
+            
+            $queryLedige->bind_param('sss'
+                                    , $dato
+                                    , $fra
+                                    , $til);
+            
+            $queryLedige->execute();
+            
+            //henter result set
+            $resultSet = $queryLedige->get_result();
+            
+            $ledigeRuter =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryLedige == false){
+                $logg->Ny('Mislyktes å hente fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryLedige->close();
+            $db_connection->close(); 
+            
+            return $ledigeRuter;
+        } 
+        
         public function NewAvgang($ruteId, $fraFlyplassId, $tilFlyplassId, $direkte, $avgang, $reiseTid, $ukedagNr, $klokkeslett,
                                   $fastPris)
         {   

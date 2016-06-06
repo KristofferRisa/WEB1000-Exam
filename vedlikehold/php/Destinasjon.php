@@ -1,6 +1,6 @@
 <?php
     class Destinasjon
-{
+    {
         
         // OPPRETTE NY DESTINASJON
         public function Destinasjon()
@@ -93,7 +93,7 @@
         {
             include('db.php');
             
-            $sql = "SELECT destinasjonId, flyplassId, navn, land, landskode, geo_lat, geo_lng FROM destinasjon;";
+            $sql = "SELECT destinasjonId, navn, flyplassId,  land, landskode, geo_lat, geo_lng FROM destinasjon;";
             
             $queryDestinasjon = $db_connection->prepare($sql);
             
@@ -122,7 +122,7 @@
         {
             include('db.php');
             
-            $sql = "SELECT destinasjonId, flyplassId, navn, land, landskode, stedsnavn, geo_lat, geo_lng 
+            $sql = "SELECT destinasjonId, navn, flyplassId, land, landskode, stedsnavn, geo_lat, geo_lng 
                     FROM destinasjon WHERE destinasjonId=?;";
             
             $queryDestinasjon = $db_connection->prepare($sql);
@@ -149,6 +149,40 @@
             return $destinasjon;
         } 
         
+        //VISER DESTINASJONER BASERT PÅ RUTER WHERE fraDestId = ?
+        public function GetDestinasjoner($destinasjonId, $logg)
+        {
+            include('db.php');
+            
+            $sql = "
+                    SELECT distinct a.tilDestId,d.navn as til
+                    FROM avgang a
+                    inner join destinasjon d on a.tilDestId = d.destinasjonId
+                    where fraDestId = ?;";
+            
+            $queryDestinasjoner = $db_connection->prepare($sql);
+            
+            $queryDestinasjoner->bind_param('i'
+                                    , $destinasjonId);
+            
+            $queryDestinasjoner->execute();
+            
+            //henter result set
+            $resultSet = $queryDestinasjoner->get_result();
+            
+            $destinasjoner =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryDestinasjoner == false){
+                $logg->Ny('Mislyktes å hente fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryDestinasjoner->close();
+            $db_connection->close(); 
+            
+            return $destinasjoner;
+        } 
         
         //SLETTE EN DESTINASJON WHERE destinasjonId = ?
          public function DeleteDestinasjon($destinasjonId, $logg)

@@ -1,18 +1,22 @@
 <?php
 
-if($_GET && $_GET['destinasjon']){
+include('./html/start.php');
+
+
+
+
+if($_GET && $_GET['id']){
     //gir alle mulig til destinasjoner basert på destinasjon
-    $fraDestinasjon = $_GET['destinasjon'];
+    $fraDestinasjon = $_GET['id'];
     
-    echo '<div class="item" data-value="zw"><i class="zw flag"></i>Tyskland<span class="glyphicon glyphicon-plane"></span></div>
-         <div class="item" data-value="zw"><i class="zw flag"></i>England<span class="glyphicon glyphicon-plane"></span></div>
-         <div class="item" data-value="zw"><i class="zw flag"></i>Velg utreisested først</div>
-         <div class="item" data-value="zw"><i class="zw flag"></i>Velg utreisested først</div>';
+    $destinasjoner = $dest->GetDestinasjoner($fraDestinasjon,$logg);
+    
+    echo $html->GenerateSearchSelectionItem($destinasjoner);
+
     
 } else {
     //gir alle mulige destinasjoner
-    echo '<div class="item" data-value="zw"><i class="zw flag"></i>Norge<span class="glyphicon glyphicon-plane"></span></div>
-         <div class="item" data-value="zw"><i class="zw flag"></i>England<span class="glyphicon glyphicon-plane"></span></div>
-         <div class="item" data-value="zw"><i class="zw flag"></i>Sverige<span class="glyphicon glyphicon-plane"></span></div>';
+    $destinasjoner = $dest->GetAllDestinasjoner($logg);
+    echo $html->GenerateSearchSelectionItem($destinasjoner);
     
 }

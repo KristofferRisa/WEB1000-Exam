@@ -324,9 +324,9 @@
         
         public function ValidateAdminCookie($username, $logg)
         {
-            $logg->ny('Forsøker å validere admin cookie, '.$_COOKIE["admin"].' med '.md5($username.'isAdmin123'));
+            // $logg->ny('Forsøker å validere admin cookie, '.$_COOKIE["admin"].' med '.md5($username.'isAdmin123'));
             if($_COOKIE["admin"] == md5($username.'isAdmin123')){
-                $logg->Ny('Riktig admin cookie.');
+                // $logg->Ny('Riktig admin cookie.');
                 return TRUE;
                 exit;
             } else {
