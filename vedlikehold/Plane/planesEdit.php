@@ -117,6 +117,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
                  <!-- Horizontal Form -->
           <div class="box box-info">
 
+
 <?php 
   //Viser skjema dersom det både er en GET request med querstring id
   if($_GET && $_GET['id']){ ?>
