@@ -163,7 +163,7 @@
             
             $deleteRute->execute();
             
-            $påvirkedeRader = $deleteRute->affected_rows;
+            $paavirkedeRader = $deleteRute->affected_rows;
 
             
             //Error logging
@@ -176,7 +176,7 @@
             $deleteRute->close();
             $db_connection->close(); 
             
-            return $påvirkedeRader;
+            return $paavirkedeRader;
             
          }
        

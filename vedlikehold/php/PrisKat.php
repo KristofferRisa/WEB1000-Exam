@@ -163,7 +163,7 @@
             
             $deletePrisKat->execute();
             
-            $påvirkedeRader = $deletePrisKat->affected_rows;
+            $paavirkedeRader = $deletePrisKat->affected_rows;
 
             
             //Error logging
@@ -176,7 +176,7 @@
             $deletePrisKat->close();
             $db_connection->close(); 
             
-            return $påvirkedeRader;
+            return $paavirkedeRader;
             
          }
        

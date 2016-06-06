@@ -170,7 +170,7 @@
             
             $deleteBestilling->execute();
             
-            $påvirkedeRader = $deleteBestilling->affected_rows;
+            $paavirkedeRader = $deleteBestilling->affected_rows;
 
             
             //Error logging
@@ -183,7 +183,7 @@
             $deleteBestilling->close();
             $db_connection->close(); 
             
-            return $påvirkedeRader;
+            return $paavirkedeRader;
             
          }
        
