@@ -18,6 +18,8 @@ if($_GET['id']){
   $id = $_GET['id'];
   $fly = new Planes;
   $flyinfo = $fly->GetPlane($id,$logg);
+
+  print_r($flyinfo);
  
 
 }
@@ -40,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 elseif (filter_var($_POST["flyAntallPlasser"], FILTER_VALIDATE_INT) === false || strlen($_POST["flyAntallPlasser"]) > 11 ) {
-  $$errorMelding =  $html->errorMsg("Antall plasser må kun være siffer og maks 11 tegn tegn!");
+  $errorMelding =  $html->errorMsg("Antall plasser må kun være siffer og maks 11 tegn tegn!");
 
 }
 
