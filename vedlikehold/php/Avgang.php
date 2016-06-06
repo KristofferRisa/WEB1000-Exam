@@ -8,25 +8,27 @@
             
         }
       
-        public function SokLedigeAvganger($fra, $til, $dato , $logg)
+        public function SokLedigeAvganger($fra, $til, $dato, $antallReisende , $logg)
         {
             include('db.php');
             
-            $logg->Ny("Forsøker å finne ledige avganger fra: ".$fra." og til: ".$til." den ".$dato);
+            $logg->Ny("Forsøker å finne ledige avganger fra: ".$fra." og til: ".$til." den ".$dato." for ".$antallReisende." reisende.");
             
             $sql = "
-            SELECT * FROM eksamen.LedigePlasser
+            SELECT * FROM eksamen.LedigeAvganger
             where dato > ?
             and fraDestId = ?
-            and tilDestId = ?;";
+            and tilDestId = ?
+            and AntallLedige >= ?;";
             
             
             $queryLedige = $db_connection->prepare($sql);
             
-            $queryLedige->bind_param('sss'
+            $queryLedige->bind_param('sssi'
                                     , $dato
                                     , $fra
-                                    , $til);
+                                    , $til
+                                    , $antallReisende);
             
             $queryLedige->execute();
             
