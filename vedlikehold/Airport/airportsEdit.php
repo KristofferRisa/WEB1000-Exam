@@ -10,7 +10,7 @@ include('../html/admin-start.html');
 // Validering og innsending av skjemadata
 include('../php/AdminClasses.php');
 
-$flyplassNavn = $id = "";
+$flyplassNavn = "";
 
 if($_GET['id']){
   
@@ -38,27 +38,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $errorMelding = $html->errorMsg("Error! </strong>Alle felt må fylles ut.");
 
-}
-
-elseif (strlen($_POST["flyplassNavn"]) > 45 ) {
-  $errorMelding = $html->successMsg("Navn må være maks 45 tegn.");
-}
-
-  
-  else {
-
-
+  } elseif (strlen($_POST["flyplassNavn"]) > 45 ) {
+    $errorMelding = $html->successMsg("Navn må være maks 45 tegn.");
+  } else {
     $valider = new ValiderData;
-
-
-
 
     $flyplassNavn = $valider->valider($_POST["flyplassNavn"]);
 
     $airport = new Airport; 
 
-    $airportinfo = $airport->UpdateAirport($id,$flyplassNavn,$logg);
+    $result = $airport->UpdateAirport($id,$flyplassNavn,$logg);
 
+    //Henter oppdatert airport info fra databasen
+    $airportinfo = $airport->GetAirport($id,$logg);
 
     if($result == 1){
       //Success
@@ -118,12 +110,8 @@ elseif (strlen($_POST["flyplassNavn"]) > 45 ) {
             <!-- /.box-header -->
 
 
-
             <!-- form start -->
-
-            
-
-            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerFlyplass()">
+            <form method="post" class="form-horizontal" onsubmit="return validerRegistrerFlyplass()">
               <div class="box-body">        
 
                 <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut flyplass land">

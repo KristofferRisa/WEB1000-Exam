@@ -396,6 +396,7 @@ class Airport {
         public function UpdateAirport($flyplassId, $navn, $logg){
             include('db.php');
             
+            $logg->Ny('Forsoeker å oppdatere flyplass (id='.$flyplassId.') med navnet '.$navn);
             
             $sql = "
             update flyplass 
