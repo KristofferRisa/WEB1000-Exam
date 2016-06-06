@@ -164,7 +164,7 @@
             
             $deleteBillett->execute();
             
-            $påvirkedeRader = $deleteBillett->affected_rows;
+            $paavirkedeRader = $deleteBillett->affected_rows;
 
             
             //Error logging
@@ -177,7 +177,7 @@
             $deleteBillett->close();
             $db_connection->close(); 
             
-            return $påvirkedeRader;
+            return $paavirkedeRader;
             
          }
        

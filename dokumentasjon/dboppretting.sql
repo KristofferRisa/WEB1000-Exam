@@ -1,4 +1,4 @@
-DROP TABLE bruker, billett, bestilling, kunde, sete, prisKategori, avgang, rute, sesong, destinasjon, flyplass, fly;
+DROP TABLE bruker, billett, bestilling, sete, prisKategori, avgang, rute, destinasjon, flyplass, fly;
 
 
 
@@ -39,47 +39,21 @@ CREATE TABLE destinasjon
 );
 
 
-CREATE TABLE sesong
-(
-    sesongId INT NOT NULL AUTO_INCREMENT,
-    navn varchar(200) NOT NULL,
-    endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT pk_sesong PRIMARY KEY (sesongId)
-);
-
-
-CREATE TABLE rute
-(
-    ruteId INT NOT NULL AUTO_INCREMENT,
-    fraDestId INT NOT NULL,
-    tilDestId INT NOT NULL,
-    sesongId INT NOT NULL,
-    navn VARCHAR (45) NOT NULL,
-    endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT pk_rute PRIMARY KEY (ruteId),
-    CONSTRAINT fk_rute1 FOREIGN KEY (sesongId) REFERENCES sesong (sesongId),
-    CONSTRAINT fk_rute2 FOREIGN KEY (fraDestId) REFERENCES destinasjon (destinasjonId),
-    CONSTRAINT fk_rute3 FOREIGN KEY (tilDestId) REFERENCES destinasjon (destinasjonId)
-);
-
-
 CREATE TABLE avgang
 (
     avgangId INT NOT NULL AUTO_INCREMENT,
-    ruteId INT NOT NULL,
-    fraFlyplassId INT NOT NULL,
-    tilFlyplassId INT NOT NULL,
-    direkte BIT NOT NULL,
-    avgang DATETIME NOT NULL,
-    reiseTid INT NOT NULL,
-    ukedagNr INT NOT NULL,
+    flyId INT NOT NULL,
+    fraDestId INT NOT NULL,
+    tilDestId INT NOT NULL,
+    dato DATE NOT NULL,
+    direkte VARCHAR (5) NOT NULL,
+    reiseTid CHAR (5) NOT NULL,
     klokkeslett CHAR (5) NOT NULL, -- 00:00 
     fastpris DECIMAL (14,2) NOT NULL,
     endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT pk_avgang PRIMARY KEY (avgangId),
-    CONSTRAINT fk_avgang1 FOREIGN KEY (ruteId) REFERENCES rute (ruteId),
-    CONSTRAINT fk_avgang2 FOREIGN KEY (tilFlyplassId) REFERENCES flyplass (flyplassId),
-    CONSTRAINT fk_avgang3 FOREIGN KEY (fraFlyplassId) REFERENCES flyplass (flyplassId)
+    CONSTRAINT fk_avgang2 FOREIGN KEY (fraDestId) REFERENCES destinasjon (destinasjonId),
+    CONSTRAINT fk_avgang3 FOREIGN KEY (tilDestId) REFERENCES destinasjon (destinasjonId)
 );
 
 
@@ -111,7 +85,7 @@ CREATE TABLE sete
 CREATE TABLE bestilling
 (
     bestillingId INT NOT NULL AUTO_INCREMENT,
-    bestillingsDato CHAR (10) NOT NULL, -- 01/01/206
+    bestillingsDato CHAR (10) NOT NULL, -- 01/01/2016
     refNo varchar(200) NOT NULL,
     reiseDato CHAR (10) NOT NULL, -- 01/01/2016
     returDato CHAR (10), -- 01/01/2016
@@ -172,3 +146,20 @@ CREATE TABLE logg
 );
 
 
+CREATE VIEW LedigePlasser
+AS 
+SELECT 
+	 a.avgangId
+	,a.dato
+    ,s.seteNr 
+    ,fra.navn AS fra,til.navn AS til
+    ,a.fastpris
+    ,a.fraDestId, a.tilDestId,direkte
+    ,s.seteId
+    ,b.billettId
+FROM sete s
+INNER JOIN avgang a ON s.flyId = a.flyID
+JOIN flyplass fra ON a.fraDestId = fra.flyplassId
+JOIN flyplass til ON a.tilDestId = til.flyplassID
+LEFT JOIN billett b ON s.seteId = b.seteId AND a.avgangId = b.avgangId
+WHERE b.billettId IS NULL;

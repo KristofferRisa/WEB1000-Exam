@@ -163,7 +163,7 @@
             
             $deleteSesong->execute();
             
-            $påvirkedeRader = $deleteSesong->affected_rows;
+            $paavirkedeRader = $deleteSesong->affected_rows;
 
             
             //Error logging
@@ -176,7 +176,7 @@
             $deleteSesong->close();
             $db_connection->close(); 
             
-            return $påvirkedeRader;
+            return $paavirkedeRader;
             
          }
        

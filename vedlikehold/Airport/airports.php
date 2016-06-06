@@ -6,6 +6,7 @@ include('../html/start.php');
 include('../html/header.html');
 
 include('../html/admin-start.html');
+$errorMelding = "";
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -31,7 +32,7 @@ include('../html/admin-start.html');
         <div class="row">
       <div class="col-xs-12">
         <div class="box">
-          <div class="box-header">
+          <div class="box-header"><?php echo $errorMelding; ?><div id="melding"></div>
             <h3 class="box-title">Liste over fly</h3>
           </div>
           <!-- /.box-header -->
@@ -48,9 +49,8 @@ include('../html/admin-start.html');
                       <tr role="row">
                         <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FlyplassId">ID</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassNavn">Flyplass navn</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassLand">Land</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassStatuskode  ">Statuskode</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassEndret">Data endret</th></tr>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassEndret">Data endret</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Handling">Handling</th></tr>
                       
                     </thead>
                     <tbody>
@@ -72,9 +72,8 @@ print( $airports->ShowAllAirports() );
                       <tr>
                         <th rowspan="1" colspan="1">ID</th>
                         <th rowspan="1" colspan="1">Flyplass navn</th>
-                        <th rowspan="1" colspan="1">Land</th>
-                        <th rowspan="1" colspan="1">Statuskode</th>
                         <th rowspan="1" colspan="1">Data endret</th>
+                        <th rowspan="1" colspan="1">Handling</th>
                       </tr>
                     </tfoot>
                   </table>

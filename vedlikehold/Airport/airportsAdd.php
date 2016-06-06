@@ -58,7 +58,7 @@ include('../php/addAirportFormInput.php');
                   </div>
                 </div>
 
-                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Velg land">
+                 <!--<div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Velg land">
               
   <label for="flyplassLand" class="col-sm-2 control-label">Land</label>
   <div class="col-sm-10">        
@@ -312,7 +312,7 @@ include('../php/addAirportFormInput.php');
   <div class="item" data-value="zw"><i class="zw flag"></i>Zimbabwe</div>
 </div>
 
-</div>
+</div>-->
 
   </div>
   </div>

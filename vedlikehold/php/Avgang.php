@@ -209,7 +209,7 @@
             
             $deleteAvgang->execute();
             
-            $påvirkedeRader = $deleteAvgang->affected_rows;
+            $paavirkedeRader = $deleteAvgang->affected_rows;
 
             
             //Error logging
@@ -222,7 +222,7 @@
             $deleteAvgang->close();
             $db_connection->close(); 
             
-            return $påvirkedeRader;
+            return $paavirkedeRader;
             
          }
        

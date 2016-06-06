@@ -198,7 +198,7 @@
             
             $deleteDestinasjon->execute();
             
-            $påvirkedeRader = $deleteDestinasjon->affected_rows;
+            $paavirkedeRader = $deleteDestinasjon->affected_rows;
 
             
             //Error logging
@@ -211,7 +211,7 @@
             $deleteDestinasjon->close();
             $db_connection->close(); 
             
-            return $påvirkedeRader;
+            return $paavirkedeRader;
             
          }
        

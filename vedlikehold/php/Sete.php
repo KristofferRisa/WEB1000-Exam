@@ -163,7 +163,7 @@
             
             $deleteSete->execute();
             
-            $påvirkedeRader = $deleteSete->affected_rows;
+            $paavirkedeRader = $deleteSete->affected_rows;
 
             
             //Error logging
@@ -176,7 +176,7 @@
             $deleteSete->close();
             $db_connection->close(); 
             
-            return $påvirkedeRader;
+            return $paavirkedeRader;
             
          }
        
