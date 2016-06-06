@@ -1,5 +1,5 @@
 <?php 
-$title = "FLYPLASS - Admin - Legg til";
+$title = "FLYPLASS - ENDRE - Admin";
 
 include('../html/start.php');
 
@@ -10,6 +10,7 @@ include('../html/admin-start.html');
 // Validering og innsending av skjemadata
 include('../php/AdminClasses.php');
 
+$flyplassNavn = $id = "";
 
 if($_GET['id']){
   
@@ -19,6 +20,7 @@ if($_GET['id']){
   $airport = new Airport;
   $airportinfo = $airport->GetAirport($id,$logg);
   
+  print_r($airportinfo);
   
 
 }
@@ -49,14 +51,14 @@ elseif (strlen($_POST["flyplassNavn"]) > 45 ) {
     $valider = new ValiderData;
 
 
+
+
     $flyplassNavn = $valider->valider($_POST["flyplassNavn"]);
 
-    $innIDataBaseMedData = new Airport;
+    $airport = new Airport; 
 
-    $result = $innIDataBaseMedData->AddNewAirport($flyplassNavn);
+    $airportinfo = $airport->UpdateAirport($id,$flyplassNavn,$logg);
 
-
-     $airportinfo = $airport->GetAirport($id,$logg);
 
     if($result == 1){
       //Success
@@ -428,7 +430,7 @@ elseif (strlen($_POST["flyplassNavn"]) > 45 ) {
                <div class="form-group col-md-6">
                   <select class="form-control select2 select2-hidden-accessible" name="id" style="width: 100%;" tabindex="-1" aria-hidden="true">
               
-                      <?php $airportselect = new Planes; print($airportselect-> AirportSelectOptions()); ?>
+                      <?php $airportselect = new Airport; print($airportselect-> AirportSelectOptions()); ?>
                 
                   </select>
               </div>
