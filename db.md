@@ -23,11 +23,12 @@ Viser alle flyplasser
 
 ### Destinasjon
 En destinasjon er sammensatt av land, stedsnavn og flyplass
+
 | id | navn | land |  landskode | stedsnavn | flyplassId| geo_lat | geo_lang | endret  |
 |----|------|------|------------|----------|------------|----------|----------|-------|
 | 1 | Oslo (Torp)  | Norge | NO | Sandefjord | 1 | 59.000053 | 10.019490 | 2016-06-04 |
 | 2 | Oslo (Gardemoen) | Norge | NO | Oslo | 1 | 60.197591 | 11.100910 | 2016-06-06 |
-| 3 | London (Heathrow)  |England | EN | London  | 51.469996 | -0.454006  | 2016-06-06 |
+| 3 | London (Heathrow)  | England | EN | London  | 51.469996 | -0.454006  | 2016-06-06 |
 
 ### Sesong
 | id | nanvn | endret |
@@ -40,10 +41,10 @@ En destinasjon er sammensatt av land, stedsnavn og flyplass
 (tidligere flyvning) består av en fra desitnasjon og til destinasjon.
 Dette er en overordnet tabell til avgang tabellen som viser alle flyavganger mellom destinasjoner. 
 
-| id | navn | fraDestId | tilDestId | sesong | endret |
-|----|-----------|-----------|--------|---------|
-| 1 | 1 | 2 |  1 | 2015-06-06 |
-| 2 | 2 | 3 |  1 | 2015-06-06 |
+| id | navn | fraDestId | tilDestId | sesong |
+|----|------|-----------|-----------|--------|
+| 1 | 1 | 2 |  1 | 
+| 2 | 2 | 3 |  1 |
 
 # Fortsett HER!
 
