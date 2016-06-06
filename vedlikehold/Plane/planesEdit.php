@@ -18,8 +18,7 @@ if($_GET['id']){
   $id = $_GET['id'];
   $fly = new Planes;
   $flyinfo = $fly->GetPlane($id,$logg);
-  print_r($flyinfo);
-  
+ 
 
 }
 
@@ -185,7 +184,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
 
             <?php } 
              else {
-    //lister en select box med brukere 
+    //lister en select box med flyplass 
 ?>
 <!-- Your Page Content Here -->
 <form class="form-horizontal" method="GET" id="redigerFly">
@@ -198,7 +197,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
                <div class="form-group col-md-6">
                   <select class="form-control select2 select2-hidden-accessible" name="id" style="width: 100%;" tabindex="-1" aria-hidden="true">
               
-                      <?php $planeselect = new Planes; print($planeselect-> PlaneSelectOptions()); ?>
+                      <?php $airportselect = new Airport; print($airportselect-> AirportSelectOptions()); ?>
                 
                   </select>
               </div>
