@@ -32,7 +32,7 @@
             
             $logg->Ny('Rows affected: '.$affectedrows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
 
-            if($insertCustomer == false){
+            if($insertBestilling == false){
                 $logg->Ny('Mislyktes å insert: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
                 exit;    
             }
@@ -67,16 +67,16 @@
                                     , $bestillingDato, $refNo, $reiseDato, $returDato, $bestillerFornavn, $bestillerEtternavn, $bestillerEpost, $bestillerTlf,
                                       $antallVoksne, $antallBarn, $antallBebis);
                                                                         
-            $insertCustomer->execute();
-            $affectedRows = $insertCustomer->affected_rows;
+            $insertBestilling->execute();
+            $affectedRows = $insertBestilling->affected_rows;
             
-            $insertCustomer->close();
+            $insertBestilling->close();
             $db_connection->close(); 
             
             
             $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
 
-            if($insertCustomer == false){
+            if($insertBestilling == false){
                 $logg->Ny('Mislyktes å oppdatere bestilling informasjon'.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
                 exit;    
             }
@@ -152,7 +152,7 @@
             $queryBestilling->close();
             $db_connection->close(); 
             
-            return $customer;
+            return $bestilling;
         } 
         
         
@@ -161,7 +161,7 @@
          {
             include('db.php');
             
-            $sql = "DELETE from bestilling WHERE bestillingId=?;";
+            $sql = "DELETE FROM bestilling WHERE bestillingId=?;";
             
             $deleteBestilling = $db_connection->prepare($sql);
             
