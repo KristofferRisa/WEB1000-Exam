@@ -133,36 +133,45 @@
             return $affectedRows;
         }
         
+        //VISE ALLE AVGANGER
+         public function GetAllAvganger()
+         {
+
+            include('../php/db.php');  
+            $html =  '';
+            $id = "";
+            //CSS Styling
+            $oddOrEven = TRUE;
+            $printOddOrEven = '';
+            
         
-        // VISE ALLE AVGANGER
-        public function GetAllAvganger($logg)
-        {
-            include (realpath(dirname(__FILE__)).'/db.php');;
+            //  db-tilkopling
+            $query = $db_connection->prepare
+            ("SELECT avgangId, flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris, endret FROM avgang");
+        $query->execute();
+        $query->bind_result($id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris, $endret);
             
-            $sql = "SELECT avgangId, ruteId, fraFlyplassId, tilFlyplassId, direkte, avgang, reiseTid, ukedagNr, klokkeslett, fastpris 
-                    FROM avgang;";
-            
-            $queryAvgang = $db_connection->prepare($sql);
-            
-            $queryAvgang->execute();
-            
-            //henter result set
-            $resultSet = $queryAvgang->get_result();
-            
-            $avgang =  $resultSet->fetch_all();
-            
-            //Error logging
-            if($queryAvgang == false){
-                $logg->Ny('Mislyktes å hente fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
-            }
-            
-            $resultSet->free();
-            $queryAvgang->close();
-            $db_connection->close(); 
-            
-            return $avgang;
+            //henter data
+            while ($query->fetch()) {
+
+
+                if($oddOrEven){
+                    $oddOrEven = FALSE;
+                    $printOddOrEven = 'even';
+                } 
+                else {
+                    $oddOrEven = TRUE;
+                    $printOddOrEven = 'odd';
+                }
+
+                $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyId.'</td><td>'.$fraDestId.'</td><td>'.$tilDestId.'</td><td>'.$dato.'</td>
+                <td>'.$direkte.'</td><td>'.$reiseTid.'</td><td>'.$klokkeslett.'</td><td>'.$fastpris.'</td><td>'.$endret.'</td><td>
+                <a href="./Avganger/avgangerAdd.php">Ny avgang</a> | <a href="./Avganger/avgangerEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne avgangen?\')" href="./Avganger/delete.php?id='.$id.'">Slett</a> </td></tr>';
+
         }
-        
+        return $html;
+        }
+
         
         //VISE EN AVGANG WHERE avgangId = ?
         public function GetAvgang ($avgangId, $logg)

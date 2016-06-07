@@ -63,9 +63,7 @@ include('../php/prisKat.php');
 $prisKat = new PrisKat;
 
 
-$data = $prisKat->GetAllPrisKategorier($logg);
-echo $html -> LagTabell($data, 3, $logg);
-print_r ($data);
+print ($prisKat->GetAllPrisKat() );
 
 
 ?> 
