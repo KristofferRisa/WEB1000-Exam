@@ -117,7 +117,9 @@ class Logg {
     // $logg = new Logg();
     // $logg->Ny('test melding', 'INFO',htmlspecialchars($_SERVER['PHP_SELF']), 'UserID');
     public function Ny($melding, $nivå = NULL, $modul = NULL, $bruker = NULL) {
-        include('db.php');
+        // include('db.php');
+        include (realpath(dirname(__FILE__)).'/db.php');
+        // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/db.php" ;
         $datotid = date('Y-m-d H:i:s');
         
         if(!$nivå) {
