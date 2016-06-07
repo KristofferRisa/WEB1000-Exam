@@ -1,5 +1,5 @@
 <?php 
-$title = "FLYPLASS - Admin - Legg til";
+$title = "DESTINASJON - Admin - Legg til";
 
 include('../html/start.php');
 
@@ -8,7 +8,7 @@ include('../html/header.html');
 include('../html/admin-start.html');
 
 // Validering og innsending av skjemadata
-include('../php/addAirportFormInput.php');
+//include('../php/addAirportFormInput.php');
 
 ?>
 
