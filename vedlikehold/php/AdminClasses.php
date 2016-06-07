@@ -247,9 +247,23 @@ class Destination {
         
         return $html;
 
-
-
     }
+
+    public function AddNewDestination($fId,$navn,$land,$landskode,$stedsnavn,$geo_lat,$geo_lng) {
+        include('../php/db.php');
+        
+        //Bygger SQL statementt
+        $query = $db_connection->prepare("INSERT INTO destinasjon (flyplassId,navn,land,landskode,stedsnavn,geo_lat,geo_lng) VALUES (?,?,?,?,?,?,?)");
+        $query->bind_param('issssss', $fId,$navn,$land,$landskode,$stedsnavn,$geo_lat,$geo_lng);  
+
+            if ( $query->execute()) { 
+                $affectedRows = $query->affected_rows;
+                $query->close();
+        $db_connection->close();
+
+         return $affectedRows;  
+         }
+     }
 }
 
 class Airport {
