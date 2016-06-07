@@ -13,7 +13,7 @@ include('../php/Avgang.php');
 
 $avgang = "";
 
-if($_GET['id']){
+if(@$_GET['id']){
   
   //returnerer en array
   //brukes av både GET OG POST    
@@ -128,8 +128,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
             <!-- form start -->
-          <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerAvgang()">
-            <div class="box-body">        
+          <form method="post" class="form-horizontal" onsubmit="return validerRegistrerAvgang()">
+              <div class="box-body">   
 
 
 

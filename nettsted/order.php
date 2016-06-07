@@ -79,15 +79,154 @@ if($_GET
     && $_GET['antall']
     // && $_GET['bebis']
     ){
-        //Vis Skjema for bestilling
-        ?>
-        <h1>test</h1>
+        $fra = $_GET['reise'];
+        @$til = $_GET['retur'];
+        $antallReisende = $_GET['antall'];
         
+        if($_GET['bebis']){
+           $bebis = $_GET['bebis']; 
+        } else {
+            $bebis = 0;
+        }
+        
+        //Avgang
+        $utreiseInfo = $reiseInfo = $avganger->GetAvgang($fra, $logg);
+        print_r($utreiseInfo);
+        echo '<br>';
+        //FRA
+        $utreiseFra = $dest->GetDestinasjon($reiseInfo[0][1],$logg);
+        print_r($utreiseFra);
+        echo '<br>';
+        //TIL
+        $utreiseTil = $dest->GetDestinasjon($reiseInfo[0][2],$logg);
+        print_r($utreiseTil);
+        echo '<br>';
+        
+        //Vis Skjema for bestilling
+        
+        ?>
+       <form method="POST" class="form-horizontal">
+           
+            <div class="container">
+                <div class="row top-buffer">
+                    <h1>Utreise</h1>
+                    <hr>
+                    <div class="form-group">
+                        <label for="flyplassID" class="col-sm-2 control-label billett">Fra:</label>
+                        <div class="col-sm-4">
+                            <input type="hidden" disabled name="fra"  value="<?php echo $fra; ?>">
+                            <div class=""><?php echo  $utreiseFra[0][1]; ?></div>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="hidden" disabled name="til"  value="<?php echo $til; ?>">
+                            <label>til: </label>
+                            <?php echo  $utreiseTil[0][1]; ?>
+                        </div>
+                    </div>
+                   
+                </div>
+                
+                <div class="row">
+                   <div class="form-group">
+                        <label for="flyplassID" class="col-sm-2 control-label billett">Dato:</label>
+                        <div class="col-sm-4">
+                            <input type="hidden" disabled name="dato"  value="<?php echo $utreiseInfo[0][3]; ?>">
+                            <?php echo  $utreiseInfo[0][3]; ?>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>kl:</label>
+                            <?php echo  $utreiseInfo[0][5]; ?> (reisetid: <?php echo  $utreiseInfo[0][6]; ?>)
+                        </div>
+                        
+                    </div> 
+                </div>
+
+                <div class="row">
+                   <div class="form-group">
+                        <label for="flyplassID" class="col-sm-2 control-label billett">Pris:</label>
+                        <div class="col-sm-4">
+                            <i class="fa fa-dollar"></i>
+                            <?php echo  $utreiseInfo[0][7]; ?>
+                        </div>
+                    </div> 
+                </div>
+                
+                <div class="row">
+                    <h2>Kunde info</h2>
+                   <div class="form-group">
+                        <label for="flyplassID" class="col-sm-2 control-label">Fornavn</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="kundeFornavn1" placeholder="fornavn" requried>
+                        </div>
+                    </div> 
+                </div>
+                
+                <div class="row">
+                   <div class="form-group">
+                        <label for="flyplassID" class="col-sm-2 control-label">Etternavn</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="kundeEtternavn1" placeholder="etternavn" required>
+                        </div>
+                    </div> 
+                </div>
+                
+                <div class="row">
+                   <div class="form-group">
+                        <label for="flyplassID" class="col-sm-2 control-label">Kjønn</label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2 select2-hidden-accessible" name="kjonn" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
+                                <option value="Mann">Mann</option>
+                                <option value="Kvinne">Kvinne</option>
+                            </select>
+                        </div>
+                    </div> 
+                </div>
+                
+                <!--Antall bagasje-->
+                <div class="row">
+                   <div class="form-group">
+                        <label for="flyplassID" class="col-sm-2 control-label">Antall bagasje</label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2 select2-hidden-accessible" name="bagasje1" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                <option value="0">Kun håndbagasje</option>
+                                <option value="1">1 kolli (100 NOK)</option>
+                                <option value="2">2 kolli (200 NOK)</option>
+                            </select>
+                        </div>
+                    </div> 
+                </div>
+                
+                <?php if(@$_GET['avgangIdRetur']) { ?>
+                <!--Antall bagasje retur-->
+                <div class="row">
+                   <div class="form-group">
+                        <label for="flyplassID" class="col-sm-2 control-label">Antall bagasje</label>
+                        <div class="col-sm-6">
+                            <select class="form-control select2 select2-hidden-accessible" name="bagasje1" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                <option value="0">Kun håndbagasje</option>
+                                <option value="1">1 kolli (100 NOK)</option>
+                                <option value="2">2 kolli (200 NOK)</option>
+                            </select>
+                        </div>
+                    </div> 
+                </div>
+                
+                <?php } ?>
+            
+            
+                <div class="row col-md-2 col-md-offset-6 top-buffer">
+                    <input type="submit" class="btn btn-primary pull-right" onclick="return false;" value="Bestill">
+                </div>    
+            </div>
+            
+        </form>
+       
         
 <?php
     }
+    
 
-// $ledigeAvganger = $avganger->SokLedigeAvganger($fra,$til,$dato,$antallReisende,$logg);
+ 
 
 /*
     TODO
@@ -101,6 +240,7 @@ if($_GET
 
 
 ?>
+
 
 <hr>
  <?php include ("./html/footer.html"); ?>
