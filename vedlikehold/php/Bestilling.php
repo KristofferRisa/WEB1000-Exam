@@ -11,7 +11,7 @@
         public function NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,
                                       $antallVoksne, $antallBarn, $antallBebis)
         {   
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $logg->Ny('Forsøker å opprette ny bestilling.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
@@ -55,7 +55,7 @@
         public function UpdateBestilling ($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,
                                       $antallVoksne, $antallBarn, $antallBebis)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE bestilling
@@ -96,7 +96,7 @@
         // VISE ALLE BESTILLINGER
         public function GetAllBestilling($logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT bestillingId, bestillingDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn, antallBebis
                     FROM bestilling;";
@@ -126,7 +126,7 @@
         //VISE EN BESTILLING WHERE bestillingId = ?
         public function GetBestilling($bestillingId, $logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT bestillingId, bestillingDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn, antallBebis
                     FROM bestilling WHERE bestillingId=?;";
@@ -159,7 +159,7 @@
         //SLETTE EN BESTILLING WHERE bestillingId = ?
          public function DeleteBestilling($bestillingId, $logg)
          {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "DELETE FROM bestilling WHERE bestillingId=?;";
             

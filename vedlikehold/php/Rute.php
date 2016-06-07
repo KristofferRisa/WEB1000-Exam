@@ -10,7 +10,7 @@
       
         public function NewRute($fraDestId, $tilDestid, $sesongId, $navn)
         {   
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $logg->Ny('Forsøker å opprette ny rute.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
@@ -51,7 +51,7 @@
         // OPPDATERER EN RUTE
         public function UpdateAvgang ($fraDestId, $tilDestid, $sesongId, $navn)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE rute
@@ -91,7 +91,7 @@
         // VISE ALLE RUTER
         public function GetAllRuter($logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT ruteId, fraDestId, tilDestId, sesongId, navn FROM rute;";
             
@@ -120,7 +120,7 @@
         //VISE EN RUTE WHERE ruteId = ?
         public function getRute($ruteId, $logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT ruteId, fraDestId, tilDestId, sesongId, navn FROM rute WHERE ruteId=?;";
             
@@ -152,7 +152,7 @@
         //SLETTE EN RUTE WHERE ruteId = ?
          public function DeleteRute($ruteId, $logg)
          {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "DELETE from rute WHERE ruteId=?;";
             

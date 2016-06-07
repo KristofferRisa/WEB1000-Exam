@@ -10,7 +10,7 @@
       
         public function NewSete ($flyId, $prisKategoriId, $seteNr, $nodutgang, $forklaring)
         {   
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $logg->Ny('Forsøker å opprette ny sete.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
@@ -51,7 +51,7 @@
         // OPPDATERER EN SETE
         public function UpdateSete ($flyId, $prisKategoriId, $seteNr, $nodutgang, $forklaring)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE sete
@@ -91,7 +91,7 @@
         // VISE ALLE SETER
         public function GetAllSeter($logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT seteId, flyId, prisKategoriId, SeteNr, nodutgang, forklaring FROM sete;";
             
@@ -120,7 +120,7 @@
         //VISE EN SETE WHERE seteId = ?
         public function getSete($seteId, $logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT seteId, flyId, prisKategoriId, seteNr, nodutgang, forklaring FROM sete WHERE seteId=?;";
             
@@ -152,7 +152,7 @@
         //SLETTE ET SETE WHERE seteId = ?
          public function DeleteSete($seteId, $logg)
          {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "DELETE FROM sete WHERE seteId=?;";
             

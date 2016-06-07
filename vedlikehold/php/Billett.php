@@ -10,7 +10,7 @@
       
         public function NewBillett($bestillingId, $avgangId, $seteId, $fornavn, $etternavn, $kjonn, $antBagasje)
         {   
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $logg->Ny('Forsøker å opprette ny billett.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
@@ -51,7 +51,7 @@
         // OPPDATERER EN BILLETT
         public function UpdateBillett ($bestillingId, $avgangId, $seteId, $fornavn, $etternavn, $kjonn, $antBagasje)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE billett
@@ -91,7 +91,7 @@
         // VISE ALLE BILLETTER
         public function GetAllBillett($logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT billettId, bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje FROM billett;";
             
@@ -120,7 +120,7 @@
         //VISE EN BILLETT WHERE billettId = ?
         public function GetBillett($billettId, $logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT billettId, bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje 
                     FROM billett WHERE billettId=?;";
@@ -153,7 +153,7 @@
         //SLETTE EN BILLETT WHERE billettId = ?
          public function DeleteBillett($billettId, $logg)
          {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "DELETE from billett WHERE billettId=?;";
             

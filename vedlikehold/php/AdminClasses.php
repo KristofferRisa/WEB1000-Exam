@@ -14,7 +14,7 @@ class Planes {
   
     public function ShowAllPlanes(){
 
-        include('db.php');
+        include (realpath(dirname(__FILE__)).'/db.php');;
         $html =  '';
         //CSS Styling
         $oddOrEven = TRUE;
@@ -68,7 +68,7 @@ class Planes {
     }
 
     public function UpdatePlane($flyId,$flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "
             update fly 
@@ -107,7 +107,7 @@ class Planes {
         }
         
             public function GetPlane($flyId, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             
             $sql = "select * FROM fly WHERE flyId=?;";
@@ -135,7 +135,7 @@ class Planes {
         } 
 
             public function PlaneSelectOptions(){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
              $listBox = "";
             
             $sql="SELECT flyId, flyNr, flyModell from fly";
@@ -164,7 +164,7 @@ class Planes {
          
 }
         public function DeletePlane($planeId, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "delete from fly where flyId = ?;";
             
@@ -248,7 +248,7 @@ class Airport {
 
     public function ShowAllAirportsDataset(){
 
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             $sql = "SELECT flyplassId,navn,endret FROM flyplass";
             
             $queryFlyplass = $db_connection->prepare($sql);
@@ -291,7 +291,7 @@ class Airport {
 
 
          public function AirportSelectOptions(){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
              $listBox = "";
             
             $sql="SELECT flyplassId, navn from flyplass";
@@ -321,7 +321,7 @@ class Airport {
          }
 
          public function DeleteAirport($flyplassId, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             include('../html/start.php');
             
             $sql = "delete from flyplass where flyplassId =?;";
@@ -366,7 +366,7 @@ class Airport {
         }
 
         public function GetAirport($flyplassId, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             
             $sql = "select * FROM flyplass WHERE flyplassId=?;";
@@ -394,7 +394,7 @@ class Airport {
         } 
 
         public function UpdateAirport($flyplassId, $navn, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $logg->Ny('Forsoeker å oppdatere flyplass (id='.$flyplassId.') med navnet '.$navn);
             
