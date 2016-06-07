@@ -49,43 +49,30 @@ $errorMelding = "";
                       <tr role="row">
                         <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PrisKatId">ID</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatNavn">Priskategori navn</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatProsentpaaslag">Priskategori prosentpåslag</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatEndret">Data endret</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Handling">Handling</th></tr>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatProsentPaaslag">Priskategori prosentpåslag</th>
+
                       
                     </thead>
                     <tbody>
-
 <?php 
 
 include('../php/AdminClasses.php');
-include('../php/PrisKat.php');
+include('../php/prisKat.php');
+
 
 $prisKat = new PrisKat;
 
 
 $data = $prisKat->GetAllPrisKategorier($logg);
+echo $html -> LagTabell($data, 3, $logg);
+print_r ($data);
 
-//print_r($data);
-
-
-
-
-echo $html->LagTabell($data,3,$logg);
 
 ?> 
 
 
                     </tbody>
-                    <tfoot>
-                      <tr>
-                        <th rowspan="1" colspan="1">ID</th>
-                        <th rowspan="1" colspan="1">Priskategori navn</th>
-                        <th rowspan="1" colspan="1">Priskategori prosentpåslag</th>
-                        <th rowspan="1" colspan="1">Data endret</th>
-                        <th rowspan="1" colspan="1">Handling</th>
-                      </tr>
-                    </tfoot>
+
                   </table>
                 </div>
               </div>

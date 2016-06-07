@@ -118,3 +118,34 @@ function clearForm(oForm) {
   }
     }
 }
+
+
+function validerRegistrerPrisKat()
+{
+  var prisKatNavn=document.getElementById("prisKatNavn").value;
+  var prisKatProsentPaaslag=document.getElementById("prisKatProsentPaaslag").value;
+  var feilmelding="<div class='alert alert-error'>";
+
+  if (!prisKatNavn)
+    {
+        feilmelding=feilmelding + "Priskategori navn er ikke fylt ut.<br />";
+    }
+  if (!prisKatProsentPaaslag)
+    {
+        feilmelding=feilmelding + "Priskategori prosentpåslag er ikke fylt ut. <br />";
+    }
+ 
+
+    else {feilmelding=feilmelding + "</div>"}
+
+  if (prisKatNavn && prisKatProsentPaaslag)
+    {
+        return true;
+    }
+  else
+    {
+        document.getElementById("melding").style.color="red"; 
+        document.getElementById("melding").innerHTML=feilmelding; 
+        return false;
+    } 
+}

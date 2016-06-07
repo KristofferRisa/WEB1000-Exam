@@ -1,4 +1,5 @@
 <?php
+
     class PrisKat
 {
         
@@ -10,7 +11,9 @@
       
         public function NewPrisKat($navn, $prosentPaaslag)
         {   
-            include (realpath(dirname(__FILE__)).'/db.php');;
+            include (realpath(dirname(__FILE__)).'/db.php');
+            
+            $logg = new Logg;
             
             $logg->Ny('Forsøker å opprette ny priskategori.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
@@ -49,18 +52,18 @@
         
         
         // OPPDATERER EN PRISKATEGORI
-        public function UpdatePrisKat ($navn, $prosentPaaslag)
+        public function UpdatePrisKat ($id, $navn, $prosentPaaslag, $logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE prisKategori
-            SET navn = ?
+            SET navn = ?, prosentPaaslag = ?
             WHERE prisKategoriId = ?;";
             
             $insertPrisKat = $db_connection->prepare($sql);
-            $insertPrisKat->bind_param('ss'
-                                    , $navn, $prosentPaaslag);
+            $insertPrisKat->bind_param('sii'
+                                    , $navn, $prosentPaaslag, $id);
                                                                         
             $insertPrisKat->execute();
             $affectedRows = $insertPrisKat->affected_rows;
@@ -88,12 +91,44 @@
         }
         
         
-        // VISE ALLE PRISKATEGORIER
+        // VISE ALLE PRISKATEGORIER LISTBOX
+        public function GetAllPrisKategorierLB($logg)
+        {
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            $listBox= "";
+
+            $sql = "SELECT prisKategoriId, navn, prosentPaaslag FROM prisKategori;";
+            
+            $queryPrisKat = $db_connection->prepare($sql);
+            
+            $queryPrisKat->execute();
+
+            $queryPrisKat ->bind_result($id, $prisKatNavn, $prisKatProsentPaaslag);
+            
+            while ($queryPrisKat->fetch ())
+            {
+                $listBox .="<option value=".$id. ">ID:".$id.", PrisKatNavn: ".$prisKatNavn.", prisKatProsentPaaslag: ".$prisKatProsentPaaslag."</option>";
+            }
+
+            
+            //Error logging
+            if($queryPrisKat == false){
+                $logg->Ny('Mislyktes å hente fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $queryPrisKat->close();
+            $db_connection->close(); 
+            
+            return $listBox;
+        }
+
+        // VISE ALLE PRISKATEGORIER 
         public function GetAllPrisKategorier($logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT prisKategoriId, navn, prosentPaaslag FROM prisKategori;";
+            $sql = "SELECT prisKatgoriId, navn, prosentPaaslag 
+                    FROM prisKategori;";
             
             $queryPrisKat = $db_connection->prepare($sql);
             
