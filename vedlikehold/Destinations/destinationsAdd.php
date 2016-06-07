@@ -29,7 +29,7 @@ include('../php/addDestinationFormInput.php');
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Ny destinasjon</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Legg til destinasjony</li>
+      <li class="active">Legg til destinasjon</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -359,7 +359,7 @@ include('../php/addDestinationFormInput.php');
                 <div class="form-group">
                   <label for="flyLaget" class="col-sm-2 control-label">Geo_lng</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="geo_lng" name="geo_lng" placeholder="geo_lng" value="<?php echo @$_POST['Geo_lng'] ?>">
+                    <input type="text" class="form-control" id="geo_lng" name="geo_lng" placeholder="geo_lng" value="<?php echo @$_POST['geo_lng'] ?>">
                   </div>
                 </div>
 
