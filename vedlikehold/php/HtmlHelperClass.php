@@ -1,13 +1,14 @@
 <?php
 
     class HtmlHelperClass{  
-        public function LagtTabell($data, $logg){
+        public function LagTabell($data, $logg){
             
+            $html="";
             $oddOrEven = TRUE;
             $printOddOrEven = '';
             $last = count($data) - 1;
             
-            foreach ($data[0] as $i => $row)
+            foreach ($data as $i => $row)
             {
                 if($oddOrEven){
                     $oddOrEven = FALSE;
