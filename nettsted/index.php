@@ -1,7 +1,6 @@
 <?php
   $title = 'Bjarum Airlines';
   include('./html/start.php');
-  
   include('./html/header.html');
   include('./html/nav.html');
   
