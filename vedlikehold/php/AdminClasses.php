@@ -202,6 +202,56 @@ class Planes {
 
 }
 
+class Destination {
+
+    public function ShowAllDestinations() {
+
+        include (realpath(dirname(__FILE__)).'/db.php');;
+         $html =  '';
+         $id = '';
+        //CSS Styling
+        $oddOrEven = TRUE;
+        $printOddOrEven = '';
+        
+       
+        //  db-tilkopling
+        $query = $db_connection->prepare("SELECT destinasjonId, flyplassId, navn, land, landskode, stedsnavn, geo_lat, geo_lng, endret  FROM destinasjon");
+        $query->execute();
+        $query->bind_result($dId, $fId, $navn, $land,$landskode,$stedsnavn,$geo_lat,$geo_lng,$endret);
+
+
+
+        //henter data
+       
+        while ($query->fetch()) {
+
+
+            if($oddOrEven){
+                $oddOrEven = FALSE;
+                $printOddOrEven = 'even';
+            } 
+            else {
+                $oddOrEven = TRUE;
+                $printOddOrEven = 'odd';
+            }
+
+            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$dId.'</td><td>'.$fId.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$landskode.'</td><td>'.$stedsnavn.'</td><td>'.$geo_lat.'</td><td>'.$geo_lng.'</td>
+            <td>'.$endret.'</td><td><a href="./Airport/airportsAdd.php">Nytt fly</a> | <a href="./Airport/airportsEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne flyplassen?\')" href="./Airport/delete.php?id='.$id.'">Slett</a> </td></tr>';
+
+        }
+        
+    
+        //Lukker databasetilkopling
+        $query->close();
+        $db_connection->close();
+        
+        return $html;
+
+
+
+    }
+}
+
 class Airport {
   
     public function ShowAllAirports(){

@@ -133,40 +133,82 @@
             return $affectedRows;
         }
         
+        //VISE ALLE AVGANGER
+         public function GetAllAvganger()
+         {
+
+            include('../php/db.php');  
+            $html =  '';
+            $id = "";
+            //CSS Styling
+            $oddOrEven = TRUE;
+            $printOddOrEven = '';
+            
         
-        // VISE ALLE AVGANGER
-        public function GetAllAvganger($logg)
+            //  db-tilkopling
+            $query = $db_connection->prepare
+            ("SELECT avgangId, flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris, endret FROM avgang");
+            $query->execute();
+            $query->bind_result($id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris, $endret);
+            
+            //henter data
+            while ($query->fetch()) {
+
+
+                if($oddOrEven){
+                    $oddOrEven = FALSE;
+                    $printOddOrEven = 'even';
+                } 
+                else {
+                    $oddOrEven = TRUE;
+                    $printOddOrEven = 'odd';
+                }
+
+                $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyId.'</td><td>'.$fraDestId.'</td><td>'.$tilDestId.'</td><td>'.$dato.'</td>
+                <td>'.$direkte.'</td><td>'.$reiseTid.'</td><td>'.$klokkeslett.'</td><td>'.$fastpris.'</td><td>'.$endret.'</td><td>
+                <a href="./Avganger/avgangerAdd.php">Ny avgang</a> | <a href="./Avganger/avgangerEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne avgangen?\')" href="./Avganger/delete.php?id='.$id.'">Slett</a> </td></tr>';
+
+            }
+            return $html;
+         }
+
+        // VISE ALLE AVGANG LISTBOX
+        public function GetAllAvgangLB($logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
-            
-            $sql = "SELECT avgangId, ruteId, fraFlyplassId, tilFlyplassId, direkte, avgang, reiseTid, ukedagNr, klokkeslett, fastpris 
-                    FROM avgang;";
+            $listBox= "";
+
+            $sql = "SELECT avgangId, flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris FROM avgang;";
             
             $queryAvgang = $db_connection->prepare($sql);
             
             $queryAvgang->execute();
+
+            $queryAvgang ->bind_result($Id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris);
             
-            //henter result set
-            $resultSet = $queryAvgang->get_result();
-            
-            $avgang =  $resultSet->fetch_all();
+            while ($queryAvgang->fetch ())
+            {
+                $listBox .="<option value=".$id.">ID:".$id.", flyId: ".$flyId.", fraDestId: ".$fraDestId.", tilDestId: ".$tilDestId.", 
+                dato: ".$dato.", direkte: ".$direkte.", reiseTid: ".$reiseTid.", klokkeslett: ".$klokkslett.", fastpris: ".$fastpris."</option>";
+            }
+
             
             //Error logging
             if($queryAvgang == false){
                 $logg->Ny('Mislyktes å hente fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
             }
             
-            $resultSet->free();
             $queryAvgang->close();
             $db_connection->close(); 
             
-            return $avgang;
+            return $listBox;
         }
-        
+
         
         //VISE EN AVGANG WHERE avgangId = ?
         public function GetAvgang ($avgangId, $logg)
         {
+            
             include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT avgangId, ruteId, fraFlyplassId, tilFlyplassId, direkte, avgang, reiseTid, ukedagNr, klokkeslett, fastpris 

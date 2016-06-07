@@ -1,14 +1,14 @@
 <?php 
 session_start();
 
-include('./php/Logg.php');
+include('../vedlikehold/php/Logg.php');
 $logg = new Logg();
 
 $htmlmsg = "";
 
 ##Hent brukernavn og passord ved POST#Sjekk brukerinfo - Logg inn om bruker finnes
 if ($_POST) {
-    include('./php/User.php');
+    include('../vedlikehold/php/User.php');
     $user = new User();
     
     $brukernavn = $_POST["brukernavn"];
@@ -22,8 +22,13 @@ if ($_POST) {
         $logg->Ny('Logget inn', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $brukernavn);
         $_SESSION["brukernavn"] = $brukernavn;
         
-        header("Location: ./");
+        if($_GET['returnUrl']){
+            header("Location: ".$_GET['returnUrl']);
+            exit; 
+        }
         
+        header("Location: ./");
+        exit;
     }
     else {
         $logg->Ny('Klarte ikke å logge inn.', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $brukernavn);
@@ -36,7 +41,7 @@ if ($_POST) {
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Log in</title>
+    <title>Logg inn</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->

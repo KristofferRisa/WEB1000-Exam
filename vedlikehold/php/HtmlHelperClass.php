@@ -4,7 +4,6 @@
         public function LagTabell($data, $antallKolonner, $logg){
             
             $html ="";
-            $antallKolonner = 3;
             $oddOrEven = TRUE;
             $printOddOrEven = '';
             $last = count($data) - 1;

@@ -1,4 +1,5 @@
 <?php
+
     class PrisKat
 {
         
@@ -10,7 +11,9 @@
       
         public function NewPrisKat($navn, $prosentPaaslag)
         {   
-            include (realpath(dirname(__FILE__)).'/db.php');;
+            include (realpath(dirname(__FILE__)).'/db.php');
+            
+            $logg = new Logg;
             
             $logg->Ny('Forsøker å opprette ny priskategori.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
@@ -49,18 +52,18 @@
         
         
         // OPPDATERER EN PRISKATEGORI
-        public function UpdatePrisKat ($navn, $prosentPaaslag)
+        public function UpdatePrisKat ($id, $navn, $prosentPaaslag, $logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE prisKategori
-            SET navn = ?
+            SET navn = ?, prosentPaaslag = ?
             WHERE prisKategoriId = ?;";
             
             $insertPrisKat = $db_connection->prepare($sql);
-            $insertPrisKat->bind_param('ss'
-                                    , $navn, $prosentPaaslag);
+            $insertPrisKat->bind_param('sii'
+                                    , $navn, $prosentPaaslag, $id);
                                                                         
             $insertPrisKat->execute();
             $affectedRows = $insertPrisKat->affected_rows;
@@ -88,34 +91,75 @@
         }
         
         
-        // VISE ALLE PRISKATEGORIER
-        public function GetAllPrisKategorier($logg)
+        // VISE ALLE PRISKATEGORIER LISTBOX
+        public function GetAllPrisKategorierLB($logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
-            
+            $listBox= "";
+
             $sql = "SELECT prisKategoriId, navn, prosentPaaslag FROM prisKategori;";
             
             $queryPrisKat = $db_connection->prepare($sql);
             
             $queryPrisKat->execute();
+
+            $queryPrisKat ->bind_result($id, $prisKatNavn, $prisKatProsentPaaslag);
             
-            //henter result set
-            $resultSet = $queryPrisKat->get_result();
-            
-            $prisKat =  $resultSet->fetch_all();
+            while ($queryPrisKat->fetch ())
+            {
+                $listBox .="<option value=".$id. ">ID:".$id.", PrisKatNavn: ".$prisKatNavn.", prisKatProsentPaaslag: ".$prisKatProsentPaaslag."</option>";
+            }
+
             
             //Error logging
             if($queryPrisKat == false){
                 $logg->Ny('Mislyktes å hente fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
             }
             
-            $resultSet->free();
             $queryPrisKat->close();
             $db_connection->close(); 
             
-            return $prisKat;
+            return $listBox;
         }
+
         
+        //VISE ALLE PRISKATEGORIER 
+        public function GetAllPrisKat()
+         {
+
+            include('../php/db.php');  
+            $html =  '';
+            $id = "";
+            //CSS Styling
+            $oddOrEven = TRUE;
+            $printOddOrEven = '';
+            
+        
+            //  db-tilkopling
+            $query = $db_connection->prepare
+            ("SELECT prisKategoriId, navn, prosentPaaslag, endret FROM prisKategori");
+        $query->execute();
+        $query->bind_result($prisKatId, $navn, $prosentPaaslag, $endret);
+            
+            //henter data
+            while ($query->fetch()) {
+
+
+                if($oddOrEven){
+                    $oddOrEven = FALSE;
+                    $printOddOrEven = 'even';
+                } 
+                else {
+                    $oddOrEven = TRUE;
+                    $printOddOrEven = 'odd';
+                }
+
+                $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$prisKatId.'</td><td>'.$navn.'</td><td>'.$prosentPaaslag.'</td><td>'.$endret.'</td><td>       
+                <a href="./PrisKategori/prisKategoriAdd.php">Ny priskategori</a> | <a href="./PrisKategori/prisKategoriEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne priskategorien?\')" href="./PrisKategori/delete.php?id='.$id.'">Slett</a> </td></tr>';
+
+        }
+        return $html;
+        }
         
         //VISE EN PRIS WHERE prisKatId = ?
         public function getPrisKat($prisKatId, $logg)
