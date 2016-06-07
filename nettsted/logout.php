@@ -10,6 +10,6 @@
     # Todo: Fjern cookie
 
     // Sendes tilbake til hjemmeside
-    header('Location: ./login.php');
+    header('Location: ./');
 
 ?>

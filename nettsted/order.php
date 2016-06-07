@@ -23,7 +23,7 @@ if (!$innloggetBruker)
                         Dersom du allerede har bruker kan du fortsette bestillingen etter du har logget inn.
                     </div>
                     <div class="panel-footer">
-                        <a class="btn btn-primary" href="./login.php??returnUrl=<?php echo $_SERVER['REQUEST_URI']; ?>">Logg inn</a>
+                        <a class="btn btn-primary" href="./login.php?returnUrl=<?php echo $_SERVER['REQUEST_URI']; ?>">Logg inn</a>
                     </div>
                 </div>
             </div>
