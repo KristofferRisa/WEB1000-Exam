@@ -64,12 +64,6 @@
       
   
 ?>
-  <!--LOGO-->
-  <div class="jumbotron text-center">
-    <div class="login-logo">
-     <b>B</b>JARUM <b>A</b>IRLINES  
-    </div>
-  </div>
   
   
   <!--START INNHOLD-->
@@ -414,9 +408,6 @@ $(function() {
   
   
   
-  
-  
-  
   //når man går ut av reiser fra input så hentes alle mulig til destinasjoner
   $("#fra").change(function() {
     $('#melding').html("");
@@ -508,7 +499,6 @@ function parseDate(str) {
     return new Date(parseInt(d[2]),parseInt(d[1]) - 1, parseInt(d[0]));
 }
   </script>
-<?php
-?>
+
 </body>
 </html>

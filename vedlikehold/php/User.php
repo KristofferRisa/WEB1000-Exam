@@ -266,7 +266,7 @@
             }
         }
         
-        public function Login($username, $password, $logg, $admin = FALSE)
+        public function LoginAdmin($username, $password, $logg, $admin = FALSE)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
@@ -278,6 +278,39 @@
             
             $query = $db_connection->prepare("SELECT passord FROM bruker WHERE brukernavn = ? and isAdmin = ?;");
             $query->bind_param('ss', $username, $isAdmin);
+            $query->execute();
+
+            $query->bind_result($pass_stored);
+            $query->fetch();
+
+            //Lukker databasetilkopling
+            $query->close();
+            $db_connection->close();
+            
+            if(password_verify($password, $pass_stored))
+            {
+                    
+                if($logg) {
+                    $logg->Ny('Vellykket validering av passord. ', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');    
+                }
+                return TRUE;
+            }
+            else 
+            {
+                if($logg) {
+                    $logg->Ny('Validering av passord feilet. ', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');    
+                }
+                return FALSE;
+            }
+        }
+        
+        
+        public function Login($username, $password, $logg)
+        {
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            $query = $db_connection->prepare("SELECT passord FROM bruker WHERE brukernavn = ?;");
+            $query->bind_param('s', $username);
             $query->execute();
 
             $query->bind_result($pass_stored);

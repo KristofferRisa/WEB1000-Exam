@@ -1,6 +1,5 @@
 <?php 
 session_start();
-include('../AppSettings.php');
 
 ##Hent brukernavn og passord ved POST#Sjekk brukerinfo - Logg inn om bruker finnes
 if ($_POST) {

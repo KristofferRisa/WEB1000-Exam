@@ -148,8 +148,8 @@
             //  db-tilkopling
             $query = $db_connection->prepare
             ("SELECT avgangId, flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris, endret FROM avgang");
-        $query->execute();
-        $query->bind_result($id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris, $endret);
+            $query->execute();
+            $query->bind_result($id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris, $endret);
             
             //henter data
             while ($query->fetch()) {
@@ -168,9 +168,9 @@
                 <td>'.$direkte.'</td><td>'.$reiseTid.'</td><td>'.$klokkeslett.'</td><td>'.$fastpris.'</td><td>'.$endret.'</td><td>
                 <a href="./Avganger/avgangerAdd.php">Ny avgang</a> | <a href="./Avganger/avgangerEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne avgangen?\')" href="./Avganger/delete.php?id='.$id.'">Slett</a> </td></tr>';
 
-        }
-        return $html;
-        }
+            }
+            return $html;
+         }
 
         // VISE ALLE AVGANG LISTBOX
         public function GetAllAvgangLB($logg)
@@ -208,6 +208,7 @@
         //VISE EN AVGANG WHERE avgangId = ?
         public function GetAvgang ($avgangId, $logg)
         {
+            
             include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT avgangId, ruteId, fraFlyplassId, tilFlyplassId, direkte, avgang, reiseTid, ukedagNr, klokkeslett, fastpris 
