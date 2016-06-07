@@ -94,7 +94,7 @@
         
         // OPPDATERER EN AVGANG
         public function UpdateAvgang ($flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett,
-                                	  $fastPris)
+                                    $fastPris)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
@@ -188,8 +188,7 @@
             
             while ($queryAvgang->fetch ())
             {
-                $listBox .="<option value=".$id.">ID:".$id.", flyId: ".$flyId.", fraDestId: ".$fraDestId.", tilDestId: ".$tilDestId.", 
-                dato: ".$dato.", direkte: ".$direkte.", reiseTid: ".$reiseTid.", klokkeslett: ".$klokkslett.", fastpris: ".$fastpris."</option>";
+                $listBox .='<option value="'.$Id.'">fraDestId: '.$fraDestId.', tilDestId: '.$tilDestId.', dato: '.$dato.'</option>';
             }
 
             
