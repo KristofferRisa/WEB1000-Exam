@@ -23,14 +23,6 @@
     include ("./html/nav.html");
   ?>
   
-
-  <div class="jumbotron text-center">
-    <div class="login-logo">
-     <b>B</b>JARUM <b>A</b>IRLINES  
-    </div>
-  </div>
-  
-  
 <div class="container-fluid">
   <div class="row content">
     <div class="col-sm-4 sidenav">
