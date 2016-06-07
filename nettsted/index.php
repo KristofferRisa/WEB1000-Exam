@@ -6,101 +6,59 @@
   include('./html/nav.html');
   
   $alleDestinasjoner = $dest->GetAllDestinasjoner($logg);
-  $resultMsg = "";
+  
+   $resultMsg = "";
   // print_r($alleDestinasjoner);
   
-  if($_GET 
-    && $_GET['fra']
-    && $_GET['til']
-    && $_GET['type']
-    && $_GET['voksne']
-    // && $_GET['barn']
-    // && $_GET['bebis']
-    && $_GET['reiseDato']
-    //&& $_GET['returDato']
-    ){
-      //finner alle input parametere
-      $fra = $_GET['fra'];
-      $fraFlyplass = $dest->GetDestinasjon($fra,$logg);
-      
-      $til = $_GET['til'];
-      $tilFlyplass = $dest->GetDestinasjon($til,$logg);
-      
-      echo 'Til flyplass '.$til;
-      
-      print_r($tilFlyplass);
-      
-      
-      $type = $_GET['type'];
-      $voksne = $_GET['voksne'];
-      if($_GET['barn']) {
-        $barn = $_GET['barn'];  
-      } else {
-        $barn = 0;
-      }
-      
-      if ($_GET['bebis']) {
-        $bebis = $_GET['bebis'];
-      } else {
-        $bebis = 0;
-      }
-      
-      if ($_GET['returDato']) {
-        $returDato = $_GET['returDato'];
-        $returDato = date('Y-m-d', strtotime(str_replace('-', '/', $returDato)));
-      }
-      
-      $dato = $_GET['reiseDato'];
-      $dato = date('Y-m-d', strtotime(str_replace('-', '/', $dato)));
-      
-      
-      // print($dato);
-      
-      $antallReisende = $voksne + $barn;
-      
-      $ledigeAvganger = $avganger->SokLedigeAvganger($fra,$til,$dato,$antallReisende,$logg);
-      
-      if(count($ledigeAvganger)==0){
-        $resultMsg = "<h1>Fant ingen ledig flyvninger </h1><hr><br>";  
-      } else {
-        $resultMsg = "<h1>Ledige avganger</h1><hr><br>";  
-      }
-      
-      
-       
-      $last = count($ledigeAvganger) - 1;
-      $rowCounter = 0;
-
-      foreach ($ledigeAvganger as $i => $row)
-      {
-          $isFirst = ($i == 0);
-          $isLast = ($i == $last);
+      if($_GET 
+        && $_GET['fra']
+        && $_GET['til']
+        && $_GET['type']
+        && $_GET['voksne']
+        // && $_GET['barn']
+        // && $_GET['bebis']
+        && $_GET['reiseDato']
+        //&& $_GET['returDato']
+        ){
+          //finner alle input parametere
+          $fra = $_GET['fra'];
+          $fraFlyplass = $dest->GetDestinasjon($fra,$logg);
           
-          if($rowCounter == 4){
-            $resultMsg.='</div><div class="row">';
-            $rowCounter = 0;
+          $til = $_GET['til'];
+          $tilFlyplass = $dest->GetDestinasjon($til,$logg);
+          // print_r($tilFlyplass);
+          
+          
+          $type = $_GET['type'];
+          $voksne = $_GET['voksne'];
+          if($_GET['barn']) {
+            $barn = $_GET['barn'];  
+          } else {
+            $barn = 0;
           }
           
-          $resultMsg .= '  <div class="col-xs-6 col-md-3">
-                            <a href="./booking.php?id='.$row[0].'" class="thumbnail">
-                            <span class="glyphicon glyphicon-plane"></span>
-                              '.$row[1].' kl.'.$row[2].'
-                              <div>
-                              Fra: '.$row[3].' -  Til: '.$row[4].'
-                              </div>
-                            </a>
-                          </div>';
+          if ($_GET['bebis']) {
+            $bebis = $_GET['bebis'];
+          } else {
+            $bebis = 0;
+          }
           
-          $rowCounter++;
-          echo $rowCounter;
-      }
-     
+          if ($_GET['returDato']) {
+            $returDato = $_GET['returDato'];
+            // $returDato = date('Y-m-d', strtotime(str_replace('-', '/', $returDato)));
+          }
+          
+          $dato = $_GET['reiseDato'];
+          //$dato = date('Y-m-d', strtotime(str_replace('-', '/', $dato)));
+          
+          $antallReisende = $voksne + $barn;
+          $ledigeAvganger = $avganger->SokLedigeAvganger($fra,$til,$dato,$antallReisende,$logg);
+          
+          
+        } else {
+          $logg->Ny('Mangler input parameter', 'WARNING');
+        }
       
-      print_r($ledigeAvganger);
-      
-    } else {
-      $logg->Ny('Mangler input parameter', 'WARNING');
-    }
   
 ?>
   <!--LOGO-->
@@ -123,7 +81,7 @@
             <div class="form-group">
               <label>Reise fra:</label>
               <div class="ui fluid search selection dropdown" id="search-select-from">
-                <input type="hidden" name="fra" id="fra" value="<?php echo @$fraFlyplass[0][1]; ?>">
+                <input type="hidden" name="fra" id="fra" value="<?php echo @$_GET['fra']; ?>">
                 <i class="dropdown icon"></i>
                   <?php if(@$fraFlyplass){ ?>
                       
@@ -155,7 +113,7 @@
             <div class="form-group ">
               <label> Reise til: </label>
               <div class="ui fluid search selection dropdown" id="search-select-to">
-                <input type="hidden" name="til" id="til" value="<?php echo @$tilFlyplass[0][1]; ?>">
+                <input type="hidden" name="til" id="til" value="<?php echo @$_GET['til']; ?>">
                 <i class="dropdown icon"></i>
                 <?php if(@$tilFlyplass){ ?>
                       
@@ -228,7 +186,7 @@
         
         <!--REISE TIL (START)-->
         <div class="col-sm-4">
-          <div class="form-group" id="fromDatePicker" <?php if($type == "Enkel") { echo 'style="display: none;"'; } ?> >
+          <div class="form-group" id="fromDatePicker" <?php if(@$type == "Enkel") { echo 'style="display: none;"'; } ?> >
             <div class="input-group date">
               <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
@@ -289,9 +247,58 @@
     <!--RESULTAT START-->
     <div class="row top-buffer">
       
+      <!--START Visning av resultat av søk!-->
+      
       <?php
+      
+      if($ledigeAvganger){
+        if(count($ledigeAvganger)==0){
+          echo "<h1>Fant ingen ledig flyvninger </h1><hr><br>";  
+        } else {
+          echo "<h1>Ledige avganger</h1><hr><br>";  
+        }
+          
+          
+          
+        $last = count($ledigeAvganger) - 1;
+        $rowCounter = 0;
+
+        foreach ($ledigeAvganger as $i => $row)
+        {
+            $isFirst = ($i == 0);
+            $isLast = ($i == $last);
+            
+            if($rowCounter == 4){
+              $resultMsg.='</div><div class="row">';
+              $rowCounter = 0;
+            }
+            
+            // $resultMsg .= '  <div class="col-xs-6 col-md-3">
+            //                   <a href="./order.php?id='.$row[0].'" class="thumbnail">
+            //                   <span class="glyphicon glyphicon-plane"></span>
+            //                     '.$row[1].' kl.'.$row[2].'
+            //                     <div>
+            //                     Fra: '.$row[3].' -  Til: '.$row[4].'
+            //                     </div>
+            //                   </a>
+            //                 </div>';
+            
+            $resultMsg .= '
+              <div class="col-md-6">
+              <h1>Velg utreise</h1>
+              
+            
+            ';
+            
+            $rowCounter++;
+        }
         echo $resultMsg;
+        }
+        
         ?>
+        
+        <!--SLUTT VISNING AV RESULTAT-->
+        
     </div>
     
  </div>

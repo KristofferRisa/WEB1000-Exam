@@ -66,3 +66,19 @@ footer p {
 }
 
 .top-buffer { margin-top:20px; }
+
+.navbar {
+    margin-bottom:0;
+}
+.jumbotron {
+    margin-bottom:0;
+}
+
+.navbar.navbar-default.navbar-static-top {
+    background-color: #eee;
+    border-bottom-color: #eee;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color:black;
+}
