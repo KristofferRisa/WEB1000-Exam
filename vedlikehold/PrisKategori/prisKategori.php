@@ -66,7 +66,9 @@ $prisKat = new PrisKat;
 $data = $prisKat->GetAllPrisKategorier($logg);
 
 
-$html -> LagTabell($data, $logg);
+echo $html -> LagTabell($data, $logg);
+
+
 
 
 
