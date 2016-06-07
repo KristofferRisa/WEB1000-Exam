@@ -509,11 +509,6 @@ function parseDate(str) {
 }
   </script>
 <?php
-print_r($ledigeAvgangerUtreise);
-
-print_r($ledigeAvgangerHjemReise);
-
-echo '<p>bebis: '.$_GET['bebis'].'</p>';
 ?>
 </body>
 </html>
