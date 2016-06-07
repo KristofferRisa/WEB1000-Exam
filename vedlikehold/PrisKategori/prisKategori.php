@@ -68,15 +68,10 @@ $data = $prisKat->GetAllPrisKategorier($logg);
 
 //print_r($data);
 
-<<<<<<< HEAD
-echo $html -> LagTabell($data, $logg);
 
 
 
-=======
 echo $html->LagTabell($data,3,$logg);
->>>>>>> origin/master
-
 
 ?> 
 
