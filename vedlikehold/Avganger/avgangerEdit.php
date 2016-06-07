@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $result = $avgang->UpdateAvgang($avgangId, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris);
     //Henter oppdatert airport info fra databasen
-    $avgangInfo = $avgangInfo->GetAvgang($avgangid,$logg);
+    $avgangInfo = $avgangInfo->GetAvgang($avgangId,$logg);
 
     if($result == 1){
       //Success
@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Avganger</li>
+      <li>Avgang</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
       <li class="active">Endre avgang</li>
     </ol>
