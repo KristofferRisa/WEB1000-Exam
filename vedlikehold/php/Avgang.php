@@ -172,6 +172,38 @@
         return $html;
         }
 
+        // VISE ALLE AVGANG LISTBOX
+        public function GetAllAvgangLB($logg)
+        {
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            $listBox= "";
+
+            $sql = "SELECT avgangId, flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris FROM avgang;";
+            
+            $queryAvgang = $db_connection->prepare($sql);
+            
+            $queryAvgang->execute();
+
+            $queryAvgang ->bind_result($Id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris);
+            
+            while ($queryAvgang->fetch ())
+            {
+                $listBox .="<option value=".$id.">ID:".$id.", flyId: ".$flyId.", fraDestId: ".$fraDestId.", tilDestId: ".$tilDestId.", 
+                dato: ".$dato.", direkte: ".$direkte.", reiseTid: ".$reiseTid.", klokkeslett: ".$klokkslett.", fastpris: ".$fastpris."</option>";
+            }
+
+            
+            //Error logging
+            if($queryAvgang == false){
+                $logg->Ny('Mislyktes å hente fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $queryAvgang->close();
+            $db_connection->close(); 
+            
+            return $listBox;
+        }
+
         
         //VISE EN AVGANG WHERE avgangId = ?
         public function GetAvgang ($avgangId, $logg)

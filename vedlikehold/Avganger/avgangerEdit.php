@@ -1,5 +1,5 @@
 <?php 
-$title = "PRISKATEGORI - ENDRE - Admin";
+$title = "AVGANG - ENDRE - Admin";
 
 include('../html/start.php');
 
@@ -9,25 +9,25 @@ include('../html/admin-start.html');
 
 // Validering og innsending av skjemadata
 include('../php/AdminClasses.php');
-include('../php/PrisKat.php');
+include('../php/Avgang.php');
 
-$prisKatNavn = "";
+$avgang = "";
 
 if($_GET['id']){
   
   //returnerer en array
   //brukes av både GET OG POST    
   $id = $_GET['id'];
-  $prisKat = new prisKat;
-  $prisKatInfo = $prisKat->getPrisKat ($id, $logg);
+  $avgang = new avgang;
+  $avgangInfo = $avgang->GetAvgang ($id, $logg);
   
-  print_r($prisKatInfo);
+  print_r($avgangInfo);
   
 
 }
 
 
-$prisKatNavn= "";
+$avgang= "";
 
 $errorMelding = "";
 // Validering av skjemainput
@@ -35,24 +35,38 @@ $errorMelding = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-  if ( empty($_POST["prisKatNavn"]) ) {
+  if (empty($_POST["avgangId"]) ||  empty($_POST["flyId"]) ||  empty($_POST["fraDestId"]) ||  empty($_POST["tilDestId"]) ||
+      empty($_POST["dato"]) ||  empty($_POST["direkte"]) ||  empty($_POST["reiseTid"]) ||  empty($_POST["klokkeslett"]) ||
+      empty($_POST["fastpris"]) ) 
+ {
 
     $errorMelding = $html->errorMsg("Error! </strong>Alle felt må fylles ut.");
+ }
+    elseif (strlen($_POST["dato"]) > 5 || (strlen($_POST["reiseTid"]) >5 || strlen($_POST["klokkeslett"]) > 5 )) 
+    {
+      $errorMelding = $html->successMsg("Datoformat er ÅÅÅÅ-MM-DD. Klokkeformat er HH:MM");
+    }
+  
+  
+  else {
+        $valider = new ValiderData;
 
-  } elseif (strlen($_POST["prisKatNavn"]) > 100 ) {
-    $errorMelding = $html->successMsg("Navn må være maks 100 tegn.");
-  } else {
-    $valider = new ValiderData;
 
-    $prisKatNavn = $valider->valider($_POST["prisKatNavn"]);
-    $prosentPaaslag = $valider->valider($_POST["prosentPaaslag"]);
+    $avgangId = $valider->valider($_POST["avgangId"]);
+    $flyId = $valider->valider($_POST["flyId"]);
+    $fraDestId = $valider->valider($_POST["fraDestId"]);
+    $tilDestId = $valider->valider($_POST["tilDestId"]);
+    $dato = $valider->valider($_POST["dato"]);
+    $direkte = $valider->valider($_POST["direkte"]);
+    $reiseTid = $valider->valider($_POST["reiseTid"]);
+    $klokkeslett = $valider->valider($_POST["klokkeslett"]);
+    $fastpris = $valider->valider($_POST["fastpris"]);
 
-    $prisKat = new prisKat; 
+    $avgang = new avgang; 
 
-    $result = $prisKat->UpdatePrisKat($id, $prisKatNavn, $prosentPaaslag, $logg);
-
+    $result = $avgang->UpdateAvgang($avgangId, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris);
     //Henter oppdatert airport info fra databasen
-    $prisKatInfo = $prisKat->getPrisKat($id,$logg);
+    $avgangInfo = $avgangInfo->GetAvgang($avgangid,$logg);
 
     if($result == 1){
       //Success
@@ -80,14 +94,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <section class="content-header">
 
       <h1>
-        Rediger priskategori
-        <small>Her kan du redigere priskategorier i databasen</small>
+        Rediger avganger
+        <small>Her kan du redigere avganger i databasen</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Priskategorier</li>
+      <li>Avganger</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Rediger priskategori</li>
+      <li class="active">Endre avgang</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -114,23 +128,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
             <!-- form start -->
-            <form method="post" class="form-horizontal" onsubmit="return validerRegistrerPrisKat()">
-              <div class="box-body">        
+          <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerAvgang()">
+            <div class="box-body">        
 
-               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut priskategori navn">
-                  <label for="prisKatnavn" class="col-sm-2 control-label" >Navn</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="prisKatNavn" name="prisKatNavn" placeholder="Priskategori navn" value="<?php echo @$prisKatInfo[0][1]?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
-                 </div>
-               
-  </div>
-                <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut priskategori prosentpåslag">
-                  <label for="prosentPaaslag" class="col-sm-2 control-label" >Prosent påslag</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="prosentPaaslag" name="prosentPaaslag" placeholder="Priskategori prosentpåslag" value="<?php echo @$prisKatInfo[0][2]?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+
+
+              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fly ID">
+                  <label for="avgangFlyId" class="col-sm-2 control-label" >FlyId</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="avgangFlyId" name="avgangFlyId" placeholder="Fly ID" value="<?php echo @$_POST['avgangFlyId'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                 </div>
               </div>
 
+              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fra destinasjon ID">
+                  <label for="avgangFraDestId" class="col-sm-2 control-label" >Fra destinasjon ID</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="avgangFraDestId" name="avgangFraDestId" placeholder="Fra destinasjons ID" value="<?php echo @$_POST['avgangFraDestId'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                </div>
+              </div>
+
+                            <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Til destinasjon ID">
+                  <label for="avgangTilDestId" class="col-sm-2 control-label" >Til destinasjon ID</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="avgangTilDestId" name="avgangTilDestId" placeholder="Til destinasjon ID" value="<?php echo @$_POST['avgangtilDestId'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                </div>
+              </div>
+
+
+              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="YYYY-MM-DD">
+                  <label for="avgangDato" class="col-sm-2 control-label" >Dato</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="avgangDato" name="avgangDato" placeholder="Fyll ut dato" value="<?php echo @$_POST['avgangDato'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                  
+                </div>
+              </div>
+
+              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut ja/nei om det er direkte eller ei">
+                  <label for="avgangDirekte" class="col-sm-2 control-label" >Avgang direkte</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="avgangDirekte" name="avgangDirekte" placeholder="Direkte? - Ja/nei" value="<?php echo @$_POST['avgangDirekte'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                </div>
+              </div>
+
+
+
+              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="HH:MM">
+                  <label for="avgangReiseTid" class="col-sm-2 control-label" >Reisetid</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="avgangReiseTid" name="avgangReiseTid" placeholder="Fyll ut reisetid" value="<?php echo @$_POST['avgangReiseTid'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                </div>
+              </div>              
+              
+              
+              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="HH:MM">
+                  <label for="avgangKl" class="col-sm-2 control-label" >Klokkelsett</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="avgangKl" name="avgangKl" placeholder="Fyll ut klokkeslett" value="<?php echo @$_POST['avgangKl'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+               </div>
+              </div>
+              
+              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut fastpris">
+                  <label for="avgangFastKr" class="col-sm-2 control-label" >Fastpris</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="avgangFastKr" name="avgangFastKr" placeholder="Fastpris KR" value="<?php echo @$_POST['avgangFastKr'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                </div>
+              </div>
 
 
               <!-- /.box-body -->
@@ -139,6 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit" class="btn btn-info pull-right">Legg til</button>
 
               </div>
+           
               
               <!-- /.box-footer -->
             </form>
@@ -150,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!-- Your Page Content Here -->
-<form class="form-horizontal" method="GET" id="redigerPrisKat">
+<form class="form-horizontal" method="GET" id="redigerAvgang">
     <div class="row">
       <div class="col-md-12">
         
@@ -161,7 +224,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <select class="form-control select2 select2-hidden-accessible" name="id" style="width: 100%;" tabindex="-1" aria-hidden="true">
               
                       <?php 
-                      $prisKatselect = new prisKat(); print($prisKatselect-> GetAllPrisKategorierLB($logg)); 
+                      $Avgangselect = new Avgang(); print($Avgangselect-> GetAllAvgangLB($logg)); 
                       ?>
                 
                   </select>

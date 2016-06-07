@@ -78,7 +78,7 @@ elseif (strlen($_POST["prisKategoriNavn"]) > 100 ) {
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Priskategorier</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Legg til ny priskategori</li>
+      <li class="active">Ny priskategori</li>
     </ol>
   </section>
  <!-- Main content -->
