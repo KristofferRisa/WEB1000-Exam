@@ -13,7 +13,7 @@ include('../php/Avgang.php');
 
 $avgang = "";
 
-if($_GET['id']){
+if(@$_GET['id']){
   
   //returnerer en array
   //brukes av både GET OG POST    

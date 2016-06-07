@@ -46,8 +46,6 @@ elseif (strlen($_POST["dato"]) > 5 || (strlen($_POST["reiseTid"]) >5 || strlen($
 
     $valider = new ValiderData;
 
-
-    $avgangId = $valider->valider($_POST["avgangId"]);
     $flyId = $valider->valider($_POST["flyId"]);
     $fraDestId = $valider->valider($_POST["fraDestId"]);
     $tilDestId = $valider->valider($_POST["tilDestId"]);
@@ -60,7 +58,7 @@ elseif (strlen($_POST["dato"]) > 5 || (strlen($_POST["reiseTid"]) >5 || strlen($
 
     $innIDataBaseMedData = new Avgang;
 
-    $result = $innIDataBaseMedData->SokLedigeAvganger($avgangId, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris);
+    $result = $innIDataBaseMedData->NewAvgang($flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris);
 
     if($result == 1){
       //Success
