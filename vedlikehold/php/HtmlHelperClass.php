@@ -1,38 +1,38 @@
 <?php
 
     class HtmlHelperClass{  
-        public function LagTabell($data, $logg){
+        public function LagTabell($data, $antallKolonner, $logg){
             
-            $html="";
+            $html ="";
+            $antallKolonner = 3;
             $oddOrEven = TRUE;
             $printOddOrEven = '';
             $last = count($data) - 1;
-            
+
             foreach ($data as $i => $row)
             {
                 if($oddOrEven){
                     $oddOrEven = FALSE;
                     $printOddOrEven = 'even';
-                } 
-                else {
+                }  else {
                     $oddOrEven = TRUE;
                     $printOddOrEven = 'odd';
                 }
                 
                 $isFirst = ($i == 0);
                 $isLast = ($i == $last);
-               
-               $html .= '<tr role="row" class="'.$printOddOrEven.'">';
-               
-               foreach ($row as $c => $col) {
-                   $html .= '<td>'.$col.'</td>';
-               } 
-               
-               $html .= '<tr>';
                 
+                $html .= '<tr role="row" class="'.$printOddOrEven.'">';
+                
+                for ($i2=0; $i2 < $antallKolonner; $i2++) { 
+                        $html .= '<td>'.$row[$i2].'</td>';
+                }
+                    
+                $html .= '<tr>';
+                    
             }
-            return $html;
           
+            return $html;
         }
         
         
