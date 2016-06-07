@@ -82,3 +82,7 @@ footer p {
 .navbar-default .navbar-nav>li>a {
     color:black;
 }
+body > div.jumbotron.text-center {
+    padding-top:30px;
+    padding-bottom: 30px;
+}
