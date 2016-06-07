@@ -91,16 +91,16 @@ if($_GET
         
         //Avgang
         $utreiseInfo = $reiseInfo = $avganger->GetAvgang($fra, $logg);
-        print_r($utreiseInfo);
-        echo '<br>';
+        // print_r($utreiseInfo);
+        // echo '<br>';
         //FRA
         $utreiseFra = $dest->GetDestinasjon($reiseInfo[0][1],$logg);
-        print_r($utreiseFra);
-        echo '<br>';
+        // print_r($utreiseFra);
+        // echo '<br>';
         //TIL
         $utreiseTil = $dest->GetDestinasjon($reiseInfo[0][2],$logg);
-        print_r($utreiseTil);
-        echo '<br>';
+        // print_r($utreiseTil);
+        // echo '<br>';
         
         //Vis Skjema for bestilling
         
@@ -112,12 +112,12 @@ if($_GET
                     <h1>Utreise</h1>
                     <hr>
                     <div class="form-group">
-                        <label for="flyplassID" class="col-sm-2 control-label billett">Fra:</label>
-                        <div class="col-sm-4">
+                        <label for="flyplassID" class="col-xs-2 control-label billett">Fra:</label>
+                        <div class="col-xs-4">
                             <input type="hidden" disabled name="fra"  value="<?php echo $fra; ?>">
                             <div class=""><?php echo  $utreiseFra[0][1]; ?></div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-xs-4">
                             <input type="hidden" disabled name="til"  value="<?php echo $til; ?>">
                             <label>til: </label>
                             <?php echo  $utreiseTil[0][1]; ?>
@@ -128,12 +128,12 @@ if($_GET
                 
                 <div class="row">
                    <div class="form-group">
-                        <label for="flyplassID" class="col-sm-2 control-label billett">Dato:</label>
-                        <div class="col-sm-4">
+                        <label for="flyplassID" class="col-xs-2 control-label billett">Dato:</label>
+                        <div class="col-xs-4">
                             <input type="hidden" disabled name="dato"  value="<?php echo $utreiseInfo[0][3]; ?>">
                             <?php echo  $utreiseInfo[0][3]; ?>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-xs-6">
                             <label>kl:</label>
                             <?php echo  $utreiseInfo[0][5]; ?> (reisetid: <?php echo  $utreiseInfo[0][6]; ?>)
                         </div>
@@ -143,8 +143,8 @@ if($_GET
 
                 <div class="row">
                    <div class="form-group">
-                        <label for="flyplassID" class="col-sm-2 control-label billett">Pris:</label>
-                        <div class="col-sm-4">
+                        <label for="flyplassID" class="col-xs-2 control-label billett">Pris:</label>
+                        <div class="col-xs-4">
                             <i class="fa fa-dollar"></i>
                             <?php echo  $utreiseInfo[0][7]; ?>
                         </div>
