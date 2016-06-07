@@ -17,14 +17,14 @@ include('../php/addPlaneFormInput.php');
   <section class="content-header">
 
       <h1>
-        Registrere nytt fly
-        <small>Her kan du registrere nye fly i databasen</small>
+        Registrere ny destinasjon
+        <small>Her kan du ny destinasjon i databasen</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Fly og seteoversikt</li>
+      <li>Ny destinasjon</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Legg til fly</li>
+      <li class="active">Legg til destinasjony</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -46,41 +46,41 @@ include('../php/addPlaneFormInput.php');
 
             <!-- form start -->
 
-            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerFly()">
+            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerDestinasjon()">
               <div class="box-body">        
 
                 <div class="form-group">
-                  <label for="flyNr" class="col-sm-2 control-label">Flynr</label>
+                  <label for="destinasjonsID" class="col-sm-2 control-label">Destinasjons ID</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$_POST['flyNr'] ?>">
+                    <input type="text" class="form-control" id="destinasjonsID" name="destinasjonsID" placeholder="Destinasjons ID" value="<?php echo @$_POST['destinasjonsID'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="flyModell" class="col-sm-2 control-label">Flymodell</label>
+                  <label for="flyModellflyplassID" class="col-sm-2 control-label">Flyplass ID</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$_POST['flyModell'] ?>">
+                    <input type="text" class="form-control" id="flyplassID" name="flyplassID" placeholder="Flyplass ID" value="<?php echo @$_POST['flyplassID'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="flyType" class="col-sm-2 control-label">Flytype</label>
+                  <label for="flyType" class="col-sm-2 control-label">Destinasjonsnavn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$_POST['flyType'] ?>">
+                    <input type="text" class="form-control" id="destinasjonsNavn" name="destinasjonsNavn" placeholder="Destinasjonsnavn" value="<?php echo @$_POST['destinasjonsNavn'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="flyAntallPlasser" class="col-sm-2 control-label">Antall sitteplasser</label>
+                  <label for="land" class="col-sm-2 control-label">Geo_lat</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$_POST['flyAntallPlasser'] ?>">
+                    <input type="text" class="form-control" id="geo_lat" name="geo_lat" placeholder="geo_lat" value="<?php echo @$_POST['geo_lat'] ?>">
                      </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
+                  <label for="flyLaget" class="col-sm-2 control-label">Geo_lng</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$_POST['flyAarsmodell'] ?>">
+                    <input type="text" class="form-control" id="geo_lng" name="geo_lng" placeholder="geo_lng" value="<?php echo @$_POST['Geo_lng'] ?>">
                   </div>
                 </div>
 

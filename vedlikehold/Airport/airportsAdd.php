@@ -54,7 +54,7 @@ include('../php/addAirportFormInput.php');
                 <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut flyplass land">
                   <label for="flyplassNavn" class="col-sm-2 control-label" >Navn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$_POST['flyplassNavn'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$_POST['flyplassNavn'] ?>">
                   </div>
                 </div>
 
@@ -312,10 +312,12 @@ include('../php/addAirportFormInput.php');
   <div class="item" data-value="zw"><i class="zw flag"></i>Zimbabwe</div>
 </div>
 
-</div>-->
+</div>
 
   </div>
   </div>
+  
+  -->
 
                   <?php 
                   /*
@@ -330,13 +332,14 @@ include('../php/addAirportFormInput.php');
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <button class="btn btn-default" onclick="fjernMelding();clearForm(this.form);return false;">Nullstill</button>
+                <dic class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
                 <button type="submit" class="btn btn-info pull-right">Legg til</button>
 
               </div>
               
               <!-- /.box-footer -->
             </form>
+
           </div>
           <!-- /.box -->
 

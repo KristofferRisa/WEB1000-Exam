@@ -54,7 +54,7 @@ include('../html/admin-start.html');
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Landskode">Landskode</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Stedsnavn">Stedsnavn</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Geo_lat">Geo_lat</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Geo_lang">Geo_lang</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Geo_lng">Geo_lng</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Endret">Endret</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Handling">Handling</th>            
                      
@@ -84,7 +84,7 @@ print( $destination->ShowAllDestinations() );
                         <th rowspan="1" colspan="1">Landskode</th>
                         <th rowspan="1" colspan="1">Stedsnavn</th>
                         <th rowspan="1" colspan="1">Geo_lat</th>
-                        <th rowspan="1" colspan="1">Geo_geo</th>
+                        <th rowspan="1" colspan="1">Geo_lng</th>
                         <th rowspan="1" colspan="1">Endret</th>
                         <th rowspan="1" colspan="1">Handling</th>
                         </tr>

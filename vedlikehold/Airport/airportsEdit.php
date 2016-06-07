@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut flyplass land">
                   <label for="flyplassNavn" class="col-sm-2 control-label" >Navn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$airportinfo[0][1]?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$airportinfo[0][1]?>">
                   </div>
                 </div>
 
