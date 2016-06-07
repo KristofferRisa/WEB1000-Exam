@@ -149,37 +149,51 @@ CREATE TABLE logg
 CREATE VIEW LedigePlasser
 AS 
 SELECT 
-     a.avgangId
-    ,a.dato
-    ,s.seteNr 
-    ,fra.navn AS fra,til.navn AS til
-    ,a.fastpris
-    ,a.fraDestId, a.tilDestId,direkte
-    ,s.seteId
-    ,a.klokkeslett
-    ,b.billettId
-FROM sete s
-INNER JOIN avgang a ON s.flyId = a.flyID
-JOIN flyplass fra ON a.fraDestId = fra.flyplassId
-JOIN flyplass til ON a.tilDestId = til.flyplassID
-LEFT JOIN billett b ON s.seteId = b.seteId AND a.avgangId = b.avgangId
-WHERE b.billettId IS NULL;
+    `a`.`avgangId` AS `avgangId`,
+    `a`.`dato` AS `dato`,
+    `s`.`seteNr` AS `seteNr`,
+    `fra`.`navn` AS `fra`,
+    `til`.`navn` AS `til`,
+    `a`.`fastpris` AS `fastpris`,
+    `a`.`fraDestId` AS `fraDestId`,
+    `a`.`tilDestId` AS `tilDestId`,
+    `a`.`direkte` AS `direkte`,
+    `s`.`seteId` AS `seteId`,
+    `a`.`klokkeslett` AS `klokkeslett`,
+    `b`.`billettId` AS `billettId`
+FROM
+    ((((`sete` `s`
+    JOIN `avgang` `a` ON ((`s`.`flyId` = `a`.`flyId`)))
+    JOIN `flyplass` `fra` ON ((`a`.`fraDestId` = `fra`.`flyplassId`)))
+    JOIN `flyplass` `til` ON ((`a`.`tilDestId` = `til`.`flyplassId`)))
+    LEFT JOIN `billett` `b` ON (((`s`.`seteId` = `b`.`seteId`)
+        AND (`a`.`avgangId` = `b`.`avgangId`))))
+WHERE
+    ISNULL(`b`.`billettId`)
 
 
 drop view LedigeAvganger;
 CREATE VIEW LedigeAvganger
 AS 
-SELECT distinct
-     a.avgangId
-    ,a.dato
-    ,a.klokkeslett
-    ,fra.navn AS fra,til.navn AS til
-    ,a.fastpris
-    ,a.fraDestId, a.tilDestId,direkte
-    ,b.billettId
-FROM sete s
-INNER JOIN avgang a ON s.flyId = a.flyID
-JOIN flyplass fra ON a.fraDestId = fra.flyplassId
-JOIN flyplass til ON a.tilDestId = til.flyplassID
-LEFT JOIN billett b ON s.seteId = b.seteId AND a.avgangId = b.avgangId
-WHERE b.billettId IS NULL;
+SELECT 
+    `a`.`avgangId` AS `avgangId`,
+    `a`.`dato` AS `dato`,
+    `a`.`klokkeslett` AS `klokkeslett`,
+    `fra`.`navn` AS `fra`,
+    `til`.`navn` AS `til`,
+    `a`.`fastpris` AS `fastpris`,
+    `a`.`fraDestId` AS `fraDestId`,
+    `a`.`tilDestId` AS `tilDestId`,
+    `a`.`direkte` AS `direkte`,
+    COUNT(0) AS `AntallLedige`,
+    `b`.`billettId` AS `billettId`
+FROM
+    ((((`sete` `s`
+    JOIN `avgang` `a` ON ((`s`.`flyId` = `a`.`flyId`)))
+    JOIN `flyplass` `fra` ON ((`a`.`fraDestId` = `fra`.`flyplassId`)))
+    JOIN `flyplass` `til` ON ((`a`.`tilDestId` = `til`.`flyplassId`)))
+    LEFT JOIN `billett` `b` ON (((`s`.`seteId` = `b`.`seteId`)
+        AND (`a`.`avgangId` = `b`.`avgangId`))))
+WHERE
+    ISNULL(`b`.`billettId`)
+GROUP BY `a`.`avgangId` , `a`.`dato` , `a`.`klokkeslett` , `fra`.`navn` , `til`.`navn` , `a`.`fastpris` , `a`.`fraDestId` , `a`.`tilDestId` , `a`.`direkte` , `b`.`billettId`
