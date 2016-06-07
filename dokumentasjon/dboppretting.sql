@@ -149,13 +149,33 @@ CREATE TABLE logg
 CREATE VIEW LedigePlasser
 AS 
 SELECT 
-	 a.avgangId
-	,a.dato
+     a.avgangId
+    ,a.dato
     ,s.seteNr 
     ,fra.navn AS fra,til.navn AS til
     ,a.fastpris
     ,a.fraDestId, a.tilDestId,direkte
     ,s.seteId
+    ,a.klokkeslett
+    ,b.billettId
+FROM sete s
+INNER JOIN avgang a ON s.flyId = a.flyID
+JOIN flyplass fra ON a.fraDestId = fra.flyplassId
+JOIN flyplass til ON a.tilDestId = til.flyplassID
+LEFT JOIN billett b ON s.seteId = b.seteId AND a.avgangId = b.avgangId
+WHERE b.billettId IS NULL;
+
+
+drop view LedigeAvganger;
+CREATE VIEW LedigeAvganger
+AS 
+SELECT distinct
+     a.avgangId
+    ,a.dato
+    ,a.klokkeslett
+    ,fra.navn AS fra,til.navn AS til
+    ,a.fastpris
+    ,a.fraDestId, a.tilDestId,direkte
     ,b.billettId
 FROM sete s
 INNER JOIN avgang a ON s.flyId = a.flyID

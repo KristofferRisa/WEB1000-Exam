@@ -40,9 +40,8 @@
 
                 $html .= '<div class="item customItem" data-value="'.$row[0].'"><i></i>'.$row[1].'</div>';
     
-            }
-
-
+            }    
+            
             return $html;
         }
         

@@ -1,11 +1,20 @@
 <?php
     //Husk å endre når man laster opp til skolen
     //Includes
+    // SKOLE
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/Logg.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/User.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/HtmlHelperClass.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/Destinasjon.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/Avgang.php";
+    
+    //MAC + linux
     include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Logg.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/HtmlHelperClass.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/User.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Destinasjon.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Avgang.php";
+    
     
     //Sesjon håndtering
     @session_start();
@@ -25,6 +34,9 @@
     $logg = new Logg();
     $html = new HtmlHelperClass();
     
-    // $userInfo = $user->GetUsername($_SESSION['brukernavn']);
+    if($innloggetBruker){
+       $userInfo = $user->GetUserFromUsername($_SESSION['brukernavn']); 
+    }
+    
     
 ?>              

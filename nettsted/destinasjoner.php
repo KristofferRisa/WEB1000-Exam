@@ -2,9 +2,6 @@
 
 include('./html/start.php');
 
-
-
-
 if($_GET && $_GET['id']){
     //gir alle mulig til destinasjoner basert på destinasjon
     $fraDestinasjon = $_GET['id'];
