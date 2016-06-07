@@ -10,7 +10,7 @@
       
         public function NewPrisKat($navn, $prosentPaaslag)
         {   
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $logg->Ny('Forsøker å opprette ny priskategori.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
@@ -51,7 +51,7 @@
         // OPPDATERER EN PRISKATEGORI
         public function UpdatePrisKat ($navn, $prosentPaaslag)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE prisKategori
@@ -91,7 +91,7 @@
         // VISE ALLE PRISKATEGORIER
         public function GetAllPrisKategorier($logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT prisKategoriId, navn, prosentPaaslag FROM prisKategori;";
             
@@ -120,7 +120,7 @@
         //VISE EN PRIS WHERE prisKatId = ?
         public function getPrisKat($prisKatId, $logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT prisKategoriId, navn, prosentPaaslag FROM prisKategori WHERE prisKategoriId=?;";
             
@@ -152,7 +152,7 @@
         //SLETTE EN PRISKATEGORI WHERE prisKatId = ?
          public function DeletePrisKat($prisKatId, $logg)
          {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "DELETE FROM prisKategori WHERE prisKategoriId=?;";
             

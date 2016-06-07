@@ -8,7 +8,7 @@
         #public $AntallBrukere;
         
         public function VisAlle($sideNr,$logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             $html =  '';
             $antallMeldinger = 100;
             //CSS Styling
@@ -91,7 +91,7 @@
         
         public function NewUser($brukernavn, $fname, $lname, $mail, $new_pass, $phone, $isAdmin ,$logg)
         {   
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
              $logg->Ny('Forsøker å opprette ny bruker.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
              
@@ -152,7 +152,7 @@
         }
         
         public function UpdateUser($userid, $brukernavn, $fname, $lname, $mail, $phone, $isAdmin, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $statusKodeId = 1; //Opprettet (lese fra database?)
             
@@ -205,7 +205,7 @@
         }
         
         public function DeleteUser($userid, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "delete from bruker where brukerId = ?;";
             
@@ -243,7 +243,7 @@
         
         public function Exsits($brukernavn)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
         
             $query = $db_connection->prepare("SELECT brukerId FROM bruker WHERE brukernavn = ?");
             $query->bind_param('s', $brukernavn);
@@ -268,7 +268,7 @@
         
         public function Login($username, $password, $logg, $admin = FALSE)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $isAdmin = "Nei";
             
@@ -348,7 +348,7 @@
         }
         
         public function GetUser($userId, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             
             $sql = "select brukerId,fornavn,etternavn,epost,tlf,brukernavn,isAdmin from bruker WHERE brukerId = ?;";
@@ -381,7 +381,7 @@
         } 
         
         public function GetUserFromUsername($username){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "select brukerId,fornavn,etternavn,epost,tlf,isAdmin from bruker WHERE brukernavn = ?;";
             
@@ -402,7 +402,7 @@
         }
         
         public function ChangePassword($userId, $password, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             //TODO: Sjekk om brukeren finnes fra før
             $salt = uniqid(mt_rand(), true);
@@ -446,7 +446,7 @@
         }
         
         public function UsersSelectOptions(){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             $htmlSelect =  '';
             
             $sql = "

@@ -10,7 +10,7 @@
       
         public function NewSesong ($navn)
         {   
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $logg->Ny('Forsøker å opprette ny sesong.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
@@ -51,7 +51,7 @@
         // OPPDATERER EN SESONG
         public function UpdateSesong ($navn)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE sesong
@@ -91,7 +91,7 @@
         // VISE ALLE SESONGER
         public function GetAllSesonger($logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT sesongId, navn FROM sesong;";
             
@@ -120,7 +120,7 @@
         //VISE EN SESONG WHERE sesongId = ?
         public function getSesong($sesongId, $logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT sesongId, navn FROM sesong WHERE sesongId=?;";
             
@@ -152,7 +152,7 @@
         //SLETTE ET SESONG WHERE sesongId = ?
          public function DeleteSesong($sesongId, $logg)
          {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "DELETE FROM sesong WHERE sesongId=?;";
             

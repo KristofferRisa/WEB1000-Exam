@@ -7,7 +7,7 @@
       
         public function NewUserType($name,$logg)
         {   
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $logg->Ny('Forsøker å opprette ny bruker.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
             
@@ -42,7 +42,7 @@
         }
         
         public function UpdateUserType($id, $navn, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "
             update brukerType 
@@ -81,7 +81,7 @@
         }
         
         public function GetUserTypes($logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "select brukerTypeId,navn from brukerType;";
             

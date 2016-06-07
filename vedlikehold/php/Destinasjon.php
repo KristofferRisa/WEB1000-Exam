@@ -10,7 +10,7 @@
       
         public function NewDestinasjon($flyplassId, $navn, $land, $landskode, $stedsnavn, $geo_lat, $geo_lng)
         {   
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $logg->Ny('Forsøker å opprette ny destinasjon.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
@@ -51,7 +51,7 @@
         // OPPDATERER EN DESTINASJON
         public function UpdateDestinasjon ($flyplassId, $navn, $land, $landskode, $stedsnavn, $geo_lat, $geo_lng)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE destinasjon
@@ -91,7 +91,7 @@
         // VISE ALLE DESTINASJONER
         public function GetAllDestinasjoner($logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT destinasjonId, navn, flyplassId,  land, landskode, geo_lat, geo_lng FROM destinasjon;";
             
@@ -120,7 +120,7 @@
         //VISE EN DESTINASJON WHERE destinasjonId = ?
         public function GetDestinasjon($destinasjonId, $logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT destinasjonId, navn, flyplassId, land, landskode, stedsnavn, geo_lat, geo_lng 
                     FROM destinasjon WHERE destinasjonId=?;";
@@ -152,7 +152,7 @@
         //VISER DESTINASJONER BASERT PÅ RUTER WHERE fraDestId = ?
         public function GetDestinasjoner($destinasjonId, $logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "
                     SELECT distinct a.tilDestId,d.navn as til
@@ -187,7 +187,7 @@
         //SLETTE EN DESTINASJON WHERE destinasjonId = ?
          public function DeleteDestinasjon($destinasjonId, $logg)
          {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "DELETE FROM destinasjon WHERE destinasjonId=?;";
             

@@ -1,6 +1,40 @@
 <?php
 
-    class HtmlHelperClass{
+    class HtmlHelperClass{  
+        public function LagtTabell($data, $logg){
+            
+            $oddOrEven = TRUE;
+            $printOddOrEven = '';
+            $last = count($data) - 1;
+            
+            foreach ($data[0] as $i => $row)
+            {
+                if($oddOrEven){
+                    $oddOrEven = FALSE;
+                    $printOddOrEven = 'even';
+                } 
+                else {
+                    $oddOrEven = TRUE;
+                    $printOddOrEven = 'odd';
+                }
+                
+                $isFirst = ($i == 0);
+                $isLast = ($i == $last);
+               
+               $html .= '<tr role="row" class="'.$printOddOrEven.'">';
+               
+               foreach ($row as $c => $col) {
+                   $html .= '<td>'.$col.'</td>';
+               } 
+               
+               $html .= '<tr>';
+                
+            }
+            return $html;
+          
+        }
+        
+        
         public function GenerateSearchSelectionbox($dataset,$elementId, $inputname, $text, $cssClasses,$required = NULL,$value=NULL){
             if(!$required){
                 $required = '';

@@ -10,7 +10,7 @@
       
         public function SokLedigeAvganger($fra, $til, $dato, $antallReisende , $logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $logg->Ny("Forsøker å finne ledige avganger fra: ".$fra." og til: ".$til." den ".$dato." for ".$antallReisende." reisende.");
             
@@ -52,7 +52,7 @@
         public function NewAvgang($ruteId, $fraFlyplassId, $tilFlyplassId, $direkte, $avgang, $reiseTid, $ukedagNr, $klokkeslett,
                                   $fastPris)
         {   
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $logg->Ny('Forsøker å opprette ny avgang.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
@@ -96,7 +96,7 @@
         public function UpdateAvgang ($ruteId, $fraFlyplassId, $tilFlyplassId, $direkte, $avgang, $reiseTid, $ukedagNr, $klokkeslett,
                                      $fastPris)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE avgang
@@ -137,7 +137,7 @@
         // VISE ALLE AVGANGER
         public function GetAllAvganger($logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT avgangId, ruteId, fraFlyplassId, tilFlyplassId, direkte, avgang, reiseTid, ukedagNr, klokkeslett, fastpris 
                     FROM avgang;";
@@ -167,7 +167,7 @@
         //VISE EN AVGANG WHERE avgangId = ?
         public function GetAvgang ($avgangId, $logg)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "SELECT avgangId, ruteId, fraFlyplassId, tilFlyplassId, direkte, avgang, reiseTid, ukedagNr, klokkeslett, fastpris 
                     FROM avgang WHERE avgangId= ?;";
@@ -200,7 +200,7 @@
         //SLETTE EN AVGANG WHERE avgangId = ?
          public function DeleteAvgang($avgangId, $logg)
          {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "DELETE FROM avgang WHERE avgangId=?;";
             
