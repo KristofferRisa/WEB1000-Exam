@@ -49,7 +49,7 @@
             return $ledigeRuter;
         } 
         
-        public function NewAvgang($ruteId, $fraFlyplassId, $tilFlyplassId, $direkte, $avgang, $reiseTid, $ukedagNr, $klokkeslett,
+        public function NewAvgang($flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett,
                                   $fastPris)
         {   
             include (realpath(dirname(__FILE__)).'/db.php');;
@@ -58,13 +58,13 @@
          
             
             $sql = "
-                INSERT INTO avgang (ruteId, fraFlyplassId, tilFlyplassId, direkte, avgang, reiseTid, ukedagNr, klokkeslett,
+                INSERT INTO avgang (flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett,
                                     fastPris)
-                            values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            values (?, ?, ?, ?, ?, ?, ?, ?)";
             
             $insertAvgang = $db_connection->prepare($sql);
-            $insertAvgang->bind_param('sssssssss'
-                                    , $ruteId, $fraFlyplassId, $tilFlyplassId, $direkte, $avgang, $reiseTid, $ukedagNr, $klokkeslett,
+            $insertAvgang->bind_param('iiisssss'
+                                    , $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett,
                                       $fastPris);
                                     
             $insertAvgang->execute();
@@ -93,8 +93,8 @@
         
         
         // OPPDATERER EN AVGANG
-        public function UpdateAvgang ($ruteId, $fraFlyplassId, $tilFlyplassId, $direkte, $avgang, $reiseTid, $ukedagNr, $klokkeslett,
-                                     $fastPris)
+        public function UpdateAvgang ($flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett,
+                                	  $fastPris)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
@@ -104,8 +104,8 @@
             WHERE avgangId = ?;";
             
             $insertAvgang = $db_connection->prepare($sql);
-            $insertAvgang->bind_param('sssssssss'
-                                    , $ruteId, $fraFlyplassId, $tilFlyplassId, $direkte, $avgang, $reiseTid, $ukedagNr, $klokkeslett,
+            $insertAvgang->bind_param('iiisssss'
+                                    , $flyId, $fraDestId, $tiDestId, $dato, $direkte, $reiseTid, $klokkeslett,
                                      $fastPris);
                                                                         
             $insertAvgang->execute();
@@ -211,7 +211,7 @@
             
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT avgangId, ruteId, fraFlyplassId, tilFlyplassId, direkte, avgang, reiseTid, ukedagNr, klokkeslett, fastpris 
+            $sql = "SELECT avgangId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris 
                     FROM avgang WHERE avgangId= ?;";
             
             $queryAvgang = $db_connection->prepare($sql);
