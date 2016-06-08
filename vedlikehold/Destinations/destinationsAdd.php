@@ -9,6 +9,8 @@ include('../html/admin-start.html');
 
 include('../php/AdminClasses.php');
 
+include('../php/Destinasjon.php');
+
 $flyplasser = new Airport;
 $data = $flyplasser->ShowAllAirportsDataset();
 
