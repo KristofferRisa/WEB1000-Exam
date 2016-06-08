@@ -88,47 +88,33 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-
-      <h1>
-        Endre fly data
-          <small>Her kan du endre et registrere fly i databasen</small>
-      </h1>
+    <h1>
+      Endre fly data
+        <small>Her kan du endre et registrere fly i databasen</small>
+    </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Fly og seteoversikt</li>
-      <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
       <li class="active">EndreFly</li>
     </ol>
   </section>
 
-
-
  <!-- Main content -->
   <section class="content">
-
-   
-
-    <!-- Your Page Content Here -->
-
-        <div class="row">
+    <div class="row">
       <div class="col-sm-12">   
-                 <!-- Horizontal Form -->
+          <!-- Horizontal Form -->
           <div class="box box-info">
 
 
-<?php 
-  //Viser skjema dersom det både er en GET request med querstring id
-  if($_GET && $_GET['id']){ ?>
+<?php if($_GET && $_GET['id']){ ?>
 
-
-            <div class="box-header with-border"><?php echo $errorMelding; ?><div id="melding"></div>
+  <div class="box-header with-border"><?php echo $errorMelding; ?><div id="melding"></div>
 
              
            <h3 class="box-title">Skjema</h3>
             </div>
             <!-- /.box-header -->
-
-
 
             <!-- form start -->
 
@@ -182,9 +168,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
             </form>
 
             <?php } 
-             else {
-    //lister en select box med flyplass 
-?>
+else { //lister en select box med flyplass ?>
 <!-- Your Page Content Here -->
 <form class="form-horizontal" method="GET" id="redigerFly">
     <div class="row">

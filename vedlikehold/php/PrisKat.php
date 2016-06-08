@@ -90,6 +90,34 @@
             return $affectedRows;
         }
         
+        public function GetAllePrisKategoriDataset($logg)
+        {
+            include (realpath(dirname(__FILE__)).'/db.php');;
+        
+            $logg->Ny('Forsoeker å alle pris kategorier.');
+            
+            $sql = "SELECT prisKategoriId, navn, prosentPaaslag FROM prisKategori;";
+            
+            $prisKatQuery = $db_connection->prepare($sql);
+            
+            $prisKatQuery->execute();
+            
+            //henter result set
+            $resultSet = $prisKatQuery->get_result();
+            
+            $prisKategorier =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($prisKatQuery == false){
+                $logg->Ny('Klarte ikke å hente pris kategorier fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $prisKatQuery->close();
+            $db_connection->close(); 
+            
+            return $prisKategorier;
+        }
         
         // VISE ALLE PRISKATEGORIER LISTBOX
         public function GetAllPrisKategorierLB($logg)
@@ -125,8 +153,7 @@
         
         //VISE ALLE PRISKATEGORIER 
         public function GetAllPrisKat()
-         {
-
+        {
             include('../php/db.php');  
             $html =  '';
             $id = "";
@@ -138,13 +165,12 @@
             //  db-tilkopling
             $query = $db_connection->prepare
             ("SELECT prisKategoriId, navn, prosentPaaslag, endret FROM prisKategori");
-        $query->execute();
-        $query->bind_result($prisKatId, $navn, $prosentPaaslag, $endret);
+            $query->execute();
+            $query->bind_result($prisKatId, $navn, $prosentPaaslag, $endret);
             
             //henter data
-            while ($query->fetch()) {
-
-
+            while ($query->fetch()) 
+            {
                 if($oddOrEven){
                     $oddOrEven = FALSE;
                     $printOddOrEven = 'even';
@@ -157,8 +183,8 @@
                 $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$navn.'</td><td>'.$prosentPaaslag.'</td><td>       
                 <a href="./PrisKategori/prisKategoriAdd.php">Ny priskategori</a> | <a href="./PrisKategori/prisKategoriEdit.php?id='.$prisKatId.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne priskategorien?\')" href="./PrisKategori/delete.php?id='.$id.'">Slett</a> </td></tr>';
 
-        }
-        return $html;
+            }
+            return $html;
         }
         
         //VISE EN PRIS WHERE prisKatId = ?
