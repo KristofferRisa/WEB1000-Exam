@@ -307,9 +307,9 @@ if($_GET
         //mapper reisende til ett array 
         for ($i=1; $i <= $antallReisende; $i++) { 
             $reisende[] = array('Fornavn' => $saner->data($_POST['kundeFornavn'.$i])
-                                ,'Etternavn' => $_POST['kundeEtternavn'.$i]
-                                , 'Kjonn' => $_POST['kjonn'.$i]
-                                , 'Bagasje' => $_POST['bagasje'.$i]
+                                ,'Etternavn' => $saner->data($_POST['kundeEtternavn'.$i])
+                                , 'Kjonn' =>$saner->data($_POST['kjonn'.$i])
+                                , 'Bagasje' => $saner->data($_POST['bagasje'.$i])
                                 );
             
         }
