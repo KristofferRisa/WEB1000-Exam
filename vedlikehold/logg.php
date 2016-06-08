@@ -53,8 +53,8 @@ include('./html/admin-start.html');
                     <thead>
                       <tr role="row">
                         <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id">ID</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nivå: Sortert etter meldingsnivået, INFO, ERROR, DEBUG.">Nivå</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Melding: Sortert etter meldingsinnhold.">Melding</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Nivå: Sortert etter meldingsnivået, INFO, ERROR, DEBUG.">Nivå</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Module: Sortert etter modul meldingen opprettet i.">Modul</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="BrukerId: sortert etter bruker id">Bruker ID</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Datotid: Sortering etter opprettet tidspunkt.">Opprettet</th>
@@ -85,8 +85,8 @@ print($logg->AltPrSide(100,$sidenr));
                     <tfoot>
                       <tr>
                         <th rowspan="1" colspan="1">ID</th>
-                        <th rowspan="1" colspan="1">Nivå</th>
                         <th rowspan="1" colspan="1">Melding</th>
+                        <th rowspan="1" colspan="1">Nivå</th>
                         <th rowspan="1" colspan="1">Modul</th>
                         <th rowspan="1" colspan="1">Bruker ID</th>
                         <th rowspan="1" colspan="1">Opprettet</th>
