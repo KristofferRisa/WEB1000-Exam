@@ -84,7 +84,7 @@
         }
         
         public function NewAvgang($flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett,
-                                  $fastPris)
+                                  $fastPris, $logg)
         {   
             include (realpath(dirname(__FILE__)).'/db.php');;
             

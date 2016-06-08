@@ -237,9 +237,9 @@
                   <select class="form-control" id="bebis" name="bebis">
                     <option value="0" <?php if(@$bebis == 0) echo 'selected'; ?> >0 bebis (0-23 mnd)</option>
                     <option value="1" <?php if(@$bebis == 1) echo 'selected'; ?> >1 bebis</option>
-                    <option value="2" <?php if(@$bebis == 2) echo 'selected'; ?> >2 bebiser</option>
-                    <option value="3" <?php if(@$bebis == 3) echo 'selected'; ?> >3 bebiser</option>
-                    <option value="4" <?php if(@$bebis == 4) echo 'selected'; ?> >4 bebiser</option>
+                    <option value="2" <?php if(@$bebis == 2) echo 'selected'; ?> >2 bebis</option>
+                    <option value="3" <?php if(@$bebis == 3) echo 'selected'; ?> >3 bebis</option>
+                    <option value="4" <?php if(@$bebis == 4) echo 'selected'; ?> >4 bebis</option>
                   </select>
                 </div>
               </div>
