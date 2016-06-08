@@ -109,35 +109,7 @@ class Planes {
             
             return $affectedRows;
         }
-
-            public function GetPlaneDataset($logg){
-            include (realpath(dirname(__FILE__)).'/db.php');
-            
-            
-            $sql = "select * FROM fly;";
-            
-            $queryPlanes = $db_connection->prepare($sql);
         
-            $queryPlanes->execute();
-            
-            //henter result set
-            $resultSet = $queryPlanes->get_result();
-            
-            $fly =  $resultSet->fetch_all();
-            
-            //Error logging
-            if($queryPlanes == false){
-                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
-            }
-            
-            $resultSet->free();
-            $queryPlanes->close();
-            $db_connection->close(); 
-            
-            return $fly;
-        } 
-
-
             public function GetPlane($flyId, $logg){
             include (realpath(dirname(__FILE__)).'/db.php');;
             
@@ -231,6 +203,33 @@ class Planes {
             
             return $affectedRows;
         }
+
+        public function GetPlaneDataset($logg){
+            include (realpath(dirname(__FILE__)).'/db.php');
+            
+            
+            $sql = "select * FROM fly;";
+            
+            $queryPlanes = $db_connection->prepare($sql);
+        
+            $queryPlanes->execute();
+            
+            //henter result set
+            $resultSet = $queryPlanes->get_result();
+            
+            $fly =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryPlanes == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryPlanes->close();
+            $db_connection->close(); 
+            
+            return $fly;
+        }   
 
 }
 
@@ -354,18 +353,18 @@ class Destination {
             return $listBox;
 
          }
-         public function UpdateDestination($flyplassID, $navn, $landskode,$stedsnavn,$geo_lat,$geo_lng, $logg){
-            include (realpath(dirname(__FILE__)).'/db.php');;
+         public function UpdateDestination($flyId, $navn, $landskode,$stedsnavn,$geo_lat,$geo_lng, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');
             
-            $logg->Ny('Forsoeker å oppdatere flyplass (id='.$flyplassId.') med navnet '.$navn);
+            $logg->Ny('Forsøker å oppdatere destinasjon med destinasjonsID '.$destinasjonId.', med disse data '.$navn.', '.$landskode.', '.$stedsnavn.', '.$geo_lat.', '.$geo_lng);
             
             $sql = "
-            update flyplass 
-            set navn = ? where flyplassId = ?;";
+            update destinasjon 
+            set navn= ?, landskode = ?, stedsnavn = ?, geo_lat = ?, geo_lng = ?  = ? where destinsjonId = ?;";
             
             $insertFlyplass = $db_connection->prepare($sql);
-            $insertFlyplass->bind_param('si'
-                                    , $navn,$flyplassId);
+            $insertFlyplass->bind_param('sssssi'
+                                    , $navn,$landskode,$stedsnavn,$geo_lat);
                                     
             $insertFlyplass->execute();
 
