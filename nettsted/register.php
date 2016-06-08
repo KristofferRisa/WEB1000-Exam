@@ -3,9 +3,10 @@ session_start();
 
 ##Hent brukernavn og passord ved POST#Sjekk brukerinfo - Logg inn om bruker finnes
 if ($_POST) {
-    $brukernavn = $_POST["brukernavn"];
-    $password = $_POST["passord"];
-    $password2 = $_POST["passord2"];
+
+    $brukernavn = $saner->data($_POST["brukernavn"]);
+    $password = $saner->data($_POST["passord"]);
+    $password2 = $saner->data($_POST["passord2"]);
     include('../brukere.php');
 
     if ($password == $password2) {

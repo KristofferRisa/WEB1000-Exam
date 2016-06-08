@@ -4,11 +4,13 @@
     include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/user.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Logg.php";
     include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/HtmlHelperClass.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/SanerData.php";
+    
     //Skole    
     // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/User.php";
     // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/User.php";
     // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/HtmlHelperClass.php";
-    
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/SanerData.php";
     @session_start();
     
     @$innloggetBruker=$_SESSION["brukernavn"];
@@ -26,6 +28,8 @@
     $userInfo = $user->GetUserFromUsername($_SESSION['brukernavn']);
     $logg = new Logg();
     $html = new HtmlHelperClass();
+
+    $saner = new Saner; // Sanerer data fra brukerinput(motvirker injection osv)
     
     if(!$user->ValidateAdminCookie($innloggetBruker,$logg)){
         $logg->Ny('Feil med Admin cookie.', 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), $innloggetBruker);    
