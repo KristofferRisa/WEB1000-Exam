@@ -264,6 +264,34 @@ class Destination {
          return $affectedRows;  
          }
      }
+
+     public function GetDestination($destinationId, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            
+            $sql = "select * FROM destinasjon WHERE destinasjonId=?;";
+            
+            $queryDestination = $db_connection->prepare($sql);
+            
+            $queryDestination->bind_param('i', $destinationId);
+            $queryDestination->execute();
+            
+            //henter result set
+            $resultSet = $queryDestination->get_result();
+            
+            $destinasjon =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryDestination == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryDestination->close();
+            $db_connection->close(); 
+            
+            return $destinasjon;
+        } 
 }
 
 class Airport {
