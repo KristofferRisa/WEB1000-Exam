@@ -6,7 +6,7 @@ include('./html/nav.html');
 
 @$innloggetBruker=$_SESSION["brukernavn"];
         
-if (!$innloggetBruker && !@$_GET['innlogget'] && $_POST)
+if (!$innloggetBruker && !@$_GET['innlogget'] && !$_POST)
 { //Viser skjema for logg inn / registre eller fortsett uten registrering
 ?>
     <div class="container">
@@ -264,7 +264,7 @@ if($_GET
             <?php } ?>
             
                 <div class="row col-md-2 col-md-offset-6 top-buffer">
-                    <input type="submit" class="btn btn-primary pull-right" onclick="" value="Bestill">
+                    <input type="submit" class="btn btn-primary pull-right btn-flat" onclick="" value="Bestill">
                 </div>    
             </div>
             
@@ -290,9 +290,6 @@ if($_GET
 */
 
     if($_POST){
-        
-        include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Bestilling.php";
-        include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Billett.php";
         
         $bestilling = new Bestilling();
         $billett = new Billett();
@@ -327,13 +324,14 @@ if($_GET
         } ?>
         <div class="container">
             <div class="row">
-                <?php echo $response; ?>
+                <div class="col-md-12">
+                    <?php echo $response; ?>
+                    <a href="./" class="btn btn-flat btn-link">Tilbake</a>
+                </div>
             </div>
         </div>
         
         <?php } ?>
-
-<hr>
  <?php include ("./html/footer.html"); ?>
 
 </body>

@@ -32,9 +32,4 @@
         $innloggetBruker = NULL;
     }
     
-    // $logg->Ny('Logget inn.', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $innloggetBruker);
-    
-  
-  
-    
 ?>

@@ -251,7 +251,7 @@
        
         <div clas="row top-buffer">
           <div class="col-md-12">
-            <input type="submit" class="btn btn-primary pull-right" value="Søk" >
+            <input type="submit" class="btn btn-primary pull-right btn-flat" value="Søk" >
           </div>
         </div>     
          <!--ROW SLUTT-->
@@ -336,7 +336,7 @@
                     <input type="hidden" name="retur" id="avgangIdRetur" >
                     <input type="hidden" name="antall" id="antall" >
                     <input type="hidden" name="bebis" id="antallbebis" >
-                    <input type="submit" class="btn btn-primary pull-right" id="bestilling" onclick="hentBillettInfo();" disabled value="Bestill">
+                    <input type="submit" class="btn btn-primary pull-right btn-flat" id="bestilling" onclick="hentBillettInfo();" disabled value="Bestill">
                   </form>
                 </div>
               </div>
