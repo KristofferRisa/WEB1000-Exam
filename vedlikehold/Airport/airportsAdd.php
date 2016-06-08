@@ -8,7 +8,7 @@ include('../html/header.html');
 include('../html/admin-start.html');
 
 // Validering og innsending av skjemadata
-//include('../php/addAirportFormInput.php');
+include('../php/addAirportFormInput.php');
 
 ?>
 
@@ -51,7 +51,7 @@ include('../html/admin-start.html');
             <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerFlyplass()">
               <div class="box-body">        
 
-                <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut flyplass land">
+                <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut flyplass navn">
                   <label for="flyplassNavn" class="col-sm-2 control-label" >Navn</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$_POST['flyplassNavn'] ?>">

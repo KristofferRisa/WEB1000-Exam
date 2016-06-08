@@ -50,7 +50,7 @@ include('../html/admin-start.html');
                         <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="DestinasjonsID">Destinasjons ID</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassID">Flyplass ID</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Navn">Navn</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Land">Land</th>
+                        
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Landskode">Landskode</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Stedsnavn">Stedsnavn</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Geo_lat">Geo_lat</th>
@@ -80,7 +80,7 @@ print( $destination->ShowAllDestinations() );
                         <th rowspan="1" colspan="1">Destinasjons ID</th>
                         <th rowspan="1" colspan="1">Flyplass ID</th>
                         <th rowspan="1" colspan="1">Navn</th>
-                        <th rowspan="1" colspan="1">Land</th>
+                        
                         <th rowspan="1" colspan="1">Landskode</th>
                         <th rowspan="1" colspan="1">Stedsnavn</th>
                         <th rowspan="1" colspan="1">Geo_lat</th>

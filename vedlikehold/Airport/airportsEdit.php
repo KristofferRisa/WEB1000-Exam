@@ -78,14 +78,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <section class="content-header">
 
       <h1>
-        Registrere ny flyplass
-        <small>Her kan du registrere nye flyplasser i databasen</small>
+        Endre flyplass
+        <small>Her kan du endre flyplasser i databasen</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Flyplasser</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Legg til flyplass</li>
+      <li class="active">Endre flyplass</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form method="post" class="form-horizontal" onsubmit="return validerRegistrerFlyplass()">
               <div class="box-body">        
 
-                <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut flyplass land">
+                <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut flyplass navn">
                   <label for="flyplassNavn" class="col-sm-2 control-label" >Navn</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$airportinfo[0][1]?>">
