@@ -12,14 +12,14 @@ include('../php/Bilett.php');
   <!-- Content Header (Page header) -->
   <section class="content-header">
       <h1>
-        Vis alle biletter
-        <small>Viser en oversikt over alle biletter.</small>
+        Vis alle billetter
+        <small>Viser en oversikt over alle billetter.</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Biletter</li>
+      <li>Billetter</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Vis biletter</li>
+      <li class="active">Vis billetter</li>
     </ol>
   </section>
  <!-- Main content -->
