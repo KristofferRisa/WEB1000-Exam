@@ -107,7 +107,7 @@
             
             while ($queryPrisKat->fetch ())
             {
-                $listBox .="<option value=".$id. ">ID:".$id.", PrisKatNavn: ".$prisKatNavn.", prisKatProsentPaaslag: ".$prisKatProsentPaaslag."</option>";
+                $listBox .="<option value=".$id. ">".$prisKatNavn." (".$prisKatProsentPaaslag.")</option>";
             }
 
             
@@ -154,8 +154,8 @@
                     $printOddOrEven = 'odd';
                 }
 
-                $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$prisKatId.'</td><td>'.$navn.'</td><td>'.$prosentPaaslag.'</td><td>'.$endret.'</td><td>       
-                <a href="./PrisKategori/prisKategoriAdd.php">Ny priskategori</a> | <a href="./PrisKategori/prisKategoriEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne priskategorien?\')" href="./PrisKategori/delete.php?id='.$id.'">Slett</a> </td></tr>';
+                $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$navn.'</td><td>'.$prosentPaaslag.'</td><td>       
+                <a href="./PrisKategori/prisKategoriAdd.php">Ny priskategori</a> | <a href="./PrisKategori/prisKategoriEdit.php?id='.$prisKatId.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne priskategorien?\')" href="./PrisKategori/delete.php?id='.$id.'">Slett</a> </td></tr>';
 
         }
         return $html;
