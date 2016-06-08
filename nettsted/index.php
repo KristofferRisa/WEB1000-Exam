@@ -20,34 +20,35 @@
         //&& $_GET['returDato']
         ){
           //finner alle input parametere
-          $fra = $_GET['fra'];
+          
+          $fra = $saner->data($_GET["fra"]);
           $fraFlyplass = $dest->GetDestinasjon($fra,$logg);
           
-          $til = $_GET['til'];
+          
+          $til = $saner->data($_GET["til"]);
           $tilFlyplass = $dest->GetDestinasjon($til,$logg);
           // print_r($tilFlyplass);
           
-          
-          $type = $_GET['type'];
-          $voksne = $_GET['voksne'];
+          $type = $saner->data($_GET["type"]);
+          $voksne = $saner->data($_GET["voksne"]);
+
           if($_GET['barn']) {
-            $barn = $_GET['barn'];  
+            $barn = $saner->data($_GET["barn"]);  
           } else {
             $barn = 0;
           }
           
           if ($_GET['bebis']) {
-            $bebis = $_GET['bebis'];
+            $bebis = $saner->data($_GET["bebis"]);
           } else {
             $bebis = 0;
           }
           
           if ($_GET['returDato']) {
-            $returDato = $_GET['returDato'];
+            $returDato = $saner->data($_GET["returDato"]);
             // $returDato = date('Y-m-d', strtotime(str_replace('-', '/', $returDato)));
           }
-          
-          $dato = $_GET['reiseDato'];
+          $dato = $saner->data($_GET["reiseDato"]);
           //$dato = date('Y-m-d', strtotime(str_replace('-', '/', $dato)));
           
           $antallReisende = $voksne + $barn;
