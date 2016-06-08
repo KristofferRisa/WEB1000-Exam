@@ -22,14 +22,14 @@ include('../php/addDestinationFormInput.php');
   <section class="content-header">
 
       <h1>
-        Endre destinasjon
-        <small>Her kan du endre destinasjon i databasen</small>
+        Ny destinasjon
+        <small>Her kan du opprette destinasjoner i databasen</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Destinasjoner</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Ny destinasjoner</li>
+      <li class="active">Ny destinasjoner</li>  
     </ol>
   </section>
  <!-- Main content -->
@@ -54,7 +54,7 @@ include('../php/addDestinationFormInput.php');
             <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerDestinasjon()">
               <div class="box-body">        
 
-                <div class="form-group">
+                <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Velg flyplass">
                   <label for="flyplassID" class="col-sm-2 control-label">Flyplass</label>
                   <div class="col-sm-10">
                       <?php 
@@ -67,7 +67,7 @@ include('../php/addDestinationFormInput.php');
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv navn på destinasjonen">
                   <label for="navn" class="col-sm-2 control-label">Navn</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="navn" name="navn" placeholder="Navn" value="<?php echo @$_POST['navn'] ?>">
@@ -79,7 +79,7 @@ include('../php/addDestinationFormInput.php');
   <label for="land" class="col-sm-2 control-label">Land</label>
   <div class="col-sm-10">        
   <div class="ui fluid search selection dropdown" id="flyplassLandValg">
-  <input type="hidden" name="land" id="land" >
+  <input type="hidden" name="landskode" id="landskode" >
   <i class="dropdown icon"></i>
   <div class="default text">Velg land</div>
   
@@ -335,32 +335,28 @@ include('../php/addDestinationFormInput.php');
   
   
 
-                  <div class="form-group">
-                  <label for="landskode" class="col-sm-2 control-label">Landskode</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="landskode" name="landskode" placeholder="Landskode" value="<?php echo @$_POST['landskode'] ?>">
-                  </div>
-                </div>
 
-                  <div class="form-group">
+                  <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv stedsnavn">
                   <label for="stedsnavn" class="col-sm-2 control-label">Stedsnavn</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="stedsnavn" name="stedsnavn" placeholder="Stedsnavn" value="<?php echo @$_POST['stedsnavn'] ?>">
                   </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv inn koordinater">
                   <label for="geo_lat" class="col-sm-2 control-label">Geo_lat</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="geo_lat" name="geo_lat" placeholder="geo_lat" value="<?php echo @$_POST['geo_lat'] ?>">
                      </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv inn koordinater">
                   <label for="flyLaget" class="col-sm-2 control-label">Geo_lng</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="geo_lng" name="geo_lng" placeholder="geo_lng" value="<?php echo @$_POST['geo_lng'] ?>">
+                     <small><a href="http://www.latlong.net/" target="_new">Finn koordinater</a></small>
                   </div>
+                 
                 </div>
 
               <!-- /.box-body -->

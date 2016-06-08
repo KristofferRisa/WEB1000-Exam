@@ -215,9 +215,9 @@ class Destination {
         
        
         //  db-tilkopling
-        $query = $db_connection->prepare("SELECT destinasjonId, flyplassId, navn, land, landskode, stedsnavn, geo_lat, geo_lng, endret  FROM destinasjon");
+        $query = $db_connection->prepare("SELECT destinasjonId, flyplassId, navn, landskode, stedsnavn, geo_lat, geo_lng, endret  FROM destinasjon");
         $query->execute();
-        $query->bind_result($dId, $fId, $navn, $land,$landskode,$stedsnavn,$geo_lat,$geo_lng,$endret);
+        $query->bind_result($dId, $fId, $navn, $landskode,$stedsnavn,$geo_lat,$geo_lng,$endret);
 
 
 
@@ -235,7 +235,7 @@ class Destination {
                 $printOddOrEven = 'odd';
             }
 
-            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$dId.'</td><td>'.$fId.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$landskode.'</td><td>'.$stedsnavn.'</td><td>'.$geo_lat.'</td><td>'.$geo_lng.'</td>
+            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$dId.'</td><td>'.$fId.'</td><td>'.$navn.'</td><td>'.$landskode.'</td><td>'.$stedsnavn.'</td><td>'.$geo_lat.'</td><td>'.$geo_lng.'</td>
             <td>'.$endret.'</td><td><a href="./Airport/airportsAdd.php">Nytt fly</a> | <a href="./Airport/airportsEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne flyplassen?\')" href="./Airport/delete.php?id='.$id.'">Slett</a> </td></tr>';
 
         }
@@ -249,12 +249,12 @@ class Destination {
 
     }
 
-    public function AddNewDestination($fId,$navn,$land,$landskode,$stedsnavn,$geo_lat,$geo_lng) {
+    public function AddNewDestination($fId,$navn,$landskode,$stedsnavn,$geo_lat,$geo_lng) {
         include('../php/db.php');
         
         //Bygger SQL statementt
-        $query = $db_connection->prepare("INSERT INTO destinasjon (flyplassId,navn,land,landskode,stedsnavn,geo_lat,geo_lng) VALUES (?,?,?,?,?,?,?)");
-        $query->bind_param('issssss', $fId,$navn,$land,$landskode,$stedsnavn,$geo_lat,$geo_lng);  
+        $query = $db_connection->prepare("INSERT INTO destinasjon (flyplassId,navn,landskode,stedsnavn,geo_lat,geo_lng) VALUES (?,?,?,?,?,?)");
+        $query->bind_param('isssss', $fId,$navn,$landskode,$stedsnavn,$geo_lat,$geo_lng);  
 
             if ( $query->execute()) { 
                 $affectedRows = $query->affected_rows;

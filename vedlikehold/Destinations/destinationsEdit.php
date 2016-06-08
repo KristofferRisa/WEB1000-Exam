@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <section class="content-header">
 
       <h1>
-        Registrere endre destinasjon
+        Endre destinasjon
         <small>Her kan du endre destinasjon i databasen</small>
       </h1>
     <ol class="breadcrumb">
