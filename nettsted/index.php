@@ -7,7 +7,7 @@
   $alleDestinasjoner = $dest->GetAllDestinasjoner($logg);
   
    $resultMsg = "";
-  // print_r($alleDestinasjoner);
+   //print_r($alleDestinasjoner);
   
       if($_GET 
         && $_GET['fra']
