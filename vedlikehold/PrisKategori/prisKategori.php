@@ -69,6 +69,16 @@ print ($prisKat->GetAllPrisKat() );
 
                     </tbody>
 
+                    
+                    <tfoot>
+                      <tr>
+                        <th rowspan="1" colspan="1">Priskategori navn</th>
+                        <th rowspan="1" colspan="1">Priskategori prosentpåslag</th>
+                        <th rowspan="1" colspan="1">Handlinger</th>                        
+
+                        </tr>
+                    </tfoot>
+
                   </table>
                 </div>
               </div>

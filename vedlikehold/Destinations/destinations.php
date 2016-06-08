@@ -1,5 +1,5 @@
 <?php 
-$title = "FLYAVGANG - Admin ";
+$title = "DESTINASJONER - VIS - Admin ";
 
 include('../html/start.php');
 
@@ -25,7 +25,7 @@ include('../html/admin-start.html');
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Destinasjoner</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Vis alle destinasjoner</li>
+      <li class="active">Vis destinasjoner</li>
     </ol>
   </section>
  <!-- Main content -->

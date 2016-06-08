@@ -127,20 +127,20 @@
         
         
         // OPPDATERER EN AVGANG
-        public function UpdateAvgang ($flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett,
-                                    $fastPris)
+        public function UpdateAvgang($id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastPris, $logg)
         {
-            include (realpath(dirname(__FILE__)).'/db.php');;
+            include (realpath(dirname(__FILE__)).'/db.php');
+            $logg->Ny('Forsøker å oppdatere avgang med avgangsId '.$id.', med disse data '.$flyId.', '.$dato.', '.$direkte.', '.$reiseTid.', '.$klokkeslett.', '.$fastPris);
             
             $sql = 
             "UPDATE avgang
-            SET navn = ?
+            SET fraDestId = ?, tilDestId = ?, dato = ?, direkte = ?, reiseTid = ?, klokkeslett = ?, fastpris = ?
             WHERE avgangId = ?;";
             
             $insertAvgang = $db_connection->prepare($sql);
-            $insertAvgang->bind_param('iiisssss'
-                                    , $flyId, $fraDestId, $tiDestId, $dato, $direkte, $reiseTid, $klokkeslett,
-                                     $fastPris);
+            $insertAvgang->bind_param('iisssssi'
+                                     ,$fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett,
+                                     $fastPris, $id);
                                                                         
             $insertAvgang->execute();
             $affectedRows = $insertAvgang->affected_rows;
@@ -230,17 +230,19 @@ LEFT JOIN destinasjon d2 on d2.destinasjonId = a.tilDestId;';
             include (realpath(dirname(__FILE__)).'/db.php');;
             $listBox= "";
 
-            $sql = "SELECT avgangId, flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris FROM avgang;";
+            $sql = "SELECT avgangId, flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris, d.navn as fra, d2.navn as til FROM avgang a
+                    join destinasjon d on d.destinasjonId = a.fraDestId
+                    join destinasjon d2 on d2.destinasjonId = a.tilDestId;";
             
             $queryAvgang = $db_connection->prepare($sql);
             
             $queryAvgang->execute();
 
-            $queryAvgang ->bind_result($Id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris);
+            $queryAvgang ->bind_result($Id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris,$fradestNavn, $tildestNavn);
             
             while ($queryAvgang->fetch ())
             {
-                $listBox .='<option value="'.$Id.'">fraDestId: '.$fraDestId.', tilDestId: '.$tilDestId.', dato: '.$dato.'</option>';
+                $listBox .='<option value="'.$Id.'">'.$fradestNavn.' til '.$tildestNavn.'</option>';
             }
 
             
@@ -262,7 +264,7 @@ LEFT JOIN destinasjon d2 on d2.destinasjonId = a.tilDestId;';
             
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT avgangId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris 
+            $sql = "SELECT avgangId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris, flyId 
                     FROM avgang WHERE avgangId= ?;";
             
             $queryAvgang = $db_connection->prepare($sql);

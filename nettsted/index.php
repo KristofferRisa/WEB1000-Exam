@@ -20,34 +20,35 @@
         //&& $_GET['returDato']
         ){
           //finner alle input parametere
-          $fra = $_GET['fra'];
+          
+          $fra = $saner->data($_GET["fra"]);
           $fraFlyplass = $dest->GetDestinasjon($fra,$logg);
           
-          $til = $_GET['til'];
+          
+          $til = $saner->data($_GET["til"]);
           $tilFlyplass = $dest->GetDestinasjon($til,$logg);
           // print_r($tilFlyplass);
           
-          
-          $type = $_GET['type'];
-          $voksne = $_GET['voksne'];
+          $type = $saner->data($_GET["type"]);
+          $voksne = $saner->data($_GET["voksne"]);
+
           if($_GET['barn']) {
-            $barn = $_GET['barn'];  
+            $barn = $saner->data($_GET["barn"]);  
           } else {
             $barn = 0;
           }
           
           if ($_GET['bebis']) {
-            $bebis = $_GET['bebis'];
+            $bebis = $saner->data($_GET["bebis"]);
           } else {
             $bebis = 0;
           }
           
           if ($_GET['returDato']) {
-            $returDato = $_GET['returDato'];
+            $returDato = $saner->data($_GET["returDato"]);
             // $returDato = date('Y-m-d', strtotime(str_replace('-', '/', $returDato)));
           }
-          
-          $dato = $_GET['reiseDato'];
+          $dato = $saner->data($_GET["reiseDato"]);
           //$dato = date('Y-m-d', strtotime(str_replace('-', '/', $dato)));
           
           $antallReisende = $voksne + $barn;
@@ -331,7 +332,7 @@
             
               <div class="row">
                 <div class="col-md-12">
-                  <form type="hidden" method="GET" action="order.php" >
+                  <form type="hidden" method="GET" id="bestillskjema" action="bestill.php" >
                     <input type="hidden" name="reise" id="avgangIdReise" >
                     <input type="hidden" name="retur" id="avgangIdRetur" >
                     <input type="hidden" name="antall" id="antall" >
@@ -426,12 +427,6 @@ $(function() {
     });
   
 
-
-
-
-
-
-
 });
 
 function avreiseBestilling(element){
@@ -441,38 +436,53 @@ function avreiseBestilling(element){
   element.classList.add('active');
   
   //sjekker om det finnes retur alternativer, dersom ikke kan man aktivere bestillingsknappen
-  if($('.list-group-item.retur').length){
-    
-  } else {
+  if($('.list-group-item.retur.active').length
+      || $('.list-group-item.retur').length == 0 ){
     $('#bestilling').removeAttr('disabled');
-  }
-  
+  } 
 }
 
 function returBestilling(element){
-  
+    console.log(element);
+    $('.list-group-item.retur').removeClass('active');
+    element.classList.add('active');
+   
+   $('#bestilling').removeAttr('disabled');
 }
 
 function hentBillettInfo(){
+ 
   var utReise = $('.list-group-item.avreise.active');
-  console.log('Utreise info: ' + utReise);
+  
+  if(utReise.length == 0){
+    $("#bestillskjema").submit(function(){
+      return false;
+    });
+    console.log('Fant ingen retur reise');
+    $('#bestilling').attr('disabled', true);
+  }
+  
   
   var retur = $('.list-group-item.retur.active');
-  if(retur.length){
-    console.log('Retur info: ' + retur);  
-  } else {
-    console.log('Fant ingen retur reise');
-  }
+  
+  if(retur.length == 0
+      && $('.list-group-item.retur').length > 0){
+    //Sender ikke skjema og deaktivere bestill knapp
+      $("#bestillskjema").submit(function(){
+        return false;
+      });
+      console.log('Fant ingen retur reise');
+      $('#bestilling').attr('disabled', true);
+    }
+  
+  
   
   //Mapper data- attributter til input felter i hidden form
   $('#avgangIdReise').val(utReise.attr('data-avgangId'));
-  $('#avgangIdRetur').val(retur.attr('data-avgangId'));  
+  $('#avgangIdRetur').val(retur.attr('data-destinasjon'));  
   $('#antall').val(utReise.attr('data-antall'));
   $('#antallbebis').val(utReise.attr('data-bebis'));
   
-  
-  
- 
 }
 
 function validerFinnReiser(){

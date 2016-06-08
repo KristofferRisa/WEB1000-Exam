@@ -2,17 +2,21 @@
 session_start();
 
 include('../vedlikehold/php/Logg.php');
+include('../vedlikehold/php/SanerData.php');
+
+$saner = new Saner; 
 $logg = new Logg();
 
 $htmlmsg = "";
 
 ##Hent brukernavn og passord ved POST#Sjekk brukerinfo - Logg inn om bruker finnes
 if ($_POST) {
+    
     include('../vedlikehold/php/User.php');
     $user = new User();
-    
-    $brukernavn = $_POST["brukernavn"];
-    $password = $_POST["passord"];
+
+    $brukernavn = $saner->data($_POST["brukernavn"]);
+    $password = $saner->data($_POST["passord"]);
     
     $logg->Ny($brukernavn.' forsøker å logge inn', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $brukernavn);
     
@@ -107,7 +111,7 @@ if ($_POST) {
         
         <!-- /.social-auth-links -->
         <a href="#">Glemt passord</a><br>
-        <a href="register.html" class="text-center">Register</a>
+        <a href="registrer.php" class="text-center">Register</a>
     </div>
     <!-- /.login-box-body -->
     </div>

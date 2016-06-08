@@ -1,9 +1,9 @@
 <?php 
 include('./../php/AdminClasses.php');
 include('./../php/Logg.php');
-include('./../php/Avgang.php');
+include('../php/Plane.php');
 
-$avgang = new Avgang;
+$planes = new Planes;
 
 $logg = new Logg;
 
@@ -11,9 +11,10 @@ $rows = -1;
 
 if($_GET['id']){
   $id = $_GET['id'];
-  $rows = $avgang->DeleteAvgang($id, $logg);
+  $rows = $planes->DeletePlane($id, $logg);
 }
 
-header('Location: ./avganger.php?deleteRows='.$rows);
+header('Location: ./planes.php?deleteRows='.$rows);
 
 ?>
+

@@ -72,7 +72,7 @@ CREATE TABLE sete
     flyId INT NOT NULL,
     prisKategoriId INT NOT NULL, 
     seteNr VARCHAR(10),
-    nodutgang BIT,
+    nodutgang VARCHAR (3),
     forklaring VARCHAR (100), -- gang/midt/vindu
     endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT pk_sete PRIMARY KEY (seteId),
