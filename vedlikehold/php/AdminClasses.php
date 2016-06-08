@@ -68,7 +68,7 @@ class Planes {
     }
 
     public function UpdatePlane($flyId,$flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell, $logg){
-            include (realpath(dirname(__FILE__)).'/db.php');;
+            include (realpath(dirname(__FILE__)).'/db.php');
             
             $sql = "
             update fly 
@@ -105,7 +105,35 @@ class Planes {
             
             return $affectedRows;
         }
+
+            public function GetPlaneDataset($logg){
+            include (realpath(dirname(__FILE__)).'/db.php');
+            
+            
+            $sql = "select * FROM fly;";
+            
+            $queryPlanes = $db_connection->prepare($sql);
         
+            $queryPlanes->execute();
+            
+            //henter result set
+            $resultSet = $queryPlanes->get_result();
+            
+            $fly =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryPlanes == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryPlanes->close();
+            $db_connection->close(); 
+            
+            return $fly;
+        } 
+
+
             public function GetPlane($flyId, $logg){
             include (realpath(dirname(__FILE__)).'/db.php');;
             
