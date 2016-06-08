@@ -54,6 +54,10 @@ include('../php/Plane.php');
                       </tr>
                     </thead>
                     <tbody>
+
+
+
+                    
 <?php 
 
 include('../php/AdminClasses.php');
@@ -68,6 +72,16 @@ print( $planes->ShowAllPlanes() );
 
 
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <th rowspan="1" colspan="1">Flynr</th>
+                        <th rowspan="1" colspan="1">Flymodell</th>
+                        <th rowspan="1" colspan="1">Flytype</th>                        
+                        <th rowspan="1" colspan="1">Antall sitteplasser</th>
+                        <th rowspan="1" colspan="1">Årsmodell</th>
+                        <th rowspan="1" colspan="1">Handling</th>
+                        </tr>
+                    </tfoot>
                   </table>
                 </div>
               </div>
