@@ -59,13 +59,7 @@ include('../php/addDestinationFormInput.php');
                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Velg flyplass">
                   <label for="flyplassID" class="col-sm-2 control-label">Flyplass</label>
                   <div class="col-sm-10">
-                      <?php 
-                        //print_r($data);
-                        echo $html->GenerateSearchSelectionbox($data,'flyplassID','flyplassID','Velg flyplass',''); 
-                        ?>
-             
-
-                    <!--input type="text" class="form-control" id="flyplassID" name="flyplassID" placeholder="Flyplass ID" value="<?php echo @$_POST['flyplassID'] ?>"-->
+                      <?php echo $html->GenerateSearchSelectionbox($data,'flyplassID','flyplassID','Velg flyplass',''); ?>
                   </div>
                 </div>
 
