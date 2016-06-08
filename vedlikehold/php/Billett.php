@@ -8,44 +8,44 @@
             
         }
       
-        public function NewBillett($bestillingId, $avgangId, $seteId, $fornavn, $etternavn, $kjonn, $antBagasje)
-        {   
-            include (realpath(dirname(__FILE__)).'/db.php');;
+        // public function NewBillett($bestillingId, $avgangId, $seteId, $fornavn, $etternavn, $kjonn, $antBagasje)
+        // {   
+        //     include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $logg->Ny('Forsøker å opprette ny billett.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+        //     $logg->Ny('Forsøker å opprette ny billett.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
             
-            $sql = "
-                INSERT INTO billett (bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje)
-                            values  (?, ?, ?, ?, ?, ?, ?)";
+        //     $sql = "
+        //         INSERT INTO billett (bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje)
+        //                     values  (?, ?, ?, ?, ?, ?, ?)";
             
-            $insertBillett = $db_connection->prepare($sql);
-            $insertBillett->bind_param('sssssss'
-                                    , $bestillingId, $avgangId, $seteId, $fornavn, $etternavn, $kjonn, $antBagasje);
+        //     $insertBillett = $db_connection->prepare($sql);
+        //     $insertBillett->bind_param('sssssss'
+        //                             , $bestillingId, $avgangId, $seteId, $fornavn, $etternavn, $kjonn, $antBagasje);
                                     
-            $insertBillett->execute();
-            $affectedrows=$insertBillett->affected_rows;
+        //     $insertBillett->execute();
+        //     $affectedrows=$insertBillett->affected_rows;
            
             
-            $logg->Ny('Rows affected: '.$affectedrows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+        //     $logg->Ny('Rows affected: '.$affectedrows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
 
-            if($insertBillett == false){
-                $logg->Ny('Mislyktes å insert: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
-                exit;    
-            }
+        //     if($insertBillett == false){
+        //         $logg->Ny('Mislyktes å insert: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
+        //         exit;    
+        //     }
             
-            if ($affectedrows == 1) {
-                $logg->Ny('Ny billett opprettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-            } else {
-                $logg->Ny('Klarte ikke å opprette ny billett.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
-            } 
+        //     if ($affectedrows == 1) {
+        //         $logg->Ny('Ny billett opprettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+        //     } else {
+        //         $logg->Ny('Klarte ikke å opprette ny billett.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
+        //     } 
                 
-            //Lukker databasetilkopling
-            $insertBillett->close();
-            $db_connection->close(); 
+        //     //Lukker databasetilkopling
+        //     $insertBillett->close();
+        //     $db_connection->close(); 
             
-            return $affectedrows;
-        }
+        //     return $affectedrows;
+        // }
         
         
         // OPPDATERER EN BILLETT

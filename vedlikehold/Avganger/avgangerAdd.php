@@ -408,11 +408,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 
 
 
-
-
-
-
-
               <!-- /.box-body -->
               <div class="box-footer">
                 <button class="btn btn-default" onclick="fjernMelding();clearForm(this.form);return false;">Nullstill</button>

@@ -49,6 +49,40 @@
             return $ledigeRuter;
         } 
         
+        public function SjekkLedigKapasitetAvgangId($id, $antallReisende, $logg) {
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            $sql = "
+            SELECT avgangId,AntallLedige FROM eksamen.LedigeAvganger
+            where avgangId = ?
+            and AntallLedige >= ?;";
+            
+            
+            $queryLedige = $db_connection->prepare($sql);
+            
+            $queryLedige->bind_param('ii'
+                                    , $id
+                                    , $antallReisende);
+            
+            $queryLedige->execute();
+            
+            //henter result set
+            $resultSet = $queryLedige->get_result();
+            
+            $ledigeRuter =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryLedige == false){
+                $logg->Ny('Mislyktes å hente fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryLedige->close();
+            $db_connection->close(); 
+            
+            return $ledigeRuter;
+        }
+        
         public function NewAvgang($flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett,
                                   $fastPris, $logg)
         {   

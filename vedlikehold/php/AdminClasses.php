@@ -39,8 +39,12 @@ class Planes {
                 $printOddOrEven = 'odd';
             }
 
-            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyNr.'</td><td>'.$modell.'</td><td>'.$type.'
-            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td><td>'.$endret.'</td><td><a href="./Plane/planesAdd.php">Nytt fly</a> | <a href="../vedlikehold/Plane/planesEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette dette flyet?\')" href="./Plane/delete.php?id='.$id.'">Slett</a> </td></tr>';
+            $html .= '<tr role="row" class="'.$printOddOrEven.'">
+                <td>'.$flyNr.'</td>
+                <td>'.$modell.'</td>
+                <td>'.$type.'
+            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td>
+            <td><a href="./Plane/planesAdd.php">Nytt fly</a> | <a href="../vedlikehold/Plane/planesEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette dette flyet?\')" href="./Plane/delete.php?id='.$id.'">Slett</a> </td></tr>';
         
         }
         //Lukker databasetilkopling
@@ -105,35 +109,7 @@ class Planes {
             
             return $affectedRows;
         }
-
-            public function GetPlaneDataset($logg){
-            include (realpath(dirname(__FILE__)).'/db.php');
-            
-            
-            $sql = "select * FROM fly;";
-            
-            $queryPlanes = $db_connection->prepare($sql);
         
-            $queryPlanes->execute();
-            
-            //henter result set
-            $resultSet = $queryPlanes->get_result();
-            
-            $fly =  $resultSet->fetch_all();
-            
-            //Error logging
-            if($queryPlanes == false){
-                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
-            }
-            
-            $resultSet->free();
-            $queryPlanes->close();
-            $db_connection->close(); 
-            
-            return $fly;
-        } 
-
-
             public function GetPlane($flyId, $logg){
             include (realpath(dirname(__FILE__)).'/db.php');;
             
@@ -166,17 +142,17 @@ class Planes {
             include (realpath(dirname(__FILE__)).'/db.php');;
              $listBox = "";
             
-            $sql="SELECT flyId, flyNr, flyModell from fly";
+            $sql="SELECT flyId, flyNr, flyModell, type from fly";
             
             $queryPlanes = $db_connection->prepare($sql);
             
             $queryPlanes->execute();
 
-            $queryPlanes->bind_result($id, $flyNr, $flyModell);
+            $queryPlanes->bind_result($id, $flyNr, $flyModell, $flyType);
                         
             while ($queryPlanes->fetch()) {
                 
-                 $listBox .= "<option value=".$id. ">ID:".$id." Flynr:".$flyNr." Modell:".$flyModell."</option>";
+                 $listBox .= "<option value=".$id. ">".$flyModell." - ".$flyType." (".$flyNr.")</option>";
             }
             
             //$htmlSelect .= '</select>';
@@ -228,97 +204,31 @@ class Planes {
             return $affectedRows;
         }
 
-}
-
-class Destination {
-
-    public function ShowAllDestinations() {
-
-        include (realpath(dirname(__FILE__)).'/db.php');;
-         $html =  '';
-         $id = '';
-        //CSS Styling
-        $oddOrEven = TRUE;
-        $printOddOrEven = '';
-        
-       
-        //  db-tilkopling
-        $query = $db_connection->prepare("SELECT destinasjonId, flyplassId, navn, landskode, stedsnavn, geo_lat, geo_lng, endret  FROM destinasjon");
-        $query->execute();
-        $query->bind_result($dId, $fId, $navn, $landskode,$stedsnavn,$geo_lat,$geo_lng,$endret);
-
-
-
-        //henter data
-       
-        while ($query->fetch()) {
-
-
-            if($oddOrEven){
-                $oddOrEven = FALSE;
-                $printOddOrEven = 'even';
-            } 
-            else {
-                $oddOrEven = TRUE;
-                $printOddOrEven = 'odd';
-            }
-
-            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$dId.'</td><td>'.$fId.'</td><td>'.$navn.'</td><td>'.$landskode.'</td><td>'.$stedsnavn.'</td><td>'.$geo_lat.'</td><td>'.$geo_lng.'</td>
-            <td>'.$endret.'</td><td><a href="./Airport/airportsAdd.php">Nytt fly</a> | <a href="./Airport/airportsEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne flyplassen?\')" href="./Airport/delete.php?id='.$id.'">Slett</a> </td></tr>';
-
-        }
-        
-    
-        //Lukker databasetilkopling
-        $query->close();
-        $db_connection->close();
-        
-        return $html;
-
-    }
-
-    public function AddNewDestination($fId,$navn,$landskode,$stedsnavn,$geo_lat,$geo_lng) {
-        include('../php/db.php');
-        
-        //Bygger SQL statementt
-        $query = $db_connection->prepare("INSERT INTO destinasjon (flyplassId,navn,landskode,stedsnavn,geo_lat,geo_lng) VALUES (?,?,?,?,?,?)");
-        $query->bind_param('isssss', $fId,$navn,$landskode,$stedsnavn,$geo_lat,$geo_lng);  
-
-            if ( $query->execute()) { 
-                $affectedRows = $query->affected_rows;
-                $query->close();
-        $db_connection->close();
-
-         return $affectedRows;  
-         }
-     }
-
-     public function GetDestination($destinationId, $logg){
-            include (realpath(dirname(__FILE__)).'/db.php');;
+        public function GetPlaneDataset($logg){
+            include (realpath(dirname(__FILE__)).'/db.php');
             
             
-            $sql = "select * FROM destinasjon WHERE destinasjonId=?;";
+            $sql = "select * FROM fly;";
             
-            $queryDestination = $db_connection->prepare($sql);
-            
-            $queryDestination->bind_param('i', $destinationId);
-            $queryDestination->execute();
+            $queryPlanes = $db_connection->prepare($sql);
+        
+            $queryPlanes->execute();
             
             //henter result set
-            $resultSet = $queryDestination->get_result();
+            $resultSet = $queryPlanes->get_result();
             
-            $destinasjon =  $resultSet->fetch_all();
+            $fly =  $resultSet->fetch_all();
             
             //Error logging
-            if($queryDestination == false){
+            if($queryPlanes == false){
                 $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
             }
             
             $resultSet->free();
-            $queryDestination->close();
+            $queryPlanes->close();
             $db_connection->close(); 
             
-            return $destinasjon;
+            return $fly;
         } 
 
 
@@ -351,6 +261,8 @@ class Destination {
             return $destinasjon;
         } 
 }
+
+
 
 class Airport {
   
@@ -581,6 +493,7 @@ class Airport {
             
             return $affectedRows;
         }
+        
     
 }
 
