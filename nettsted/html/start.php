@@ -40,6 +40,7 @@
     
     if($innloggetBruker){
        $userInfo = $user->GetUserFromUsername($_SESSION['brukernavn']); 
+       
     }
     
     
