@@ -39,8 +39,12 @@ class Planes {
                 $printOddOrEven = 'odd';
             }
 
-            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyNr.'</td><td>'.$modell.'</td><td>'.$type.'
-            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td><td>'.$endret.'</td><td><a href="./Plane/planesAdd.php">Nytt fly</a> | <a href="../vedlikehold/Plane/planesEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette dette flyet?\')" href="./Plane/delete.php?id='.$id.'">Slett</a> </td></tr>';
+            $html .= '<tr role="row" class="'.$printOddOrEven.'">
+                <td>'.$flyNr.'</td>
+                <td>'.$modell.'</td>
+                <td>'.$type.'
+            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td>
+            <td><a href="./Plane/planesAdd.php">Nytt fly</a> | <a href="../vedlikehold/Plane/planesEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette dette flyet?\')" href="./Plane/delete.php?id='.$id.'">Slett</a> </td></tr>';
         
         }
         //Lukker databasetilkopling
@@ -166,17 +170,17 @@ class Planes {
             include (realpath(dirname(__FILE__)).'/db.php');;
              $listBox = "";
             
-            $sql="SELECT flyId, flyNr, flyModell from fly";
+            $sql="SELECT flyId, flyNr, flyModell, type from fly";
             
             $queryPlanes = $db_connection->prepare($sql);
             
             $queryPlanes->execute();
 
-            $queryPlanes->bind_result($id, $flyNr, $flyModell);
+            $queryPlanes->bind_result($id, $flyNr, $flyModell, $flyType);
                         
             while ($queryPlanes->fetch()) {
                 
-                 $listBox .= "<option value=".$id. ">ID:".$id." Flynr:".$flyNr." Modell:".$flyModell."</option>";
+                 $listBox .= "<option value=".$id. ">".$flyModell." - ".$flyType." (".$flyNr.")</option>";
             }
             
             //$htmlSelect .= '</select>';

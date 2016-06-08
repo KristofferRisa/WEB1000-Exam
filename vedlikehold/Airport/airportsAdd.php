@@ -26,7 +26,7 @@ include('../php/addAirportFormInput.php');
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Flyplasser</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Legg til flyplass</li>
+      <li class="active">NyFlyplass</li>
     </ol>
   </section>
  <!-- Main content -->

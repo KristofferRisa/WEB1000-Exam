@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Flyplasser</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Endre flyplass</li>
+      <li class="active">EndreFlyplass</li>
     </ol>
   </section>
  <!-- Main content -->
