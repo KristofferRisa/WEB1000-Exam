@@ -31,7 +31,7 @@ $(function () {
     
     //Flere formater: http://eternicode.github.io/bootstrap-datepicker/
     $("#datepicker,#aktivFra,#aktivTil").datepicker({
-        format: "dd/mm/yyyy",
+        format: "yyyy/mm/dd",
         startView: 1,
         endDate: "-15y"
     });
@@ -46,7 +46,7 @@ $(function () {
       todayHighlight: true,
       dayNamesMin: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat','Sun'],
       autoclose: true,
-      format: 'dd/mm/yyyy'
+      format: 'yyyy/mm/dd'
   });
 
 

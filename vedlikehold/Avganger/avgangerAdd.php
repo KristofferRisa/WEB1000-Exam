@@ -11,6 +11,8 @@ include('../php/Plane.php');
 
 include('../php/Destinasjon.php');
 
+include('../php/AdminClasses.php');
+
 
 $fly = new Planes;
 $dataFly= $fly -> GetPlaneDataset($logg);
@@ -130,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                         echo $html->GenerateSearchSelectionbox($dataFly,'flyId','flyId','Velg flyID',''); 
                         ?>
 
-                  </div>
+                  
                   </div>
                   </div>
 
@@ -174,15 +176,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             <div class="form-group"  data-toggle="tooltip" data-placement="top" value="<?php echo @$_POST['direkte']?>" >
                   <label for="direkte" class="col-sm-2 control-label" >Avgang direkte</label>
 
-                  <div class="col-sm-1">
+                  <div class="col-sm-5">
                     <label class="radio-inline">
-                      <input type="radio" name="direkte">Ja
+                      <input type="radio" name="direkte" checked value="Ja">Ja
                     </label>
                   </div>
 
-                  <div class="col-sm-1">
+                  <div class="col-sm-5">
                     <label class="radio-inline">
-                      <input type="radio" name="direkte">Nei
+                      <input type="radio" name="direkte" value ="Nei">Nei
                     </label>
                   </div>
 
@@ -398,7 +400,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     <input type="text" class="form-control" id="fastpris" name="fastpris" placeholder="fastpris" value="<?php echo @$_POST['fastpris'] ?>" onsubmit="return validerRegistrerAvgang()">
                   </div>
                 </div>
-                
+                </div>
 
 
               <!-- /.box-body -->
