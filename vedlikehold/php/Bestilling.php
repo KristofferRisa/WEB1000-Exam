@@ -9,7 +9,7 @@
         }
       
         //Lager en bestilling rad og setter inn billetter pr reisene
-        public function NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,$antallVoksne, $antallBarn, $antallBebis, $reisende, $avgangId, $logg)
+        public function NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,$antallVoksne, $antallBarn, $antallBebis, $reisende, $avgangId, $returavgangID, $logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
@@ -45,6 +45,7 @@
                 $sqlBillett = "select @bestillingId := max(bestillingId) from bestilling;";
 
                 
+                //Utreise
                 foreach ($reisende as $key => $person) {
                     $sqlBillett .= "
                     
@@ -53,6 +54,21 @@
                     INSERT INTO billett (bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje)  
                     VALUES  (@bestillingId, '".$avgangId."',  @seteId, '".$person['Fornavn']."' , '".$person['Etternavn']."' , '".$person['Kjonn']."', ".$person['Bagasje'].");";
                 }
+                
+                if ($returavgangID != 0) 
+                {
+                    $logg->Ny('Fant retur avgang ID '.$returavgangID);
+                    $logg->Ny('Lager billetter for hjem reise');
+                    foreach ($reisende as $key => $person) {
+                    $sqlBillett .= "
+                    
+                    select @seteID := MAX(seteId) from LedigePlasser where avgangId = '".$returavgangID."';
+                    
+                    INSERT INTO billett (bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje)  
+                    VALUES  (@bestillingId, '".$returavgangID."',  @seteId, '".$person['Fornavn']."' , '".$person['Etternavn']."' , '".$person['Kjonn']."', ".$person['Bagasje'].");";
+                    }
+                }
+                
                 
                 $logg->Ny('Generer SQL for billetter, SQL: '.$sqlBillett);
                 

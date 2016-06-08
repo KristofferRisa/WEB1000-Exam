@@ -332,7 +332,7 @@
             
               <div class="row">
                 <div class="col-md-12">
-                  <form type="hidden" method="GET" id="bestillskjema" action="order.php" >
+                  <form type="hidden" method="GET" id="bestillskjema" action="bestill.php" >
                     <input type="hidden" name="reise" id="avgangIdReise" >
                     <input type="hidden" name="retur" id="avgangIdRetur" >
                     <input type="hidden" name="antall" id="antall" >
@@ -437,7 +437,7 @@ function avreiseBestilling(element){
   
   //sjekker om det finnes retur alternativer, dersom ikke kan man aktivere bestillingsknappen
   if($('.list-group-item.retur.active').length
-      || $('.list-group-item.retur').length == 0){
+      || $('.list-group-item.retur').length == 0 ){
     $('#bestilling').removeAttr('disabled');
   } 
 }
@@ -465,7 +465,8 @@ function hentBillettInfo(){
   
   var retur = $('.list-group-item.retur.active');
   
-  if(retur.length == 0){
+  if(retur.length == 0
+      && $('.list-group-item.retur').length > 0){
     //Sender ikke skjema og deaktivere bestill knapp
       $("#bestillskjema").submit(function(){
         return false;

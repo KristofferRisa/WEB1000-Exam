@@ -41,7 +41,7 @@ if (!$innloggetBruker && !@$_GET['innlogget'] && !$_POST)
                         Få alle fordelene med å være innlogget, skaff deg en konto hos oss i dag!
                     </div>
                     <div class="panel-footer">
-                        <a class="btn btn-primary" href="./register.php?returnUrl=<?php echo $_SERVER['REQUEST_URI']; ?>">Registre ny bruker</a>
+                        <a class="btn btn-primary" href="./registrer.php?returnUrl=<?php echo $_SERVER['REQUEST_URI']; ?>">Registre ny bruker</a>
                     </div>
                 </div>
             </div>
@@ -91,17 +91,26 @@ if($_GET
         
         //Avgang
         $utreiseInfo = $reiseInfo = $avganger->GetAvgang($fra, $logg);
-        print_r($utreiseInfo);
-         echo '<br>';
-        print_r($userInfo);
+        // print_r($utreiseInfo);
+        //  echo '<br>';
+        // print_r($userInfo);
         //FRA
         $utreiseFra = $dest->GetDestinasjon($reiseInfo[0][1],$logg);
-        // print_r($utreiseFra);
+        // $utreise($utreiseFra);
         // echo '<br>';
         //TIL
         $utreiseTil = $dest->GetDestinasjon($reiseInfo[0][2],$logg);
-        // print_r($utreiseTil);
+        // $utreise($utreiseTil);
         // echo '<br>';
+        if(@$_GET['retur'])
+        {
+            
+            //HENTER HJEMREISE INFO
+            $hjemreiseInfo = $avganger->GetAvgang($til, $logg);
+            $hjemreiseFra = $dest->GetDestinasjon($hjemreiseInfo[0][1],$logg);
+            $hjemreiseTil = $dest->GetDestinasjon($hjemreiseInfo[0][2],$logg); 
+        }
+        
         
         //Vis Skjema for bestilling
         if(!$_POST){
@@ -113,6 +122,7 @@ if($_GET
                 <div class="row top-buffer">
                     <h1>Utreise</h1>
                     <hr>
+                    <!--UTREISE FLY DETALJER-->
                     <div class="form-group">
                         <label for="flyplassID" class="col-xs-2 control-label billett">Fra:</label>
                         <div class="col-xs-4">
@@ -125,9 +135,9 @@ if($_GET
                             <?php echo  $utreiseTil[0][1]; ?>
                         </div>
                     </div>
-                   
                 </div>
                 
+                <!--UTREISE DATO DETALJER-->
                 <div class="row">
                    <div class="form-group">
                         <label for="flyplassID" class="col-xs-2 control-label billett">Dato:</label>
@@ -143,15 +153,71 @@ if($_GET
                     </div> 
                 </div>
 
+                <!--UTREISE PRIS-->
                 <div class="row">
                    <div class="form-group">
                         <label for="flyplassID" class="col-xs-2 control-label billett">Pris:</label>
                         <div class="col-xs-4">
                             <i class="fa fa-dollar"></i>
-                            <?php echo  $utreiseInfo[0][7]; ?>
+                            <?php echo  $utreiseInfo[0][7]*$antallReisende; ?>
                         </div>
                     </div> 
                 </div>
+                
+            <?php if(@$_GET['retur']) { ?>
+            
+                
+                <div class="row top-buffer">
+                    <h1>Hjemreise</h1>
+                    <hr>
+                    
+                    <!--HJEMREISE INFO -->
+                    <div class="form-group">
+                        <label for="flyplassID" class="col-xs-2 control-label billett">Fra:</label>
+                        <div class="col-xs-4">
+                            <input type="hidden" disabled name="returfra"  value="<?php echo $fra; ?>">
+                            <?php echo  $hjemreiseFra[0][1]; ?>
+                        </div>
+                        <div class="col-xs-4">
+                            <input type="hidden" disabled name="returtil"  value="<?php echo $til; ?>">
+                            <label>til: </label>
+                            <div class=""><?php echo  $hjemreiseTil[0][1]; ?></div>
+                        </div>
+                    </div>
+                    
+                    
+                    <!--HJEMREISE DATO DETALJER-->
+                    <div class="row">
+                    <div class="form-group">
+                            <label for="flyplassID" class="col-xs-2 control-label billett">Dato:</label>
+                            <div class="col-xs-4">
+                                <input type="hidden" disabled name="returdato"  value="<?php echo $hjemreiseInfo[0][3]; ?>">
+                                <?php echo  $hjemreiseInfo[0][3]; ?>
+                            </div>
+                            <div class="col-xs-6">
+                                <label>kl:</label>
+                                <?php echo  $hjemreiseInfo[0][5]; ?> (reisetid: <?php echo  $hjemreiseInfo[0][6]; ?>)
+                            </div>
+                            
+                        </div> 
+                    </div>
+
+                    <!--HJEMRISER PRIS-->
+                    <div class="row">
+                    <div class="form-group">
+                            <label for="flyplassID" class="col-xs-2 control-label billett">Pris:</label>
+                            <div class="col-xs-4">
+                                <i class="fa fa-dollar"></i>
+                                <?php echo  $hjemreiseInfo[0][7]*$antallReisende; ?>
+                            </div>
+                        </div> 
+                    </div>
+                    
+                   
+                </div>
+                
+             <?php } ?>
+                
                 
                 <?php 
                 if(!@$innloggetBruker){ ?>
@@ -196,12 +262,11 @@ if($_GET
                     </div>
                <?php  } ?>
                 
-                    <?php
-                    //Start LOOP skjema
-                    for ($i=1; $i <= $antallReisende; $i++) { ?>
-                
+        <?php for ($i=1; $i <= $antallReisende; $i++) { //Start LOOP skjema ?>
+    
                 <div class="row">
-                    <h2>Kunde info passasjer <?php echo $i; ?> </h2>    
+                    <h2>Kunde info passasjer <?php echo $i; ?> </h2>  
+                    <hr>  
                    <div class="form-group">
                         <label for="flyplassID" class="col-sm-2 control-label">Fornavn</label>
                         <div class="col-sm-6">
@@ -245,25 +310,15 @@ if($_GET
                     </div> 
                 </div>
                 
-                <?php if(@$_GET['avgangIdRetur']) { ?>
-                <!--Antall bagasje retur-->
-                <!--<div class="row">
-                   <div class="form-group">
-                        <label for="flyplassID" class="col-sm-2 control-label">Antall bagasje</label>
-                        <div class="col-sm-6">
-                            <select class="form-control select2 select2-hidden-accessible" name="bagasje<?php echo $i; ?>" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                <option value="0">Kun håndbagasje</option>
-                                <option value="1">1 kolli (100 NOK)</option>
-                                <option value="2">2 kolli (200 NOK)</option>
-                            </select>
-                        </div>
-                    </div> 
-                </div>-->
                 
-                <?php } ?>
             <?php } ?>
             
+            
+
+            
+            
                 <div class="row col-md-2 col-md-offset-6 top-buffer">
+                    <a href="./" class="btn btn-flat btn-link">Tilbake</a>
                     <input type="submit" class="btn btn-primary pull-right btn-flat" onclick="" value="Bestill">
                 </div>    
             </div>
@@ -283,7 +338,6 @@ if($_GET
         $bestillingsDato = date("Y-m-d H:i:s");
         $refNo = uniqid();
         $reiseDato=$reiseInfo[0][3];
-        $returDato = NULL; //Må fikses
         $antallVoksne = $antallReisende;
         $antallBarn = 0; // bør endres i databasen at det kun finnes reisende og bebis
         $antallBebis = $bebis;
@@ -314,17 +368,31 @@ if($_GET
             
         }
         
-        print_r($reisende);
+        // print_r($reisende);
         $ledig = $avganger->SjekkLedigKapasitetAvgangId($utreiseInfo[0][0],$antallReisende,$logg);
-        print_r($ledig);
+        
+        $returAvgangId = 0;
+        
+        
+        if(@$_GET['retur'])
+        {
+            
+            $ledigRetur = $avganger->SjekkLedigKapasitetAvgangId($_GET['retur'],$antallReisende,$logg); 
+            $returDato = $hjemreiseInfo[0][3];
+            $returAvgangId = $_GET['retur'];
+        } 
+        
+        // print_r($ledig);
         
         //Sjekker først om det fortsatt er ledige plasser på avgangen
-        if(@$ledig[0][1] >= $antallReisende){
+        if(@$ledig[0][1] >= $antallReisende && @$ledigRetur[0][1] >= $antallReisende)
+        {
             $result = $bestilling->NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,$antallVoksne
             , $antallBarn
             , $antallBebis
             , $reisende
             , $utreiseInfo[0][0]
+            , $returAvgangId
             ,$logg);
         
         
@@ -340,7 +408,7 @@ if($_GET
         
          ?>
         <div class="container">
-            <div class="row">
+            <div class="row top-buffer">
                 <div class="col-md-12">
                     <?php echo $response; ?>
                     <a href="./" class="btn btn-flat btn-link">Tilbake</a>

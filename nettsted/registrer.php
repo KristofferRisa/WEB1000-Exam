@@ -1,10 +1,6 @@
 <?php 
-
-
 $title = 'Bjarum Airlines - opprett bruker';
 include('./html/start.php');
-include('./html/header.html');
-include('./html/nav.html');
 
 //Felles objekter
 $responseMsg = "";
@@ -113,12 +109,21 @@ if($_POST){
           if($result == 1){
               $responseMsg .= $html->successMsg("Ny bruker ble opprettet.");
               $logg->Ny('Ny bruker ble opprettet!');
+           
+              if ($user->Login($brukernavn, $pass1,$logg)) {
+              $user->setUserCookie($brukernavn);
               
-              $brukernavn = "";
-              $mail = "";
-              $fornavn = "";
-              $etternavn = "";
-              $tlf = "";
+              $logg->Ny('Logget inn', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']), $brukernavn);
+              $_SESSION["brukernavn"] = $brukernavn;
+                    
+                if($_GET['returnUrl']){
+                    $url = $_SERVER['QUERY_STRING'];
+                    $url = substr($url, 10);
+
+                    header("Location: ".$url);
+                    exit; 
+                }
+              }
               
           }
           else {
@@ -134,6 +139,12 @@ if($_POST){
     }
     
 }
+
+
+
+include('./html/header.html');
+include('./html/nav.html');
+
 ?>
 <div class="container">
 <div class="row">
