@@ -1,5 +1,5 @@
 <?php 
-$title = "FLY - ENDRE - Admin";
+$title = "FLYPLASS - ENDRE - Admin";
 
 include('../html/start.php');
 
@@ -16,67 +16,48 @@ if(@$_GET['id']){
   //returnerer en array
   //brukes av både GET OG POST    
   $id = $_GET['id'];
-  $fly = new Planes;
-  $flyinfo = $fly->GetPlane($id,$logg);
-
-  print_r($flyinfo);
- 
+  $destinasjon = new Destination;
+  $destinationinfo = $destination->GetDestination($id,$logg);
+  
+  print_r($destinationinfo);
+  
 
 }
 
 
-$flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $errMsg = "";
+$flyplassNavn= "";
 
-  $errorMelding = "";
-
+$errorMelding = "";
 // Validering av skjemainput
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-  if ( empty($_POST["flyNr"]) || empty($_POST["flyModell"]) || empty($_POST["flyType"]) || empty($_POST["flyAntallPlasser"]) || empty($_POST["flyAarsmodell"]) ) {
+  if ( empty($_POST["flyplassNavn"]) ) {
 
-    $errorMelding = $html->errorMsg("Alle felt må fylles ut!");
+    $errorMelding = $html->errorMsg("Error! </strong>Alle felt må fylles ut.");
 
-}
-
-
-elseif (filter_var($_POST["flyAntallPlasser"], FILTER_VALIDATE_INT) === false || strlen($_POST["flyAntallPlasser"]) > 11 ) {
-  $errorMelding =  $html->errorMsg("Antall plasser må kun være siffer og maks 11 tegn tegn!");
-
-}
-
-elseif (strlen($_POST["flyNr"]) > 45 || strlen($_POST["flyModell"]) > 45 ) {
-  $errorMelding =  $html->errorMsg("Modell, type og flynr må være maks 45 tegn!");
-}
-elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
-  $errorMelding = $html->errorMsg("Årsmodell må bestå av 4 siffer!");
-}
-
-  
-  else {
-
+  } elseif (strlen($_POST["flyplassNavn"]) > 45 ) {
+    $errorMelding = $html->successMsg("Navn må være maks 45 tegn.");
+  } else {
     $valider = new ValiderData;
 
-    $flyNr = $valider->valider($_POST["flyNr"]);
-    $flyModell = $valider->valider($_POST["flyModell"]);
-    $flyType = $valider->valider($_POST["flyType"]);
-    $flyAntallPlasser = $valider->valider($_POST["flyAntallPlasser"]);
-    $flyAarsmodell = $valider->valider($_POST["flyAarsmodell"]);
+    $flyplassNavn = $valider->valider($_POST["flyplassNavn"]);
 
-    $result = $fly->UpdatePlane($id, $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$logg );
+    $airport = new Airport; 
 
-    echo $result;
+    $result = $airport->UpdateAirport($id,$flyplassNavn,$logg);
 
-     $flyinfo = $fly->GetPlane($id,$logg);
+    //Henter oppdatert airport info fra databasen
+    $airportinfo = $airport->GetAirport($id,$logg);
 
     if($result == 1){
       //Success
-             $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
+             $errorMelding = "<div class='alert alert-success'><strong>Info! </strong>Data lagt inn i database.</div>";
 
     } else {
       //not succesfull
-             $errorMelding = $html->errorMsg("Data ble ikke lagt inn i databasen.!");
+             $errorMelding = "<div class='alert alert-warning'><strong>Error! </strong>Data ble ikke lagt inn i database.</div>";
 
     }
 
@@ -84,8 +65,8 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
 
 }
 
-
 ?>
+
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -93,23 +74,19 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
   <section class="content-header">
 
       <h1>
-        Endre fly data
-          <small>Her kan du endre et registrere fly i databasen</small>
+        Endre destinasjon
+        <small>Her kan du endre destinasjon i databasen</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Fly og seteoversikt</li>
+      <li>Destinasjoner</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Endre fly</li>
+      <li class="active">Endre destinasjon</li>
     </ol>
   </section>
-
-
-
  <!-- Main content -->
   <section class="content">
 
-   
 
     <!-- Your Page Content Here -->
 
@@ -123,71 +100,53 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
   //Viser skjema dersom det både er en GET request med querstring id
   if($_GET && $_GET['id']){ ?>
 
-
             <div class="box-header with-border"><?php echo $errorMelding; ?><div id="melding"></div>
-
-             
            <h3 class="box-title">Skjema</h3>
             </div>
             <!-- /.box-header -->
 
 
-
             <!-- form start -->
-
-            <form method="POST" class="form-horizontal" onsubmit="return validerRegistrerFly()">
+            <form method="post" class="form-horizontal" onsubmit="return validerRegistrerFlyplass()">
               <div class="box-body">        
 
-                      <input type="hidden" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>">
-
-
-                <div class="form-group">
-                  <label for="flyNr" class="col-sm-2 control-label">Flynr</label>
+                <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut flyplass land">
+                  <label for="flyplassNavn" class="col-sm-2 control-label" >Navn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$flyinfo[0][1] ?>">
+                    <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$airportinfo[0][1]?>">
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label for="flyModell" class="col-sm-2 control-label">Flymodell</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$flyinfo[0][2] ?>">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="flyType" class="col-sm-2 control-label">Flytype</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$flyinfo[0][3] ?>">
-                  </div>
-                </div>
+                 
+  </div>
 
-                <div class="form-group">
-                  <label for="flyAntallPlasser" class="col-sm-2 control-label">Antall sitteplasser</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$flyinfo[0][4] ?>">
-                     </div>
-                </div>
+                  <?php 
+                  /*
+                  include('../php/TabelListBox.php');
+                  $tabell = new TableListBox;
 
-                <div class="form-group">
-                  <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$flyinfo[0][5] ?>">
-                  </div>
-                </div>
+                  print( $tabell->makeListBox() );
+                  */
+
+                  ?>
+
 
               <!-- /.box-body -->
               <div class="box-footer">
                 <div class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
+                <button type="submit" class="btn btn-info pull-right">Legg til</button>
 
-                <button type="submit" class="btn btn-info pull-right">Endre</button>
               </div>
+              
               <!-- /.box-footer -->
             </form>
 
-            <?php } 
+
+                        <?php } 
              else {
     //lister en select box med flyplass 
 ?>
+
 <!-- Your Page Content Here -->
 <form class="form-horizontal" method="GET" id="redigerFly">
     <div class="row">
@@ -199,7 +158,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
                <div class="form-group col-md-6">
                   <select class="form-control select2 select2-hidden-accessible" name="id" style="width: 100%;" tabindex="-1" aria-hidden="true">
               
-                      <?php $planeselect = new Planes; print($planeselect-> PlaneSelectOptions()); ?>
+                      <?php $airportselect = new Airport; print($airportselect-> AirportSelectOptions()); ?>
                 
                   </select>
               </div>
@@ -214,29 +173,22 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
 
 
 <?php } ?>
-            
           </div>
           <!-- /.box -->
 
-
       </div>
-
    
       <!-- /.col -->
     </div>
 
-
   </section>
   <!-- /.content -->
- 
   
   </div>
   <!-- /.content-wrapper -->
   
 
 <?php
-
-
 include('../html/admin-slutt.html');
 
 include('../html/script.html');

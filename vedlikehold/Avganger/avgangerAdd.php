@@ -9,6 +9,10 @@ include('../html/admin-start.html');
 
 include('../php/AdminClasses.php');
 
+$fly = new Planes;
+$data= $fly -> GetPlaneDataset($logg);
+print_r($data);
+
 ?>
 
 // Validering og innsending av skjemadata
@@ -118,13 +122,17 @@ elseif (strlen($_POST["dato"]) > 5 || (strlen($_POST["reiseTid"]) >5 || strlen($
             <div class="box-body">        
 
 
+                 <div class="form-group">
+                  <label for="avgangFlyId" class="col-sm-2 control-label">Fly ID</label>
+                  <div class="col-sm-10">
+                      <?php 
 
-              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fly ID">
-                  <label for="avgangFlyId" class="col-sm-2 control-label" >FlyId</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangFlyId" name="avgangFlyId" placeholder="Fly ID" value="<?php echo @$_POST['avgangFlyId'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
-                </div>
-              </div>
+                        echo $html->GenerateSearchSelectionbox($data,'flyID','flyID','Velg flyID',''); 
+                        ?>
+
+                  </div>
+                  </div>
+                  
 
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fra destinasjon ID">
                   <label for="avgangFraDestId" class="col-sm-2 control-label" >Fra destinasjon ID</label>

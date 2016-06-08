@@ -8,7 +8,7 @@
             
         }
       
-        public function NewDestinasjon($flyplassId, $navn, $land, $landskode, $stedsnavn, $geo_lat, $geo_lng)
+        public function NewDestinasjon($flyplassId, $navn, $landskode, $stedsnavn, $geo_lat, $geo_lng)
         {   
             include (realpath(dirname(__FILE__)).'/db.php');;
             
@@ -16,16 +16,16 @@
          
             
             $sql = "
-                INSERT INTO destinasjon (flyplassId, navn, land, landskode, stedsnavn, geo_lat, geo_lng)
-                            values  (?, ?, ?, ?, ?, ?, ?)";
+                INSERT INTO destinasjon (flyplassId, navn, landskode, stedsnavn, geo_lat, geo_lng)
+                            values  (?, ?, ?, ?, ?, ?)";
             
             $insertDestinasjon = $db_connection->prepare($sql);
-            $insertDestinasjon->bind_param('sssssss'
-                                    , $flyplassId, $navn, $land, $landskode, $stedsnavn, $geo_lat, $geo_lng);
+            $insertDestinasjon->bind_param('ssssss'
+                                    , $flyplassId, $navn, $landskode, $stedsnavn, $geo_lat, $geo_lng);
                                     
             $insertDestinasjon->execute();
             $affectedrows=$insertDestinasjon->affected_rows;
-           
+        
             
             $logg->Ny('Rows affected: '.$affectedrows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
 
@@ -49,7 +49,7 @@
         
         
         // OPPDATERER EN DESTINASJON
-        public function UpdateDestinasjon ($flyplassId, $navn, $land, $landskode, $stedsnavn, $geo_lat, $geo_lng)
+        public function UpdateDestinasjon ($flyplassId, $navn, $landskode, $stedsnavn, $geo_lat, $geo_lng)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
@@ -59,8 +59,8 @@
             WHERE destinasjonId = ?;";
             
             $insertDestinasjon = $db_connection->prepare($sql);
-            $insertDestinasjon->bind_param('sssssss'
-                                    , $flyplassId, $navn, $land, $landskode, $stedsnavn, $geo_lat, $geo_lng);
+            $insertDestinasjon->bind_param('ssssss'
+                                    , $flyplassId, $navn, $landskode, $stedsnavn, $geo_lat, $geo_lng);
                                                                         
             $insertDestinasjon->execute();
             $affectedRows = $insertDestinasjon->affected_rows;

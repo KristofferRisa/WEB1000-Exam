@@ -68,7 +68,7 @@ class Planes {
     }
 
     public function UpdatePlane($flyId,$flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell, $logg){
-            include (realpath(dirname(__FILE__)).'/db.php');;
+            include (realpath(dirname(__FILE__)).'/db.php');
             
             $sql = "
             update fly 
@@ -105,7 +105,35 @@ class Planes {
             
             return $affectedRows;
         }
+
+            public function GetPlaneDataset($logg){
+            include (realpath(dirname(__FILE__)).'/db.php');
+            
+            
+            $sql = "select * FROM fly;";
+            
+            $queryPlanes = $db_connection->prepare($sql);
         
+            $queryPlanes->execute();
+            
+            //henter result set
+            $resultSet = $queryPlanes->get_result();
+            
+            $fly =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryPlanes == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryPlanes->close();
+            $db_connection->close(); 
+            
+            return $fly;
+        } 
+
+
             public function GetPlane($flyId, $logg){
             include (realpath(dirname(__FILE__)).'/db.php');;
             
@@ -215,9 +243,9 @@ class Destination {
         
        
         //  db-tilkopling
-        $query = $db_connection->prepare("SELECT destinasjonId, flyplassId, navn, land, landskode, stedsnavn, geo_lat, geo_lng, endret  FROM destinasjon");
+        $query = $db_connection->prepare("SELECT destinasjonId, flyplassId, navn, landskode, stedsnavn, geo_lat, geo_lng, endret  FROM destinasjon");
         $query->execute();
-        $query->bind_result($dId, $fId, $navn, $land,$landskode,$stedsnavn,$geo_lat,$geo_lng,$endret);
+        $query->bind_result($dId, $fId, $navn, $landskode,$stedsnavn,$geo_lat,$geo_lng,$endret);
 
 
 
@@ -235,7 +263,7 @@ class Destination {
                 $printOddOrEven = 'odd';
             }
 
-            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$dId.'</td><td>'.$fId.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$landskode.'</td><td>'.$stedsnavn.'</td><td>'.$geo_lat.'</td><td>'.$geo_lng.'</td>
+            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$dId.'</td><td>'.$fId.'</td><td>'.$navn.'</td><td>'.$landskode.'</td><td>'.$stedsnavn.'</td><td>'.$geo_lat.'</td><td>'.$geo_lng.'</td>
             <td>'.$endret.'</td><td><a href="./Airport/airportsAdd.php">Nytt fly</a> | <a href="./Airport/airportsEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne flyplassen?\')" href="./Airport/delete.php?id='.$id.'">Slett</a> </td></tr>';
 
         }
@@ -249,12 +277,12 @@ class Destination {
 
     }
 
-    public function AddNewDestination($fId,$navn,$land,$landskode,$stedsnavn,$geo_lat,$geo_lng) {
+    public function AddNewDestination($fId,$navn,$landskode,$stedsnavn,$geo_lat,$geo_lng) {
         include('../php/db.php');
         
         //Bygger SQL statementt
-        $query = $db_connection->prepare("INSERT INTO destinasjon (flyplassId,navn,land,landskode,stedsnavn,geo_lat,geo_lng) VALUES (?,?,?,?,?,?,?)");
-        $query->bind_param('issssss', $fId,$navn,$land,$landskode,$stedsnavn,$geo_lat,$geo_lng);  
+        $query = $db_connection->prepare("INSERT INTO destinasjon (flyplassId,navn,landskode,stedsnavn,geo_lat,geo_lng) VALUES (?,?,?,?,?,?)");
+        $query->bind_param('isssss', $fId,$navn,$landskode,$stedsnavn,$geo_lat,$geo_lng);  
 
             if ( $query->execute()) { 
                 $affectedRows = $query->affected_rows;
@@ -264,6 +292,34 @@ class Destination {
          return $affectedRows;  
          }
      }
+
+     public function GetDestination($destinationId, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            
+            $sql = "select * FROM destinasjon WHERE destinasjonId=?;";
+            
+            $queryDestination = $db_connection->prepare($sql);
+            
+            $queryDestination->bind_param('i', $destinationId);
+            $queryDestination->execute();
+            
+            //henter result set
+            $resultSet = $queryDestination->get_result();
+            
+            $destinasjon =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryDestination == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryDestination->close();
+            $db_connection->close(); 
+            
+            return $destinasjon;
+        } 
 }
 
 class Airport {

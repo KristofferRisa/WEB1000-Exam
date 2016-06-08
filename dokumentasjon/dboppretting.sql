@@ -28,7 +28,6 @@ CREATE TABLE destinasjon
     destinasjonId INT NOT NULL AUTO_INCREMENT,
     flyplassId INT NOT NULL,
     navn VARCHAR(500) NOT NULL,
-    land varchar(500) NOT NULL, 
     landskode CHAR(2) NOT NULL,
     stedsnavn VARCHAR(100) NOT NULL,
     geo_lat DECIMAL (11, 8),
