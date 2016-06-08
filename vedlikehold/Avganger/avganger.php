@@ -47,16 +47,16 @@ $errorMelding = "";
                   <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                     <thead>
                       <tr role="row">
-                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="avgangID">ID</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgFlyId">Fly Id</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgfraDestId">Fra destinasjon ID</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgTilDestId">Til destinasjon ID</th>
+                        <!--<th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="avgangID">ID</th>-->
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgFlyId">Fly</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgfraDestId">Fra </th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgTilDestId">Til</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgDato">Dato</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgDirekte">Direkte</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgReiseTid">Reise tid</th>
+                        <!--<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgDirekte">Direkte</th>-->
+                        <!--<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgReiseTid">Reise tid</th>-->
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgkl">Klokkeslett</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="avgfastpris">Fastpris</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="endret">Endret</th>
+                        <!--<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="endret">Endret</th>-->
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="hendelser">Handlinger</th>
   
 

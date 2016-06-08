@@ -144,12 +144,24 @@
             $oddOrEven = TRUE;
             $printOddOrEven = '';
             
+            $sql = 'SELECT 
+    a.avgangId
+    ,f.flynr
+    ,d.navn as Fra
+    ,d2.navn as Til
+    , dato
+    , klokkeslett
+    , fastpris
+FROM avgang a
+INNER JOIN fly f on f.flyId = a.flyId
+LEFT JOIN destinasjon d on d.destinasjonId = a.fraDestId
+LEFT JOIN destinasjon d2 on d2.destinasjonId = a.tilDestId;';    
         
             //  db-tilkopling
-            $query = $db_connection->prepare
-            ("SELECT avgangId, flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris, endret FROM avgang");
+            //$query = $db_connection->prepare("SELECT avgangId, flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris, endret FROM avgang");
+            $query = $db_connection->prepare($sql);
             $query->execute();
-            $query->bind_result($id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris, $endret);
+            $query->bind_result($id,$flynr, $fra, $til, $dato, $klokkeslett, $fastpris);
             
             //henter data
             while ($query->fetch()) {
@@ -164,9 +176,15 @@
                     $printOddOrEven = 'odd';
                 }
 
-                $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyId.'</td><td>'.$fraDestId.'</td><td>'.$tilDestId.'</td><td>'.$dato.'</td>
-                <td>'.$direkte.'</td><td>'.$reiseTid.'</td><td>'.$klokkeslett.'</td><td>'.$fastpris.'</td><td>'.$endret.'</td><td>
-                <a href="./Avganger/avgangerAdd.php">Ny avgang</a> | <a href="./Avganger/avgangerEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne avgangen?\')" href="./Avganger/delete.php?id='.$id.'">Slett</a> </td></tr>';
+                $html .= '<tr role="row" class="'.$printOddOrEven.'">
+                    <td>'.$flynr.'</td>
+                    <td>'.$fra.'</td>
+                    <td>'.$til.'</td>
+                    <td>'.$dato.'</td>
+                    <td>'.$klokkeslett.'</td>
+                    <td>'.$fastpris.'</td>
+                    <td>
+                    <a href="./Avganger/avgangerAdd.php">Ny avgang</a> | <a href="./Avganger/avgangerEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne avgangen?\')" href="./Avganger/delete.php?id='.$id.'">Slett</a> </td></tr>';
 
             }
             return $html;
