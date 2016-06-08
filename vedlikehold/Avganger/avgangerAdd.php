@@ -20,23 +20,13 @@ print_r($dataFly);
 
 $destinasjon = new Destinasjon;
 $dataDest= $destinasjon -> GetDestDataset($logg);
-print_r($dataDest);
-
-
-
-// Validering og innsending av skjemadata
-
-
+//print_r($dataDest);
 
 $errorMelding = "";
 
 // Validering av skjemainput
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
-
 {
-
-
   if (empty($_POST["flyId"]) ||  empty($_POST["fraDestId"]) ||  empty($_POST["tilDestId"]) ||
        empty($_POST["dato"]) ||  empty($_POST["direkte"]) ||  empty($_POST["reiseTid"]) ||  empty($_POST["klokkeslett"]) ||
        empty($_POST["fastpris"]) ) 

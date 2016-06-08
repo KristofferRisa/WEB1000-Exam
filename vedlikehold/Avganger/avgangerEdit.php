@@ -8,6 +8,7 @@ include('../html/header.html');
 include('../html/admin-start.html');
 include('../php/Plane.php');
 
+include('../php/Destinasjon.php');
 // Validering og innsending av skjemadata
 include('../php/AdminClasses.php');
 include('../php/Avgang.php');
@@ -15,7 +16,8 @@ include('../php/Avgang.php');
 $fly = new Planes;
 $dataFly= $fly -> GetPlaneDataset($logg);
 $avgang = new Avgang();
-
+$destinasjon = new Destinasjon;
+$dataDest = $destinasjon -> GetDestDataset($logg);
 
 if(@$_GET['id']){
   
@@ -24,15 +26,8 @@ if(@$_GET['id']){
   $id = $_GET['id'];
 
   $avgangInfo = $avgang->GetAvgang ($id, $logg);
-  
-
-  
-  
-
+ 
 }
-
-
-$avgang= "";
 
 $errorMelding = "";
 // Validering av skjemainput
@@ -51,8 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   
   
   else {
-        $valider = new ValiderData;
-
+        
+    $valider = new ValiderData;
 
     $flyId = $valider->valider($_POST["flyId"]);
     $fraDestId = $valider->valider($_POST["fraDestId"]);
@@ -63,16 +58,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $klokkeslett = $valider->valider($_POST["klokkeslett"]);
     $fastpris = $valider->valider($_POST["fastpris"]);
 
-
-
-
-    $result = $avgang->UpdateAvgang(
-      $id, 
-    $flyId,
-    $fraDestId, $tilDestId
-    , $dato, $direkte, $reiseTid, $klokkeslett, $fastpris, $logg);
+    $result = $avgang->UpdateAvgang($id, $flyId,$fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris, $logg);
     //Henter oppdatert avgang info fra databasen
-
+    $avgangInfo = $avgang->GetAvgang ($id, $logg);
 
     if($result == 1){
       //Success
@@ -87,10 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
 }
-
-
-
-
 ?>
 
 
@@ -142,8 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                <div class="col-sm-10">
                       <?php 
                         echo $html->GenerateSearchSelectionbox($dataFly,'flyId','flyId'
-                        ,$fly->GetPlane($avgangInfo[0][8], $logg)[0][1]
-                        , $avgangInfo[0][8]); 
+                        ,$fly->GetPlane($avgangInfo[0][8], $logg)[0][1],'','', $avgangInfo[0][8]); 
                         ?>
 
                   
@@ -154,14 +137,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fra destinasjon ID">
                   <label for="fraDestId" class="col-sm-2 control-label" >Fra destinasjon</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="fraDestId" name="fraDestId" placeholder="Fra destinasjons ID" value="<?php echo $avgangInfo[0][1] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <?php
+                    echo $html->GenerateSearchSelectionbox($dataDest,'fraDestId','fraDestId',$destinasjon->GetDestinasjon($avgangInfo[0][1],$logg)[0][1],'','',$avgangInfo[0][1]);
+                    ?>
                 </div>
               </div>
 
                             <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Til destinasjon ID">
                   <label for="avgangTilDestId" class="col-sm-2 control-label" >Til destinasjon</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="tilDestId" name="tilDestId" placeholder="Til destinasjon ID" value="<?php echo $avgangInfo[0][2] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                  <?php
+                    echo $html->GenerateSearchSelectionbox($dataDest,'tilDestId','tilDestId',$destinasjon->GetDestinasjon($avgangInfo[0][2],$logg)[0][1],'','',$avgangInfo[0][2]);
+                    ?>
                 </div>
               </div>
 
@@ -333,7 +320,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <option value="24">24</option>
                 </select>
                 <select>
-                  <option value="00">00</option>
+                  <option value="00" <?php if($avgangInfo[0][6] == '00') echo 'selected' ?>>00</option>
                   <option value="01">01</option>
                   <option value="02">02</option>
                   <option value="03">03</option>
@@ -414,7 +401,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <!-- /.box-body -->
               <div class="box-footer">
                 <div class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
-                <button type="submit" class="btn btn-info pull-right">Legg til</button>
+                <button type="submit" class="btn btn-info pull-right">Oppdater</button>
 
               </div>
            

@@ -74,7 +74,7 @@
             include (realpath(dirname(__FILE__)).'/db.php');
             
             
-            $sql = "select * FROM destinasjon;";
+            $sql = "select destinasjonId, navn ,flyplassId  FROM destinasjon;";
             
             $queryDestinasjon = $db_connection->prepare($sql);
         
