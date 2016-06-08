@@ -128,7 +128,7 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
 
 <?php 
   //Viser skjema dersom det både er en GET request med querstring id
-  if($_GET && $_GET['id']){  print_r($destinationinfo);?>
+  if($_GET && $_GET['id']){ ?>
 
 
 
