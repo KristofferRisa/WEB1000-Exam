@@ -79,6 +79,19 @@ print ($avgang->GetAllAvganger() );
 
                     </tbody>
 
+                    <tfoot>
+                      <tr>
+                        <th rowspan="1" colspan="1">Fly</th>
+                        <th rowspan="1" colspan="1">Fra</th>
+                        <th rowspan="1" colspan="1">Til</th>                        
+                        <th rowspan="1" colspan="1">Dato</th>
+                        <th rowspan="1" colspan="1">Klokkeslett</th>
+                        <th rowspan="1" colspan="1">Fastpris</th>
+
+                        <th rowspan="1" colspan="1">Handling</th>
+                        </tr>
+                    </tfoot>
+
                   </table>
                 </div>
               </div>
