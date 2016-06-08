@@ -2,13 +2,74 @@
 $title = "FLY - Admin";
 
 include('../html/start.php');
-
 include('../html/header.html');
-
 include('../html/admin-start.html');
+include('../php/Plane.php');
 
-// Validering og innsending av skjemadata
-include('../php/addPlaneFormInput.php');
+$flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $errMsg = "";
+
+$errorMelding = "";
+
+// Validering av skjemainput
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+  if ( empty($_POST["flyNr"]) || empty($_POST["flyModell"]) || empty($_POST["flyType"]) || empty($_POST["flyAntallPlasser"]) || empty($_POST["flyAarsmodell"]) ) {
+
+    $errorMelding = $html->errorMsg("Alle felt må fylles ut!");
+
+
+
+}
+
+
+elseif (filter_var($_POST["flyAntallPlasser"], FILTER_VALIDATE_INT) === false || strlen($_POST["flyAntallPlasser"]) > 11 ) {
+  $$errorMelding =  $html->errorMsg("Antall plasser må kun være siffer og maks 11 tegn tegn!");
+
+}
+
+elseif (strlen($_POST["flyNr"]) > 45 || strlen($_POST["flyModell"]) > 45 ) {
+  $errorMelding =  $html->errorMsg("Modell, type og flynr må være maks 45 tegn!");
+}
+elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
+  $errorMelding = $html->errorMsg("Årsmodell må bestå av 4 siffer!");
+}
+
+  
+  else {
+
+    include('../php/AdminClasses.php');
+
+    $valider = new ValiderData;
+
+    $flyNr = $valider->valider($_POST["flyNr"]);
+    $flyModell = $valider->valider($_POST["flyModell"]);
+    $flyType = $valider->valider($_POST["flyType"]);
+    $flyAntallPlasser = $valider->valider($_POST["flyAntallPlasser"]);
+    $flyAarsmodell = $valider->valider($_POST["flyAarsmodell"]);
+
+    $innIDataBaseMedData = new Planes;
+
+    $result = $innIDataBaseMedData->AddNewPlane($flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell);
+
+    if($result == 1){
+      //Success
+      $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
+      
+      //Viser rediger sete knapp
+      $seteButton = '<div clas="row"><a href="./sete.php?" class="btn btn-flat btn-link>Rediger seter</a></div>';
+      
+    } else {
+      //not succesfull
+       $errorMelding = $html->errorMsg("Data ble ikke lagt inn i databasen.!");
+
+    }
+
+  }
+
+}
+
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -73,7 +134,7 @@ include('../php/addPlaneFormInput.php');
                 <div class="form-group">
                   <label for="flyAntallPlasser" class="col-sm-2 control-label">Antall sitteplasser</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$_POST['flyAntallPlasser'] ?>">
+                    <input type="number" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$_POST['flyAntallPlasser'] ?>">
                      </div>
                 </div>
 
@@ -86,8 +147,10 @@ include('../php/addPlaneFormInput.php');
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <button class="btn btn-default" onclick="fjernMelding();clearForm(this.form);return false;">Nullstill</button>
-
+                <div class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
+                
+                <?php if(@$seteButton) { echo $seteButton; } ?>
+                
                 <button type="submit" class="btn btn-info pull-right">Legg til</button>
               </div>
               <!-- /.box-footer -->

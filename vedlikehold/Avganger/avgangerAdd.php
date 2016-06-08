@@ -122,7 +122,7 @@ elseif (strlen($_POST["dato"]) > 5 || (strlen($_POST["reiseTid"]) >5 || strlen($
             <div class="box-body">        
 
 
-                 <div class="form-group">
+              <div class="form-group">
                   <label for="avgangFlyId" class="col-sm-2 control-label">Fly ID</label>
                   <div class="col-sm-10">
                       <?php 
@@ -131,7 +131,7 @@ elseif (strlen($_POST["dato"]) > 5 || (strlen($_POST["reiseTid"]) >5 || strlen($
                         ?>
 
                   </div>
-                  </div>
+              </div>
                   
 
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fra destinasjon ID">
