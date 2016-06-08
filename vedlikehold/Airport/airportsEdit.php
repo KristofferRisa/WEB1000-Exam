@@ -45,16 +45,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $result = $airport->UpdateAirport($id,$flyplassNavn,$logg);
 
-    //Henter oppdatert airport info fra databasen
+    
     $airportinfo = $airport->GetAirport($id,$logg);
 
     if($result == 1){
       //Success
-             $errorMelding = "<div class='alert alert-success'><strong>Info! </strong>Data lagt inn i database.</div>";
+             $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
 
     } else {
       //not succesfull
-             $errorMelding = "<div class='alert alert-warning'><strong>Error! </strong>Data ble ikke lagt inn i database.</div>";
+             $errorMelding = $html->errorMsg("Data ble ikke lagt inn i databasen.!");
 
     }
 

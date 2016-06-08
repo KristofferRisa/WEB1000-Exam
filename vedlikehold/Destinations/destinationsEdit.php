@@ -9,7 +9,8 @@ include('../html/admin-start.html');
 
 // Validering og innsending av skjemadata
 include('../php/AdminClasses.php');
-
+include('../php/Destinasjon.php');
+$destination = new Destinasjon();
 $flyplasser = new Airport;
 $data = $flyplasser->ShowAllAirportsDataset();
 
@@ -18,8 +19,8 @@ if(@$_GET['id']){
   //returnerer en array
   //brukes av både GET OG POST    
   $id = $_GET['id'];
-  $destinasjon = new Destination;
-  $destinationinfo = $destinasjon->GetDestination($id,$logg); 
+  
+  $destinationinfo = $destination->GetDestination($id,$logg); 
 
   
 
@@ -72,10 +73,14 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
     $geo_lat = $valider->valider($_POST["geo_lat"]);
     $geo_lng = $valider->valider($_POST["geo_lng"]);
 
-    $innIDataBaseMedData = new Destination;
 
-    $result = $innIDataBaseMedData->UpdateDestination($flyplassID, $navn,$landskode,$stedsnavn,$geo_lat,$geo_lng);
-
+    $result = $destination->UpdateDestinasjon($id, $flyplassID, $navn,$landskode,$stedsnavn,$geo_lat,$geo_lng,$logg);
+//Henter oppdatert info fra databasen
+    
+    //$innIDataBaseMedData = $innIDataBaseMedData->GetDestination($id,$logg);
+   
+    
+    
     if($result == 1){
       //Success
              $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
@@ -136,7 +141,7 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
 
             <!-- form start -->
 
-            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerDestinasjon()">
+            <form method="post" class="form-horizontal" onsubmit="return validerRegistrerDestinasjon()">
               <div class="box-body">        
 
                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Velg flyplass">
@@ -469,7 +474,7 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
                <div class="form-group col-md-6">
                   <select class="form-control select2 select2-hidden-accessible" name="id" style="width: 100%;" tabindex="-1" aria-hidden="true">
               
-                      <?php $destinationselect = new Destination; print($destinationselect->DestinationSelectOptions()); ?>
+                      <?php $destinationselect = new Destinasjon; print($destinationselect->DestinationSelectOptions()); ?>
                 
                   </select>
               </div>

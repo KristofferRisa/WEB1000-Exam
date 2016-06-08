@@ -8,6 +8,10 @@ include('../html/header.html');
 include('../html/admin-start.html');
 
 
+
+
+
+
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -64,8 +68,8 @@ include('../html/admin-start.html');
 <?php 
 
 include('../php/AdminClasses.php');
-
-$destination = new Destination;
+include('../php/Destinasjon.php');
+$destination = new Destinasjon();
 
 
 print( $destination->ShowAllDestinations() );
