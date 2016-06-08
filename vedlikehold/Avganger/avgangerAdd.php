@@ -7,13 +7,16 @@ include('../html/header.html');
 
 include('../html/admin-start.html');
 
-include('../php/AdminClasses.php');
+include('../php/Plane.php');
+
+include('../php/Destinasjon.php');
+
 
 $fly = new Planes;
 $dataFly= $fly -> GetPlaneDataset($logg);
 print_r($dataFly);
 
-$destinasjon = new Destination;
+$destinasjon = new Destinasjon;
 $dataDest= $destinasjon -> GetDestDataset($logg);
 print_r($dataDest);
 
@@ -131,24 +134,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                   </div>
                   </div>
 
-           
-            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerAvgang()">
-            <div class="box-body">        
-                
+
                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Velg fra">
                   <label for="fraDestId" class="col-sm-2 control-label">Fra</label>
                     <div class="col-sm-10">
+
                       <?php 
 
                         echo $html->GenerateSearchSelectionbox($dataDest,'fraDestId','fraDestId','Velg fra avgang',''); 
                         ?>
 
                   </div>
-                  </div>
-                  </div>
-
-            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerAvgang()">
-            <div class="box-body">       
+              </div>
 
                  <div class="form-group"  data-toggle="tooltip" data-placement="auto bottom" title="Velg fra">
                   <label for="tilDestId" class="col-sm-2 control-label">Til</label>
@@ -159,26 +156,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                         ?>
 
                   </div>
-                  </div>
+                
                   </div>
 
 
-           <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerAvgang()">
-            <div class="box-body">       
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="YYYY-MM-DD">
                   <label for="Dato" class="col-sm-2 control-label" >Dato</label>
-                <div class="col-sm-2">
+                <div class="col-sm-10">
                     <input type="text" class="form-control" id="dato" name="dato" value="<?php echo @$_POST['avgangDato'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                   
                 </div>
               </div>
-              </div>
+              
 
 
 
-            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerAvgang()">
-            <div class="box-body">       
-              <div class="form-group"  data-toggle="tooltip" data-placement="top" value="<?php echo @$_POST['direkte']?>" >
+            <div class="form-group"  data-toggle="tooltip" data-placement="top" value="<?php echo @$_POST['direkte']?>" >
                   <label for="direkte" class="col-sm-2 control-label" >Avgang direkte</label>
 
                   <div class="col-sm-1">
@@ -194,7 +187,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                   </div>
 
               </div>
-              </div>
+              
 
 
               <div class="form-group"  data-toggle="tooltip" data-placement="top">

@@ -119,10 +119,7 @@ elseif (strlen($_POST["prisKategoriNavn"]) > 100 ) {
                   
                 </div>
               </div>
-            </div>
-      </div>
-    </div>
-  </div>
+
 
 
 
@@ -134,7 +131,10 @@ elseif (strlen($_POST["prisKategoriNavn"]) > 100 ) {
               </div>
               
 </div>
-   
+      </div>
+    </div>
+               </div>
+      </div>
 
 
 <?php

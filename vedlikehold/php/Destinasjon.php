@@ -70,7 +70,32 @@
      }
 
 
-     
+      public function GetDestDataset($logg){
+            include (realpath(dirname(__FILE__)).'/db.php');
+            
+            
+            $sql = "select * FROM destinasjon;";
+            
+            $queryDestinasjon = $db_connection->prepare($sql);
+        
+            $queryDestinasjon->execute();
+            
+            //henter result set
+            $resultSet = $queryDestinasjon->get_result();
+            
+            $dest =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryDestinasjon == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryDestinasjon->close();
+            $db_connection->close(); 
+            
+            return $dest;
+        }   
 
      public function GetDestination($destinationId, $logg){
             include (realpath(dirname(__FILE__)).'/db.php');;

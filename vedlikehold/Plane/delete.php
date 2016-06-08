@@ -1,6 +1,7 @@
 <?php 
 include('./../php/AdminClasses.php');
 include('./../php/Logg.php');
+include('../php/Plane.php');
 
 $planes = new Planes;
 
@@ -16,3 +17,4 @@ if($_GET['id']){
 header('Location: ./planes.php?deleteRows='.$rows);
 
 ?>
+
