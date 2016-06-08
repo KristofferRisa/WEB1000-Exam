@@ -72,8 +72,8 @@ CREATE TABLE sete
     flyId INT NOT NULL,
     prisKategoriId INT NOT NULL, 
     seteNr VARCHAR(10),
-    nodutgang BIT NOT NULL,
-    forklaring VARCHAR (100) NOT NULL, -- gang/midt/vindu
+    nodutgang BIT,
+    forklaring VARCHAR (100), -- gang/midt/vindu
     endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT pk_sete PRIMARY KEY (seteId),
     CONSTRAINT fk_sete1 FOREIGN KEY (flyId) REFERENCES fly (flyId),
@@ -137,7 +137,7 @@ CREATE TABLE logg
 (
     loggId INT NOT NULL AUTO_INCREMENT,
     nivaa VARCHAR (500),
-    melding VARCHAR (500),
+    melding VARCHAR (3000),
     modul VARCHAR (500), 
     bruker VARCHAR (50) NOT NULL, 
     opprettet TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

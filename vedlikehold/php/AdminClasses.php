@@ -320,6 +320,36 @@ class Destination {
             
             return $destinasjon;
         } 
+
+
+
+     public function GetDestDataset($logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            
+            $sql = "select destinasjonId, navn, flyplassId, landskode, stedsnavn, geo_lat, geo_lng, endret FROM destinasjon;";
+            
+            $queryDestination = $db_connection->prepare($sql);
+            
+        
+            $queryDestination->execute();
+            
+            //henter result set
+            $resultSet = $queryDestination->get_result();
+            
+            $destinasjon =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryDestination == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryDestination->close();
+            $db_connection->close(); 
+            
+            return $destinasjon;
+        } 
 }
 
 class Airport {

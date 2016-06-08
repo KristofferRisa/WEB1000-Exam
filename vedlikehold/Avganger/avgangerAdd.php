@@ -10,15 +10,18 @@ include('../html/admin-start.html');
 include('../php/AdminClasses.php');
 
 $fly = new Planes;
-$data= $fly -> GetPlaneDataset($logg);
-print_r($data);
+$dataFly= $fly -> GetPlaneDataset($logg);
+print_r($dataFly);
 
-?>
+$destinasjon = new Destination;
+$dataDest= $destinasjon -> GetDestDataset($logg);
+print_r($dataDest);
+
+
 
 // Validering og innsending av skjemadata
-<?php 
 
-$avgangId = $flyId = $fraDestId = $tilDestId = $dato = $direkte = $reiseTid = $klokkeslett = $fastpris = $errMsg = "";
+
 
 $errorMelding = "";
 
@@ -29,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
 
 
-  if (empty($_POST["avgangId"]) ||  empty($_POST["flyId"]) ||  empty($_POST["fraDestId"]) ||  empty($_POST["tilDestId"]) ||
+  if (empty($_POST["flyId"]) ||  empty($_POST["fraDestId"]) ||  empty($_POST["tilDestId"]) ||
        empty($_POST["dato"]) ||  empty($_POST["direkte"]) ||  empty($_POST["reiseTid"]) ||  empty($_POST["klokkeslett"]) ||
        empty($_POST["fastpris"]) ) 
 {
@@ -38,10 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 }
 
-elseif (strlen($_POST["dato"]) > 5 || (strlen($_POST["reiseTid"]) >5 || strlen($_POST["klokkeslett"]) > 5 )) 
-{
-  $errorMelding = $html->successMsg("Datoformat er ÅÅÅÅ-MM-DD. Klokkeformat er HH:MM");
-}
 
   
   else {
@@ -62,7 +61,7 @@ elseif (strlen($_POST["dato"]) > 5 || (strlen($_POST["reiseTid"]) >5 || strlen($
 
     $innIDataBaseMedData = new Avgang;
 
-    $result = $innIDataBaseMedData->NewAvgang($flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris);
+    $result = $innIDataBaseMedData->NewAvgang($flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris, $logg);
 
     if($result == 1){
       //Success
@@ -120,80 +119,297 @@ elseif (strlen($_POST["dato"]) > 5 || (strlen($_POST["reiseTid"]) >5 || strlen($
 
             <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerAvgang()">
             <div class="box-body">        
-
-
-                 <div class="form-group">
-                  <label for="avgangFlyId" class="col-sm-2 control-label">Fly ID</label>
+                 
+                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Velg fly ID">
+                  <label for="FlyId" class="col-sm-2 control-label">Fly ID</label>
                   <div class="col-sm-10">
                       <?php 
-
-                        echo $html->GenerateSearchSelectionbox($data,'flyID','flyID','Velg flyID',''); 
+                        echo $html->GenerateSearchSelectionbox($dataFly,'flyId','flyId','Velg flyID',''); 
                         ?>
 
                   </div>
                   </div>
-                  
+                  </div>
 
-              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fra destinasjon ID">
-                  <label for="avgangFraDestId" class="col-sm-2 control-label" >Fra destinasjon ID</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangFraDestId" name="avgangFraDestId" placeholder="Fra destinasjons ID" value="<?php echo @$_POST['avgangFraDestId'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
-                </div>
-              </div>
+           
+            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerAvgang()">
+            <div class="box-body">        
+                
+                <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Velg fra">
+                  <label for="fraDestId" class="col-sm-2 control-label">Fra</label>
+                    <div class="col-sm-10">
+                      <?php 
 
-                            <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Til destinasjon ID">
-                  <label for="avgangTilDestId" class="col-sm-2 control-label" >Til destinasjon ID</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangTilDestId" name="avgangTilDestId" placeholder="Til destinasjon ID" value="<?php echo @$_POST['avgangtilDestId'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
-                </div>
-              </div>
+                        echo $html->GenerateSearchSelectionbox($dataDest,'fraDestId','fraDestId','Velg fra avgang',''); 
+                        ?>
+
+                  </div>
+                  </div>
+                  </div>
+
+            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerAvgang()">
+            <div class="box-body">       
+
+                 <div class="form-group"  data-toggle="tooltip" data-placement="auto bottom" title="Velg fra">
+                  <label for="tilDestId" class="col-sm-2 control-label">Til</label>
+                   <div class="col-sm-10">
+                      <?php 
+
+                        echo $html->GenerateSearchSelectionbox($dataDest,'tilDestId','tilDestId','Velg til avgang',''); 
+                        ?>
+
+                  </div>
+                  </div>
+                  </div>
 
 
+           <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerAvgang()">
+            <div class="box-body">       
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="YYYY-MM-DD">
-                  <label for="avgangDato" class="col-sm-2 control-label" >Dato</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangDato" name="avgangDato" placeholder="Fyll ut dato" value="<?php echo @$_POST['avgangDato'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                  <label for="Dato" class="col-sm-2 control-label" >Dato</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="dato" name="dato" value="<?php echo @$_POST['avgangDato'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                   
                 </div>
               </div>
-
-              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut ja/nei om det er direkte eller ei">
-                  <label for="avgangDirekte" class="col-sm-2 control-label" >Avgang direkte</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangDirekte" name="avgangDirekte" placeholder="Direkte? - Ja/nei" value="<?php echo @$_POST['avgangDirekte'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
-                </div>
               </div>
 
 
 
-              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="HH:MM">
-                  <label for="avgangReiseTid" class="col-sm-2 control-label" >Reisetid</label>
+            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerAvgang()">
+            <div class="box-body">       
+              <div class="form-group"  data-toggle="tooltip" data-placement="top" value="<?php echo @$_POST['direkte']?>" >
+                  <label for="direkte" class="col-sm-2 control-label" >Avgang direkte</label>
+
+                  <div class="col-sm-1">
+                    <label class="radio-inline">
+                      <input type="radio" name="direkte">Ja
+                    </label>
+                  </div>
+
+                  <div class="col-sm-1">
+                    <label class="radio-inline">
+                      <input type="radio" name="direkte">Nei
+                    </label>
+                  </div>
+
+              </div>
+              </div>
+
+
+              <div class="form-group"  data-toggle="tooltip" data-placement="top">
+                  <label for="ReiseTid" class="col-sm-2 control-label" >Reisetid</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangReiseTid" name="avgangReiseTid" placeholder="Fyll ut reisetid" value="<?php echo @$_POST['avgangReiseTid'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                
+                <select name="reiseTid"> 
+                  <option value="00">00</option>
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+                  <option value="06">06</option>
+                  <option value="07">07</option>
+                  <option value="08">08</option>
+                  <option value="09">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option vakue="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                </select>
+
+                <select>
+                  <option value="00">00</option>
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+                  <option value="06">06</option>
+                  <option value="07">07</option>
+                  <option value="08">08</option>
+                  <option value="09">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                  <option value="32">32</option>
+                  <option value="33">33</option>
+                  <option value="34">34</option>
+                  <option value="35">35</option>
+                  <option value="36">36</option>
+                  <option value="37">37</option>
+                  <option value="38">38</option>
+                  <option value="39">39</option>
+                  <option value="40">40</option>
+                  <option value="41">41</option>
+                  <option value="42">42</option>
+                  <option value="43">43</option>
+                  <option value="44">44</option>
+                  <option value="45">45</option>
+                  <option value="46">46</option>
+                  <option value="47">47</option>
+                  <option value="48">48</option>
+                  <option value="49">49</option>
+                  <option value="50">50</option>
+                  <option value="51">51</option>
+                  <option value="52">52</option>
+                  <option value="53">53</option>
+                  <option value="54">54</option>
+                  <option value="55">55</option>
+                  <option value="56">56</option>
+                  <option value="57">57</option>
+                  <option value="58">58</option>
+                  <option value="59">59</option>
+                  <option value="60">60</option>
+              </select>
+
+
+              
+                 
                 </div>
               </div>              
               
               
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="HH:MM">
-                  <label for="avgangKl" class="col-sm-2 control-label" >Klokkelsett</label>
+                  <label for="Klokkelsett" class="col-sm-2 control-label" >Klokkelsett</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangKl" name="avgangKl" placeholder="Fyll ut klokkeslett" value="<?php echo @$_POST['avgangKl'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                  <select name="klokkeslett"> 
+                  <option value="00">00</option>
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+                  <option value="06">06</option>
+                  <option value="07">07</option>
+                  <option value="08">08</option>
+                  <option value="09">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option vakue="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                </select>
+
+                <select>
+                  <option value="00">00</option>
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+                  <option value="06">06</option>
+                  <option value="07">07</option>
+                  <option value="08">08</option>
+                  <option value="09">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                  <option value="32">32</option>
+                  <option value="33">33</option>
+                  <option value="34">34</option>
+                  <option value="35">35</option>
+                  <option value="36">36</option>
+                  <option value="37">37</option>
+                  <option value="38">38</option>
+                  <option value="39">39</option>
+                  <option value="40">40</option>
+                  <option value="41">41</option>
+                  <option value="42">42</option>
+                  <option value="43">43</option>
+                  <option value="44">44</option>
+                  <option value="45">45</option>
+                  <option value="46">46</option>
+                  <option value="47">47</option>
+                  <option value="48">48</option>
+                  <option value="49">49</option>
+                  <option value="50">50</option>
+                  <option value="51">51</option>
+                  <option value="52">52</option>
+                  <option value="53">53</option>
+                  <option value="54">54</option>
+                  <option value="55">55</option>
+                  <option value="56">56</option>
+                  <option value="57">57</option>
+                  <option value="58">58</option>
+                  <option value="59">59</option>
+                  <option value="60">60</option>
+              </select>
                </div>
               </div>
               
-              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut fastpris">
-                  <label for="avgangFastKr" class="col-sm-2 control-label" >Fastpris</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangFastKr" name="avgangFastKr" placeholder="Fastpris KR" value="<?php echo @$_POST['avgangFastKr'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+
+              
+                <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv fastprisen">
+                  <label for="fastpris" class="col-sm-2 control-label">Fastpris</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="fastpris" name="fastpris" placeholder="fastpris" value="<?php echo @$_POST['fastpris'] ?>" onsubmit="return validerRegistrerAvgang()">
+                  </div>
                 </div>
-              </div>
+                
 
 
 
-            </div>
-      </div>
-    </div>
-  </div>
+
 
 
 
@@ -205,8 +421,11 @@ elseif (strlen($_POST["dato"]) > 5 || (strlen($_POST["reiseTid"]) >5 || strlen($
               </div>
               
 </div>
+  
    
-
+</div>
+</div>
+</div>
 
 <?php
 include('../html/admin-slutt.html');
