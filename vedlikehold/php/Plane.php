@@ -309,7 +309,7 @@ class Planes {
         where seteId = ?;";
         
         $updateSete = $db_connection->prepare($sql);
-        $updateSete->bind_param('sssii'
+        $updateSete->bind_param('ssssi'
                                 , $setenr
                                 , $nodutgang
                                 ,$forklaring

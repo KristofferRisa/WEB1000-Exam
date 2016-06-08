@@ -119,8 +119,8 @@ if(@$_GET['id']){
                 <label for="flyType" class="col-sm-2 control-label">Er sete ved nødutgang</label>
                 <div class="col-sm-10">
                   <select name="noedutgang" class="form-control">
-                    <option value="0" <?php if ($row[4] == 0) echo 'selected'; ?> >Nei</option>
-                    <option value="1" <?php if ($row[4] == 1) echo 'selected'; ?>  >Ja</option>
+                    <option value="Nei" <?php if ($row[4] == 'Ja') echo 'selected'; ?> >Nei</option>
+                    <option value="Ja" <?php if ($row[4] == 'Nei') echo 'selected'; ?>  >Ja</option>
                   </select>
                 </div>
               </div>
@@ -129,7 +129,13 @@ if(@$_GET['id']){
               <div class="form-group">
                 <label for="flyAntallPlasser" class="col-sm-2 control-label">Velg riktig priskategori</label>
                 <div class="col-sm-10">
-                  <?php echo $html->GenerateSearchSelectionbox($prisKatData,'prisKatId','prisKatId',$prisKat->getPrisKat($row[2],$logg)[0][1], $row[2]); ?>
+                  <?php echo $html->GenerateSearchSelectionbox($prisKatData
+                                                              ,'prisKatId'
+                                                              ,'prisKatId'
+                                                              ,$prisKat->getPrisKat($row[2],$logg)[0][1]
+                                                              , ''
+                                                              , TRUE
+                                                              ,$row[2]); ?>
                 </div>
               </div>
 
