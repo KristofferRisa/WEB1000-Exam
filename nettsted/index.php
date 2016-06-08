@@ -332,7 +332,7 @@
             
               <div class="row">
                 <div class="col-md-12">
-                  <form type="hidden" method="GET" action="order.php" >
+                  <form type="hidden" method="GET" id="bestillskjema" action="order.php" >
                     <input type="hidden" name="reise" id="avgangIdReise" >
                     <input type="hidden" name="retur" id="avgangIdRetur" >
                     <input type="hidden" name="antall" id="antall" >
@@ -427,12 +427,6 @@ $(function() {
     });
   
 
-
-
-
-
-
-
 });
 
 function avreiseBestilling(element){
@@ -442,38 +436,52 @@ function avreiseBestilling(element){
   element.classList.add('active');
   
   //sjekker om det finnes retur alternativer, dersom ikke kan man aktivere bestillingsknappen
-  if($('.list-group-item.retur').length){
-    
-  } else {
+  if($('.list-group-item.retur.active').length
+      || $('.list-group-item.retur').length == 0){
     $('#bestilling').removeAttr('disabled');
-  }
-  
+  } 
 }
 
 function returBestilling(element){
-  
+    console.log(element);
+    $('.list-group-item.retur').removeClass('active');
+    element.classList.add('active');
+   
+   $('#bestilling').removeAttr('disabled');
 }
 
 function hentBillettInfo(){
+ 
   var utReise = $('.list-group-item.avreise.active');
-  console.log('Utreise info: ' + utReise);
+  
+  if(utReise.length == 0){
+    $("#bestillskjema").submit(function(){
+      return false;
+    });
+    console.log('Fant ingen retur reise');
+    $('#bestilling').attr('disabled', true);
+  }
+  
   
   var retur = $('.list-group-item.retur.active');
-  if(retur.length){
-    console.log('Retur info: ' + retur);  
-  } else {
-    console.log('Fant ingen retur reise');
-  }
+  
+  if(retur.length == 0){
+    //Sender ikke skjema og deaktivere bestill knapp
+      $("#bestillskjema").submit(function(){
+        return false;
+      });
+      console.log('Fant ingen retur reise');
+      $('#bestilling').attr('disabled', true);
+    }
+  
+  
   
   //Mapper data- attributter til input felter i hidden form
   $('#avgangIdReise').val(utReise.attr('data-avgangId'));
-  $('#avgangIdRetur').val(retur.attr('data-avgangId'));  
+  $('#avgangIdRetur').val(retur.attr('data-destinasjon'));  
   $('#antall').val(utReise.attr('data-antall'));
   $('#antallbebis').val(utReise.attr('data-bebis'));
   
-  
-  
- 
 }
 
 function validerFinnReiser(){
