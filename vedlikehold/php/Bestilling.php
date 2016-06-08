@@ -8,28 +8,61 @@
             
         }
       
+        //Lager en bestilling rad og setter inn billetter pr reisene
         public function NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,
-                                      $antallVoksne, $antallBarn, $antallBebis,$logg)
+                                      $antallVoksne, $antallBarn, $antallBebis,$logg, $reisende)
         {   
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $logg->Ny('Forsøker å opprette ny bestilling.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
-         
+            $logg->Ny('Reisende: '.print_r($reisende));
             
             $sql = "
-                INSERT INTO bestilling (bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf,
-                                       antallVoksne, antallBarn, antallBebis) 
-                            values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            start transaction;
+
+            INSERT INTO bestilling (bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf,
+                    antallVoksne, antallBarn, antallBebis) 
+            values ( ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?);
+
+            select @bestillingId := max(bestillingId) from bestilling;";
+
             
-            //transaksjonhåndtering for å kunne bestille og reservere sete samtidig
-            $db_connection->autocommit(FALSE);
+            foreach ($reisende as $key => $person) {
+                $sql .= "
+                INSERT INTO billett (bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje)  
+                VALUES  (@bestillingId, '".$person[0]."','".$person[1]."', '".$person[2]."', '".$person[3]."', '".$person[4]."', '".$person[5]."', '".$person[6]."');
+                ";
+            }
             
+            $logg->Ny('Generer SQL for billetter, SQL: '.$sql);
             
+            $sql .= "commit;";
+            
+            $logg->Ny('Forsøker å opprette ny bestilling.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+           
             $insertBestilling = $db_connection->prepare($sql);
             
             $insertBestilling->bind_param('sssssssssss'
-                                    , $bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,
-                                      $antallVoksne, $antallBarn, $antallBebis);
+                                        , $bestillingsDato
+                                        , $refNo
+                                        , $reiseDato
+                                        , $returDato
+                                        , $bestillerFornavn
+                                        , $bestillerEtternavn
+                                        , $bestillerEpost
+                                        , $bestillerTlf
+                                        , $antallVoksne
+                                        , $antallBarn
+                                        , $antallBebis);
                                     
             $insertBestilling->execute();
             $affectedrows=$insertBestilling->affected_rows;

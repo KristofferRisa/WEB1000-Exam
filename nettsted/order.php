@@ -276,19 +276,6 @@ if($_GET
         }
     }
     
-
- 
-
-/*
-    TODO
-        1. Send fra, til, dato og antall reisende som parameter fra soeket.$_COOKIE
-        2. Vise valg om å logg in, registre ny bruker eller fortsette uten innlogging eller fortsette dersom bruker er innlogget.
-        3. Lage skjema for å registrere ny bruker
-        4. Lage skjema for registre kunde info
-
-
-*/
-
     if($_POST){
         
         include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Bestilling.php";
@@ -316,10 +303,25 @@ if($_GET
             $bestillerTlf = $userInfo[0][4];
         }
         
+        $reisende = array();
+        
+        //mapper reisende til ett array 
+        for ($i=1; $i < $antallReisende; $i++) { 
+            $reisende[] = array('Fornavn' => $_POST['kundeFornavn'.$i]
+                                , 'Etternavn' => $_POST['kundeEtternavn'.$i]);
+            
+        }
+        
+        print_r($reisende);
+        
+        // $result = $bestilling->NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,$antallVoksne
+        //     , $antallBarn
+        //     , $antallBebis
+        //     ,$logg);
         
         
-        $result = $bestilling->NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,$antallVoksne, $antallBarn, $antallBebis,$logg);
-
+        $result = 0;
+        
         if($result == 1){ 
             $response = $html->successMsg('Vellykket bestilling, refno: '.$refNo);
         } else {
