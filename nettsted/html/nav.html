@@ -18,7 +18,12 @@
                 <li><a href="./faq.php">FAQ</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <?php if(!@$innloggetBruker){ ?>
                 <li><a href="./login.php">Logg inn</a></li>
+                <?php } else { ?>
+                <li><a href="minside.php">Min side</a></li>
+                <li><a href="./logout.php">Logg ut</a></li>
+                <?php } ?>
             </ul>
             <!--<ul class="nav navbar-nav navbar-right">
                 <form class="navbar-form" method="GET" action="'.$HOSTING_URL.'search/index.php" role="search">
