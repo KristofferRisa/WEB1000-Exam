@@ -49,7 +49,7 @@
             return $ledigeRuter;
         } 
         
-        public function NewAvgang($ruteId, $fraFlyplassId, $tilFlyplassId, $direkte, $avgang, $reiseTid, $ukedagNr, $klokkeslett,
+        public function NewAvgang($flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett,
                                   $fastPris)
         {   
             include (realpath(dirname(__FILE__)).'/db.php');;
@@ -58,13 +58,13 @@
          
             
             $sql = "
-                INSERT INTO avgang (ruteId, fraFlyplassId, tilFlyplassId, direkte, avgang, reiseTid, ukedagNr, klokkeslett,
+                INSERT INTO avgang (flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett,
                                     fastPris)
-                            values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            values (?, ?, ?, ?, ?, ?, ?, ?)";
             
             $insertAvgang = $db_connection->prepare($sql);
-            $insertAvgang->bind_param('sssssssss'
-                                    , $ruteId, $fraFlyplassId, $tilFlyplassId, $direkte, $avgang, $reiseTid, $ukedagNr, $klokkeslett,
+            $insertAvgang->bind_param('iiisssss'
+                                    , $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett,
                                       $fastPris);
                                     
             $insertAvgang->execute();
@@ -93,8 +93,8 @@
         
         
         // OPPDATERER EN AVGANG
-        public function UpdateAvgang ($ruteId, $fraFlyplassId, $tilFlyplassId, $direkte, $avgang, $reiseTid, $ukedagNr, $klokkeslett,
-                                     $fastPris)
+        public function UpdateAvgang ($flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett,
+                                    $fastPris)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
@@ -104,8 +104,8 @@
             WHERE avgangId = ?;";
             
             $insertAvgang = $db_connection->prepare($sql);
-            $insertAvgang->bind_param('sssssssss'
-                                    , $ruteId, $fraFlyplassId, $tilFlyplassId, $direkte, $avgang, $reiseTid, $ukedagNr, $klokkeslett,
+            $insertAvgang->bind_param('iiisssss'
+                                    , $flyId, $fraDestId, $tiDestId, $dato, $direkte, $reiseTid, $klokkeslett,
                                      $fastPris);
                                                                         
             $insertAvgang->execute();
@@ -144,12 +144,24 @@
             $oddOrEven = TRUE;
             $printOddOrEven = '';
             
+            $sql = 'SELECT 
+    a.avgangId
+    ,f.flynr
+    ,d.navn as Fra
+    ,d2.navn as Til
+    , dato
+    , klokkeslett
+    , fastpris
+FROM avgang a
+INNER JOIN fly f on f.flyId = a.flyId
+LEFT JOIN destinasjon d on d.destinasjonId = a.fraDestId
+LEFT JOIN destinasjon d2 on d2.destinasjonId = a.tilDestId;';    
         
             //  db-tilkopling
-            $query = $db_connection->prepare
-            ("SELECT avgangId, flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris, endret FROM avgang");
+            //$query = $db_connection->prepare("SELECT avgangId, flyId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris, endret FROM avgang");
+            $query = $db_connection->prepare($sql);
             $query->execute();
-            $query->bind_result($id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris, $endret);
+            $query->bind_result($id,$flynr, $fra, $til, $dato, $klokkeslett, $fastpris);
             
             //henter data
             while ($query->fetch()) {
@@ -164,9 +176,15 @@
                     $printOddOrEven = 'odd';
                 }
 
-                $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyId.'</td><td>'.$fraDestId.'</td><td>'.$tilDestId.'</td><td>'.$dato.'</td>
-                <td>'.$direkte.'</td><td>'.$reiseTid.'</td><td>'.$klokkeslett.'</td><td>'.$fastpris.'</td><td>'.$endret.'</td><td>
-                <a href="./Avganger/avgangerAdd.php">Ny avgang</a> | <a href="./Avganger/avgangerEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne avgangen?\')" href="./Avganger/delete.php?id='.$id.'">Slett</a> </td></tr>';
+                $html .= '<tr role="row" class="'.$printOddOrEven.'">
+                    <td>'.$flynr.'</td>
+                    <td>'.$fra.'</td>
+                    <td>'.$til.'</td>
+                    <td>'.$dato.'</td>
+                    <td>'.$klokkeslett.'</td>
+                    <td>'.$fastpris.'</td>
+                    <td>
+                    <a href="./Avganger/avgangerAdd.php">Ny avgang</a> | <a href="./Avganger/avgangerEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne avgangen?\')" href="./Avganger/delete.php?id='.$id.'">Slett</a> </td></tr>';
 
             }
             return $html;
@@ -188,8 +206,7 @@
             
             while ($queryAvgang->fetch ())
             {
-                $listBox .="<option value=".$id.">ID:".$id.", flyId: ".$flyId.", fraDestId: ".$fraDestId.", tilDestId: ".$tilDestId.", 
-                dato: ".$dato.", direkte: ".$direkte.", reiseTid: ".$reiseTid.", klokkeslett: ".$klokkslett.", fastpris: ".$fastpris."</option>";
+                $listBox .='<option value="'.$Id.'">fraDestId: '.$fraDestId.', tilDestId: '.$tilDestId.', dato: '.$dato.'</option>';
             }
 
             
@@ -211,7 +228,7 @@
             
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT avgangId, ruteId, fraFlyplassId, tilFlyplassId, direkte, avgang, reiseTid, ukedagNr, klokkeslett, fastpris 
+            $sql = "SELECT avgangId, fraDestId, tilDestId, dato, direkte, reiseTid, klokkeslett, fastpris 
                     FROM avgang WHERE avgangId= ?;";
             
             $queryAvgang = $db_connection->prepare($sql);

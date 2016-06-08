@@ -23,7 +23,10 @@ if ($_POST) {
         $_SESSION["brukernavn"] = $brukernavn;
         
         if($_GET['returnUrl']){
-            header("Location: ".$_GET['returnUrl']);
+            $url = $_SERVER['QUERY_STRING'];
+            $url = substr($url, 10);
+
+            header("Location: ".$url);
             exit; 
         }
         
