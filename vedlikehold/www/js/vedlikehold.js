@@ -36,6 +36,21 @@ $(function () {
         endDate: "-15y"
     });
 
+      var currentDate = new Date();
+  $('#dato').datepicker({
+      inline: true,
+      showOtherMonths: true,
+      startDate:currentDate,
+      calendarWeeks: true,
+      todayBtn: "linked",
+      todayHighlight: true,
+      dayNamesMin: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat','Sun'],
+      autoclose: true,
+      format: 'dd/mm/yyyy'
+  });
+
+
+
     //$('#flyplassLandValg').dropdown();
     $('.ui.search.selection.dropdown').dropdown();
     

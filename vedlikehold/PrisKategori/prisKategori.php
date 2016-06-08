@@ -21,7 +21,7 @@ $errorMelding = "";
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Priskategorier</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Vis alle priskategorier</li>
+      <li class="active">Priskategorier</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -47,13 +47,9 @@ $errorMelding = "";
                   <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                     <thead>
                       <tr role="row">
-                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="PrisKatId">ID</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatNavn">Priskategori navn</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatProsentPaaslag">Priskategori prosentpåslag</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Endret">Endret</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Handlinger">Handlinger</th>
-
-                      
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Handlinger">Handlinger</th>      
                     </thead>
                     <tbody>
 <?php 

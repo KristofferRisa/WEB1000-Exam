@@ -46,7 +46,7 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
     $geo_lat = $valider->valider($_POST["geo_lat"]);
     $geo_lng = $valider->valider($_POST["geo_lng"]);
 
-    $innIDataBaseMedData = new Destination;
+    $innIDataBaseMedData = new Destinasjon();
 
     $result = $innIDataBaseMedData->AddNewDestination($flyplassID, $navn,$landskode,$stedsnavn,$geo_lat,$geo_lng);
 

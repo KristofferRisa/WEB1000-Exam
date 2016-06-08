@@ -20,34 +20,35 @@
         //&& $_GET['returDato']
         ){
           //finner alle input parametere
-          $fra = $_GET['fra'];
+          
+          $fra = $saner->data($_GET["fra"]);
           $fraFlyplass = $dest->GetDestinasjon($fra,$logg);
           
-          $til = $_GET['til'];
+          
+          $til = $saner->data($_GET["til"]);
           $tilFlyplass = $dest->GetDestinasjon($til,$logg);
           // print_r($tilFlyplass);
           
-          
-          $type = $_GET['type'];
-          $voksne = $_GET['voksne'];
+          $type = $saner->data($_GET["type"]);
+          $voksne = $saner->data($_GET["voksne"]);
+
           if($_GET['barn']) {
-            $barn = $_GET['barn'];  
+            $barn = $saner->data($_GET["barn"]);  
           } else {
             $barn = 0;
           }
           
           if ($_GET['bebis']) {
-            $bebis = $_GET['bebis'];
+            $bebis = $saner->data($_GET["bebis"]);
           } else {
             $bebis = 0;
           }
           
           if ($_GET['returDato']) {
-            $returDato = $_GET['returDato'];
+            $returDato = $saner->data($_GET["returDato"]);
             // $returDato = date('Y-m-d', strtotime(str_replace('-', '/', $returDato)));
           }
-          
-          $dato = $_GET['reiseDato'];
+          $dato = $saner->data($_GET["reiseDato"]);
           //$dato = date('Y-m-d', strtotime(str_replace('-', '/', $dato)));
           
           $antallReisende = $voksne + $barn;
@@ -237,9 +238,9 @@
                   <select class="form-control" id="bebis" name="bebis">
                     <option value="0" <?php if(@$bebis == 0) echo 'selected'; ?> >0 bebis (0-23 mnd)</option>
                     <option value="1" <?php if(@$bebis == 1) echo 'selected'; ?> >1 bebis</option>
-                    <option value="2" <?php if(@$bebis == 2) echo 'selected'; ?> >2 bebiser</option>
-                    <option value="3" <?php if(@$bebis == 3) echo 'selected'; ?> >3 bebiser</option>
-                    <option value="4" <?php if(@$bebis == 4) echo 'selected'; ?> >4 bebiser</option>
+                    <option value="2" <?php if(@$bebis == 2) echo 'selected'; ?> >2 bebis</option>
+                    <option value="3" <?php if(@$bebis == 3) echo 'selected'; ?> >3 bebis</option>
+                    <option value="4" <?php if(@$bebis == 4) echo 'selected'; ?> >4 bebis</option>
                   </select>
                 </div>
               </div>

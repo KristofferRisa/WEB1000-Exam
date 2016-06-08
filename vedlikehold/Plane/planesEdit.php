@@ -2,14 +2,11 @@
 $title = "FLY - ENDRE - Admin";
 
 include('../html/start.php');
-
 include('../html/header.html');
-
 include('../html/admin-start.html');
-
+include('../php/Plane.php');
 // Validering og innsending av skjemadata
 include('../php/AdminClasses.php');
-
 
 if(@$_GET['id']){
   
@@ -100,7 +97,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Fly og seteoversikt</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Endre fly</li>
+      <li class="active">EndreFly</li>
     </ol>
   </section>
 
@@ -179,7 +176,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
               <div class="box-footer">
                 <div class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
 
-                <button type="submit" class="btn btn-info pull-right">Endre</button>
+                <button type="submit" class="btn btn-info pull-right">Oppdater</button>
               </div>
               <!-- /.box-footer -->
             </form>

@@ -2,11 +2,9 @@
 $title = "FLY - Admin ";
 
 include('../html/start.php');
-
 include('../html/header.html');
-
 include('../html/admin-start.html');
-
+include('../php/Plane.php');
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -21,7 +19,7 @@ include('../html/admin-start.html');
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Fly og seteoversikt</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Vis alle fly</li>
+      <li class="active">VisFly</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -47,15 +45,12 @@ include('../html/admin-start.html');
                   <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                     <thead>
                       <tr role="row">
-                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id">ID</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyNr">Flynr</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Modell">Flymodell</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Flytype</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Plasser">Antall sitteplasser</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Laget">Årsmodell</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Laget">Endret</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Handling">Handling</th>                      
-                     
                       </tr>
                     </thead>
                     <tbody>
@@ -73,18 +68,6 @@ print( $planes->ShowAllPlanes() );
 
 
                     </tbody>
-                    <tfoot>
-                      <tr>
-                        <th rowspan="1" colspan="1">ID</th>
-                        <th rowspan="1" colspan="1">Flynr</th>
-                        <th rowspan="1" colspan="1">Flymodell</th>
-                        <th rowspan="1" colspan="1">Flytype</th>
-                        <th rowspan="1" colspan="1">Antall sitteplasser</th>
-                        <th rowspan="1" colspan="1">Årsmodell</th>
-                        <th rowspan="1" colspan="1">Endret</th>
-                        <th rowspan="1" colspan="1">Handling</th>
-                        </tr>
-                    </tfoot>
                   </table>
                 </div>
               </div>
