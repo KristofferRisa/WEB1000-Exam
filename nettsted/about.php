@@ -1,27 +1,9 @@
-<!DOCTYPE html>
-<html lang="no">
-<head>
-  <title>About</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="www/css/adminLTE.min.css">
-  <link rel="stylesheet" type="text/css" href="www/css/style.css">
-  <style>
-    
-    .links
-    {
-      padding-left:100px;
-    }
-  </style>
-</head>
-<body>
-  
-  <?php
-    include ("./html/nav.html");
-  ?>
+<?php
+  $title = 'Bjarum Airlines';
+  include('./html/start.php');
+  include('./html/header.html');
+  include ("./html/nav.html");
+?>
   
 <div class="container-fluid">
   <div class="row content">
@@ -40,10 +22,10 @@
                   <h1> BIBLIOTEKER OG RAMMEVERK </h1><br>
                   
                   <ul>
-                    <li><a href="https://almsaeedstudio.com/AdminLTE">Almsaeed Studie, AdminLTE</a></li>
-                    <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
-                    <li><a href="http://semantic-ui.com/">Semantic UI</a></li>
-                    <li><a href="https://jquery.com/">jQuery</a></li>
+                    <li><a href="https://almsaeedstudio.com/AdminLTE" target="_blank">Almsaeed Studie, AdminLTE</a></li>
+                    <li><a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></li>
+                    <li><a href="http://semantic-ui.com/" target="_blank">Semantic UI</a></li>
+                    <li><a href="https://jquery.com/" target="_blank">jQuery</a></li>
                   </ul>
             </div>
           </div>

@@ -23,6 +23,7 @@ if(@$_GET['id']){
   
   print_r($avgangInfo);
   
+  
 
 }
 
@@ -66,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $result = $avgang->UpdateAvgang($avgangId, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris);
     //Henter oppdatert airport info fra databasen
-    $avgangInfo = $avgangInfo->GetAvgang($avgangid,$logg);
+    $avgangInfo = $avgangInfo->GetAvgang($avgangId,$logg);
 
     if($result == 1){
       //Success
@@ -99,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Avganger</li>
+      <li>Avgang</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
       <li class="active">Endre avgang</li>
     </ol>
@@ -133,24 +134,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fly ID">
-                  <label for="avgangFlyId" class="col-sm-2 control-label" >FlyId</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangFlyId" name="avgangFlyId" placeholder="Fly ID" value="<?php echo @$_POST['avgangFlyId'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
-                </div>
-              </div>
-
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fra destinasjon ID">
-                  <label for="avgangFraDestId" class="col-sm-2 control-label" >Fra destinasjon ID</label>
+                  <label for="avgangFraDestId" class="col-sm-2 control-label" >Fra destinasjon</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangFraDestId" name="avgangFraDestId" placeholder="Fra destinasjons ID" value="<?php echo @$_POST['avgangFraDestId'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="avgangFraDestId" name="avgangFraDestId" placeholder="Fra destinasjons ID" value="<?php echo $avgangInfo[0][1] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                 </div>
               </div>
 
                             <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Til destinasjon ID">
-                  <label for="avgangTilDestId" class="col-sm-2 control-label" >Til destinasjon ID</label>
+                  <label for="avgangTilDestId" class="col-sm-2 control-label" >Til destinasjon</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangTilDestId" name="avgangTilDestId" placeholder="Til destinasjon ID" value="<?php echo @$_POST['avgangtilDestId'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="avgangTilDestId" name="avgangTilDestId" placeholder="Til destinasjon ID" value="<?php echo $avgangInfo[0][2] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                 </div>
               </div>
 
@@ -158,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="YYYY-MM-DD">
                   <label for="avgangDato" class="col-sm-2 control-label" >Dato</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangDato" name="avgangDato" placeholder="Fyll ut dato" value="<?php echo @$_POST['avgangDato'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="avgangDato" name="avgangDato" placeholder="Fyll ut dato" value="<?php echo $avgangInfo[0][3] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                   
                 </div>
               </div>
@@ -166,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut ja/nei om det er direkte eller ei">
                   <label for="avgangDirekte" class="col-sm-2 control-label" >Avgang direkte</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangDirekte" name="avgangDirekte" placeholder="Direkte? - Ja/nei" value="<?php echo @$_POST['avgangDirekte'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="avgangDirekte" name="avgangDirekte" placeholder="Direkte? - Ja/nei" value="<?php echo $avgangInfo[0][4] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                 </div>
               </div>
 
@@ -175,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="HH:MM">
                   <label for="avgangReiseTid" class="col-sm-2 control-label" >Reisetid</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangReiseTid" name="avgangReiseTid" placeholder="Fyll ut reisetid" value="<?php echo @$_POST['avgangReiseTid'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="avgangReiseTid" name="avgangReiseTid" placeholder="Fyll ut reisetid" value="<?php echo $avgangInfo[0][5] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                 </div>
               </div>              
               
@@ -183,14 +177,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="HH:MM">
                   <label for="avgangKl" class="col-sm-2 control-label" >Klokkelsett</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangKl" name="avgangKl" placeholder="Fyll ut klokkeslett" value="<?php echo @$_POST['avgangKl'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="avgangKl" name="avgangKl" placeholder="Fyll ut klokkeslett" value="<?php echo $avgangInfo[0][6] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                </div>
               </div>
               
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut fastpris">
                   <label for="avgangFastKr" class="col-sm-2 control-label" >Fastpris</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="avgangFastKr" name="avgangFastKr" placeholder="Fastpris KR" value="<?php echo @$_POST['avgangFastKr'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="avgangFastKr" name="avgangFastKr" placeholder="Fastpris KR" value="<?php echo $avgangInfo[0][7] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                 </div>
               </div>
 

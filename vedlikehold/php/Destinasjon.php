@@ -93,7 +93,7 @@
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT destinasjonId, navn, flyplassId,  land, landskode, geo_lat, geo_lng FROM destinasjon;";
+            $sql = "SELECT destinasjonId, navn, flyplassId, landskode, geo_lat, geo_lng FROM destinasjon;";
             
             $queryDestinasjon = $db_connection->prepare($sql);
             
@@ -122,7 +122,7 @@
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT destinasjonId, navn, flyplassId, land, landskode, stedsnavn, geo_lat, geo_lng 
+            $sql = "SELECT destinasjonId, navn, flyplassId, landskode, stedsnavn, geo_lat, geo_lng 
                     FROM destinasjon WHERE destinasjonId=?;";
             
             $queryDestinasjon = $db_connection->prepare($sql);

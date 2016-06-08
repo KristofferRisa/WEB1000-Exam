@@ -98,7 +98,8 @@ if ($_POST) {
             </div>
             <!-- /.col -->
             <div class="col-xs-4">
-            <button type="submit" class="btn btn-primary btn-block btn-flat">Logg inn</button>
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Logg inn</button>
+                <button type="submit" class="btn btn-link btn-block btn-flat">Tilbake</button>
             </div>
             <!-- /.col -->
         </div>
