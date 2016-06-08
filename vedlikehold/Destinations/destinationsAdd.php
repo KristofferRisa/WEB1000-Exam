@@ -1,5 +1,5 @@
 <?php 
-$title = "FLY - Admin";
+$title = "DESTINASJON - NY - Admin";
 
 include('../html/start.php');
 

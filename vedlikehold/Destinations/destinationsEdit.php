@@ -1,5 +1,5 @@
 <?php 
-$title = "FLYPLASS - ENDRE - Admin";
+$title = "DESTINASJON - ENDRE - Admin";
 
 include('../html/start.php');
 
