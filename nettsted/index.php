@@ -1,199 +1,376 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <title>Bjarum Airlines</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script type="text/javascript" src="semantic/moment.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-  <link rel="stylesheet" type="text/css" href="semantic/dropdown.min.css">
-  <link rel="stylesheet" type="text/css" href="semantic/transition.min.css">
-  <link rel="stylesheet" type="text/css" href="www/css/adminLTE.min.css">
-  <link rel="stylesheet" type="text/css" href="www/css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-
-  <link rel="stylesheet" type="text/css" href="semantic/daterangepicker.css">
-  <link rel="stylesheet" href="./www/plugins/datepicker/datepicker3.css">
-
-  <!--<link rel="stylesheet" type="text/css" href="semantic/jquery-ui.css">-->
-  <!--<script src="semantic/jquery-ui.js"></script>-->
-
-  <script src="semantic/daterangepicker.js"></script>
-  <script src="semantic/dropdown.min.js"></script>
-  <script src="semantic/transition.min.js"></script>
-
-  <script src="./www/plugins/datepicker/bootstrap-datepicker.js"></script>
-
-</head>
-
-<body>
+<?php
+  $title = 'Bjarum Airlines';
+  include('./html/start.php');
+  include('./html/header.html');
+  include('./html/nav.html');
   
-  <?php
-    include ("./html/nav.html");
-  ?>
-
-
-  <div class="jumbotron text-center">
-    <div class="login-logo">
-     <b>B</b>JARUM <b>A</b>IRLINES  
-    </div>
-  </div>
+  $alleDestinasjoner = $dest->GetAllDestinasjoner($logg);
   
+   $resultMsg = "";
+   //print_r($alleDestinasjoner);
+  
+      if($_GET 
+        && $_GET['fra']
+        && $_GET['til']
+        && $_GET['type']
+        && $_GET['voksne']
+        // && $_GET['barn']
+        // && $_GET['bebis']
+        && $_GET['reiseDato']
+        //&& $_GET['returDato']
+        ){
+          //finner alle input parametere
+          $fra = $_GET['fra'];
+          $fraFlyplass = $dest->GetDestinasjon($fra,$logg);
+          
+          $til = $_GET['til'];
+          $tilFlyplass = $dest->GetDestinasjon($til,$logg);
+          // print_r($tilFlyplass);
+          
+          
+          $type = $_GET['type'];
+          $voksne = $_GET['voksne'];
+          if($_GET['barn']) {
+            $barn = $_GET['barn'];  
+          } else {
+            $barn = 0;
+          }
+          
+          if ($_GET['bebis']) {
+            $bebis = $_GET['bebis'];
+          } else {
+            $bebis = 0;
+          }
+          
+          if ($_GET['returDato']) {
+            $returDato = $_GET['returDato'];
+            // $returDato = date('Y-m-d', strtotime(str_replace('-', '/', $returDato)));
+          }
+          
+          $dato = $_GET['reiseDato'];
+          //$dato = date('Y-m-d', strtotime(str_replace('-', '/', $dato)));
+          
+          $antallReisende = $voksne + $barn;
+          $ledigeAvgangerUtreise = $avganger->SokLedigeAvganger($fra,$til,$dato,$antallReisende,$logg);
+          
+          if(@$type == 'Retur'){
+            $ledigeAvgangerHjemReise = $avganger->SokLedigeAvganger($til,$fra,$returDato,$antallReisende,$logg);  
+          }
+          
+          
+        } else {
+          $logg->Ny('Mangler input parameter', 'WARNING');
+        }
+      
+  
+?>
+  
+  
+  <!--START INNHOLD-->
   <div class="container">
+     <!--Melding-->
     <div class="row">
-
-
-      <div class="col-sm-4">
-        <form class="form-inline" role="form">
-          <div class="form-group">
-
-            <p>Reise fra:</p>
-
-            <div class="ui fluid search selection dropdown" id="search-select-from">
-              <input type="hidden" name="country">
-              <i class="dropdown icon"></i>
-
-              <div class="default text">Hvor ønsker du å reise fra?<span class="glyphicon glyphicon-plane"></span></label> </div>
-
-              <div class="menu">
-                <div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
-                <div class="item" data-value="ax"><i class="ax flag"></i>Aland Islands</div>
-                <div class="item" data-value="al"><i class="al flag"></i>Albania</div>
-                <div class="item" data-value="dz"><i class="dz flag"></i>Algeria</div>
-                <div class="item" data-value="as"><i class="as flag"></i>American Samoa</div>
-                <div class="item" data-value="ad"><i class="ad flag"></i>Andorra</div>
-              </div>
-
-            </div>
-            </br>
-
-            <table>
-              <tr>
-                <td>
-                  <!--<input style="text" class="form-control" id="datepickerfrom" />-->
-                  <div class="form-group">
-                      <div class="input-group date">
-                        <div class="input-group-addon">
-                          <i class="fa fa-calendar"></i>
-                        </div>
-                        <input style="text" class="form-control" id="datepickerfrom" />
-                      </div>
-                    </div>
-                </td>
-              </tr>
-            </table>
-
-
-          </div>
-        </form>
+      <div class="col-md-12">
+        <div id="melding"></div>    
       </div>
-      
-      
-      <div class="col-sm-4 ">
-        <form class="form-inline " role="form ">
-          <div class="form-group ">
-            <p> Reise til: </p>
-
-            <div class="ui fluid search selection dropdown" id="search-select-to">
-              <input type="hidden" name="country">
-              <i class="dropdown icon"></i>
-
-              <div class="default text">Hvor ønsker du å reise til?<span class="glyphicon glyphicon-plane"></span></label> </div>
-
-              <div class="menu">
-                <div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
-                <div class="item" data-value="ax"><i class="ax flag"></i>Aland Islands</div>
-                <div class="item" data-value="al"><i class="al flag"></i>Albania</div>
-                <div class="item" data-value="dz"><i class="dz flag"></i>Algeria</div>
-                <div class="item" data-value="as"><i class="as flag"></i>American Samoa</div>
-                <div class="item" data-value="ad"><i class="ad flag"></i>Andorra</div>
-              </div>
-
-            </div>
-            <br>
-
-            <table>
-              <tr>
-                <td>
-                    <div class="form-group" id="fromDatePicker">
-                      <div class="input-group date">
-                        <div class="input-group-addon">
-                          <i class="fa fa-calendar"></i>
-                        </div>
-                        <input style="text" class="form-control"  id="datepickerto"/>
-                      </div>
-                    </div>
-                </td>
-              </tr>
-            </table>
-
-
-
-          </div>
-        </form>
-      </div>
-
-      <div class="col-sm-4">
-        <form role="form">
-          <div class="form-group">
-            <form role="form">
-              <label class="checkbox-inline">
-                      <input type="radio" onclick="$('#fromDatePicker').show();" name="turreturenkel" value="Tur/retur" checked="checked"> Tur/retur
-                    </label>
-              <label class="checkbox-inline">
-                      <input onclick="$('#fromDatePicker').hide();" type="radio" name="turreturenkel" value="Enkel"> Enkel
-                    </label>
-            </form>
-          </div>
-
-
-
-          <select class="form-control" id="voksne">
-        <option>1 voksen (16+ år)</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-      </select>
-
-      <select class="form-control" id="barn">
-        <option>0 barn (2-16 år)</option>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-      </select>
-
-
-      <select class="form-control" id="bebis">
-        <option>0 bebis (0-23 mnd)</option>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-      </select>
-
-          <br> <br>
-          <input type="submit" value="Søk og bestill" id="registrer" name="registrer">
-
-        </form>
-      </div>
-
-
     </div>
-  </div>
+    
+    <!--FINN REISER-->
+    <div class="row">
+      <div class="col-md-12">
+        
+        <form class="" name="finnReiser" role="form" method="GET" onsubmit="return validerFinnReiser();">
+    
+        <div class="row top-buffer">
+          <!-- REISE FRA (START)-->
+          <div class="col-sm-4">
+            
+              <div class="form-group">
+                <label>Reise fra:</label>
+                <div class="ui fluid search selection dropdown" id="search-select-from">
+                  <input type="hidden" name="fra" id="fra" value="<?php echo @$_GET['fra']; ?>">
+                  <i class="dropdown icon"></i>
+                    <?php if(@$fraFlyplass){ ?>
+                        
+                          <div class="text">
+                        <?php echo @$fraFlyplass[0][1]; }else{ ?>
+                          
+                          <div class="default text">
+                          Hvor ønsker du å reise fra?
+                        <?php } ?>
+                        
+                  <span class="glyphicon glyphicon-plane"></span></label> </div>
+                  <div class="menu">
+                    <!--<div class="item" data-value="zw"><i class="zw flag"></i>Zimbabwe</div>-->
+                    
+                    <?php 
+                    
+                      echo $html->GenerateSearchSelectionItem($alleDestinasjoner);
+                      
+                    ?>
+                  </div>
+                </div>
+              </div>
+                
+          </div>
+          
+          <!--REISE TIL (START)-->
+          <div class="col-sm-4 ">
+            
+              <div class="form-group ">
+                <label> Reise til: </label>
+                <div class="ui fluid search selection dropdown" id="search-select-to">
+                  <input type="hidden" name="til" id="til" value="<?php echo @$_GET['til']; ?>">
+                  <i class="dropdown icon"></i>
+                  <?php if(@$tilFlyplass &&  @$_GET['til']){ ?>
+                        
+                          <div class="text">
+                        <?php echo @$tilFlyplass[0][1]; }else{ ?>
+                          
+                          <div class="default text">
+                          Hvor ønsker du å reise til?
+                        <?php } ?>
+                  <span class="glyphicon glyphicon-plane"></span></label> </div>
+                  <div class="menu" id="tilValg">
+                    <?php if(!@$_GET['til']){ ?>
+                        <div class="item" data-value="zw"><i class="col-md-2"></i>Velg utreisested først</div>  
+                  <?php } ?> 
+                    
+                  </div>
+                </div>
+              </div>
+              
+          </div>
+          <!--REISE TIL (SLUTT)-->
+          
+          
+          <!--DETALJER (START)-->
+          <div class="col-sm-4">
+              <div class="form-group">
+                <label>Velg type:</label>
+                <br>
+                  <label class="checkbox-inline">
+                          <input type="radio" onclick="$('#fromDatePicker').show();" name="type" value="Retur" 
+                          <?php if(!@$_GET['type'] || @$type == 'Retur'){
+                            echo 'checked';
+                          } ?>
+                          > Tur/retur
+                        </label>
+                  <label class="checkbox-inline">
+                          <input onclick="$('#fromDatePicker').hide();" type="radio" name="type" value="Enkel"
+                          <?php
+                            if(@$type == 'Enkel'){
+                              echo 'checked';
+                            } ?>
+                          > Enkel
+                        </label>
+              </div>
+        
+          </div>
+          
+        </div>
+    
+    
+        <div class="row top-buffer">
+          
+            <!-- REISE FRA (START)-->
+            <div class="col-sm-4">
+              <div class="form-group">
+                  <div class="input-group date">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input style="text" class="form-control" id="datepickerfrom" name="reiseDato" 
+                    <?php 
+                      if(@$_GET['reiseDato']){
+                        echo 'value="'.$_GET['reiseDato'].'"';
+                      }
+                      ?>
+                    />
+                  </div>
+                </div>
+            
+            </div>
+            <!--REISE FRA (SLUTT)-->
+            
+            
+            <!--REISE TIL (START)-->
+            <div class="col-sm-4">
+              <div class="form-group" id="fromDatePicker" <?php if(@$type == "Enkel") { echo 'style="display: none;"'; } ?> >
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input style="text" class="form-control"  id="datepickerto" name="returDato" 
+                  <?php 
+                      if(@$_GET['returDato']){
+                        echo 'value="'.$_GET['returDato'].'"';
+                      }
+                      ?>
+                  />
+                </div>
+              </div>
+              
+            </div>
+            <!--REISE TIL (SLUTT)-->
+            
+            <!--ANTALL PERSONER-->
+            <div class="col-sm-4">
+              
+              <div class="form-group">
+                <label>Antall personer:</label>
+                <br>
+                <div class="input-group">
+                <select class="form-control" id="voksne" name="voksne">
+                    <option value="1" <?php if(@$voksne == 1) echo 'selected'; ?> >1 voksen (16+ år)</option>
+                    <option value="2" <?php if(@$voksne == 2) echo 'selected'; ?> >2 voksne</option>
+                    <option value="3" <?php if(@$voksne == 3) echo 'selected'; ?> >3voksne</option>
+                    <option value="4" <?php if(@$voksne == 4) echo 'selected'; ?> >4 voksne</option>
+                  </select>
+                  <select class="form-control" id="barn" name="barn">
+                    <option value="0" <?php if(@$barn == 0) echo 'selected'; ?> >0 barn (2-16 år)</option>
+                    <option value="1" <?php if(@$barn == 1) echo 'selected'; ?> >1 barn</option>
+                    <option value="2" <?php if(@$barn == 2) echo 'selected'; ?> >2 barn</option>
+                    <option value="3" <?php if(@$barn == 3) echo 'selected'; ?> >3 barn</option>
+                    <option value="4" <?php if(@$barn == 4) echo 'selected'; ?> >4 barn</option>
+                  </select>
+                  <select class="form-control" id="bebis" name="bebis">
+                    <option value="0" <?php if(@$bebis == 0) echo 'selected'; ?> >0 bebis (0-23 mnd)</option>
+                    <option value="1" <?php if(@$bebis == 1) echo 'selected'; ?> >1 bebis</option>
+                    <option value="2" <?php if(@$bebis == 2) echo 'selected'; ?> >2 bebiser</option>
+                    <option value="3" <?php if(@$bebis == 3) echo 'selected'; ?> >3 bebiser</option>
+                    <option value="4" <?php if(@$bebis == 4) echo 'selected'; ?> >4 bebiser</option>
+                  </select>
+                </div>
+              </div>
+              
+            </div>
+            <!--ANTALL PERSONER SLUTT-->
+        
+        </div>
+       
+        <div clas="row top-buffer">
+          <div class="col-md-12">
+            <input type="submit" class="btn btn-primary pull-right btn-flat" value="Søk" >
+          </div>
+        </div>     
+         <!--ROW SLUTT-->
+    
+    
+      
+       </form>
+      </div>
+    </div>
+    
+    <hr>
+ 
+    <!--RESULTAT START-->
+    <div class="row">
+      
+      <!--START Visning av resultat av søk!-->
+      
+      <?php
+      if(@$_GET['fra']){
+          if(@$ledigeAvgangerUtreise
+          && !count($ledigeAvgangerUtreise)==0){
+            
+            $resultMsg.='<div class="col-md-5">
+                            <h2>Avreise</h2>
+                            <div class="list-group">';
+                          
+              
+              
+            $last = count($ledigeAvgangerUtreise) - 1;
+            $rowCounter = 0;
 
-
+            foreach ($ledigeAvgangerUtreise as $i => $row)
+            {
+                $isFirst = ($i == 0);
+                $isLast = ($i == $last);
+                
+                $resultMsg .= '
+                      <button class="list-group-item avreise" onclick="avreiseBestilling(this);" data-destinasjonId="'.$til.'" data-avgangId="'.$row[0].'" data-antall="'.$antallReisende.'" data-bebis="'.$bebis.'" >
+                         <span class="glyphicon glyphicon-plane"></span>
+                         '.$row[1].' kl.'.$row[2].
+                         '<br><span class="glyphicon glyphicon-euro"></span>'.$row[5].'
+                         </button>';
+              }
+              
+              $resultMsg .='</div>
+                  </div>
+                  <!--Splitter-->
+                  <div class="col-md-2"></div>';
+              $resultMsg .= '<div class="col-md-5">';
+              if(count($ledigeAvgangerHjemReise) > 0){
+                $resultMsg .= '<h2>Retur</h2>
+                                 <div class="list-group">';
+                                
+                foreach ($ledigeAvgangerHjemReise as $i => $row)
+                {
+                    $isFirst = ($i == 0);
+                    $isLast = ($i == $last);
+                    
+                    $resultMsg .= '
+                          <button class="list-group-item retur" onclick="returBestilling(this);" data-destinasjon="'.$row[0].'" >
+                            <span class="glyphicon glyphicon-plane"></span>
+                            '.$row[1].' kl.'.$row[2].
+                            '<br><span class="glyphicon glyphicon-euro"></span> '.$row[5].'
+                            </button>';
+                    
+                  }
+                  
+                  $resultMsg .=' 
+                    </div>';
+              
+              } else {
+                $resultMsg .= '<h2>Fant ingen retur reiser!</h2>';
+              }
+               $resultMsg .= '</div></div>';
+            echo $resultMsg;
+            ?>
+            
+              <div class="row">
+                <div class="col-md-12">
+                  <form type="hidden" method="GET" action="order.php" >
+                    <input type="hidden" name="reise" id="avgangIdReise" >
+                    <input type="hidden" name="retur" id="avgangIdRetur" >
+                    <input type="hidden" name="antall" id="antall" >
+                    <input type="hidden" name="bebis" id="antallbebis" >
+                    <input type="submit" class="btn btn-primary pull-right btn-flat" id="bestilling" onclick="hentBillettInfo();" disabled value="Bestill">
+                  </form>
+                </div>
+              </div>
+            <?php
+            } else {
+              echo "<h1>Fant ingen ledig flyvninger </h1><hr><br>";
+            }
+            
+       }
+      
+        
+        ?>
+        
+        <!--SLUTT VISNING AV RESULTAT-->
+        
+    </div>
+ 
+ </div>
+ 
+ 
+ 
+ <!--INNHOLD SLUTT-->
+ 
+ 
+  <?php include ("./html/footer.html"); ?>
+ 
+  
 <script type="text/javascript">
 $('#search-select-from').dropdown();
 $('#search-select-to').dropdown();
-  
+
 $(function() {
-  var currentDate = new Date();
   
+  var currentDate = new Date();
   $('#datepickerto,#datepickerfrom').datepicker({
       inline: true,
       showOtherMonths: true,
@@ -205,49 +382,123 @@ $(function() {
       autoclose: true,
       format: 'dd/mm/yyyy'
   });
-
-
+  
   $("#datepickerfrom").on('changeDate', function(ev) {
         // alert($(this).val());
         $("#datepickerto").datepicker("setDate", $(this).val());
-        
         var currentDate = new Date();
         var d = parseDate($(this).val());
         var newDate = new Date(d);
         console.log(currentDate);
         console.log(d);
-        
         $("#datepickerto").datepicker("setStartDate", newDate);
-        
+    });
+    
+    // $("#datepickerfrom").datepicker("setDate", currentDate);
+    
+    <?php
+      if(@!$_GET['reiseDato']){
+        echo '$("#datepickerfrom").datepicker("setDate", currentDate);';      
+      } 
+      if(@!$_GET['returDato']){
+        echo '$("#datepickerto").datepicker("setDate", currentDate);';      
+      }
+      
+      ?>
+  
+  
+  
+  //når man går ut av reiser fra input så hentes alle mulig til destinasjoner
+  $("#fra").change(function() {
+    $('#melding').html("");
+    console.log('ny fra destinasjon satt');
+     //alert($(this).val());
+    
+    $('#search-select-to > div.text').html('Velg utreisested først');
+    //henter data fra destinasjoner.php_ini_loaded_file
+    $.get("destinasjoner.php?id="+$(this).val(), function(data){
+      $('#tilValg').html(data);
+      });
+    });
+    
+    $("#til").change(function() {
+      $('#melding').html("");
     });
   
-  $("#datepickerto").datepicker("setDate", currentDate);
 
 
-  $("#datepickerfrom").datepicker("setDate", currentDate);
+
+
+
 
 
 });
+
+function avreiseBestilling(element){
+  
+  console.log(element);
+  $('.list-group-item.avreise').removeClass('active');
+  element.classList.add('active');
+  
+  //sjekker om det finnes retur alternativer, dersom ikke kan man aktivere bestillingsknappen
+  if($('.list-group-item.retur').length){
+    
+  } else {
+    $('#bestilling').removeAttr('disabled');
+  }
+  
+}
+
+function returBestilling(element){
+  
+}
+
+function hentBillettInfo(){
+  var utReise = $('.list-group-item.avreise.active');
+  console.log('Utreise info: ' + utReise);
+  
+  var retur = $('.list-group-item.retur.active');
+  if(retur.length){
+    console.log('Retur info: ' + retur);  
+  } else {
+    console.log('Fant ingen retur reise');
+  }
+  
+  //Mapper data- attributter til input felter i hidden form
+  $('#avgangIdReise').val(utReise.attr('data-avgangId'));
+  $('#avgangIdRetur').val(retur.attr('data-avgangId'));  
+  $('#antall').val(utReise.attr('data-antall'));
+  $('#antallbebis').val(utReise.attr('data-bebis'));
+  
+  
+  
+ 
+}
+
+function validerFinnReiser(){
+  $('#melding').html("");
+  var fra = document.forms["finnReiser"]["fra"].value;
+  if (fra == null || fra == "") {
+        //alert("Name must be filled out");
+        console.log('Validering av utresie flyplass feilet');
+        $('#melding').append('<div class="alert alert-error"><strong>Error!</strong> Du må velge en utreise.</div>');
+        
+        return false;
+    }
+    
+  var til = document.forms["finnReiser"]["til"].value;
+  if (til == null || til == "") {
+        $('#melding').append('<div class="alert alert-error"><strong>Error!</strong> Du må velge en destinasjon.</div>');
+        //alert("Name must be filled out");
+        return false;
+    }
+}
+
 function parseDate(str) {
     var d = str.split('/')
     return new Date(parseInt(d[2]),parseInt(d[1]) - 1, parseInt(d[0]));
 }
-
   </script>
 
-  
-  <script>
-$(document).ready(function(){
-  $("#hide").click(function(){
-    $("turretur").show();
-  })
-})
-   </script>
-
-  <?php
-  include ("./html/footer.html");
-  ?>
-
 </body>
-
 </html>

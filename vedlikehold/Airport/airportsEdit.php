@@ -1,5 +1,5 @@
 <?php 
-$title = "FLY - Admin";
+$title = "FLYPLASS - ENDRE - Admin";
 
 include('../html/start.php');
 
@@ -7,120 +7,166 @@ include('../html/header.html');
 
 include('../html/admin-start.html');
 
+// Validering og innsending av skjemadata
+include('../php/AdminClasses.php');
+
+$flyplassNavn= "";
+
+$errorMelding = "";
+
+
+if(@$_GET['id']){
+  
+  //returnerer en array
+  //brukes av både GET OG POST    
+  $id = $_GET['id'];
+  $airport = new Airport;
+  $airportinfo = $airport->GetAirport($id,$logg);
+}
+
+
+// Validering av skjemainput
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+  if ( empty($_POST["flyplassNavn"]) ) {
+
+    $errorMelding = $html->errorMsg("Error! </strong>Alle felt må fylles ut.");
+
+  } elseif (strlen($_POST["flyplassNavn"]) > 45 ) {
+    $errorMelding = $html->successMsg("Navn må være maks 45 tegn.");
+  } else {
+    $valider = new ValiderData;
+
+    $flyplassNavn = $valider->valider($_POST["flyplassNavn"]);
+
+    $airport = new Airport; 
+
+    $result = $airport->UpdateAirport($id,$flyplassNavn,$logg);
+
+    //Henter oppdatert airport info fra databasen
+    $airportinfo = $airport->GetAirport($id,$logg);
+
+    if($result == 1){
+      //Success
+             $errorMelding = "<div class='alert alert-success'><strong>Info! </strong>Data lagt inn i database.</div>";
+
+    } else {
+      //not succesfull
+             $errorMelding = "<div class='alert alert-warning'><strong>Error! </strong>Data ble ikke lagt inn i database.</div>";
+
+    }
+
+  }
+
+}
+
+
+
+
 ?>
+
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
+
       <h1>
-        Vis alle fly
-        <small>Viser en oversikt over alle fly.</small>
+        Endre flyplass
+        <small>Her kan du endre flyplasser i databasen</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Fly</li>
+      <li>Flyplasser</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Vis alle fly</li>
+      <li class="active">Endre flyplass</li>
     </ol>
   </section>
  <!-- Main content -->
   <section class="content">
 
+
     <!-- Your Page Content Here -->
 
         <div class="row">
-      <div class="col-xs-12">
-        <div class="box">
-          <div class="box-header">
-            <h3 class="box-title">Liste over fly</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-              <div class="row">
-                <div class="col-sm-6"></div>
-                <div class="col-sm-6"></div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12">
-                  <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
-                    <thead>
-                      <tr role="row">
-                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="id">ID</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyNr">FlyNr</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Modell">Modell</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Type</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Plasser">Plasser</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Laget">Laget</th>
-                      
-                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Startet">Startet</th>
-                      
-                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Opprettet">Opprettet</th>
-                      
-                      <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Statuskode Id">Statuskode Id</th></tr>
-                      </tr>
-                    </thead>
-                    <tbody>
+      <div class="col-sm-12">   
+                 <!-- Horizontal Form -->
+          <div class="box box-info">
+
+
 <?php 
+  //Viser skjema dersom det både er en GET request med querstring id
+  if($_GET && $_GET['id']){ ?>
 
-include('../php/Logg.php');
-$logg = new Logg();
-
-
-$logg->Ny('Laster FLY side', 'INFO', htmlspecialchars($_SERVER['PHP_SELF']) , 'ikke logget inn');
-
-include('../php/Planes.php');
-
-$planes = new Planes();
+            <div class="box-header with-border"><?php echo $errorMelding; ?><div id="melding"></div>
+           <h3 class="box-title">Skjema</h3>
+            </div>
+            <!-- /.box-header -->
 
 
-print( $planes->ShowAllPlanes() );
+            <!-- form start -->
+            <form method="post" class="form-horizontal" onsubmit="return validerRegistrerFlyplass()">
+              <div class="box-body">        
 
-
-?> 
-
-
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th rowspan="1" colspan="1">ID</th>
-                        <th rowspan="1" colspan="1">FlyNr</th>
-                        <th rowspan="1" colspan="1">Modell</th>
-                        <th rowspan="1" colspan="1">Type</th>
-                        <th rowspan="1" colspan="1">Plasser</th>
-                        <th rowspan="1" colspan="1">Laget</th>
-                        <th rowspan="1" colspan="1">Startet</th>
-                        <th rowspan="1" colspan="1">Opprettet</th>
-                        <th rowspan="1" colspan="1">Statuskode Id</th>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-5">
-                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
-                </div>
-                <div class="col-sm-7">
-                  <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                    <ul class="pagination">
-                      <li class="paginate_button previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a></li>
-                      <li class="paginate_button active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0">3</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0">4</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0">5</a></li>
-                      <li class="paginate_button "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0">6</a></li>
-                      <li class="paginate_button next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">Next</a></li>
-                    </ul>
+                <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut flyplass navn">
+                  <label for="flyplassNavn" class="col-sm-2 control-label" >Navn</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$airportinfo[0][1]?>">
                   </div>
                 </div>
+
+                
+  </div>
+
+
+
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <div class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
+                <button type="submit" class="btn btn-info pull-right">Legg til</button>
+
               </div>
-            </div>
+              
+              <!-- /.box-footer -->
+            </form>
+
+
+                        <?php } 
+             else {
+    //lister en select box med flyplass 
+?>
+
+<!-- Your Page Content Here -->
+<form class="form-horizontal" method="GET" id="redigerFly">
+    <div class="row">
+      <div class="col-md-12">
+        
+         <div class="box box-info">
+            <div class="box-body">
+
+               <div class="form-group col-md-6">
+                  <select class="form-control select2 select2-hidden-accessible" name="id" style="width: 100%;" tabindex="-1" aria-hidden="true">
+              
+                      <?php $airportselect = new Airport; print($airportselect-> AirportSelectOptions()); ?>
+                
+                  </select>
+              </div>
+              
+              <div class="form-group col-md-2">
+                <button type="submit" class="btn btn-info pull-right">Hent</button>
+              </div>
+          
+      </div>
+    </div>
+  </form>
+
+
+<?php } ?>
           </div>
-          <!-- /.box-body -->
-        </div>
-        <!-- /.box -->
+          <!-- /.box -->
+
       </div>
    
       <!-- /.col -->

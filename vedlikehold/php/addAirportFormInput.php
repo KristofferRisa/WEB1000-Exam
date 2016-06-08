@@ -9,14 +9,14 @@ $errorMelding = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-  if ( empty($_POST["flyplassNavn"]) || empty($_POST["flyplassLand"]) ) {
+  if ( empty($_POST["flyplassNavn"]) ) {
 
-    $errorMelding = "<div class='alert alert-error'><strong>Error! </strong>Alle felt må fylles ut.</div>";
+    $errorMelding = $html->errorMsg("Error! </strong>Alle felt må fylles ut.");
 
 }
 
-elseif (strlen($_POST["flyplassNavn"]) > 45 || strlen($_POST["flyplassLand"]) > 45 ) {
-  $errorMelding = "<div class='alert alert-error'><strong>Error! </strong>Navn og land må være maks 45 tegn.</div>";
+elseif (strlen($_POST["flyplassNavn"]) > 45 ) {
+  $errorMelding = $html->successMsg("Navn må være maks 45 tegn.");
 }
 
   
@@ -28,12 +28,10 @@ elseif (strlen($_POST["flyplassNavn"]) > 45 || strlen($_POST["flyplassLand"]) > 
 
 
     $flyplassNavn = $valider->valider($_POST["flyplassNavn"]);
-    $flyplassLand = $valider->valider($_POST["flyplassLand"]);
-    $flyplassStatuskode = 1;
 
     $innIDataBaseMedData = new Airport;
 
-    $result = $innIDataBaseMedData->AddNewAirport($flyplassNavn, $flyplassLand,$flyplassStatuskode);
+    $result = $innIDataBaseMedData->AddNewAirport($flyplassNavn);
 
     if($result == 1){
       //Success

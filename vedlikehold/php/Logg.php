@@ -5,7 +5,7 @@ class Logg {
     }
     
     public function Alt(){
-        include('db.php');
+        include (realpath(dirname(__FILE__)).'/db.php');;
         $html =  '';
         //CSS Styling
         $oddOrEven = TRUE;
@@ -39,7 +39,7 @@ class Logg {
     }
     
     public function AltPrSide($antallMeldinger,$sideNr){
-        include('db.php');
+        include (realpath(dirname(__FILE__)).'/db.php');;
         $html =  '';
         //CSS Styling
         $oddOrEven = TRUE;
@@ -89,7 +89,7 @@ class Logg {
     }
     
     public function AntallMeldinger(){
-        include('db.php');
+        include (realpath(dirname(__FILE__)).'/db.php');;
         $returnAntall = -1;
         $query = "SELECT count(*) as ANTALL FROM logg";
 
@@ -117,7 +117,7 @@ class Logg {
     // $logg = new Logg();
     // $logg->Ny('test melding', 'INFO',htmlspecialchars($_SERVER['PHP_SELF']), 'UserID');
     public function Ny($melding, $nivå = NULL, $modul = NULL, $bruker = NULL) {
-        include('db.php');
+        include (realpath(dirname(__FILE__)).'/db.php');
         $datotid = date('Y-m-d H:i:s');
         
         if(!$nivå) {

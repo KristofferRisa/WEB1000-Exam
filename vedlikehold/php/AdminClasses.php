@@ -14,17 +14,17 @@ class Planes {
   
     public function ShowAllPlanes(){
 
-        include('db.php');
+        include (realpath(dirname(__FILE__)).'/db.php');;
         $html =  '';
         //CSS Styling
         $oddOrEven = TRUE;
         $printOddOrEven = '';
         
         //db-tilkopling
-        $query = $db_connection->prepare("SELECT flyId,flyNr,modell,type,plasser,aarsmodell,statusKodeId FROM fly");
+        $query = $db_connection->prepare("SELECT flyId,flyNr,flyModell,type,plasser,aarsmodell,endret FROM fly");
         $query->execute();
 
-        $query->bind_result($id, $flyNr, $modell, $type, $plasser, $flyAarsmodell, $statusKodeId);
+        $query->bind_result($id, $flyNr, $modell, $type, $plasser, $flyAarsmodell,$endret);
         
         //henter data
        
@@ -40,7 +40,7 @@ class Planes {
             }
 
             $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$flyNr.'</td><td>'.$modell.'</td><td>'.$type.'
-            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td><td>'.$statusKodeId.'</td></tr>';
+            </td><td>'.$plasser.'</td><td>'.$flyAarsmodell.'</td><td>'.$endret.'</td><td><a href="./Plane/planesAdd.php">Nytt fly</a> | <a href="../vedlikehold/Plane/planesEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette dette flyet?\')" href="./Plane/delete.php?id='.$id.'">Slett</a> </td></tr>';
         
         }
         //Lukker databasetilkopling
@@ -51,12 +51,12 @@ class Planes {
     }
 
     
-    public function AddNewPlane($flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$flyStatusKode) {
+    public function AddNewPlane($flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell) {
         include('../php/db.php');
         
         //Bygger SQL statementt
-        $query = $db_connection->prepare("INSERT INTO fly (flyNr,modell,type,plasser,aarsmodell,statusKodeId) VALUES (?,?,?,?,?,?)");
-        $query->bind_param('ssssss', $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$flyStatusKode);  
+        $query = $db_connection->prepare("INSERT INTO fly (flyNr,flyModell,type,plasser,aarsmodell) VALUES (?,?,?,?,?)");
+        $query->bind_param('sssss', $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell);  
 
             if ( $query->execute()) { 
                 $affectedRows = $query->affected_rows;
@@ -66,24 +66,186 @@ class Planes {
          return $affectedRows;           
 } 
     }
+
+    public function UpdatePlane($flyId,$flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');
+            
+            $sql = "
+            update fly 
+            set flynr = ?, flyModell = ?, type = ?, plasser = ?, aarsmodell = ?
+            where flyId = ?;";
+            
+            $insertFly = $db_connection->prepare($sql);
+            $insertFly->bind_param('sssiii'
+                                    , $flyNr,$flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell
+                                    , $flyId);
+                                    
+            $insertFly->execute();
+
+            $affectedRows = $insertFly->affected_rows;
+            
+            $insertFly->close();
+            $db_connection->close(); 
+            
+            
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+
+            if($insertFly == false){
+                $logg->Ny('Failed to update: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
+                exit;    
+            }
+            
+            if ($affectedRows == 1) {
+                $logg->Ny('Fly ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } else {
+                $logg->Ny('Klarte ikke å oppdatere fly.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } 
+                
+            //Lukker databasetilkopling
+            
+            return $affectedRows;
+        }
+
+            public function GetPlaneDataset($logg){
+            include (realpath(dirname(__FILE__)).'/db.php');
+            
+            
+            $sql = "select * FROM fly;";
+            
+            $queryPlanes = $db_connection->prepare($sql);
+        
+            $queryPlanes->execute();
+            
+            //henter result set
+            $resultSet = $queryPlanes->get_result();
+            
+            $fly =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryPlanes == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryPlanes->close();
+            $db_connection->close(); 
+            
+            return $fly;
+        } 
+
+
+            public function GetPlane($flyId, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            
+            $sql = "select * FROM fly WHERE flyId=?;";
+            
+            $queryPlanes = $db_connection->prepare($sql);
+            
+            $queryPlanes->bind_param('i', $flyId);
+            $queryPlanes->execute();
+            
+            //henter result set
+            $resultSet = $queryPlanes->get_result();
+            
+            $fly =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryPlanes == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryPlanes->close();
+            $db_connection->close(); 
+            
+            return $fly;
+        } 
+
+            public function PlaneSelectOptions(){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+             $listBox = "";
+            
+            $sql="SELECT flyId, flyNr, flyModell from fly";
+            
+            $queryPlanes = $db_connection->prepare($sql);
+            
+            $queryPlanes->execute();
+
+            $queryPlanes->bind_result($id, $flyNr, $flyModell);
+                        
+            while ($queryPlanes->fetch()) {
+                
+                 $listBox .= "<option value=".$id. ">ID:".$id." Flynr:".$flyNr." Modell:".$flyModell."</option>";
+            }
+            
+            //$htmlSelect .= '</select>';
+            //Error logging
+            if($queryPlanes == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $queryPlanes->close();
+            $db_connection->close();  
+
+            return $listBox;        
+         
+}
+        public function DeletePlane($planeId, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            $sql = "delete from fly where flyId = ?;";
+            
+            $logg->Ny('Forsøker å slette flyId: '.$planeId);
+            
+            $deletePlane = $db_connection->prepare($sql);
+            $deletePlane->bind_param('i'
+                                    , $planeId);
+                                    
+            $deletePlane->execute();
+
+            $affectedRows = $deletePlane->affected_rows;
+            
+            $deletePlane->close();
+            $db_connection->close(); 
+            
+            
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+
+            if($deletePlane == false){
+                $logg->Ny('Klarte ikke slette fly, feilmelding: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
+                exit;       
+            }
+            
+            if ($affectedRows == 1) {
+                $logg->Ny('Fly ble slettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } else {
+                $logg->Ny('Klarte ikke å slette fly.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } 
+                
+            //Lukker databasetilkopling
+            
+            return $affectedRows;
+        }
+
 }
 
+class Destination {
 
-class Airport {
-  
-    public function ShowAllAirports(){
+    public function ShowAllDestinations() {
 
-        include('../php/db.php');  
-        $html =  '';
+        include (realpath(dirname(__FILE__)).'/db.php');;
+         $html =  '';
+         $id = '';
         //CSS Styling
         $oddOrEven = TRUE;
         $printOddOrEven = '';
         
        
         //  db-tilkopling
-        $query = $db_connection->prepare("SELECT flyplassId,navn,land,statusKodeId,endret FROM flyplass");
+        $query = $db_connection->prepare("SELECT destinasjonId, flyplassId, navn, landskode, stedsnavn, geo_lat, geo_lng, endret  FROM destinasjon");
         $query->execute();
-        $query->bind_result($id, $navn, $land, $statuskode, $endret);
+        $query->bind_result($dId, $fId, $navn, $landskode,$stedsnavn,$geo_lat,$geo_lng,$endret);
 
 
 
@@ -101,7 +263,167 @@ class Airport {
                 $printOddOrEven = 'odd';
             }
 
-            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$land.'</td><td>'.$statuskode.'</td><td>'.$endret.'</td></tr>';
+            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$dId.'</td><td>'.$fId.'</td><td>'.$navn.'</td><td>'.$landskode.'</td><td>'.$stedsnavn.'</td><td>'.$geo_lat.'</td><td>'.$geo_lng.'</td>
+            <td>'.$endret.'</td><td><a href="./Airport/airportsAdd.php">Nytt fly</a> | <a href="./Airport/airportsEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne flyplassen?\')" href="./Airport/delete.php?id='.$id.'">Slett</a> </td></tr>';
+
+        }
+        
+    
+        //Lukker databasetilkopling
+        $query->close();
+        $db_connection->close();
+        
+        return $html;
+
+    }
+
+    public function AddNewDestination($fId,$navn,$landskode,$stedsnavn,$geo_lat,$geo_lng) {
+        include('../php/db.php');
+        
+        //Bygger SQL statementt
+        $query = $db_connection->prepare("INSERT INTO destinasjon (flyplassId,navn,landskode,stedsnavn,geo_lat,geo_lng) VALUES (?,?,?,?,?,?)");
+        $query->bind_param('isssss', $fId,$navn,$landskode,$stedsnavn,$geo_lat,$geo_lng);  
+
+            if ( $query->execute()) { 
+                $affectedRows = $query->affected_rows;
+                $query->close();
+        $db_connection->close();
+
+         return $affectedRows;  
+         }
+     }
+
+     public function GetDestination($destinationId, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            
+            $sql = "select * FROM destinasjon WHERE destinasjonId=?;";
+            
+            $queryDestination = $db_connection->prepare($sql);
+            
+            $queryDestination->bind_param('i', $destinationId);
+            $queryDestination->execute();
+            
+            //henter result set
+            $resultSet = $queryDestination->get_result();
+            
+            $destinasjon =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryDestination == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryDestination->close();
+            $db_connection->close(); 
+            
+            return $destinasjon;
+        } 
+
+        public function DestinationSelectOptions(){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+             $listBox = "";
+            
+            $sql="SELECT destinasjonId, navn from destinasjon";
+            
+            $queryDestinasjon = $db_connection->prepare($sql);
+            
+            $queryDestinasjon->execute();
+
+            $queryDestinasjon->bind_result($id, $navn);
+                        
+            while ($queryDestinasjon->fetch()) {
+                
+                 $listBox .= "<option value=".$id. ">ID: ".$id.", Destinasjonsnavn: ".$navn."</option>";
+            }
+            
+            //$htmlSelect .= '</select>';
+            //Error logging
+            if($queryDestinasjon == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $queryDestinasjon->close();
+            $db_connection->close();  
+
+            return $listBox;
+
+         }
+         public function UpdateDestination($flyplassID, $navn, $landskode,$stedsnavn,$geo_lat,$geo_lng, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            $logg->Ny('Forsoeker å oppdatere flyplass (id='.$flyplassId.') med navnet '.$navn);
+            
+            $sql = "
+            update flyplass 
+            set navn = ? where flyplassId = ?;";
+            
+            $insertFlyplass = $db_connection->prepare($sql);
+            $insertFlyplass->bind_param('si'
+                                    , $navn,$flyplassId);
+                                    
+            $insertFlyplass->execute();
+
+            $affectedRows = $insertFlyplass->affected_rows;
+            
+            $insertFlyplass->close();
+            $db_connection->close(); 
+            
+            
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+
+            if($insertFlyplass == false){
+                $logg->Ny('Failed to update: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
+                exit;    
+            }
+            
+            if ($affectedRows == 1) {
+                $logg->Ny('Fly ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } else {
+                $logg->Ny('Klarte ikke å oppdatere fly.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } 
+                
+            //Lukker databasetilkopling
+            
+            return $affectedRows;
+        }
+    
+}
+
+class Airport {
+  
+    public function ShowAllAirports(){
+
+        include('../php/db.php');  
+        $html =  '';
+        //CSS Styling
+        $oddOrEven = TRUE;
+        $printOddOrEven = '';
+        
+       
+        //  db-tilkopling
+        $query = $db_connection->prepare("SELECT flyplassId,navn,endret FROM flyplass");
+        $query->execute();
+        $query->bind_result($id, $navn, $endret);
+
+
+
+        //henter data
+       
+        while ($query->fetch()) {
+
+
+            if($oddOrEven){
+                $oddOrEven = FALSE;
+                $printOddOrEven = 'even';
+            } 
+            else {
+                $oddOrEven = TRUE;
+                $printOddOrEven = 'odd';
+            }
+
+            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$id.'</td><td>'.$navn.'</td><td>'.$endret.'</td><td><a href="./Airport/airportsAdd.php">Nytt fly</a> | <a href="./Airport/airportsEdit.php?id='.$id.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne flyplassen?\')" href="./Airport/delete.php?id='.$id.'">Slett</a> </td></tr>';
 
         }
         
@@ -115,8 +437,8 @@ class Airport {
 
     public function ShowAllAirportsDataset(){
 
-            include('db.php');
-            $sql = "SELECT flyplassId,navn,land,statusKodeId,endret FROM flyplass";
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            $sql = "SELECT flyplassId,navn,endret FROM flyplass";
             
             $queryFlyplass = $db_connection->prepare($sql);
             
@@ -140,12 +462,12 @@ class Airport {
     }
 
     
-    public function AddNewAirport($flyplassNavn, $flyplassLand,$flyplassStatusKode) {
+    public function AddNewAirport($flyplassNavn) {
         include('../php/db.php');
         
         //Bygger SQL statementt
-        $query = $db_connection->prepare("INSERT INTO flyplass (navn,land,statusKodeId) VALUES (?,?,?)");
-        $query->bind_param('sss', $flyplassNavn, $flyplassLand,$flyplassStatusKode);  
+        $query = $db_connection->prepare("INSERT INTO flyplass (navn) VALUES (?)");
+        $query->bind_param('s', $flyplassNavn);  
 
             if ( $query->execute()) { 
                 $affectedRows = $query->affected_rows;
@@ -154,9 +476,150 @@ class Airport {
 
          return $affectedRows;  
          }
+     }
 
-         }         
- 
+
+         public function AirportSelectOptions(){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+             $listBox = "";
+            
+            $sql="SELECT flyplassId, navn from flyplass";
+            
+            $queryPlanes = $db_connection->prepare($sql);
+            
+            $queryPlanes->execute();
+
+            $queryPlanes->bind_result($id, $flyplassNavn);
+                        
+            while ($queryPlanes->fetch()) {
+                
+                 $listBox .= "<option value=".$id. ">ID: ".$id.", Flyplassnavn: ".$flyplassNavn."</option>";
+            }
+            
+            //$htmlSelect .= '</select>';
+            //Error logging
+            if($queryPlanes == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $queryPlanes->close();
+            $db_connection->close();  
+
+            return $listBox;
+
+         }
+
+         public function DeleteAirport($flyplassId, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            include('../html/start.php');
+            
+            $sql = "delete from flyplass where flyplassId =?;";
+            
+            $logg->Ny('Forsøker å slette flyId: '.$flyplassId);
+            
+            $deleteFlyplass = $db_connection->prepare($sql);
+            $deleteFlyplass->bind_param('i'
+                                    , $flyplassId);
+                                    
+            $deleteFlyplass->execute();
+
+            $affectedRows = $deleteFlyplass->affected_rows;
+            
+            $deleteFlyplass->close();
+            $db_connection->close(); 
+            
+            
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+
+            
+
+            if($deleteFlyplass == false){
+                $logg->Ny('Klarte ikke slette flyplass, feilmelding: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
+                
+                
+                exit;    
+            }
+            
+            if ($affectedRows == 1) {
+                $logg->Ny('Flyplass ble slettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } else {
+                $logg->Ny('Klarte ikke å slette flyplassss.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
+                
+                
+            } 
+                
+            //Lukker databasetilkopling
+            
+            return $affectedRows;
+                       
+        }
+
+        public function GetAirport($flyplassId, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            
+            $sql = "select * FROM flyplass WHERE flyplassId=?;";
+            
+            $queryAirport = $db_connection->prepare($sql);
+            
+            $queryAirport->bind_param('i', $flyplassId);
+            $queryAirport->execute();
+            
+            //henter result set
+            $resultSet = $queryAirport->get_result();
+            
+            $airport =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryAirport == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryAirport->close();
+            $db_connection->close(); 
+            
+            return $airport;
+        } 
+
+        public function UpdateAirport($flyplassId, $navn, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            $logg->Ny('Forsoeker å oppdatere flyplass (id='.$flyplassId.') med navnet '.$navn);
+            
+            $sql = "
+            update flyplass 
+            set navn = ? where flyplassId = ?;";
+            
+            $insertFlyplass = $db_connection->prepare($sql);
+            $insertFlyplass->bind_param('si'
+                                    , $navn,$flyplassId);
+                                    
+            $insertFlyplass->execute();
+
+            $affectedRows = $insertFlyplass->affected_rows;
+            
+            $insertFlyplass->close();
+            $db_connection->close(); 
+            
+            
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+
+            if($insertFlyplass == false){
+                $logg->Ny('Failed to update: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
+                exit;    
+            }
+            
+            if ($affectedRows == 1) {
+                $logg->Ny('Fly ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } else {
+                $logg->Ny('Klarte ikke å oppdatere fly.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } 
+                
+            //Lukker databasetilkopling
+            
+            return $affectedRows;
+        }
     
 }
 
@@ -180,3 +643,5 @@ class Count {
 
 
 }
+
+

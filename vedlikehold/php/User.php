@@ -8,7 +8,7 @@
         #public $AntallBrukere;
         
         public function VisAlle($sideNr,$logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             $html =  '';
             $antallMeldinger = 100;
             //CSS Styling
@@ -32,14 +32,8 @@
                 ,etternavn
                 ,epost
                 ,tlf
-                ,dob
-                ,t.navn as tittel
-                ,bt.navn as type
-                ,s.navn as status
+                ,isAdmin
             from bruker b
-                inner join tittel t on t.tittelId = b.tittelId
-                inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
-                inner join statusKode s on b.statusKodeId = s.statusKodeId
             LIMIT ?,?;";
             
             $queryPrSide = $db_connection->prepare($sql);
@@ -47,16 +41,14 @@
             $queryPrSide->bind_param('ss', $offset, $antallMeldinger);
             $queryPrSide->execute();
 
-            $queryPrSide->bind_result($id
+            $queryPrSide->bind_result(
+                $id
                 , $brukernavn
                 , $fornavn
                 , $etternavn
                 , $epost
                 , $tlf
-                , $dob
-                , $tittel
-                , $type
-                , $status);
+                , $isAdmin);
             
             //henter data
             while ($queryPrSide->fetch()) {
@@ -75,14 +67,11 @@
                         <td>'.$brukernavn.'</td>
                         <td>'.$fornavn.'</td>
                         <td>'.$etternavn.'</td>
-                        <td>'.$epost.'</td>
-                        '//<td>'.$tittel.'</td>
-                        .'<td class="hidden-xs">'.$tlf.'</td>
-                        '//<td>'.$dob.'</td>
-                        .'<td class="hidden-xs">'.$type.'</td>
-                        '//<td>'.$status.'</td>
+                        <td>'.$epost.'</td>'
+                        .'<td class="hidden-xs">'.$tlf.'</td>'
+                        .'<td class="hidden-xs">'.$isAdmin.'</td>'
                         .'<td>
-                            <a href="./User/add.php">Ny</a> | <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> 
+                            <a href="./User/add.php">Ny</a> | <a href="./User/update.php?id='.$id.'">Endre</a> | <a href="./User/changepassword.php?id='.$id.'">Bytt passord</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette bruker?\')" href="./User/delete.php?id='.$id.'">Slett</a> 
                         </td>
                    </tr>';
             }
@@ -100,9 +89,9 @@
             return $html;
         }
         
-        public function NewUser($brukernavn, $fname, $lname, $DOB, $sex, $mail, $new_pass, $phone, $tittel,$brukerTypeId,$logg)
+        public function NewUser($brukernavn, $fname, $lname, $mail, $new_pass, $phone, $isAdmin ,$logg)
         {   
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
              $logg->Ny('Forsøker å opprette ny bruker.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
              
@@ -124,27 +113,19 @@
                                     , etternavn
                                     , epost
                                     , tlf
-                                    , dob
-                                    , tittelId
                                     , passord
-                                    , brukerTypeId
-                                    , statusKodeId
-                                    , kjonn) 
-                            values (?,?,?,?,?,?,?,?,?,?,?)";
+                                    , isAdmin) 
+                            values (?,?,?,?,?,?,?)";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('ssssssssiis'
+            $insertUser->bind_param('sssssss'
                                     , $brukernavn
                                     , $fname
                                     , $lname
                                     , $mail
                                     , $phone
-                                    , $DOB
-                                    , $tittel
                                     , $pass_hash
-                                    , $brukerTypeId
-                                    , $statusKodeId
-                                    , $sex);
+                                    , $isAdmin);
                                     
             $insertUser->execute();
             $affectedRows = $insertUser->affected_rows;
@@ -170,8 +151,8 @@
             
         }
         
-        public function UpdateUser($userid, $brukernavn, $fname, $lname, $DOB, $sex, $mail, $phone, $tittel, $brukerTypeId, $logg){
-            include('db.php');
+        public function UpdateUser($userid, $brukernavn, $fname, $lname, $mail, $phone, $isAdmin, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             $statusKodeId = 1; //Opprettet (lese fra database?)
             
@@ -184,25 +165,17 @@
                 , etternavn = ?
                 , epost = ?
                 , tlf = ?
-                , dob = ?
-                , tittelId = ?
-                , brukerTypeId = ? 
-                , statusKodeId = ?
-                , kjonn = ?
+                , isAdmin = ?
             where brukerId = ?;";
             
             $insertUser = $db_connection->prepare($sql);
-            $insertUser->bind_param('sssssssiisi'
+            $insertUser->bind_param('ssssssi'
                                     , $brukernavn
                                     , $fname
                                     , $lname
                                     , $mail
                                     , $phone
-                                    , $DOB
-                                    , $tittel
-                                    , $brukerTypeId
-                                    , $statusKodeId
-                                    , $sex
+                                    , $isAdmin
                                     , $userid);
                                     
             $insertUser->execute();
@@ -231,9 +204,46 @@
             return $affectedRows;
         }
         
+        public function DeleteUser($userid, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            $sql = "delete from bruker where brukerId = ?;";
+            
+            $logg->Ny('Forsøker å slette brukerId: '.$userid);
+            
+            $deleteUser = $db_connection->prepare($sql);
+            $deleteUser->bind_param('i'
+                                    , $userid);
+                                    
+            $deleteUser->execute();
+
+            $affectedRows = $deleteUser->affected_rows;
+            
+            $deleteUser->close();
+            $db_connection->close(); 
+            
+            
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+
+            if($deleteUser == false){
+                $logg->Ny('Klarte ikke slette bruker, feilmelding: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
+                exit;    
+            }
+            
+            if ($affectedRows == 1) {
+                $logg->Ny('Bruker ble slettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } else {
+                $logg->Ny('Klarte ikke å slette bruker.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } 
+                
+            //Lukker databasetilkopling
+            
+            return $affectedRows;
+        }
+        
         public function Exsits($brukernavn)
         {
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
         
             $query = $db_connection->prepare("SELECT brukerId FROM bruker WHERE brukernavn = ?");
             $query->bind_param('s', $brukernavn);
@@ -256,10 +266,49 @@
             }
         }
         
+        public function LoginAdmin($username, $password, $logg, $admin = FALSE)
+        {
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            $isAdmin = "Nei";
+            
+            if($admin){
+                $isAdmin = "Ja";
+            }
+            
+            $query = $db_connection->prepare("SELECT passord FROM bruker WHERE brukernavn = ? and isAdmin = ?;");
+            $query->bind_param('ss', $username, $isAdmin);
+            $query->execute();
+
+            $query->bind_result($pass_stored);
+            $query->fetch();
+
+            //Lukker databasetilkopling
+            $query->close();
+            $db_connection->close();
+            
+            if(password_verify($password, $pass_stored))
+            {
+                    
+                if($logg) {
+                    $logg->Ny('Vellykket validering av passord. ', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');    
+                }
+                return TRUE;
+            }
+            else 
+            {
+                if($logg) {
+                    $logg->Ny('Validering av passord feilet. ', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');    
+                }
+                return FALSE;
+            }
+        }
+        
+        
         public function Login($username, $password, $logg)
         {
-            include('db.php');
-        
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
             $query = $db_connection->prepare("SELECT passord FROM bruker WHERE brukernavn = ?;");
             $query->bind_param('s', $username);
             $query->execute();
@@ -298,6 +347,28 @@
             setcookie("uid", md5($uid), time() + 21600, '/', NULL, 0); /* expire in 5 hour */ 
         }
         
+        public function setAdminCookie($username)
+        {
+            
+            $username = md5($username.'isAdmin123');
+
+            setcookie("admin", $username, time() + 43200, '/', NULL, 0); /* expire in 10 hour */ 
+        }
+        
+        public function ValidateAdminCookie($username, $logg)
+        {
+            // $logg->ny('Forsøker å validere admin cookie, '.$_COOKIE["admin"].' med '.md5($username.'isAdmin123'));
+            if($_COOKIE["admin"] == md5($username.'isAdmin123')){
+                // $logg->Ny('Riktig admin cookie.');
+                return TRUE;
+                exit;
+            } else {
+                $logg->Ny('Feil admin cookie.');
+                return FALSE;
+            }
+            
+        }
+        
         public function sjekkUserCookie()
         {
             // GET cocike
@@ -310,13 +381,10 @@
         }
         
         public function GetUser($userId, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             
-            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type,kjonn,brukernavn from bruker b
-                    inner join tittel t on t.tittelId = b.tittelId
-                    inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
-                    WHERE brukerId = ?;";
+            $sql = "select brukerId,fornavn,etternavn,epost,tlf,brukernavn,isAdmin from bruker WHERE brukerId = ?;";
             
             $queryPrSide = $db_connection->prepare($sql);
             
@@ -345,24 +413,16 @@
             return $user;
         } 
         
-        public function GetUsername($username){
-            include('db.php');
+        public function GetUserFromUsername($username){
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "select brukerId,fornavn,etternavn,epost,tlf,dob,t.navn as tittel,bt.navn as type,kjonn from bruker b
-                    inner join tittel t on t.tittelId = b.tittelId
-                    inner join brukerType bt on bt.brukertypeId = b.brukerTypeId
-                    WHERE brukernavn = ?;";
+            $sql = "select brukerId,fornavn,etternavn,epost,tlf,isAdmin from bruker WHERE brukernavn = ?;";
             
             $queryPrSide = $db_connection->prepare($sql);
             
             $queryPrSide->bind_param('s', $username);
             $queryPrSide->execute();
-            //$queryPrSide->bind_result($id,$fornavn, $etternavn, $epost, $tlf, $dob, $tittel, $type);
 
-            //henter data
-            //http://php.net/manual/en/pdostatement.fetchall.php
-            //http://stackoverflow.com/questions/13297094/how-do-i-use-fetchall-in-php
-            
             //henter result set
             $resultSet = $queryPrSide->get_result();
             
@@ -375,7 +435,7 @@
         }
         
         public function ChangePassword($userId, $password, $logg){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             
             //TODO: Sjekk om brukeren finnes fra før
             $salt = uniqid(mt_rand(), true);
@@ -419,7 +479,7 @@
         }
         
         public function UsersSelectOptions(){
-            include('db.php');
+            include (realpath(dirname(__FILE__)).'/db.php');;
             $htmlSelect =  '';
             
             $sql = "

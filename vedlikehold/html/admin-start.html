@@ -153,7 +153,7 @@
 
         <!-- FLY og Sete -->
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Fly og setteoversikt</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <a href="#"><i class="fa fa-link"></i> <span>Fly og seteoversikt</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
             <li id="Vis alle fly"><a href="./Plane/planes.php">Vis alle fly</a></li>
             <li id="Legg til fly"><a href="./Plane/planesAdd.php">Legg til fly</a></li>
@@ -174,33 +174,45 @@
 
         <!-- Destinasjon -->
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Destinasjon</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <a href="#"><i class="fa fa-link"></i> <span>Destinasjoner</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
             <
-            <li id="Destinasjon"><a href="./destinations.php">Destinasjon</a></li>
-            <li id="nyDest"><a href="./destinations.php">Ny</a></li>
-            <li id="nyDest"><a href="./destinations.php">Endre</a></li>
+            <li id="Destinasjon"><a href="./Destinations/destinations.php">Vis alle destinasjoner</a></li>
+            <li id="nyDest"><a href="./Destinations/destinationsAdd.php">Ny destinasjon</a></li>
+            <li id="endreDest"><a href="./Destinations/destinationsEdit.php">Endre destinasjon</a></li>
           </ul>
         </li>
         
-        <!-- Ruter -->
-        <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Flyruter</span> <i class="fa fa-angle-left pull-right"></i></a>
-          <ul class="treeview-menu">          
-            <li id="Vis alle flyruter"><a href="./FlightRoutes/routes.php" >Vis alle flyruter</a></li>
-            <li id="Legg til flyrute"><a href="./FlightRoutes/routesAdd.php">Legg til flyrute</a></li>
-            <li id="Endre flyrute"><a href="./FlightRoutes/routesEdit.php">Endre flyrute</a></li>
-          </ul>
-        </li>
+
         
         <!-- Avganger -->
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Avganger (ikke påbegynt)</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <a href="#"><i class="fa fa-link"></i> <span>Avgang</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
-            <
-            <li id="Destinasjon"><a href="./destinations.php">Vis alle avganger</a></li>
-            <li id="nyDest"><a href="./destinations.php">Ny avganger</a></li>
-            <li id="endreDest"><a href="./destinations.php">Endre avganger</a></li>
+            <li id="Destinasjon"><a href="./Avganger/avganger.php">Vis alle avganger</a></li>
+            <li id="nyDest"><a href="./Avganger/avgangerAdd.php">Ny avgang</a></li>
+            <li id="endreDest"><a href="./Avganger/avgangerEdit.php">Endre avgang</a></li>
+          </ul>
+        </li>
+        
+        
+        <!-- Billetter, Kunder og priskategorier -->
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Billetter, kunder og pris (ikke påbegynt)</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li id="biletter"><a href="tickets">Billetter (ikke påbegynt)</a></li>
+            <li id="kunder" ><a href="customer.php">Kunder (ikke påbegynt)</a></li>
+            <li id="kunder" ><a href="priceCatetgories.php">Priskategorier (ikke påbegynt)</a></li>
+          </ul>
+        </li>
+
+        <!-- Priskategorier -->
+        <li class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>Priskategorier</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li id="prisKat"><a href="./PrisKategori/prisKategori.php">Vis alle priskategorier</a></li>
+            <li id="nyPrisKat" ><a href="./PrisKategori/prisKategoriAdd.php">Ny priskategori</a></li>
+            <li id="endrePrisKat" ><a href="./PrisKategori/prisKategoriEdit.php">Endre priskategorier</a></li>
           </ul>
         </li>
 
@@ -208,11 +220,6 @@
         
         <li class="header">System admin</li>
         <!-- Optionally, you can add icons to the links -->
-        <li id="biletter"><a href="tickets">Billetter (ikke påbegynt)</a></li>
-        <li id="kunder" ><a href="customer.php">Kunder (ikke påbegynt)</a></li>
-        <li id="kunder" ><a href="priceCatetgories.php">Priskategorier (ikke påbegynt)</a></li>
-        <li id="Logg"><a href="./logg.php"><i class="fa fa-link"></i> <span>Logg</span></a></li>
-        <li id="Systemoppsett"><a href="./system.php"><i class="fa fa-link"></i> <span>Systemoppsett</span></a></li>
         <!-- Bruker -->
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Brukere</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -223,6 +230,8 @@
             <!--<li id="Slett"><a href="./User/delete.php"><i class="fa fa-link"></i> <span>Slett</span></a></li>-->
           </ul>
         </li>
+        <li id="Systemoppsett"><a href="./system.php"><i class="fa fa-link"></i> <span>Systemoppsett</span></a></li>
+        <li id="Logg"><a href="./logg.php"><i class="fa fa-link"></i> <span>Logg</span></a></li>
         
       </ul>
       <!-- /.sidebar-menu -->

@@ -64,3 +64,29 @@ footer p {
 .ui.dropdown .menu>.item {
     font-size: 1.4rem;
 }
+
+.top-buffer { margin-top:20px; }
+
+.navbar {
+    margin-bottom:0;
+}
+.jumbotron {
+    margin-bottom:0;
+}
+
+.navbar.navbar-default.navbar-static-top {
+    background-color: #eee;
+    border-bottom-color: #eee;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color:black;
+}
+body > div.jumbotron.text-center {
+    padding-top:20px;
+    padding-bottom: 20px;
+}
+.col-sm-2.control-label.billett{
+    padding-top: 0px;
+}
+    
