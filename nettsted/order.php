@@ -79,12 +79,12 @@ if($_GET
     && $_GET['antall']
     // && $_GET['bebis']
     ){
-        $fra = $_GET['reise'];
-        @$til = $_GET['retur'];
-        $antallReisende = $_GET['antall'];
+        $fra = $saner->data($_GET["reise"]);
+        @$til = $saner->data($_GET["retur"]);
+        $antallReisende = $saner->data($_GET["antall"]);
         
         if($_GET['bebis']){
-           $bebis = $_GET['bebis']; 
+           $bebis = $saner->data($_GET["bebis"]);
         } else {
             $bebis = 0;
         }
@@ -289,10 +289,12 @@ if($_GET
         $antallBebis = $bebis;
         
         if(!@$innloggetBruker){
-            $bestillerFornavn=$_POST['bestillerFornavn'];
-            $bestillerEtternavn = $_POST['bestillerEtternavn']; 
-            $bestillerEpost = $_POST['bestillerEpost'];
-            $bestillerTlf = $_POST['bestillerTlf'];   
+
+            $bestillerFornavn = $saner->data($_POST["bestillerFornavn"]);
+            $bestillerEtternavn = $saner->data($_POST["bestillerEtternavn"]);
+            $bestillerEpost = $saner->data($_POST["bestillerEpost"]);
+            $bestillerTlf = $saner->data($_POST["bestillerTlf"]);
+ 
         } else {
             $bestillerFornavn = $userInfo[0][1];
             $bestillerEtternavn = $userInfo[0][2];
@@ -304,10 +306,10 @@ if($_GET
         
         //mapper reisende til ett array 
         for ($i=1; $i <= $antallReisende; $i++) { 
-            $reisende[] = array('Fornavn' => $_POST['kundeFornavn'.$i]
-                                ,'Etternavn' => $_POST['kundeEtternavn'.$i]
-                                , 'Kjonn' => $_POST['kjonn'.$i]
-                                , 'Bagasje' => $_POST['bagasje'.$i]
+            $reisende[] = array('Fornavn' => $saner->data($_POST['kundeFornavn'.$i])
+                                ,'Etternavn' => $saner->data($_POST['kundeEtternavn'.$i])
+                                , 'Kjonn' =>$saner->data($_POST['kjonn'.$i])
+                                , 'Bagasje' => $saner->data($_POST['bagasje'.$i])
                                 );
             
         }

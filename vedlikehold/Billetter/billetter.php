@@ -1,12 +1,10 @@
 <?php 
-$title = "FLYPLASSER - VIS - Admin ";
+$title = "BILETTER - VIS - Admin ";
 
 include('../html/start.php');
-
 include('../html/header.html');
-
 include('../html/admin-start.html');
-$errorMelding = "";
+include('../php/Bilett.php');
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -14,14 +12,14 @@ $errorMelding = "";
   <!-- Content Header (Page header) -->
   <section class="content-header">
       <h1>
-        Vis alle flyplasser
-        <small>Viser en oversikt over alle flyplasser.</small>
+        Vis alle biletter
+        <small>Viser en oversikt over alle biletter.</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Flyplasser</li>
+      <li>Biletter</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">VisFlyplasser</li>
+      <li class="active">Vis biletter</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -32,7 +30,7 @@ $errorMelding = "";
         <div class="row">
       <div class="col-xs-12">
         <div class="box">
-          <div class="box-header"><?php echo $errorMelding; ?><div id="melding"></div>
+          <div class="box-header">
             <h3 class="box-title">Liste over fly</h3>
           </div>
           <!-- /.box-header -->
@@ -47,41 +45,35 @@ $errorMelding = "";
                   <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                     <thead>
                       <tr role="row">
-                        <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="FlyplassId">ID</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassNavn">Flyplass navn</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyplassEndret">Data endret</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Handling">Handling</th></tr>
-                      
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="FlyNr">Flynr</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Modell">Flymodell</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Type">Flytype</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Plasser">Antall sitteplasser</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Laget">Årsmodell</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Handling">Handling</th>                      
+                      </tr>
                     </thead>
                     <tbody>
 <?php 
 
 include('../php/AdminClasses.php');
 
-$airports = new Airport;
+$planes = new Planes;
 
 
-print( $airports->ShowAllAirports() );
+print( $planes->ShowAllPlanes() );
 
 
 ?> 
 
 
                     </tbody>
-                    <tfoot>
-                      <tr>
-                        <th rowspan="1" colspan="1">ID</th>
-                        <th rowspan="1" colspan="1">Flyplass navn</th>
-                        <th rowspan="1" colspan="1">Data endret</th>
-                        <th rowspan="1" colspan="1">Handling</th>
-                      </tr>
-                    </tfoot>
                   </table>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-5">
-                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"><?php $rader = new Count; print( $rader->AntallRader('flyplass') ); ?></div>
+                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"><?php $rader = new Count; print( $rader->AntallRader('fly') ); ?></div>
                 </div>
               </div>
             </div>

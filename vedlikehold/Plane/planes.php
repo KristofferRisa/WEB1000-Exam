@@ -1,5 +1,5 @@
 <?php 
-$title = "FLY - Admin ";
+$title = "FLY - VIS - Admin ";
 
 include('../html/start.php');
 include('../html/header.html');
@@ -19,7 +19,7 @@ include('../php/Plane.php');
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Fly og seteoversikt</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">VisFly</li>
+      <li class="active">Vis fly</li>
     </ol>
   </section>
  <!-- Main content -->

@@ -1,5 +1,5 @@
 <?php 
-$title = "FLYAVGANG - Admin ";
+$title = "DESTINASJONER - VIS - Admin ";
 
 include('../html/start.php');
 

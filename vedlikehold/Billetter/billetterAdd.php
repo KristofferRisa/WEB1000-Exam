@@ -1,30 +1,14 @@
 <?php 
-$title = "FLY - ENDRE - Admin";
+$title = "FLY - Admin";
 
 include('../html/start.php');
 include('../html/header.html');
 include('../html/admin-start.html');
 include('../php/Plane.php');
-// Validering og innsending av skjemadata
-include('../php/AdminClasses.php');
-
-if(@$_GET['id']){
-  
-  //returnerer en array
-  //brukes av både GET OG POST    
-  $id = $_GET['id'];
-  $fly = new Planes;
-  $flyinfo = $fly->GetPlane($id,$logg);
-
-  print_r($flyinfo);
- 
-
-}
-
 
 $flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $errMsg = "";
 
-  $errorMelding = "";
+$errorMelding = "";
 
 // Validering av skjemainput
 
@@ -35,11 +19,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $errorMelding = $html->errorMsg("Alle felt må fylles ut!");
 
+
+
 }
 
 
 elseif (filter_var($_POST["flyAntallPlasser"], FILTER_VALIDATE_INT) === false || strlen($_POST["flyAntallPlasser"]) > 11 ) {
-  $errorMelding =  $html->errorMsg("Antall plasser må kun være siffer og maks 11 tegn tegn!");
+  $$errorMelding =  $html->errorMsg("Antall plasser må kun være siffer og maks 11 tegn tegn!");
 
 }
 
@@ -53,6 +39,8 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
   
   else {
 
+    include('../php/AdminClasses.php');
+
     $valider = new ValiderData;
 
     $flyNr = $valider->valider($_POST["flyNr"]);
@@ -61,19 +49,20 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
     $flyAntallPlasser = $valider->valider($_POST["flyAntallPlasser"]);
     $flyAarsmodell = $valider->valider($_POST["flyAarsmodell"]);
 
-    $result = $fly->UpdatePlane($id, $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$logg );
+    $innIDataBaseMedData = new Planes;
 
-    echo $result;
-
-     $flyinfo = $fly->GetPlane($id,$logg);
+    $result = $innIDataBaseMedData->AddNewPlane($flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell);
 
     if($result == 1){
       //Success
-             $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
-
+      $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
+      
+      //Viser rediger sete knapp
+      $seteButton = '<div clas="row"><a href="./sete.php?" class="btn btn-flat btn-link>Rediger seter</a></div>';
+      
     } else {
       //not succesfull
-             $errorMelding = $html->errorMsg("Data ble ikke lagt inn i databasen.!");
+       $errorMelding = $html->errorMsg("Data ble ikke lagt inn i databasen.!");
 
     }
 
@@ -83,141 +72,105 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
 
 
 ?>
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1>
-      Endre fly data
-        <small>Her kan du endre et registrere fly i databasen</small>
-    </h1>
+
+      <h1>
+        Registrere nytt fly
+        <small>Her kan du registrere nye fly i databasen</small>
+      </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Fly og seteoversikt</li>
-      <li class="active">EndreFly</li>
+      <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
+      <li class="active">NyttFly</li>
     </ol>
   </section>
-
  <!-- Main content -->
   <section class="content">
-    <div class="row">
+
+
+    <!-- Your Page Content Here -->
+
+        <div class="row">
       <div class="col-sm-12">   
-          <!-- Horizontal Form -->
+                 <!-- Horizontal Form -->
           <div class="box box-info">
-
-
-<?php if($_GET && $_GET['id']){ ?>
-
-  <div class="box-header with-border"><?php echo $errorMelding; ?><div id="melding"></div>
-
-             
+            <div class="box-header with-border"><?php echo $errorMelding; ?><div id="melding"></div>
            <h3 class="box-title">Skjema</h3>
             </div>
             <!-- /.box-header -->
 
+
+
             <!-- form start -->
 
-            <form method="POST" class="form-horizontal" onsubmit="return validerRegistrerFly()">
+            <form method="post" class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" onsubmit="return validerRegistrerFly()">
               <div class="box-body">        
-
-                      <input type="hidden" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>">
-
 
                 <div class="form-group">
                   <label for="flyNr" class="col-sm-2 control-label">Flynr</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$flyinfo[0][1] ?>">
+                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$_POST['flyNr'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyModell" class="col-sm-2 control-label">Flymodell</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$flyinfo[0][2] ?>">
+                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$_POST['flyModell'] ?>">
                   </div>
                 </div>
+
                 <div class="form-group">
                   <label for="flyType" class="col-sm-2 control-label">Flytype</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$flyinfo[0][3] ?>">
+                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$_POST['flyType'] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyAntallPlasser" class="col-sm-2 control-label">Antall sitteplasser</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$flyinfo[0][4] ?>">
+                    <input type="number" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$_POST['flyAntallPlasser'] ?>">
                      </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$flyinfo[0][5] ?>">
+                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$_POST['flyAarsmodell'] ?>">
                   </div>
                 </div>
 
               <!-- /.box-body -->
               <div class="box-footer">
                 <div class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
-
-                <button type="submit" class="btn btn-info pull-right">Oppdater</button>
+                
+                <?php if(@$seteButton) { echo $seteButton; } ?>
+                
+                <button type="submit" class="btn btn-info pull-right">Legg til</button>
               </div>
               <!-- /.box-footer -->
             </form>
-
-            <?php } 
-else { //lister en select box med flyplass ?>
-<!-- Your Page Content Here -->
-<form class="form-horizontal" method="GET" id="redigerFly">
-    <div class="row">
-      <div class="col-md-12">
-        
-         <div class="box box-info">
-            <div class="box-body">
-
-               <div class="form-group col-md-6">
-                  <select class="form-control select2 select2-hidden-accessible" name="id" style="width: 100%;" tabindex="-1" aria-hidden="true">
-              
-                      <?php $planeselect = new Planes; print($planeselect-> PlaneSelectOptions()); ?>
-                
-                  </select>
-              </div>
-              
-              <div class="form-group col-md-2">
-                <button type="submit" class="btn btn-info pull-right">Hent</button>
-              </div>
-          
-      </div>
-    </div>
-  </form>
-
-
-<?php } ?>
-            
           </div>
           <!-- /.box -->
 
-
       </div>
-
    
       <!-- /.col -->
     </div>
 
-
   </section>
   <!-- /.content -->
- 
   
   </div>
   <!-- /.content-wrapper -->
   
 
 <?php
-
-
 include('../html/admin-slutt.html');
 
 include('../html/script.html');
