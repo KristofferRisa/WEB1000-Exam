@@ -14,18 +14,18 @@ include('../php/Avgang.php');
 
 $fly = new Planes;
 $dataFly= $fly -> GetPlaneDataset($logg);
+$avgang = new Avgang();
 
-$avgang = "";
 
 if(@$_GET['id']){
   
   //returnerer en array
   //brukes av både GET OG POST    
   $id = $_GET['id'];
-  $avgang = new avgang;
+
   $avgangInfo = $avgang->GetAvgang ($id, $logg);
   
-  print_r($avgangInfo);
+
   
   
 
@@ -63,9 +63,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $klokkeslett = $valider->valider($_POST["klokkeslett"]);
     $fastpris = $valider->valider($_POST["fastpris"]);
 
-    $avgang = new avgang; 
 
-    $result = $avgang->UpdateAvgang ($id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris, $logg);
+
+
+    $result = $avgang->UpdateAvgang(
+      $id, 
+    $flyId,
+    $fraDestId, $tilDestId
+    , $dato, $direkte, $reiseTid, $klokkeslett, $fastpris, $logg);
     //Henter oppdatert avgang info fra databasen
 
 

@@ -127,7 +127,7 @@
         
         
         // OPPDATERER EN AVGANG
-        public function UpdateAvgang ($id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastPris, $logg)
+        public function UpdateAvgang($id, $flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastPris, $logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');
             $logg->Ny('Forsøker å oppdatere avgang med avgangsId '.$id.', med disse data '.$flyId.', '.$dato.', '.$direkte.', '.$reiseTid.', '.$klokkeslett.', '.$fastPris);
