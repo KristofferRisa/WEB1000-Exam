@@ -22,14 +22,14 @@ include('../php/addDestinationFormInput.php');
   <section class="content-header">
 
       <h1>
-        Registrere ny destinasjon
-        <small>Her kan du registrere ny destinasjon i databasen</small>
+        Endre destinasjon
+        <small>Her kan du endre destinasjon i databasen</small>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Ny destinasjon</li>
+      <li>Destinasjoner</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Legg til destinasjon</li>
+      <li class="active">Ny destinasjoner</li>
     </ol>
   </section>
  <!-- Main content -->
