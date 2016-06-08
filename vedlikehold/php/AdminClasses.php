@@ -292,6 +292,75 @@ class Destination {
             
             return $destinasjon;
         } 
+
+        public function DestinationSelectOptions(){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+             $listBox = "";
+            
+            $sql="SELECT destinasjonId, navn from destinasjon";
+            
+            $queryDestinasjon = $db_connection->prepare($sql);
+            
+            $queryDestinasjon->execute();
+
+            $queryDestinasjon->bind_result($id, $navn);
+                        
+            while ($queryDestinasjon->fetch()) {
+                
+                 $listBox .= "<option value=".$id. ">ID: ".$id.", Destinasjonsnavn: ".$navn."</option>";
+            }
+            
+            //$htmlSelect .= '</select>';
+            //Error logging
+            if($queryDestinasjon == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $queryDestinasjon->close();
+            $db_connection->close();  
+
+            return $listBox;
+
+         }
+         public function UpdateDestination($flyplassID, $navn, $landskode,$stedsnavn,$geo_lat,$geo_lng, $logg){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            $logg->Ny('Forsoeker å oppdatere flyplass (id='.$flyplassId.') med navnet '.$navn);
+            
+            $sql = "
+            update flyplass 
+            set navn = ? where flyplassId = ?;";
+            
+            $insertFlyplass = $db_connection->prepare($sql);
+            $insertFlyplass->bind_param('si'
+                                    , $navn,$flyplassId);
+                                    
+            $insertFlyplass->execute();
+
+            $affectedRows = $insertFlyplass->affected_rows;
+            
+            $insertFlyplass->close();
+            $db_connection->close(); 
+            
+            
+            $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+
+            if($insertFlyplass == false){
+                $logg->Ny('Failed to update: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
+                exit;    
+            }
+            
+            if ($affectedRows == 1) {
+                $logg->Ny('Fly ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } else {
+                $logg->Ny('Klarte ikke å oppdatere fly.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
+            } 
+                
+            //Lukker databasetilkopling
+            
+            return $affectedRows;
+        }
+    
 }
 
 class Airport {
