@@ -247,7 +247,7 @@ if($_GET
                 
                 <?php if(@$_GET['avgangIdRetur']) { ?>
                 <!--Antall bagasje retur-->
-                <div class="row">
+                <!--<div class="row">
                    <div class="form-group">
                         <label for="flyplassID" class="col-sm-2 control-label">Antall bagasje</label>
                         <div class="col-sm-6">
@@ -258,7 +258,7 @@ if($_GET
                             </select>
                         </div>
                     </div> 
-                </div>
+                </div>-->
                 
                 <?php } ?>
             <?php } ?>
@@ -303,27 +303,40 @@ if($_GET
         $reisende = array();
         
         //mapper reisende til ett array 
-        for ($i=1; $i < $antallReisende; $i++) { 
+        for ($i=1; $i <= $antallReisende; $i++) { 
             $reisende[] = array('Fornavn' => $_POST['kundeFornavn'.$i]
-                                , 'Etternavn' => $_POST['kundeEtternavn'.$i]);
+                                ,'Etternavn' => $_POST['kundeEtternavn'.$i]
+                                , 'Kjonn' => $_POST['kjonn'.$i]
+                                , 'Bagasje' => $_POST['bagasje'.$i]
+                                );
             
         }
         
         print_r($reisende);
+        $ledig = $avganger->SjekkLedigKapasitetAvgangId($utreiseInfo[0][0],$antallReisende,$logg);
+        print_r($ledig);
         
-        // $result = $bestilling->NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,$antallVoksne
-        //     , $antallBarn
-        //     , $antallBebis
-        //     ,$logg);
+        //Sjekker først om det fortsatt er ledige plasser på avgangen
+        if(@$ledig[0][1] >= $antallReisende){
+            $result = $bestilling->NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,$antallVoksne
+            , $antallBarn
+            , $antallBebis
+            , $reisende
+            , $utreiseInfo[0][0]
+            ,$logg);
         
         
-        $result = 0;
-        
-        if($result == 1){ 
-            $response = $html->successMsg('Vellykket bestilling, refno: '.$refNo);
+            if($result == 1){ 
+                $response = $html->successMsg('Vellykket bestilling, refno: '.$refNo);
+            } else {
+                $response = $html->errorMsg('Noe feilet ved bestillingen, kontakt vårt service kontor umiddelbart.');
+            }    
         } else {
-            $response = $html->errorMsg('Noe feilet ved bestillingen, kontakt vårt service kontor umiddelbart.');
-        } ?>
+            //Fant ikke ledige plasser på avgangen
+            $response = $html->errorMsg('Klarte ikke å fullføre bestillingen. Ikke ledig kapasitet på flyet.');
+        }
+        
+         ?>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
