@@ -23,11 +23,12 @@ $errorMelding = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-  if ( empty($_POST["prisKategoriNavn"]) ) {
+  if ( empty($_POST["prisKategoriNavn"]) || empty($_POST["prisKatProsentPaaslag"]) ) {
 
     $errorMelding = $html->errorMsg("Error! </strong>Alle felt må fylles ut.");
 
 }
+
 
 elseif (strlen($_POST["prisKategoriNavn"]) > 100 ) {
   $errorMelding = $html->successMsg("Navn må være maks 100 tegn.");
@@ -42,10 +43,12 @@ elseif (strlen($_POST["prisKategoriNavn"]) > 100 ) {
 
 
     $prisKategoriNavn = $valider->valider($_POST["prisKategoriNavn"]);
+    $prisKatProsentPaaslag = $valider->valider($_POST["prisKatProsentPaaslag"]);
 
     $innIDataBaseMedData = new PrisKat;
 
-    $result = $innIDataBaseMedData->NewPrisKat($prisKategoriNavn);
+    $result = $innIDataBaseMedData->NewPrisKat($prisKategoriNavn,$prisKatProsentPaaslag,$logg);
+
 
     if($result == 1){
       //Success
