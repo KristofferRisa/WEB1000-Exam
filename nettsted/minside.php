@@ -9,10 +9,18 @@ $bestillinger = new Bestilling();
 $bestillingerData = $bestillinger->GetBestillingFromEpost($userInfo[0][3],$logg);
 $billetter = new Billett();
 
+if(@$_GET['ref']){
+  //Finnne bestillingsID
+  $bestilling = $bestillinger->GetBestillingFromRefNo($_GET['ref'],$logg);
+
+  $id = $bestilling[0][0];
+
+  @$billetterData = $billetter->GetBillettByBestillingId($bestilling[0][0],$logg);
+
+}
 
 $brukernavnPattern = "/^[A-Za-z0-9]{2,}$/";
 $navnPattern = "/^[A-Za-z]{2,}$/";
-
 
 @$innloggetBruker=$_SESSION["brukernavn"];
         
@@ -23,15 +31,12 @@ $navnPattern = "/^[A-Za-z]{2,}$/";
     header('Location: ./login.php');
     exit;
 }
-if(@$_GET['id']){
-  
-  //returnerer en array med bruker info
-  //brukes av både GET OG POST    
-  $id = $_GET['id'];
-  $bestilling = $bestillinger->GetBestilling($id, $logg);
-  $billetterData = $billetter->GetBillettByBestillingId($bestilling[0][0],$logg);
-  
+
+if (@$_GET["deleteRows"] && @$_GET["deleteRows"] == -1)
+{
+  $responseMsg= $html->errorMsg("Kan ikke slette data grunnet fremmednøkler. Alle tilhørende avganger må slettes først.");
 }
+
 
 if($_POST){
   // Forsøker å oppdater bruker
@@ -104,10 +109,11 @@ if($_POST){
 <div class="container">
 
 
- <?php if($_GET && $_GET['id']){  //Viser skjema dersom det både er en GET request med querstring id?>
+ <?php if($_GET && @$_GET['ref'] 
+  && count(@$bestilling[0]) > 0){  //Viser skjema dersom det både er en GET request med querstring id?>
   
     <!-- SKJEMA FOR Å ENDRE bestilling -->
-    <div class="row">
+    <div class="row top-buffer">
       
       <form class="form-horizontal" method="POST" id="bestilling">
           <!-- Horizontal Form -->
@@ -208,7 +214,7 @@ if($_POST){
               <!-- /.box-body -->
               <div class="panel-footer">
                 <div class="btn btn-default" onclick="location.href='minside.php';">Tilbake</div>
-                <a  href="./Bestillinger/slett.php?id=<?php echo $id; ?>" class="btn btn-danger" onclick="return confirm('Er du sikker du ønsker å slette denne bestillingen?');">Slett</a>
+                <a  href="./slett.php?id=<?php echo $id; ?>" class="btn btn-danger" onclick="return confirm('Er du sikker du ønsker å slette denne bestillingen?');">Slett</a>
                 <button type="submit" class="btn btn-info pull-right">Oppdater</button>
               </div>
               <!-- /.box-footer -->
@@ -219,12 +225,18 @@ if($_POST){
       <!-- /.col -->
     </div>
 
-<?php  } else { ?>
+<?php  } else { 
+    if(count(@$bestilling[0]) == 0 && @$_GET['ref']){
+      $responseMsg = $html->errorMsg('Fant ikke bestilling');
+    }
+  
+  ?>
 
 
 <div class="container">
     <div class="row top-buffer">
         <h1 class="page-header">Velkommen tilbake <?php echo $userInfo[0][1]; echo ' ';?> <?php echo $userInfo[0][2]; ?></h1>
+        <?php echo @$responseMsg ?>
     </div>
     
 <form class="form-horizontal" method="GET" id="nybruker">
@@ -236,7 +248,7 @@ if($_POST){
                 <div class="row">    
                     <label for="id" class="col-md-2 control-label">Søk etter billetter</label>
                     <div class="col-md-5">
-                        <input type="text" class="form-control" id="sok" name="id" required placeholder="REF NO" >
+                        <input type="text" class="form-control" id="sok" name="ref" required placeholder="REF NO" >
                     </div>
                 </div>
 
