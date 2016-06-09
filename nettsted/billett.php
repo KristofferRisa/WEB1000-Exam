@@ -36,16 +36,12 @@ elseif (!$_POST["kjonn"] == "Mann" || !$_POST["kjonn"] =="Kvinne"  ) {
 elseif (!$_POST["antallBagasje"] === 0 || !$_POST["antallBagasje"] === 1 || !$_POST["antallBagasje"] === 3   ) {
   $errorMelding =  $html->errorMsg("Antall bagasje må være maks 3");
 
-}
+} else {
 
-
-  
-  else {
-
-            $fornavn = $saner->data($_POST["fornavn"]);
-            $etternavn = $saner->data($_POST["etternavn"]);
-            $kjonn = $saner->data($_POST["kjonn"]);
-            $antallBagasje = $saner->data($_POST["antallBagasje"]);
+    $fornavn = $saner->data($_POST["fornavn"]);
+    $etternavn = $saner->data($_POST["etternavn"]);
+    $kjonn = $saner->data($_POST["kjonn"]);
+    $antallBagasje = $saner->data($_POST["antallBagasje"]);
 
     $result = $billett->UpdateBillett($id, $fornavn, $etternavn,$kjonn,$antallBagasje,$logg );
 

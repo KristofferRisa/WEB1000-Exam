@@ -1,6 +1,6 @@
 <?php
     class Bestilling
-{
+    {
         
         // OPPRETTE NY BESTILLING
         public function Bestilling()
@@ -251,6 +251,37 @@
             $db_connection->close(); 
             
             return $bestilling;
+        }
+
+        public function GetBestillingFromRefNo($refno, $logg)
+        {
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            $sql = "SELECT bestillingId, bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn
+                    FROM bestilling WHERE refNo=?;";
+            
+            $queryBestilling = $db_connection->prepare($sql);
+            
+            $queryBestilling->bind_param('s'
+                                    , $refno);
+            
+            $queryBestilling->execute();
+            
+            //henter result set
+            $resultSet = $queryBestilling->get_result();
+            
+            $bestilling =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryBestilling == false){
+                $logg->Ny('Mislyktes å hente fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryBestilling->close();
+            $db_connection->close(); 
+            
+            return $bestilling;
         } 
 
         public function GetBestillingFromEpost($epost, $logg)
@@ -320,33 +351,49 @@
         } 
         
         //SLETTE EN BESTILLING WHERE bestillingId = ?
-         public function DeleteBestilling($bestillingId, $logg)
+         public function DeleteBestilling($bestillingId, $deleteBilletter, $logg)
          {
-            include (realpath(dirname(__FILE__)).'/db.php');;
+            include (realpath(dirname(__FILE__)).'/db.php');
             
-            $sql = "DELETE FROM bestilling WHERE bestillingId=?;";
+            $bestillingId = trim($bestillingId);
+            $bestillingId = stripslashes($bestillingId);
+            $bestillingId = htmlspecialchars($bestillingId);
             
-            $deleteBestilling = $db_connection->prepare($sql);
             
-            $deleteBestilling->bind_param('i'
-                                    , $bestillingId);
-            
-            $deleteBestilling->execute();
-            
-            $paavirkedeRader = $deleteBestilling->affected_rows;
+            if($deleteBilletter)
+            {
+                $sql = "delete from billett where bestillingId = '".$bestillingId."';";
 
+            }
             
+
+            $sql .= "DELETE FROM bestilling WHERE bestillingId='".$bestillingId."';";
+            
+            $antallRader = "0";
+            
+
+            /* execute multi query */
+            if ($db_connection->multi_query($sql)) {
+                do {
+                    /* store first result set */
+                    if ($result = $db_connection->store_result()) {
+                        while ($row = $result->fetch_row()) {
+                            $antallRader = $antallRader + $row[0];
+                        }
+                        $result->free();
+                    }
+                } while ($db_connection->next_result());
+            }
+
             //Error logging
             if($deleteBestilling == false)
             {
                 $logg->Ny('Mislyktes å slette data fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
             }
             
-            // Lukker databasen
-            $deleteBestilling->close();
             $db_connection->close(); 
             
-            return $paavirkedeRader;
+            return $antallRader;
             
          }
        
