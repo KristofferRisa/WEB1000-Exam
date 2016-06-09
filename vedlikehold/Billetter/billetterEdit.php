@@ -1,28 +1,18 @@
 <?php 
-$title = "FLY - ENDRE - Admin";
+$title = "BILLETTER - ENDRE - Admin ";
 
 include('../html/start.php');
 include('../html/header.html');
 include('../html/admin-start.html');
-include('../php/Plane.php');
-// Validering og innsending av skjemadata
-include('../php/AdminClasses.php');
-
+include('../php/Billett.php');
 if(@$_GET['id']){
   
   //returnerer en array
   //brukes av både GET OG POST    
   $id = $_GET['id'];
-  $fly = new Planes;
-  $flyinfo = $fly->GetPlane($id,$logg);
-
-  print_r($flyinfo);
- 
-
+  $billett = new Billett;
+  $billettinfo = $billett->GetBillett($id,$logg);
 }
-
-
-$flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $errMsg = "";
 
   $errorMelding = "";
 
@@ -31,7 +21,7 @@ $flyId = $flyNr = $flyModell = $flyType = $flyAntallPlasser = $flyLaget = $errMs
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-  if ( empty($_POST["flyNr"]) || empty($_POST["flyModell"]) || empty($_POST["flyType"]) || empty($_POST["flyAntallPlasser"]) || empty($_POST["flyAarsmodell"]) ) {
+  if ( empty($_POST["fornavn"]) || empty($_POST["etternavn"]) || empty($_POST["kjonn"]) || empty($_POST["antallBagasje"]) ) {
 
     $errorMelding = $html->errorMsg("Alle felt må fylles ut!");
 
@@ -89,13 +79,13 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      Endre fly data
-        <small>Her kan du endre et registrere fly i databasen</small>
+      Endre billett
+        <small>Her kan du gjøre endringer på billetter</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Fly og seteoversikt</li>
-      <li class="active">EndreFly</li>
+      <li>Billetter</li>
+      <li class="active">Endre Billett</li>
     </ol>
   </section>
 
@@ -112,7 +102,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
   <div class="box-header with-border"><?php echo $errorMelding; ?><div id="melding"></div>
 
              
-           <h3 class="box-title">Skjema</h3>
+           <h3 class="box-title">Endre billett id:<?php echo $id?></h3>
             </div>
             <!-- /.box-header -->
 
@@ -125,37 +115,30 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
 
 
                 <div class="form-group">
-                  <label for="flyNr" class="col-sm-2 control-label">Flynr</label>
+                  <label for="fornavn" class="col-sm-2 control-label">Fornavn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$flyinfo[0][1] ?>">
+                    <input type="text" class="form-control" id="fornavn" name="fornavn" placeholder="Fornavn" value="<?php echo @$flyinfo[0][1] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="flyModell" class="col-sm-2 control-label">Flymodell</label>
+                  <label for="etternavn" class="col-sm-2 control-label">Etternavn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$flyinfo[0][2] ?>">
+                    <input type="text" class="form-control" id="etternavn" name="etternavn" placeholder="Etternavn" value="<?php echo @$flyinfo[0][2] ?>">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="flyType" class="col-sm-2 control-label">Flytype</label>
+                  <label for="kjonn" class="col-sm-2 control-label">Kjønn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$flyinfo[0][3] ?>">
+                    <input type="text" class="form-control" id="kjonn" name="kjonn" placeholder="Kjønn" value="<?php echo @$flyinfo[0][3] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="flyAntallPlasser" class="col-sm-2 control-label">Antall sitteplasser</label>
+                  <label for="antallBagasje" class="col-sm-2 control-label">Antall bagasje</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$flyinfo[0][4] ?>">
+                    <input type="text" class="form-control" id="antallBagasje" name="antallBagasje" placeholder="Antall bagasjer" value="<?php echo @$flyinfo[0][4] ?>">
                      </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$flyinfo[0][5] ?>">
-                  </div>
                 </div>
 
               <!-- /.box-body -->

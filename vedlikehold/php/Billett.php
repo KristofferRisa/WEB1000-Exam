@@ -180,7 +180,48 @@
             return $paavirkedeRader;
             
          }
+        public function ShowAllBilletter(){
+
+        include('../php/db.php');  
+        $html =  '';
        
+        //CSS Styling
+        $oddOrEven = TRUE;
+        $printOddOrEven = '';
+        
+       
+        //  db-tilkopling
+        $query = $db_connection->prepare("SELECT billettId, bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje FROM billett");
+        $query->execute();
+        $query->bind_result($billettId, $bestillingId, $avgangId,$seteId, $fornavn, $etternavn,$kjonn,$antBagasje);
+
+
+
+        //henter data
+       
+        while ($query->fetch()) {
+
+
+            if($oddOrEven){
+                $oddOrEven = FALSE;
+                $printOddOrEven = 'even';
+            } 
+            else {
+                $oddOrEven = TRUE;
+                $printOddOrEven = 'odd';
+            }
+
+            $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$billettId.'</td><td>'.$bestillingId.'</td><td>'.$avgangId.'</td><td>'.$seteId.'</td><td>'.$fornavn.'</td><td>'.$etternavn.'</td><td>'.$kjonn.'</td><td>'.$antBagasje.'</td><td><a href="./Billetter/billetterEdit.php?id='.$billettId.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å kansellere denne billetten?\')" href="./Billetter/delete.php?id='.$billettId.'">Slett</a> </td></tr>';
+
+        }
+        
+    
+        //Lukker databasetilkopling
+        $query->close();
+        $db_connection->close();
+        
+        return $html;
+    }
  }    
     
     
