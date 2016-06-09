@@ -24,7 +24,7 @@
             $insertPrisKat->execute();
             $affectedrows=$insertPrisKat->affected_rows;
            
-            
+
             $logg->Ny('Rows affected: '.$affectedrows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
 
             if($insertPrisKat == false){
@@ -163,7 +163,7 @@
             ("SELECT prisKategoriId, navn, endret, kroner FROM prisKategori");
 
             $query->execute();
-            $query->bind_result($prisKatId, $navn, $kroner, $endret);
+            $query->bind_result($prisKatId, $navn, $endret, $kroner);
             
             //henter data
             while ($query->fetch()) 
@@ -180,7 +180,7 @@
                 $html .= '<tr role="row" class="'.$printOddOrEven.'">
                 <td>'.$navn.'</td>  
                 <td>'.$kroner.'</td><td>
-                <a href="./PrisKategori/prisKategoriAdd.php">Ny priskategori</a> | <a href="./PrisKategori/prisKategoriEdit.php?id='.$prisKatId.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne priskategorien?\')" href="./PrisKategori/delete.php?id='.$id.'">Slett</a> </td></tr>';
+                <a href="./PrisKategori/prisKategoriAdd.php">Ny priskategori</a> | <a href="./PrisKategori/prisKategoriEdit.php?id='.$prisKatId.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne priskategorien?\')" href="./PrisKategori/delete.php?id='.$prisKatId.'">Slett</a> </td></tr>';
 
             }
             return $html;
