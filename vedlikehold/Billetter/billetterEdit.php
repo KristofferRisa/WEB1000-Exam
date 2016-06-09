@@ -12,50 +12,54 @@ if(@$_GET['id']){
   $id = $_GET['id'];
   $billett = new Billett;
   $billettinfo = $billett->GetBillett($id,$logg);
+  print_r ($billettinfo);
 }
 
+
+
   $errorMelding = "";
+
+
 
 // Validering av skjemainput
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-  if ( empty($_POST["fornavn"]) || empty($_POST["etternavn"]) || empty($_POST["kjonn"]) || empty($_POST["antallBagasje"]) ) {
+  if ( empty($_POST["fornavn"]) || empty($_POST["etternavn"]) || empty($_POST["kjonn"]) ) {
 
     $errorMelding = $html->errorMsg("Alle felt må fylles ut!");
 
 }
 
+elseif ( strlen($_POST["fornavn"]) > 100 || strlen($_POST["etternavn"]) > 100) {
+  $errorMelding =  $html->errorMsg("Fornavn og etternavn må maks være 100 tegn!");
+}
 
-elseif (filter_var($_POST["flyAntallPlasser"], FILTER_VALIDATE_INT) === false || strlen($_POST["flyAntallPlasser"]) > 11 ) {
-  $errorMelding =  $html->errorMsg("Antall plasser må kun være siffer og maks 11 tegn tegn!");
+elseif (!$_POST["kjonn"] == "Mann" || !$_POST["kjonn"] =="Kvinne"  ) {
+  $errorMelding =  $html->errorMsg("Kjønn kan kun være: Mann/Kvinnen!");
+}
+
+
+elseif (!$_POST["antallBagasje"] === 0 || !$_POST["antallBagasje"] === 1 || !$_POST["antallBagasje"] === 3   ) {
+  $errorMelding =  $html->errorMsg("Antall bagasje må være maks 3");
 
 }
 
-elseif (strlen($_POST["flyNr"]) > 45 || strlen($_POST["flyModell"]) > 45 ) {
-  $errorMelding =  $html->errorMsg("Modell, type og flynr må være maks 45 tegn!");
-}
-elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
-  $errorMelding = $html->errorMsg("Årsmodell må bestå av 4 siffer!");
-}
 
   
   else {
 
-    $valider = new ValiderData;
+            $fornavn = $saner->data($_POST["fornavn"]);
+            $etternavn = $saner->data($_POST["etternavn"]);
+            $kjonn = $saner->data($_POST["kjonn"]);
+            $antallBagasje = $saner->data($_POST["antallBagasje"]);
 
-    $flyNr = $valider->valider($_POST["flyNr"]);
-    $flyModell = $valider->valider($_POST["flyModell"]);
-    $flyType = $valider->valider($_POST["flyType"]);
-    $flyAntallPlasser = $valider->valider($_POST["flyAntallPlasser"]);
-    $flyAarsmodell = $valider->valider($_POST["flyAarsmodell"]);
-
-    $result = $fly->UpdatePlane($id, $flyNr, $flyModell,$flyType,$flyAntallPlasser,$flyAarsmodell,$logg );
+    $result = $billett->UpdateBillett($id, $fornavn, $etternavn,$kjonn,$antallBagasje,$logg );
 
     echo $result;
 
-     $flyinfo = $fly->GetPlane($id,$logg);
+     $billettinfo = $billett->GetBillett($id,$logg);
 
     if($result == 1){
       //Success
@@ -102,7 +106,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
   <div class="box-header with-border"><?php echo $errorMelding; ?><div id="melding"></div>
 
              
-           <h3 class="box-title">Endre billett id:<?php echo $id?></h3>
+           <h3 class="box-title">Endre billett id: <?php echo $id?></h3>
             </div>
             <!-- /.box-header -->
 
@@ -117,29 +121,40 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
                 <div class="form-group">
                   <label for="fornavn" class="col-sm-2 control-label">Fornavn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="fornavn" name="fornavn" placeholder="Fornavn" value="<?php echo @$flyinfo[0][1] ?>">
+                    <input type="text" class="form-control" id="fornavn" name="fornavn" placeholder="Fornavn" value="<?php echo @$billettinfo[0][4] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="etternavn" class="col-sm-2 control-label">Etternavn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="etternavn" name="etternavn" placeholder="Etternavn" value="<?php echo @$flyinfo[0][2] ?>">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="kjonn" class="col-sm-2 control-label">Kjønn</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="kjonn" name="kjonn" placeholder="Kjønn" value="<?php echo @$flyinfo[0][3] ?>">
+                    <input type="text" class="form-control" id="etternavn" name="etternavn" placeholder="Etternavn" value="<?php echo @$billettinfo[0][5] ?>">
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="antallBagasje" class="col-sm-2 control-label">Antall bagasje</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="antallBagasje" name="antallBagasje" placeholder="Antall bagasjer" value="<?php echo @$flyinfo[0][4] ?>">
-                     </div>
-                </div>
+                        <label for="kjonn" class="col-sm-2 control-label">Kjønn</label>
+                        <div class="col-sm-10">
+                            <select class="form-control select2 select2-hidden-accessible" name="kjonn" id="kjonn" tabindex="-1" aria-hidden="true">
+                                <option value="Mann" <?php if($billettinfo[0][6] == "Mann") {echo "Selected";} ?> >Mann</option>
+                                <option value="Kvinne"<?php if($billettinfo[0][6] == "Kvinne") {echo "Selected";} ?> >Kvinne</option>
+                            </select>
+                        </div>
+                    </div>
+
+                
+                   <div class="form-group">
+                        <label for="antallBagasje" class="col-sm-2 control-label">Antall bagasje</label>
+                        <div class="col-sm-10">
+                            <select class="form-control select2 select2-hidden-accessible" name="antallBagasje" id="antallBagasje" tabindex="-1" aria-hidden="true">
+                                <option value="0" <?php if($billettinfo[0][7] == 0) {echo "Selected";} ?>>Kun håndbagasje</option>
+                                <option value="1" <?php if($billettinfo[0][7] == 1) {echo "Selected";} ?>>1 kolli (100 NOK)</option>
+                                <option value="2" <?php if($billettinfo[0][7] == 2) {echo "Selected";} ?>>2 kolli (200 NOK)</option>
+                            </select>
+                        </div>
+                    </div>
+
+
 
               <!-- /.box-body -->
               <div class="box-footer">
@@ -163,7 +178,7 @@ else { //lister en select box med flyplass ?>
                <div class="form-group col-md-6">
                   <select class="form-control select2 select2-hidden-accessible" name="id" style="width: 100%;" tabindex="-1" aria-hidden="true">
               
-                      <?php $planeselect = new Planes; print($planeselect-> PlaneSelectOptions()); ?>
+                      <?php $billettselect = new Billett; print($billettselect-> BillettSelectOptions()); ?>
                 
                   </select>
               </div>
