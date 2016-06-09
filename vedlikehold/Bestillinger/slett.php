@@ -1,12 +1,15 @@
 <?php 
 include('./../html/start.php');
+include('../php/Bestilling.php');
+$bestillinger = new Bestilling();
+
 $rows = -1;
 
 if($_GET['id']){
   $id = $_GET['id'];
-  $rows = $user->DeleteUser($id, $logg);
+  $rows = $bestillinger->DeleteBestilling($id, $logg);
 }
 
-header('Location: ./users.php?deleteRows='.$rows);
+header('Location: ./alle.php?deleteRows='.$rows);
 
 ?>
