@@ -19,7 +19,7 @@
     {
         //CHANGE ON DEPLOYMENT
         // header('Location: '.$_SERVER['SERVERNAME'].'/web-is-gr13w/dev/vedlikehold/login.php');
-        header('Location: '.$_SERVER['SERVERNAME'].'/WEB1000-Exam/vedlikehold/login.php');
+        header('Location: '.$_SERVER['SERVERNAME'].'/web-is-gr13w/vedlikehold/login.php');
         exit;
     }
 

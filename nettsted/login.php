@@ -71,7 +71,7 @@ if ($_POST) {
 <body class="hold-transition login-page">
     <div class="login-box">
     <div class="login-logo">
-        <a href="../../index2.html"><b>B</b>JARUM <b>A</b>IRLINES</a>
+        <a href="./"><b>B</b>JARUM <b>A</b>IRLINES</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
@@ -108,9 +108,7 @@ if ($_POST) {
             <!-- /.col -->
         </div>
         </form>
-        
-        <!-- /.social-auth-links -->
-        <a href="#">Glemt passord</a><br>
+
         <a href="registrer.php" class="text-center">Register</a>
     </div>
     <!-- /.login-box-body -->
