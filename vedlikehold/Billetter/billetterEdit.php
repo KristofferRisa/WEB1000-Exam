@@ -12,7 +12,7 @@ if(@$_GET['id']){
   $id = $_GET['id'];
   $billett = new Billett;
   $billettinfo = $billett->GetBillett($id,$logg);
-  print_r ($billettinfo);
+  // print_r ($billettinfo);
 }
 
 

@@ -251,8 +251,6 @@
       </div>
     </div>
     
-    <hr>
- 
     <!--RESULTAT START-->
     <div class="row">
       
@@ -263,7 +261,7 @@
           if(@$ledigeAvgangerUtreise
           && !count($ledigeAvgangerUtreise)==0){
             
-            $resultMsg.='<div class="col-md-5">
+            $resultMsg.='<hr><div class="col-md-5">
                             <h2>Avreise</h2>
                             <div class="list-group">';
                           
@@ -271,6 +269,7 @@
               
             $last = count($ledigeAvgangerUtreise) - 1;
             $rowCounter = 0;
+            print_r($ledigeAvgangerUtreise);
 
             foreach ($ledigeAvgangerUtreise as $i => $row)
             {
@@ -279,9 +278,10 @@
                 
                 $resultMsg .= '
                       <button class="list-group-item avreise" onclick="avreiseBestilling(this);" data-destinasjonId="'.$til.'" data-avgangId="'.$row[0].'" data-antall="'.$antallReisende.'" >
-                         <span class="glyphicon glyphicon-plane"></span>
-                         '.$row[1].' kl.'.$row[2].
-                         '<br>'.$row[5].'
+                         <span class="glyphicon glyphicon-plane"></span><br>
+                         '.$row[1].' avgang kl.'.$row[2].' reisetid: '.$row[6].
+                         '<br>
+                         Pris: '.$row[5].'
                          </button>';
               }
               
@@ -290,7 +290,7 @@
                   <!--Splitter-->
                   <div class="col-md-2"></div>';
               $resultMsg .= '<div class="col-md-5">';
-              if(count($ledigeAvgangerHjemReise) > 0){
+              if(count(@$ledigeAvgangerHjemReise) > 0){
                 $resultMsg .= '<h2>Retur</h2>
                                  <div class="list-group">';
                                 

@@ -21,7 +21,7 @@ if(@$_GET['id']){
   $prisKat = new prisKat;
   $prisKatInfo = $prisKat->getPrisKat ($id, $logg);
   
-  print_r($prisKatInfo);
+  // print_r($prisKatInfo);
   
 
 }
