@@ -15,7 +15,7 @@
             $logg->Ny("Forsøker å finne ledige avganger fra: ".$fra." og til: ".$til." den ".$dato." for ".$antallReisende." reisende.");
             
             $sql = "
-            SELECT * FROM eksamen.LedigeAvganger
+            SELECT * FROM LedigeAvganger
             where dato > ?
             and fraDestId = ?
             and tilDestId = ?
@@ -53,7 +53,7 @@
             include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = "
-            SELECT avgangId,AntallLedige FROM eksamen.LedigeAvganger
+            SELECT avgangId,AntallLedige FROM LedigeAvganger
             where avgangId = ?
             and AntallLedige >= ?;";
             
