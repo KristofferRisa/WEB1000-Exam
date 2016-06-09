@@ -9,21 +9,15 @@ include('../html/admin-start.html');
 
 include('../php/AdminClasses.php');
 
-?>
 
-// Validering og innsending av skjemadata
-<?php 
-
-$prisKategoriId = $prisKategoriNavn = $prisKatKroner = $errMsg = "";
 
 $errorMelding = "";
 
-// Validering av skjemainput
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-  if ( empty($_POST["prisKategoriNavn"]) ) {
+  if ( empty($_POST["prisKategoriNavn"]) || empty($_POST["prisKatKroner"])) {
 
     $errorMelding = $html->errorMsg("Error! </strong>Alle felt må fylles ut.");
 
@@ -38,14 +32,17 @@ elseif (strlen($_POST["prisKategoriNavn"]) > 100 ) {
 
     include('../php/PrisKat.php');
 
+
     $valider = new ValiderData;
 
 
     $prisKategoriNavn = $valider->valider($_POST["prisKategoriNavn"]);
+    $prisKatKroner = $valider->valider($_POST["prisKatKroner"]);
+
 
     $innIDataBaseMedData = new PrisKat;
 
-    $result = $innIDataBaseMedData->NewPrisKat($prisKategoriNavn);
+    $result = $innIDataBaseMedData->NewPrisKat($prisKategoriNavn, $prisKatKroner, $logg);
 
     if($result == 1){
       //Success
@@ -53,7 +50,7 @@ elseif (strlen($_POST["prisKategoriNavn"]) > 100 ) {
 
     } else {
       //not succesfull
-             $errorMelding = "<div class='alert alert-warning'><strong>Error! </strong>Data ble ikke lagt inn i database.</div>";
+             $errorMelding = "<div class='alert alert-warning'><strong>Error! </strong>$result Data ble ikke lagt inn i database.</div>";
 
     }
 
@@ -115,7 +112,7 @@ elseif (strlen($_POST["prisKategoriNavn"]) > 100 ) {
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut priskategori pris">
                   <label for="prisKategoriKr" class="col-sm-2 control-label" >Priskategori pris</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="prisKatKr" name="prisKatKr" placeholder="Priskategori pris (kr) " value="<?php echo @$_POST['prisKatKr'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="prisKatKroner" name="prisKatKroner" placeholder="Priskategori pris (kr) " value="<?php echo @$_POST['prisKatKroner'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                   
                 </div>
               </div>
