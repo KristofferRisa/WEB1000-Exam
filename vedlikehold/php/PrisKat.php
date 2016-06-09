@@ -24,7 +24,7 @@
             $insertPrisKat->execute();
             $affectedrows=$insertPrisKat->affected_rows;
            
-            
+
             $logg->Ny('Rows affected: '.$affectedrows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
 
             if($insertPrisKat == false){
@@ -163,7 +163,7 @@
             ("SELECT prisKategoriId, navn, endret, kroner FROM prisKategori");
 
             $query->execute();
-            $query->bind_result($prisKatId, $navn, $kroner, $endret);
+            $query->bind_result($prisKatId, $navn, $endret, $kroner);
             
             //henter data
             while ($query->fetch()) 
