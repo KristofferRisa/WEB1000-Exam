@@ -100,9 +100,7 @@ if ($_POST) {
         </div>
         </form>
         
-        <!-- /.social-auth-links -->
-        <a href="#">Glemt passord</a><br>
-        <a href="register.html" class="text-center">Register</a>
+        <a href="./../nettsted/registrer.php" class="text-center">Register</a>
     </div>
     <!-- /.login-box-body -->
     </div>

@@ -3,24 +3,24 @@
     //Includes
     
     //MAC + linux
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Logg.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/HtmlHelperClass.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/User.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Destinasjon.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Avgang.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Bestilling.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Billett.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/SanerData.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Logg.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/HtmlHelperClass.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/User.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Destinasjon.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Avgang.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Bestilling.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Billett.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/SanerData.php";
         
     // SKOLE
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/Logg.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/User.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/HtmlHelperClass.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/Destinasjon.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/Avgang.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/Bestilling.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/Billett.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/SanerData.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/Logg.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/User.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/HtmlHelperClass.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/Destinasjon.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/Avgang.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/Bestilling.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/Billett.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/SanerData.php";
 
     
     //Sesjon håndtering

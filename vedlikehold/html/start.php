@@ -1,16 +1,16 @@
 <?php
     //Global includes
     //CHANGE ON DEPLOYMENT
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/user.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Logg.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/HtmlHelperClass.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/SanerData.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/user.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Logg.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/HtmlHelperClass.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/SanerData.php";
     
     //Skole    
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/User.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/User.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/HtmlHelperClass.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/SanerData.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/User.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/Logg.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/HtmlHelperClass.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/SanerData.php";
     @session_start();
     
     @$innloggetBruker=$_SESSION["brukernavn"];
@@ -19,7 +19,7 @@
     {
         //CHANGE ON DEPLOYMENT
         // header('Location: '.$_SERVER['SERVERNAME'].'/web-is-gr13w/dev/vedlikehold/login.php');
-        header('Location: '.$_SERVER['SERVERNAME'].'/WEB1000-Exam/vedlikehold/login.php');
+        header('Location: '.$_SERVER['SERVERNAME'].'/web-is-gr13w/vedlikehold/login.php');
         exit;
     }
 

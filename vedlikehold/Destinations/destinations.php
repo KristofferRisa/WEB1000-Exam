@@ -7,7 +7,7 @@ include('../html/header.html');
 
 include('../html/admin-start.html');
 
-$errorMelding ="test";
+$errorMelding ="";
 
 if (@$_GET["deleteRows"] && @$_GET["deleteRows"] == -1)
 {
