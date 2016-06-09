@@ -8,6 +8,13 @@ include('../php/Bestilling.php');
 
 $bestillinger = new Bestilling();
 
+$errorMeldingBitch ="";
+
+if (@$_GET["deleteRows"] && @$_GET["deleteRows"] == -1)
+{
+  $errorMeldingBitch= $html->errorMsg("Kan ikke slette data grunnet fremmednøkler. Alle tilhørende billetter må slettes først.");
+}
+
 ?>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -38,6 +45,7 @@ $bestillinger = new Bestilling();
           </div>
           <!-- /.box-header -->
           <div class="box-body">
+            <?php echo $errorMeldingBitch; ?>
             <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
               <div class="row">
                 <div class="col-sm-6"></div>

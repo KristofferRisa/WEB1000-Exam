@@ -60,7 +60,7 @@ if(@$_GET['id']){
   <!-- Content Header (Page header) -->
   <section class="content-header">
       <h1>
-        Vis alle seter tilknyttet flynr <?php echo $flyInfo[0][1]; ?>
+        Vis alle seter tilknyttet flynr <?php echo @$flyInfo[0][1]; ?>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
@@ -82,13 +82,13 @@ if(@$_GET['id']){
           <div class="box box-info">
 
 
-  <div class="box-header with-border">
+        <div class="box-header with-border">
   
-  <div id="melding"></div>
-    
-      <h3 class="box-title">Editer sete informasjon for sete id <?php echo $row[0]; ?></h3>
-          </div>
-          <!-- /.box-header -->
+          <div id="melding"></div>
+            
+              <h3 class="box-title">Editer sete informasjon for sete id <?php echo $row[0]; ?></h3>
+               </div>
+               <!-- /.box-header -->
         
           <!-- form start -->
           <form method="POST" class="form-horizontal" onsubmit="return validerRegistrerFly()">
@@ -139,6 +139,7 @@ if(@$_GET['id']){
                 </div>
               </div>
 
+              </div>
               <!-- /.box-body -->
               <div class="box-footer">
                 <button type="submit" class="btn btn-info pull-right">Oppdater</button>
@@ -146,8 +147,6 @@ if(@$_GET['id']){
               <!-- /.box-footer -->
             </form>
 
-
-            
           </div>
           <!-- /.box -->
     <?php } ?>   
