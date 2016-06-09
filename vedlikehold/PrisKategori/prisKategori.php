@@ -10,7 +10,7 @@ $errorMeldingBitch= "";
 
 if (@$_GET ["deleteRows"] && @$_GET["deleteRows"] == -1)
 {
-  $errorMeldingBitch=$html->errorMsg("Kan ikke slette data grunnet fremmednøkler");
+  $errorMeldingBitch=$html->errorMsg("Kan ikke slette data grunnet fremmednøkler. Alle tilhørende priskategorier må slettes først.");
 }
 
 ?>
