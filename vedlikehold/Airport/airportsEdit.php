@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $airportinfo = $airport->GetAirport($id,$logg);
 
-    if($result == 1){
+    if($result >= 0){
       //Success
              $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
 

@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Henter oppdatert airport info fra databasen
     $prisKatInfo = $prisKat->getPrisKat($id,$logg);
 
-    if($result == 1){
+    if($result >= 0){
       //Success
              $errorMelding = "<div class='alert alert-success'><strong>Info! </strong>Data lagt inn i database.</div>";
 

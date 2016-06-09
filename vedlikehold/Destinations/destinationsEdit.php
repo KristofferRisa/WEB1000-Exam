@@ -81,7 +81,7 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
    
     
     
-    if($result == 1){
+    if($result >= 0){
       //Success
              $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
 
