@@ -165,7 +165,7 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
 
                  <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Velg land">
               
-  <label for="land" class="col-sm-2 control-label">Landskode</label>
+  <label for="landskode" class="col-sm-2 control-label">Landskode</label>
   <div class="col-sm-10">        
   <div class="ui fluid search selection dropdown" id="flyplassLandValg">
   <input type="hidden" name="landskode" id="landskode" value="<?php echo $destinationinfo[0][3]?>" >
