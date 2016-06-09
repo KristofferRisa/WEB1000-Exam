@@ -6,7 +6,14 @@ include('../html/start.php');
 include('../html/header.html');
 
 include('../html/admin-start.html');
-$errorMelding = "";
+
+
+$errorMeldingBitch ="";
+
+if (@$_GET["deleteRows"] && @$_GET["deleteRows"] == -1)
+{
+  $errorMeldingBitch= $html->errorMsg("Kan ikke slette data grunnet fremmednøkler");
+}
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -32,11 +39,12 @@ $errorMelding = "";
         <div class="row">
       <div class="col-xs-12">
         <div class="box">
-          <div class="box-header"><?php echo $errorMelding; ?><div id="melding"></div>
+          <div class="box-header">
             <h3 class="box-title">Liste over avganger</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
+            <?php echo $errorMeldingBitch; ?>
             <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
               <div class="row">
                 <div class="col-sm-6"></div>
