@@ -228,7 +228,7 @@ if($_POST){
              <div class="form-group">
                   <label for="id" class="col-md-2 control-label">Søk etter billetter</label>
                   <div class="col-md-10">
-                    <input type="text" class="form-control" id="sok" name="id" required placeholder="REF NO" >
+                    <input type="text" class="form-control" id="sok" name="id" required placeholder="REF NO" data-toggle="tooltip" data-placement="top" title="Søk etter billett">
                   </div>
                 </div>
               
