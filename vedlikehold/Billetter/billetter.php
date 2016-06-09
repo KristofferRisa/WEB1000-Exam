@@ -17,7 +17,7 @@ include('../php/Billett.php');
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Billetter</li>
+      <li>Billetter og bestillinger</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
       <li class="active">Vis billetter</li>
     </ol>

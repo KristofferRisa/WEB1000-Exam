@@ -87,7 +87,7 @@ elseif (!$_POST["antallBagasje"] === 0 || !$_POST["antallBagasje"] === 1 || !$_P
     </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Billetter</li>
+      <li>Billetter og bestillinger</li>
       <li class="active">Endre Billett</li>
     </ol>
   </section>
@@ -111,7 +111,7 @@ elseif (!$_POST["antallBagasje"] === 0 || !$_POST["antallBagasje"] === 1 || !$_P
 
             <!-- form start -->
 
-            <form method="POST" class="form-horizontal" onsubmit="return validerRegistrerFly()">
+            <form method="POST" class="form-horizontal" onsubmit="return validerRegistrerBilett()">
               <div class="box-body">        
 
                       <input type="hidden" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>">

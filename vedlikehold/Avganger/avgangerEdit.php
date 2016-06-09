@@ -392,14 +392,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut fastpris">
                   <label for="avgangFastKr" class="col-sm-2 control-label" >Fastpris</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="fastpris" name="fastpris" placeholder="Fastpris KR" value="<?php echo $avgangInfo[0][7] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="fastpris" name="fastpris" placeholder="Fastpris KR" value="<?php echo $avgangInfo[0][7] ?>" required>
                 </div>
               </div>
 
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <div class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
+                <input type="reset" class="btn btn-default" value="Nullstill" onclick="clearForm(this.form);">
                 <button type="submit" class="btn btn-info pull-right">Oppdater</button>
 
               </div>
