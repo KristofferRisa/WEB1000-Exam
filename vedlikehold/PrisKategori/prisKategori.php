@@ -54,7 +54,7 @@ if (@$_GET ["deleteRows"] && @$_GET["deleteRows"] == -1)
                     <thead>
                       <tr role="row">
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatNavn">Priskategori navn</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatProsentPaaslag">Priskategori prosentpåslag</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatKroner">Priskategori pris</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Handlinger">Handlinger</th>      
                     </thead>
                     <tbody>
@@ -79,7 +79,7 @@ print ($prisKat->GetAllPrisKat() );
                     <tfoot>
                       <tr>
                         <th rowspan="1" colspan="1">Priskategori navn</th>
-                        <th rowspan="1" colspan="1">Priskategori prosentpåslag</th>
+                        <th rowspan="1" colspan="1">Priskategori pris</th>
                         <th rowspan="1" colspan="1">Handlinger</th>                        
 
                         </tr>
