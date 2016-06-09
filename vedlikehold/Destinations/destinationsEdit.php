@@ -159,7 +159,7 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv navn på destinasjonen">
                   <label for="navn" class="col-sm-2 control-label">Navn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="navn" name="navn" placeholder="Navn" value="<?php echo $destinationinfo[0][2]?>">
+                    <input type="text" class="form-control" id="navn" name="navn" placeholder="Navn" value="<?php echo $destinationinfo[0][2]?>" required>
                   </div>
                 </div>
 
@@ -168,7 +168,7 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
   <label for="landskode" class="col-sm-2 control-label">Landskode</label>
   <div class="col-sm-10">        
   <div class="ui fluid search selection dropdown" id="flyplassLandValg">
-  <input type="hidden" name="landskode" id="landskode" value="<?php echo $destinationinfo[0][3]?>" >
+  <input type="hidden" name="landskode" id="landskode" value="<?php echo $destinationinfo[0][3]?>"  required >
   <i class="dropdown icon"></i>
   <div class="default text"><?php echo $destinationinfo[0][3]?></div>
   
@@ -428,21 +428,21 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
                   <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv stedsnavn">
                   <label for="stedsnavn" class="col-sm-2 control-label">Stedsnavn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="stedsnavn" name="stedsnavn" placeholder="Stedsnavn" value="<?php echo $destinationinfo[0][4]?>">
+                    <input type="text" class="form-control" id="stedsnavn" name="stedsnavn" placeholder="Stedsnavn" value="<?php echo $destinationinfo[0][4]?>"  required>
                   </div>
                 </div>
 
                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv inn koordinater">
                   <label for="geo_lat" class="col-sm-2 control-label">Geo_lat</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="geo_lat" name="geo_lat" placeholder="geo_lat" value="<?php echo $destinationinfo[0][5]?>">
+                    <input type="text" class="form-control" id="geo_lat" name="geo_lat" placeholder="geo_lat" value="<?php echo $destinationinfo[0][5]?>"  required>
                      </div>
                 </div>
 
                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv inn koordinater">
                   <label for="flyLaget" class="col-sm-2 control-label">Geo_lng</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="geo_lng" name="geo_lng" placeholder="geo_lng" value="<?php echo $destinationinfo[0][6]?>">
+                    <input type="text" class="form-control" id="geo_lng" name="geo_lng" placeholder="geo_lng" value="<?php echo $destinationinfo[0][6]?>"  required>
                      <small><a href="http://www.latlong.net/" target="_new">Finn koordinater</a></small>
                   </div>
                  
@@ -450,7 +450,7 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <button class="btn btn-default" onclick="fjernMelding();clearForm(this.form);return false;">Nullstill</button>
+                <input type="reset" class="btn btn-default" value="Nullstill" onclick="clearForm(this.form);">
 
                 <button type="submit" class="btn btn-info pull-right">Endre</button>
               </div>

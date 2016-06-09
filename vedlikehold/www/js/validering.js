@@ -146,23 +146,18 @@ function validerRegistrerPrisKat()
 
 function validerRegistrerAvgang()
 {
-  var prisKatNavn=document.getElementById("prisKatNavn").value;
-  var prisKatProsentPaaslag=document.getElementById("prisKatProsentPaaslag").value;
+  var fastpris=document.getElementById("fastpris").value;
   var feilmelding="<div class='alert alert-error'>";
 
-  if (!prisKatNavn)
+  if (!fastpris)
     {
-        feilmelding=feilmelding + "Priskategori navn er ikke fylt ut.<br />";
-    }
-  if (!prisKatProsentPaaslag)
-    {
-        feilmelding=feilmelding + "Priskategori prosentpåslag er ikke fylt ut. <br />";
+        feilmelding=feilmelding + "Alle felt må fylles ut.<br />";
     }
  
 
     else {feilmelding=feilmelding + "</div>"}
 
-  if (prisKatNavn && prisKatProsentPaaslag)
+  if (fastpris)
     {
         return true;
     }
@@ -182,7 +177,7 @@ function validerRegistrerDestinasjon()
   var stedsnavn=document.getElementById("stedsnavn").value;
   var geo_lat=document.getElementById("geo_lat").value;
   var geo_lng=document.getElementById("geo_lng").value;
-  var feilmelding="<div class='alert alert-error'>";
+  var feilmelding="<div class='alert alert-error'> Alle felt må fylles ut. <br />";
 
 
   if (!navn)
@@ -210,6 +205,37 @@ function validerRegistrerDestinasjon()
     else {feilmelding=feilmelding + "</div>"}
 
   if ( navn && landskode && stedsnavn && geo_lat && geo_lng)
+    {
+        return true;
+    }
+  else
+    {
+        document.getElementById("melding").style.color="red"; 
+        document.getElementById("melding").innerHTML=feilmelding; 
+        return false;
+    }
+}
+
+function validerRegistrerBillett()
+{
+  var fornavn=document.getElementById("fornavn").value;
+  var etternavn=document.getElementById("etternavn").value;
+  var feilmelding="<div class='alert alert-error'> Alle felt må fylles ut. <br />";
+
+
+  if (!fornavn)
+    {
+        feilmelding=feilmelding + "Fornavn er ikke fylt ut. <br />";
+    }
+     if (!etternavn)
+    {
+        feilmelding=feilmelding + "Etternavn er ikke fylt ut. <br />";
+    }
+ 
+
+    else {feilmelding=feilmelding + "</div>"}
+
+  if ( fornavn && etternavn )
     {
         return true;
     }

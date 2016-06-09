@@ -18,7 +18,9 @@ if($_GET['id']){
   
   //returnerer en array med bruker info
   //brukes av både GET OG POST    
-  $id = $_GET['id'];
+  
+  $id =  $saner->data($_GET["id"]);
+
   $bestilling = $bestillinger->GetBestilling($id, $logg);
   
   
@@ -26,10 +28,10 @@ if($_GET['id']){
 
 if($_POST){
   // Forsøker å oppdater bruker
-  @$fornavn = $_POST["fornavn"];
-  @$etternavn = $_POST["etternavn"];
-  @$email = $_POST["email"];
-  @$tlf = $_POST["tlf"];
+  @$fornavn =  $saner->data($_POST["fornavn"]);
+  @$etternavn =  $saner->data($_POST["etternavn"]);
+  @$email =  $saner->data($_POST["fornaemailvn"]);
+  @$tlf =  $saner->data($_POST["tlf"]);
   
   
   if ($fornavn // Påkrevde felter
