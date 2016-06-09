@@ -72,22 +72,16 @@ if (!$innloggetBruker && !@$_GET['innlogget'] && !$_POST)
 <?php }
 
 
-//?reise=2&retur=&antall=1&bebis=0
+//?reise=2&retur=&antall=1
 if($_GET 
     && ($innloggetBruker || @$_GET['innlogget'] == 'false')
     && $_GET['reise']
     && $_GET['antall']
-    // && $_GET['bebis']
     ){
         $fra = $saner->data($_GET["reise"]);
         @$til = $saner->data($_GET["retur"]);
         $antallReisende = $saner->data($_GET["antall"]);
         
-        if($_GET['bebis']){
-           $bebis = $saner->data($_GET["bebis"]);
-        } else {
-            $bebis = 0;
-        }
         
         //Avgang
         $utreiseInfo = $reiseInfo = $avganger->GetAvgang($fra, $logg);
@@ -158,7 +152,6 @@ if($_GET
                    <div class="form-group">
                         <label for="flyplassID" class="col-xs-2 control-label billett">Pris:</label>
                         <div class="col-xs-4">
-                            <i class="fa fa-dollar"></i>
                             <?php echo  $utreiseInfo[0][7]*$antallReisende; ?>
                         </div>
                     </div> 
@@ -270,7 +263,7 @@ if($_GET
                    <div class="form-group">
                         <label for="flyplassID" class="col-sm-2 control-label">Fornavn</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" name="kundeFornavn<?php echo $i; ?>" placeholder="fornavn" requried>
+                            <input type="text" class="form-control" name="kundeFornavn<?php echo $i; ?>" placeholder="fornavn" required pattern="^[A-Za-z]{2,}">
                         </div>
                     </div> 
                 </div>
@@ -279,7 +272,7 @@ if($_GET
                    <div class="form-group">
                         <label for="flyplassID" class="col-sm-2 control-label">Etternavn</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" name="kundeEtternavn<?php echo $i; ?>" placeholder="etternavn" required>
+                            <input type="text" class="form-control" name="kundeEtternavn<?php echo $i; ?>" placeholder="etternavn" required pattern="^[A-Za-z]{2,}">
                         </div>
                     </div> 
                 </div>
@@ -339,8 +332,7 @@ if($_GET
         $refNo = uniqid();
         $reiseDato=$reiseInfo[0][3];
         $antallVoksne = $antallReisende;
-        $antallBarn = 0; // bør endres i databasen at det kun finnes reisende og bebis
-        $antallBebis = $bebis;
+        $antallBarn = 0;
         
         if(!@$innloggetBruker){
 
@@ -389,7 +381,6 @@ if($_GET
         {
             $result = $bestilling->NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,$antallVoksne
             , $antallBarn
-            , $antallBebis
             , $reisende
             , $utreiseInfo[0][0]
             , $returAvgangId

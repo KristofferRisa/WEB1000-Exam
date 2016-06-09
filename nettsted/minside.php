@@ -1,28 +1,38 @@
-<?php  
-$title = "FLY - Admin";
-
-//Includes
-include('./../html/start.php');
-include('./../html/header.html');
-include('./../html/admin-start.html');
-include('../php/Bestilling.php');
+<?php
+$title = 'Bjarum Airlines';
+include('./html/start.php');
+include('./html/header.html');
+include('./html/nav.html');
 
 $bestillinger = new Bestilling();
+$billetter = new Billett();
 
-$responseMsg = "";
-//RegEx pattern
 $brukernavnPattern = "/^[A-Za-z0-9]{2,}$/";
 $navnPattern = "/^[A-Za-z]{2,}$/";
 
+
+@$innloggetBruker=$_SESSION["brukernavn"];
+        
+ if (!$innloggetBruker)
+{
+    //CHANGE ON DEPLOYMENT
+    // header('Location: '.$_SERVER['SERVERNAME'].'/web-is-gr13w/dev/vedlikehold/login.php');
+    header('Location: ./login.php');
+    exit;
+}
 if($_GET['id']){
   
   //returnerer en array med bruker info
   //brukes av både GET OG POST    
   $id = $_GET['id'];
   $bestilling = $bestillinger->GetBestilling($id, $logg);
-  
+  $billetterData = $billetter->GetBillettByBestillingId($bestilling[0][0],$logg);
   
 }
+
+print_r($bestilling[0]);
+echo '<br>';
+print_r($billetterData);
 
 if($_POST){
   // Forsøker å oppdater bruker
@@ -89,41 +99,28 @@ if($_POST){
     }  
   } 
 
-?>
 
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-      <h1>
-        Oppdater bruker
-        <small></small>
-      </h1>
-    <ol class="breadcrumb">
-      <li><a href="./"><i class="fa fa-dashboard"></i> Start</a></li>
-      <li>Billetter og bestillinger</li>
-      <!-- Denne brukes av javascript for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Bestilling</li> 
-    </ol>
-  </section>
- <!-- Main content -->
-  <section class="content">
- 
-  <?php if($_GET && $_GET['id']){  //Viser skjema dersom det både er en GET request med querstring id?>
+
+?>
+<div class="container">
+
+
+ <?php if($_GET && $_GET['id']){  //Viser skjema dersom det både er en GET request med querstring id?>
   
-    <!-- SKJEMA FOR Å ENDRE BILLETT -->
+    <!-- SKJEMA FOR Å ENDRE bestilling -->
     <div class="row">
-      <div class="col-md-12">
+      
+      <form class="form-horizontal" method="POST" id="bestilling">
           <!-- Horizontal Form -->
-          <div class="box box-info">
-            <div class="box-header with-border">
-              <?php echo $responseMsg ?>
-              <h3 class="box-title">Bruk feltene under for å oppdatere informasjonen på billetten.</h3>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <?php echo @$responseMsg ?>
+              <h3 class="panel-title">Bruk feltene under for å oppdatere informasjonen på bestillingen.</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" method="POST" id="billett">
-              <div class="box-body">
+            
+              <div class="panel-body">
                
                <!-- ID -->
                <input type="hidden" disabled class="form-control" id="inputId" name="inputId" required value="<?php echo $id ?>">
@@ -195,64 +192,91 @@ if($_POST){
                   </div>
                 </div>
                 
-                
+                <h3>Billetter:</h3>
+                <div class="list-group">
+                    <?php 
+                    if(count($billetterData) >0 ){
+                        foreach ($billetterData as $i => $row) { ?>
+                    <a href="#" class="list-group-item">
+                        <?php echo $row[2]; ?>
+                    </a>
+                    <?php } ?>
+                    <?php  } else { ?>
+                        <div class="text-warning">Ingen billetter funnet</div>
+                    <?php } ?> 
+                </div>
               </div>
               <!-- /.box-body -->
-              <div class="box-footer">
+              <div class="panel-footer">
                 <div class="btn btn-default" onclick="location.href='./alle.php';">Tilbake</div>
                 <a  href="./Bestillinger/slett.php?id=<?php echo $id; ?>" class="btn btn-danger" onclick="return confirm('Er du sikker du ønsker å slette denne bestillingen?');">Slett</a>
                 <button type="submit" class="btn btn-info pull-right">Oppdater</button>
               </div>
               <!-- /.box-footer -->
-            </form>
-          </div>
+            </div>
+          </form>
           <!-- /.box -->
-          </div>
+          
       <!-- /.col -->
     </div>
 
-  
-<?php  } else { //viser soek felt for ref no 
-?>
-<!-- SKJEMA FOR Å SØKE ETTER BESTILLINGER -->
-<form class="form-horizontal" method="GET" id="nybruker">
-    <div class="row">
-      <div class="col-md-12">
-                
-         <div class="box box-info">
-            <div class="box-body">
+<?php  } else { ?>
 
-              
-             <div class="form-group">
-                  <label for="id" class="col-md-2 control-label">Søk etter billetter</label>
-                  <div class="col-md-10">
-                    <input type="text" class="form-control" id="sok" name="id" required placeholder="REF NO" >
-                  </div>
-                </div>
-              
-          
-        </div>
-       <div class="box-footer">
-          <div type="submit" class="btn btn-default" onclick="location.href='./';">Tilbake</div>
-          <button type="submit" class="btn btn-info pull-right">Søk</button>
-        </div>
+
+<div class="container">
+    <div class="row top-buffer">
+        <h1 class="page-header">Velkommen tilbake <?php echo $userInfo[0][1]; echo ' ';?> <?php echo $userInfo[0][2]; ?></h1>
     </div>
     
-    
-  
-  </div>
+<form class="form-horizontal" method="GET" id="nybruker">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">Søk bestillinger</div>
+            <div class="panel-body">
+                
+                <div class="row">    
+                    <label for="id" class="col-md-2 control-label">Søk etter billetter</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" id="sok" name="id" required placeholder="REF NO" >
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <div type="submit" class="btn btn-default" onclick="location.href='./';">Tilbake</div>
+                <button type="submit" class="btn btn-info pull-right">Søk</button>
+            </div>
+        </div>
     </div>
 </form>
 
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">Mine bestillinger</div>
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="#" class="list-group-item">
+                        Cras justo odio
+                    </a>
+                    <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                    <a href="#" class="list-group-item">Morbi leo risus</a>
+                    <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                    <a href="#" class="list-group-item">Vestibulum at eros</a>
+                </div>
+            </div>
+            <div class="panel-footer">
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
 <?php } ?>
-  
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
 
-<?php
+<?php include ("./html/footer.html"); ?>
 
-include('./../html/admin-slutt.html');
-include('./../html/script.html');
-?>
+</body>
+</html>
