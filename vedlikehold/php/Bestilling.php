@@ -23,127 +23,113 @@
             $logg->Ny('Navn = '.$bestillerFornavn.' '.$bestillerEtternavn.' epost '.$bestillerEpost.' tlf '.$bestillerTlf,'ERROR');
             $logg->Ny($antallVoksne.' Voksne '.$antallBarn.' barn ');
             
-            try {
-                $db_connection ->begin_transaction();
+        
+
+            $sqlInsertBestilling = "
+            INSERT INTO bestilling (bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf,antallVoksne, antallBarn) 
+            values ( ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?
+                    , ?);";
+
+            $sqlBillett = "select @bestillingId := max(bestillingId) from bestilling;";
+
             
-                $sqlInsertBestilling = "
-                INSERT INTO bestilling (bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf,antallVoksne, antallBarn) 
-                values ( ?
-                        , ?
-                        , ?
-                        , ?
-                        , ?
-                        , ?
-                        , ?
-                        , ?
-                        , ?
-                        , ?);";
-
-                $sqlBillett = "select @bestillingId := max(bestillingId) from bestilling;";
-
+            //Utreise
+            foreach ($reisende as $key => $person) {
+                $sqlBillett .= "
                 
-                //Utreise
+                select @seteID := MAX(seteId) from LedigePlasser where avgangId = '".$avgangId."';
+                
+                INSERT INTO billett (bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje)  
+                VALUES  (@bestillingId, '".$avgangId."',  @seteId, '".$person['Fornavn']."' , '".$person['Etternavn']."' , '".$person['Kjonn']."', ".$person['Bagasje'].");";
+            }
+            
+            if ($returavgangID != 0) 
+            {
+                $logg->Ny('Fant retur avgang ID '.$returavgangID);
+                $logg->Ny('Lager billetter for hjem reise');
                 foreach ($reisende as $key => $person) {
-                    $sqlBillett .= "
-                    
-                    select @seteID := MAX(seteId) from LedigePlasser where avgangId = '".$avgangId."';
-                    
-                    INSERT INTO billett (bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje)  
-                    VALUES  (@bestillingId, '".$avgangId."',  @seteId, '".$person['Fornavn']."' , '".$person['Etternavn']."' , '".$person['Kjonn']."', ".$person['Bagasje'].");";
+                $sqlBillett .= "
+                
+                select @seteID := MAX(seteId) from LedigePlasser where avgangId = '".$returavgangID."';
+                
+                INSERT INTO billett (bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje)  
+                VALUES  (@bestillingId, '".$returavgangID."',  @seteId, '".$person['Fornavn']."' , '".$person['Etternavn']."' , '".$person['Kjonn']."', ".$person['Bagasje'].");";
                 }
-                
-                if ($returavgangID != 0) 
-                {
-                    $logg->Ny('Fant retur avgang ID '.$returavgangID);
-                    $logg->Ny('Lager billetter for hjem reise');
-                    foreach ($reisende as $key => $person) {
-                    $sqlBillett .= "
-                    
-                    select @seteID := MAX(seteId) from LedigePlasser where avgangId = '".$returavgangID."';
-                    
-                    INSERT INTO billett (bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje)  
-                    VALUES  (@bestillingId, '".$returavgangID."',  @seteId, '".$person['Fornavn']."' , '".$person['Etternavn']."' , '".$person['Kjonn']."', ".$person['Bagasje'].");";
-                    }
-                }
-                
-                
-                $logg->Ny('Generer SQL for billetter, SQL: '.$sqlBillett);
-                
-                $logg->Ny('Forsøker å opprette ny bestilling.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+            }
             
-                $insertBestilling = $db_connection->prepare($sqlInsertBestilling);
+            $db_connection ->begin_transaction();
+            $logg->Ny('Generer SQL for billetter, SQL: '.$sqlBillett);
+            
+            $logg->Ny('Forsøker å opprette ny bestilling.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
+        
+            $insertBestilling = $db_connection->prepare($sqlInsertBestilling);
+            
+            $insertBestilling->bind_param('ssssssssss'
+                                        , $bestillingsDato
+                                        , $refNo
+                                        , $reiseDato
+                                        , $returDato
+                                        , $bestillerFornavn
+                                        , $bestillerEtternavn
+                                        , $bestillerEpost
+                                        , $bestillerTlf
+                                        , $antallVoksne
+                                        , $antallBarn);
+            
+            $insertBestilling->execute();
+            
+            
+            $affectedrows = $insertBestilling->affected_rows;
+            
+            $insertBestilling->close();
+            
+            if ($affectedrows == 1) {
+                $logg->Ny('Ny bestilling opprettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
                 
-                $insertBestilling->bind_param('ssssssssss'
-                                            , $bestillingsDato
-                                            , $refNo
-                                            , $reiseDato
-                                            , $returDato
-                                            , $bestillerFornavn
-                                            , $bestillerEtternavn
-                                            , $bestillerEpost
-                                            , $bestillerTlf
-                                            , $antallVoksne
-                                            , $antallBarn);
                 
-                $insertBestilling->execute();
-                
-                
-                $affectedrows = $insertBestilling->affected_rows;
-                
-                $insertBestilling->close();
-                
-                if ($affectedrows == 1) {
-                    $logg->Ny('Ny bestilling opprettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-                    
-                    
-                     /* execute multi query */
-                    if ($db_connection->multi_query($sqlBillett)) {
-                        do {
-                            /* store first result set */
-                            if ($result = $db_connection->store_result()) {
-                                while ($row = $result->fetch_row()) {
-                                    $logg->Ny('Legger inn billett, antall rader lagt inn: '.$row[0]);
-                                }
-                                $result->free();
+                    /* execute multi query */
+                if ($db_connection->multi_query($sqlBillett)) {
+                    do {
+                        /* store first result set */
+                        if ($result = $db_connection->store_result()) {
+                            while ($row = $result->fetch_row()) {
+                                $logg->Ny('Legger inn billett, antall rader lagt inn: '.$row[0]);
                             }
-                            /* print divider */
-                            if ($db_connection->more_results()) {
-                                //$logg->Ny('Forsøker å leg')
-                            }
-                        } while ($db_connection->next_result());
-                    }
+                            $result->free();
+                        }
+                        /* print divider */
+                        if ($db_connection->more_results()) {
+                            //$logg->Ny('Forsøker å leg')
+                        }
+                    } while ($db_connection->next_result());
+                }
+                
+                     $db_connection->commit();
                     
-                    $db_connection->commit();
-                    
-                } else {
-                    
-                    $logg->Ny('Klarte ikke å opprette ny bestilling.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
-                    $logg->Ny('Bestillingsdato = '.$bestillingsDato.' & refNo = '.$refNo,'ERROR');
-                    $logg->Ny('ReiseDato = '.$reiseDato.' & returDato = '.$returDato,'ERROR');
-                    $logg->Ny('Navn = '.$bestillerFornavn.' '.$bestillerEtternavn.' epost '.$bestillerEpost.' tlf '.$bestillerTlf,'ERROR');
-                    
-                    $db_connection->rollback();
-                    
-                } 
+            } else {
+                
+                $logg->Ny('Klarte ikke å opprette ny bestilling.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
+                $logg->Ny('Bestillingsdato = '.$bestillingsDato.' & refNo = '.$refNo,'ERROR');
+                $logg->Ny('ReiseDato = '.$reiseDato.' & returDato = '.$returDato,'ERROR');
+                $logg->Ny('Navn = '.$bestillerFornavn.' '.$bestillerEtternavn.' epost '.$bestillerEpost.' tlf '.$bestillerTlf,'ERROR');
+                
+                $db_connection->rollback();
+                
+            } 
                 
                 
                 $logg->Ny('Rows affected for bestilling: '.$affectedrows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
             
-            } catch (Exception $e) {
-                // An exception has been thrown
-                // We must rollback the transaction
-                $db_connection->rollback();
-                $logg->Ny('SQL feilet, rollback av transkasjon utføres.', 'ERROR');
-                
-                //Lukker databasetilkopling
-                 
-            } finally {
-                if(!$affectedrows){
-                    $affectedrows = 0;
-                }
+          
                 $db_connection->close();
-                
-            }
             
             return $affectedrows;
         }
