@@ -1,16 +1,16 @@
 <?php
     //Global includes
     //CHANGE ON DEPLOYMENT
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/user.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Logg.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/HtmlHelperClass.php";
-    include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/SanerData.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/user.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/Logg.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/HtmlHelperClass.php";
+    // include_once $_SERVER['DOCUMENT_ROOT'] . "/WEB1000-Exam/vedlikehold/php/SanerData.php";
     
     //Skole    
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/User.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/Logg.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/HtmlHelperClass.php";
-    // include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/dev/vedlikehold/php/SanerData.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/User.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/Logg.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/HtmlHelperClass.php";
+    include_once $_SERVER['DOCUMENT_ROOT'] . "/web-is-gr13w/vedlikehold/php/SanerData.php";
     @session_start();
     
     @$innloggetBruker=$_SESSION["brukernavn"];
