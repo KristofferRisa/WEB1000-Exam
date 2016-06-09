@@ -19,7 +19,7 @@ include('../php/Billett.php');
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Billetter og bestillinger</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Vis billetter</li>
+      <li class="active">Billetter</li>
     </ol>
   </section>
  <!-- Main content -->

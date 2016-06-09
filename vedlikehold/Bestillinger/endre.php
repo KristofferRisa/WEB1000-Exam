@@ -110,7 +110,7 @@ if($_POST){
  <!-- Main content -->
   <section class="content">
  
-  <?php if($_GET && $_GET['ref']){  //Viser skjema dersom det både er en GET request med querstring id?>
+  <?php if($_GET && $_GET['ref'] && count(@$bestilling[0]) > 0){  //Viser skjema dersom det både er en GET request med querstring id?>
   
     <!-- SKJEMA FOR Å ENDRE BILLETT -->
     <div class="row">
