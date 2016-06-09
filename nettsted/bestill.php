@@ -200,7 +200,6 @@ if($_GET
                     <div class="form-group">
                             <label for="flyplassID" class="col-xs-2 control-label billett">Pris:</label>
                             <div class="col-xs-4">
-                                <i class="fa fa-dollar"></i>
                                 <?php echo  $hjemreiseInfo[0][7]*$antallReisende; ?>
                             </div>
                         </div> 
@@ -220,7 +219,7 @@ if($_GET
                         <div class="form-group">
                             <label for="flyplassID" class="col-sm-2 control-label">Fornavn</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="bestillerFornavn<?php echo $i; ?>" placeholder="fornavn" requried>
+                                <input type="text" class="form-control" name="bestillerFornavn" placeholder="fornavn" requried>
                             </div>
                         </div>
                          
@@ -229,7 +228,7 @@ if($_GET
                     <div class="form-group">
                             <label for="flyplassID" class="col-sm-2 control-label">Etternavn</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="bestillerEtternavn<?php echo $i; ?>" placeholder="etternavn" required>
+                                <input type="text" class="form-control" name="bestillerEtternavn" placeholder="etternavn" required>
                             </div>
                         </div> 
                     </div>
@@ -239,7 +238,7 @@ if($_GET
                     <div class="form-group">
                             <label for="flyplassID" class="col-sm-2 control-label">epost</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="bestillerEpost<?php echo $i; ?>" placeholder="epost" required>
+                                <input type="text" class="form-control" name="bestillerEpost" placeholder="epost" required>
                             </div>
                         </div> 
                     </div>
@@ -249,7 +248,7 @@ if($_GET
                     <div class="form-group">
                             <label for="flyplassID" class="col-sm-2 control-label">Tlf</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="bestillerTlf<?php echo $i; ?>" placeholder="TLF" required>
+                                <input type="text" class="form-control" name="bestillerTlf" placeholder="TLF" required>
                             </div>
                         </div> 
                     </div>
