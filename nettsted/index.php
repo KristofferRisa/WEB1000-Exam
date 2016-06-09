@@ -290,7 +290,7 @@
                   <!--Splitter-->
                   <div class="col-md-2"></div>';
               $resultMsg .= '<div class="col-md-5">';
-              if(count($ledigeAvgangerHjemReise) > 0){
+              if(count(@$ledigeAvgangerHjemReise) > 0){
                 $resultMsg .= '<h2>Retur</h2>
                                  <div class="list-group">';
                                 

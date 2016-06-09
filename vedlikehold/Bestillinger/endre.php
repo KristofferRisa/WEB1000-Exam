@@ -14,15 +14,14 @@ $responseMsg = "";
 $brukernavnPattern = "/^[A-Za-z0-9]{2,}$/";
 $navnPattern = "/^[A-Za-z]{2,}$/";
 
-if($_GET['id']){
+if($_GET['ref']){
   
   //returnerer en array med bruker info
   //brukes av både GET OG POST    
   
-  $id =  $saner->data($_GET["id"]);
+  $ref =  $saner->data($_GET["ref"]);
 
-  $bestilling = $bestillinger->GetBestilling($id, $logg);
-  
+  $bestilling = $bestillinger->GetBestillingFromRefNo($ref, $logg);
   
 }
 
@@ -80,7 +79,7 @@ if($_POST){
         
         $result = $bestillinger->UpdateBestilling ($id, $fornavn,$etternavn, $email, $tlf,$logg);
                                       
-        $bestilling = $bestillinger->GetBestilling($id, $logg);
+        $bestilling = $bestillinger->GetBestillingFromRefNo($ref, $logg);
         
         if($result == 1){
           $responseMsg .= $html->successMsg("Brukeren ble oppdatert.");
@@ -111,7 +110,7 @@ if($_POST){
  <!-- Main content -->
   <section class="content">
  
-  <?php if($_GET && $_GET['id']){  //Viser skjema dersom det både er en GET request med querstring id?>
+  <?php if($_GET && $_GET['ref']){  //Viser skjema dersom det både er en GET request med querstring id?>
   
     <!-- SKJEMA FOR Å ENDRE BILLETT -->
     <div class="row">
@@ -127,8 +126,7 @@ if($_POST){
             <form class="form-horizontal" method="POST" id="billett">
               <div class="box-body">
                
-               <!-- ID -->
-               <input type="hidden" disabled class="form-control" id="inputId" name="inputId" required value="<?php echo $id ?>">
+               
                <!-- REF NO -->
                 <div class="form-group">
                   <label for="refno" class="col-md-2 control-label">Ref no</label>
@@ -202,7 +200,7 @@ if($_POST){
               <!-- /.box-body -->
               <div class="box-footer">
                 <div class="btn btn-default" onclick="location.href='./alle.php';">Tilbake</div>
-                <a  href="./Bestillinger/slett.php?id=<?php echo $id; ?>" class="btn btn-danger" onclick="return confirm('Er du sikker du ønsker å slette denne bestillingen?');">Slett</a>
+                <a  href="./Bestillinger/slett.php?id=<?php echo $ref; ?>" class="btn btn-danger" onclick="return confirm('Er du sikker du ønsker å slette denne bestillingen?');">Slett</a>
                 <button type="submit" class="btn btn-info pull-right">Oppdater</button>
               </div>
               <!-- /.box-footer -->
@@ -226,9 +224,9 @@ if($_POST){
 
               
              <div class="form-group">
-                  <label for="id" class="col-md-2 control-label">Søk etter billetter</label>
+                  <label for="ref" class="col-md-2 control-label">Søk etter billetter</label>
                   <div class="col-md-10">
-                    <input type="text" class="form-control" id="sok" name="id" required placeholder="REF NO" data-toggle="tooltip" data-placement="top" title="Søk etter billett">
+                    <input type="text" class="form-control" id="sok" name="ref" required placeholder="REF NO" data-toggle="tooltip" data-placement="top" title="Søk etter billett">
                   </div>
                 </div>
               

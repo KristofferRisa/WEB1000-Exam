@@ -60,7 +60,7 @@ class Planes {
         
         //Legger inn set_error_handler
         
-        for ($i=1; $i < $flyAntallPlasser; $i++) { 
+        for ($i=1; $i <= $flyAntallPlasser; $i++) { 
             
             $sqlSeter .= "
             select @flyId := max(flyId) from fly;
@@ -142,6 +142,35 @@ class Planes {
         $queryPlanes = $db_connection->prepare($sql);
         
         $queryPlanes->bind_param('i', $flyId);
+        $queryPlanes->execute();
+        
+        //henter result set
+        $resultSet = $queryPlanes->get_result();
+        
+        $fly =  $resultSet->fetch_all();
+        
+        //Error logging
+        if($queryPlanes == false){
+            $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+        }
+        
+        $resultSet->free();
+        $queryPlanes->close();
+        $db_connection->close(); 
+        
+        return $fly;
+    } 
+
+    public function GetPlaneByNr($nr, $logg)
+    {
+        include (realpath(dirname(__FILE__)).'/db.php');;
+        
+        
+        $sql = "select * FROM fly WHERE flyNr=?;";
+        
+        $queryPlanes = $db_connection->prepare($sql);
+        
+        $queryPlanes->bind_param('i', $nr);
         $queryPlanes->execute();
         
         //henter result set
@@ -277,7 +306,7 @@ class Planes {
         
         $seterQuery = $db_connection->prepare($sql);
         
-        $seterQuery->bind_param('i', $planeId);
+        $seterQuery->bind_param('s', $planeId);
         $seterQuery->execute();
         
         //henter result set
@@ -297,6 +326,36 @@ class Planes {
         return $seter;
     }
     
+    public function GetSeteByPlaneNr($nr, $logg)
+    {
+        include (realpath(dirname(__FILE__)).'/db.php');;
+        
+        $logg->Ny('Forsoeker å hente seter for fly id = '.$nr);
+        
+        $sql = "select * from sete where flyId in(select flyId from fly where flyNr = ?);;";
+        
+        $seterQuery = $db_connection->prepare($sql);
+        
+        $seterQuery->bind_param('s', $nr);
+        $seterQuery->execute();
+        
+        //henter result set
+        $resultSet = $seterQuery->get_result();
+        
+        $seter =  $resultSet->fetch_all();
+        
+        //Error logging
+        if($seterQuery == false){
+            $logg->Ny('Klarte ikke å hente seter fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+        }
+        
+        $resultSet->free();
+        $seterQuery->close();
+        $db_connection->close(); 
+        
+        return $seter;
+    }
+
     public function UpdateSete($id, $prisKat, $setenr, $nodutgang, $forklaring, $logg)
     {
         include (realpath(dirname(__FILE__)).'/db.php');

@@ -13,8 +13,6 @@
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $logg->Ny('Reisende: '.print_r($reisende));
-            
             if(!$returDato){
                 $returDato = '';
             }            

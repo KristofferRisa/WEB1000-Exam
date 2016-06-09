@@ -35,16 +35,17 @@ if(@$_POST)
     
 }
 
-if(@$_GET['id']){
+if(@$_GET['nr']){
   
   //returnerer en array
   //brukes av både GET OG POST    
-  $id = $_GET['id'];
+  $nr = $_GET['nr'];
   
   $prisKatData = $prisKat->GetAllePrisKategoriDataset($logg);
   
-  $seter = $fly->GetSeteByPlaneId($id,$logg);
-  $flyInfo = $fly->GetPlane($id,$logg);
+  // $seter = $fly->GetSeteByPlaneId($id,$logg);
+  $seter = $fly->GetSeteByPlaneNr($nr,$logg);
+  $flyInfo = $fly->GetPlaneByNr($nr,$logg);
   
   // print_r($seter);
   // echo '<br>';
@@ -72,7 +73,7 @@ if(@$_GET['id']){
   <section class="content">
     <div class="row">
       <div class="col-sm-12">   
-<?php if($_GET && $_GET['id']){ ?>
+<?php if($_GET && $_GET['nr']){ ?>
 
   <?php echo @$responseMsg; ?>
 
