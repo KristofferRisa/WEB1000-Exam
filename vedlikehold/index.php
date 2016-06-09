@@ -13,9 +13,11 @@ include('./html/admin-start.html');
   <!-- Content Header (Page header) -->
   <section class="content-header">
       <h1>
-        [Header]
-        <small>[Description]</small>
+       <BIG> EKSAMEN VÅR16, WEB1000 </BIG> <BR><br><Br>
+        <big>Dette er et nettsted laget i forbindelse med eksamen i WEB 1000 våren 2016 ved Høgskolen i Sørøst-Norge. <br>Nettstedet er laget av Martin Pedersen, Kristoffer Risa og Unni Le Hoai Huong Ngoc.</big>
       </h1>
+<BR>
+      <p><BIG> Velkommen til vår vedlikeholdsapp </p></BIG>
     <ol class="breadcrumb">
       <li><a href="./"><i class="fa fa-dashboard"></i> Start</a></li>
       <li class="active">[Link]</li>
