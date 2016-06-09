@@ -182,7 +182,7 @@ function validerRegistrerDestinasjon()
   var stedsnavn=document.getElementById("stedsnavn").value;
   var geo_lat=document.getElementById("geo_lat").value;
   var geo_lng=document.getElementById("geo_lng").value;
-  var feilmelding="<div class='alert alert-error'>";
+  var feilmelding="<div class='alert alert-error'> Alle felt må fylles ut. <br />";
 
 
   if (!navn)
