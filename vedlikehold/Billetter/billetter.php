@@ -1,10 +1,10 @@
 <?php 
-$title = "BILETTER - VIS - Admin ";
+$title = "BILLETTER - VIS - Admin ";
 
 include('../html/start.php');
 include('../html/header.html');
 include('../html/admin-start.html');
-include('../php/Bilett.php');
+include('../php/Billett.php');
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -59,12 +59,12 @@ include('../php/Bilett.php');
                     <tbody>
 <?php 
 
-//include('../php/AdminClasses.php');
+include('../php/AdminClasses.php');
 
-//$planes = new Planes;
+$biletter = new Billett;
 
 
-//print( $planes->ShowAllPlanes() );
+print( $biletter->ShowAllBilletter() );
 
 
 ?> 
@@ -90,7 +90,7 @@ include('../php/Bilett.php');
               </div>
               <div class="row">
                 <div class="col-sm-5">
-                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"><?php $rader = new Count; print( $rader->AntallRader('fly') ); ?></div>
+                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"><?php $rader = new Count; print( $rader->AntallRader('billett') ); ?></div>
                 </div>
               </div>
             </div>
