@@ -156,7 +156,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <label for="Dato" class="col-sm-2 control-label" >Dato</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="dato" name="dato" value="<?php echo $avgangInfo[0][3]?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
-                  
                 </div>
               </div>
 

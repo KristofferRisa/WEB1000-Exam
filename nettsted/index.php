@@ -358,7 +358,6 @@
  </div>
  
  
- 
  <!--INNHOLD SLUTT-->
  
  
@@ -406,7 +405,6 @@ $(function() {
       }
       
       ?>
-  
   
   
   //når man går ut av reiser fra input så hentes alle mulig til destinasjoner

@@ -155,42 +155,39 @@
         
         
         // OPPDATERER EN BESTILLING
-        public function UpdateBestilling ($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,
-                                      $antallVoksne, $antallBarn, $antallBebis)
+        public function UpdateBestilling ($id,$fornavn,$etternavn, $bestillerEpost, $bestillerTlf,$logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE bestilling
-            SET navn = ?
+            SET bestillerFornavn = ?,bestillerEtternavn =? ,bestillerEpost = ?,bestillerTlf = ? 
             WHERE bestillingId = ?;";
             
-            $insertBestilling = $db_connection->prepare($sql);
-            $insertBestilling->bind_param('sssssssssss'
-                                    , $bestillingDato, $refNo, $reiseDato, $returDato, $bestillerFornavn, $bestillerEtternavn, $bestillerEpost, $bestillerTlf,
-                                      $antallVoksne, $antallBarn, $antallBebis);
+            $updateBestilling = $db_connection->prepare($sql);
+            $updateBestilling->bind_param('ssssi'
+                                    ,$fornavn,$etternavn
+                                    , $bestillerEpost, $bestillerTlf, $id);
                                                                         
-            $insertBestilling->execute();
-            $affectedRows = $insertBestilling->affected_rows;
+            $updateBestilling->execute();
+            $affectedRows = $updateBestilling->affected_rows;
             
-            $insertBestilling->close();
+            $updateBestilling->close();
             $db_connection->close(); 
             
             
             $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
 
-            if($insertBestilling == false){
+            if($updateBestilling == false){
                 $logg->Ny('Mislyktes å oppdatere bestilling informasjon'.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
                 exit;    
             }
             
             if ($affectedRows == 1) {
-                $logg->Ny('Bestillingen ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+                $logg->Ny('Bestilling id '.$id.' ble oppdatert.', 'INFO',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } else {
                 $logg->Ny('Klarte ikke å oppdatere bestilling.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } 
-                
-            //Lukker databasetilkopling
             
             return $affectedRows;
         }
@@ -201,8 +198,9 @@
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT bestillingId, bestillingDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn, antallBebis
-                    FROM bestilling;";
+            $sql = "SELECT bestillingId, bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne + antallBarn, antallVoksne, antallBarn, antallBebis
+                    FROM bestilling
+                    ORDER BY bestillingId DESC;";
             
             $queryBestilling = $db_connection->prepare($sql);
             
@@ -231,7 +229,7 @@
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT bestillingId, bestillingDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn, antallBebis
+            $sql = "SELECT bestillingId, bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn, antallBebis
                     FROM bestilling WHERE bestillingId=?;";
             
             $queryBestilling = $db_connection->prepare($sql);
