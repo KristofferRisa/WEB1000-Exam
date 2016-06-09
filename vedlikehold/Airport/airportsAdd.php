@@ -54,7 +54,7 @@ include('../php/addAirportFormInput.php');
                 <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut flyplass navn">
                   <label for="flyplassNavn" class="col-sm-2 control-label" >Navn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$_POST['flyplassNavn'] ?>">
+                    <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$_POST['flyplassNavn'] ?>" required>
                   </div>
                 </div>
 
@@ -332,7 +332,7 @@ include('../php/addAirportFormInput.php');
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <dic class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
+                <input type="reset" class="btn btn-default" value="Nullstill" onclick="clearForm(this.form);">
                 <button type="submit" class="btn btn-info pull-right">Legg til</button>
 
               </div>

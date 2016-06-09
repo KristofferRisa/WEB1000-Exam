@@ -53,7 +53,6 @@ function validerRegistrerFly()
 function validerRegistrerFlyplass()
 {
   var flyplassNavn=document.getElementById("flyplassNavn").value;
-  var flyplassLand=document.getElementById("flyplassLand").value;
 
   var feilmelding="<div class='alert alert-error'>";
 
@@ -61,14 +60,9 @@ function validerRegistrerFlyplass()
     {
         feilmelding=feilmelding + "Flyplass navn er ikke fylt ut.<br />";
     }
-  if (!flyplassLand)
-    {
-        feilmelding=feilmelding + "Flyplass land er ikke fylt ut. <br />";
-    }
-
     else {feilmelding=feilmelding + "</div>"}
 
-  if (flyplassNavn && flyplassLand)
+  if (flyplassNavn)
     {
         return true;
     }
@@ -178,4 +172,51 @@ function validerRegistrerAvgang()
         document.getElementById("melding").innerHTML=feilmelding; 
         return false;
     } 
+}
+
+function validerRegistrerDestinasjon()
+{
+  var flyplassID=document.getElementById("flyplassLandValg").value;
+  var navn=document.getElementById("navn").value;
+  var landskode=document.getElementById("landskode").value;
+  var stedsnavn=document.getElementById("stedsnavn").value;
+  var geo_lat=document.getElementById("geo_lat").value;
+  var geo_lng=document.getElementById("geo_lng").value;
+  var feilmelding="<div class='alert alert-error'>";
+
+
+  if (!navn)
+    {
+        feilmelding=feilmelding + "Navn er ikke fylt ut. <br />";
+    }
+     if (!landskode)
+    {
+        feilmelding=feilmelding + "Landskode er ikke fylt ut. <br />";
+    }
+     if (!stedsnavn)
+    {
+        feilmelding=feilmelding + "Stedsnavn er ikke fylt ut. <br />";
+    }
+     if (!geo_lat)
+    {
+        feilmelding=feilmelding + "Geo_lat er ikke fylt ut. <br />";
+    }
+     if (!geo_lng)
+    {
+        feilmelding=feilmelding + "Geo_lng er ikke fylt ut. <br />";
+    }
+ 
+
+    else {feilmelding=feilmelding + "</div>"}
+
+  if ( navn && landskode && stedsnavn && geo_lat && geo_lng)
+    {
+        return true;
+    }
+  else
+    {
+        document.getElementById("melding").style.color="red"; 
+        document.getElementById("melding").innerHTML=feilmelding; 
+        return false;
+    }
 }
