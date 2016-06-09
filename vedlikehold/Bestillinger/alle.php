@@ -82,7 +82,7 @@ if (@$_GET["deleteRows"] && @$_GET["deleteRows"] == -1)
               </div>
               <div class="row">
                 <div class="col-sm-5">
-                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">?php $rader = new Count; print( $rader->AntallRader('avgang') );?> rader</div>
+                  <div class="dataTables_info" id="example2_info" role="status" aria-live="polite"><?php include('../php/AdminClasses.php'); $rader = new Count; print( $rader->AntallRader('bestilling') ); ?> rader</div>
                 </div>
               </div>
             </div>
