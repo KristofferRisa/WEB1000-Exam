@@ -11,7 +11,7 @@ $errorMelding ="test";
 
 if (@$_GET["deleteRows"] && @$_GET["deleteRows"] == -1)
 {
-  $errorMelding = $html->errorMsg("Kan ikke slette data grunnen fremmednøkler");
+  $errorMelding = $html->errorMsg("Kan ikke slette data grunnet fremmednøkler");
 }
 
 ?>

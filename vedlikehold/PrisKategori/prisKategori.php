@@ -54,7 +54,7 @@ if (@$_GET ["deleteRows"] && @$_GET["deleteRows"] == -1)
                     <thead>
                       <tr role="row">
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatNavn">Priskategori navn</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatKroner">Priskategori pris</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatKroner">Endret</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Handlinger">Handlinger</th>      
                     </thead>
                     <tbody>
