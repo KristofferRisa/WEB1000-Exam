@@ -5,7 +5,10 @@ include('./html/header.html');
 include('./html/nav.html');
 
 $bestillinger = new Bestilling();
+
+$bestillingerData = $bestillinger->GetBestillingFromEpost($userInfo[0][3],$logg);
 $billetter = new Billett();
+
 
 $brukernavnPattern = "/^[A-Za-z0-9]{2,}$/";
 $navnPattern = "/^[A-Za-z]{2,}$/";
@@ -20,7 +23,7 @@ $navnPattern = "/^[A-Za-z]{2,}$/";
     header('Location: ./login.php');
     exit;
 }
-if($_GET['id']){
+if(@$_GET['id']){
   
   //returnerer en array med bruker info
   //brukes av både GET OG POST    
@@ -29,10 +32,6 @@ if($_GET['id']){
   $billetterData = $billetter->GetBillettByBestillingId($bestilling[0][0],$logg);
   
 }
-
-print_r($bestilling[0]);
-echo '<br>';
-print_r($billetterData);
 
 if($_POST){
   // Forsøker å oppdater bruker
@@ -197,8 +196,8 @@ if($_POST){
                     <?php 
                     if(count($billetterData) >0 ){
                         foreach ($billetterData as $i => $row) { ?>
-                    <a href="#" class="list-group-item">
-                        <?php echo $row[2]; ?>
+                    <a href="./billett.php?id=<?php echo $row[0]; ?>" class="list-group-item">
+                        <?php echo $row[4]; echo ' '; echo $row[5]; ; ?>
                     </a>
                     <?php } ?>
                     <?php  } else { ?>
@@ -208,7 +207,7 @@ if($_POST){
               </div>
               <!-- /.box-body -->
               <div class="panel-footer">
-                <div class="btn btn-default" onclick="location.href='./alle.php';">Tilbake</div>
+                <div class="btn btn-default" onclick="location.href='minside.php';">Tilbake</div>
                 <a  href="./Bestillinger/slett.php?id=<?php echo $id; ?>" class="btn btn-danger" onclick="return confirm('Er du sikker du ønsker å slette denne bestillingen?');">Slett</a>
                 <button type="submit" class="btn btn-info pull-right">Oppdater</button>
               </div>
@@ -256,13 +255,11 @@ if($_POST){
             <div class="panel-heading">Mine bestillinger</div>
             <div class="panel-body">
                 <div class="list-group">
-                    <a href="#" class="list-group-item">
-                        Cras justo odio
+                <?php foreach ($bestillingerData as $key => $row) { ?>
+                    <a href="minside.php?id=<?php echo $row[0] ?>" class="list-group-item">
+                        <?php echo 'REF NO '.$row[2].' ('.$row[5].')' ; ?>
                     </a>
-                    <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-                    <a href="#" class="list-group-item">Morbi leo risus</a>
-                    <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-                    <a href="#" class="list-group-item">Vestibulum at eros</a>
+                <?php } ?>
                 </div>
             </div>
             <div class="panel-footer">

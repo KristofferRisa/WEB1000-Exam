@@ -252,6 +252,37 @@
             
             return $bestilling;
         } 
+
+        public function GetBestillingFromEpost($epost, $logg)
+        {
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            $sql = "SELECT bestillingId, bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn
+                    FROM bestilling WHERE bestillerEpost=?;";
+            
+            $queryBestilling = $db_connection->prepare($sql);
+            
+            $queryBestilling->bind_param('i'
+                                    , $epost);
+            
+            $queryBestilling->execute();
+            
+            //henter result set
+            $resultSet = $queryBestilling->get_result();
+            
+            $bestilling =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryBestilling == false){
+                $logg->Ny('Mislyktes å hente fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryBestilling->close();
+            $db_connection->close(); 
+            
+            return $bestilling;
+        } 
         
         public function GetBestillingFromUserInfo($fornavn,$etternavn,$epost,$tlf, $logg)
         {
