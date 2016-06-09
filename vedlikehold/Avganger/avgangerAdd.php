@@ -155,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="YYYY-MM-DD">
                   <label for="Dato" class="col-sm-2 control-label" >Dato</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="dato" name="dato" value="<?php echo @$_POST['avgangDato'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="dato" name="dato" value="<?php echo @$_POST['avgangDato'] ?>">
                   
                 </div>
               </div>
@@ -387,7 +387,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv fastprisen">
                   <label for="fastpris" class="col-sm-2 control-label">Fastpris</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="fastpris" name="fastpris" placeholder="fastpris" value="<?php echo @$_POST['fastpris'] ?>" onsubmit="return validerRegistrerAvgang()">
+                    <input type="text" class="form-control" id="fastpris" name="fastpris" placeholder="fastpris" value="<?php echo @$_POST['fastpris'] ?>" onsubmit="return validerRegistrerAvgang()" required>
                   </div>
                 </div>
                 </div>
@@ -395,7 +395,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <button class="btn btn-default" onclick="fjernMelding();clearForm(this.form);return false;">Nullstill</button>
+                <input type="reset" class="btn btn-default" value="Nullstill" onclick="clearForm(this.form);">
                 <button type="submit" class="btn btn-info pull-right">Legg til</button>
 
               </div>

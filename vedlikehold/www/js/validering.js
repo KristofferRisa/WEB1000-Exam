@@ -146,23 +146,18 @@ function validerRegistrerPrisKat()
 
 function validerRegistrerAvgang()
 {
-  var prisKatNavn=document.getElementById("prisKatNavn").value;
-  var prisKatProsentPaaslag=document.getElementById("prisKatProsentPaaslag").value;
+  var fastpris=document.getElementById("fastpris").value;
   var feilmelding="<div class='alert alert-error'>";
 
-  if (!prisKatNavn)
+  if (!fastpris)
     {
-        feilmelding=feilmelding + "Priskategori navn er ikke fylt ut.<br />";
-    }
-  if (!prisKatProsentPaaslag)
-    {
-        feilmelding=feilmelding + "Priskategori prosentpåslag er ikke fylt ut. <br />";
+        feilmelding=feilmelding + "Alle felt må fylles ut.<br />";
     }
  
 
     else {feilmelding=feilmelding + "</div>"}
 
-  if (prisKatNavn && prisKatProsentPaaslag)
+  if (fastpris)
     {
         return true;
     }
