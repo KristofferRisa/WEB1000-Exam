@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (empty($_POST["flyId"]) ||  empty($_POST["fraDestId"]) ||  empty($_POST["tilDestId"]) ||
       empty($_POST["dato"]) ||  empty($_POST["direkte"]) ||  empty($_POST["reiseTid"]) ||  empty($_POST["klokkeslett"]) ||
-      empty($_POST["fastpris"]) ) 
+      empty($_POST["fastpris"]) || empty($_POST["klokkeslettmin"]) || empty($_POST["reiseTidmin"]) ) 
  {
 
     $errorMelding = $html->errorMsg("Error! </strong>Alle felt må fylles ut.");
@@ -193,16 +193,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-sm-5">
                 
                 <select name="reiseTid"> 
-                  <option value="0"<?php if($avgangInfo[0][5]== "0"){echo "selected";} ?>>0</option>
-                  <option value="1"<?php if($avgangInfo[0][5]== "1"){echo "selected";} ?>>1</option>
-                  <option value="2"<?php if($avgangInfo[0][5]== "2"){echo "selected";} ?>>2</option>
-                  <option value="3"<?php if($avgangInfo[0][5]== "3"){echo "selected";} ?>>3</option>
-                  <option value="4"<?php if($avgangInfo[0][5]== "4"){echo "selected";} ?>>4</option>
-                  <option value="5"<?php if($avgangInfo[0][5]== "5"){echo "selected";} ?>>5</option>
-                  <option value="6"<?php if($avgangInfo[0][5]== "6"){echo "selected";} ?>>6</option>
-                  <option value="7"<?php if($avgangInfo[0][5]== "7"){echo "selected";} ?>>7</option>
-                  <option value="8"<?php if($avgangInfo[0][5]== "8"){echo "selected";} ?>>8</option>
-                  <option value="9"<?php if($avgangInfo[0][5]== "9"){echo "selected";} ?>>9</option>
+                  <option value="0"<?php if($avgangInfo[0][5]== "0"){echo "selected";} ?>>00</option>
+                  <option value="1"<?php if($avgangInfo[0][5]== "1"){echo "selected";} ?>>01</option>
+                  <option value="2"<?php if($avgangInfo[0][5]== "2"){echo "selected";} ?>>02</option>
+                  <option value="3"<?php if($avgangInfo[0][5]== "3"){echo "selected";} ?>>03</option>
+                  <option value="4"<?php if($avgangInfo[0][5]== "4"){echo "selected";} ?>>04</option>
+                  <option value="5"<?php if($avgangInfo[0][5]== "5"){echo "selected";} ?>>05</option>
+                  <option value="6"<?php if($avgangInfo[0][5]== "6"){echo "selected";} ?>>06</option>
+                  <option value="7"<?php if($avgangInfo[0][5]== "7"){echo "selected";} ?>>07</option>
+                  <option value="8"<?php if($avgangInfo[0][5]== "8"){echo "selected";} ?>>08</option>
+                  <option value="9"<?php if($avgangInfo[0][5]== "9"){echo "selected";} ?>>09</option>
                   <option value="10"<?php if($avgangInfo[0][5]== "10"){echo "selected";} ?>>10</option>
                   <option value="11"<?php if($avgangInfo[0][5]== "11"){echo "selected";} ?>>11</option>
                   <option value="12"<?php if($avgangInfo[0][5]== "12"){echo "selected";} ?>>12</option>
@@ -220,17 +220,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <option value="24"<?php if($avgangInfo[0][5]== "24"){echo "selected";} ?>>24</option>
                 </select>
 
-              <select>
-                <option value="0"<?php if($avgangInfo[0][5]== "0"){echo "selected";} ?>>0</option>	
-                <option value="1"<?php if($avgangInfo[0][5]== "1"){echo "selected";} ?>>1</option>	
-                <option value="2"<?php if($avgangInfo[0][5]== "2"){echo "selected";} ?>>2</option>	
-                <option value="3"<?php if($avgangInfo[0][5]== "3"){echo "selected";} ?>>3</option>	
-                <option value="4"<?php if($avgangInfo[0][5]== "4"){echo "selected";} ?>>4</option>	
-                <option value="5"<?php if($avgangInfo[0][5]== "5"){echo "selected";} ?>>5</option>	
-                <option value="6"<?php if($avgangInfo[0][5]== "6"){echo "selected";} ?>>6</option>	
-                <option value="7"<?php if($avgangInfo[0][5]== "7"){echo "selected";} ?>>7</option>	
-                <option value="8"<?php if($avgangInfo[0][5]== "8"){echo "selected";} ?>>8</option>	
-                <option value="9"<?php if($avgangInfo[0][5]== "9"){echo "selected";} ?>>9</option>	
+              <select name="reiseTidmin">
+                <option value="0"<?php if($avgangInfo[0][5]== "0"){echo "selected";} ?>>00</option>	
+                <option value="1"<?php if($avgangInfo[0][5]== "1"){echo "selected";} ?>>01</option>	
+                <option value="2"<?php if($avgangInfo[0][5]== "2"){echo "selected";} ?>>02</option>	
+                <option value="3"<?php if($avgangInfo[0][5]== "3"){echo "selected";} ?>>03</option>	
+                <option value="4"<?php if($avgangInfo[0][5]== "4"){echo "selected";} ?>>04</option>	
+                <option value="5"<?php if($avgangInfo[0][5]== "5"){echo "selected";} ?>>05</option>	
+                <option value="6"<?php if($avgangInfo[0][5]== "6"){echo "selected";} ?>>06</option>	
+                <option value="7"<?php if($avgangInfo[0][5]== "7"){echo "selected";} ?>>07</option>	
+                <option value="8"<?php if($avgangInfo[0][5]== "8"){echo "selected";} ?>>08</option>	
+                <option value="9"<?php if($avgangInfo[0][5]== "9"){echo "selected";} ?>>09</option>	
                 <option value="10"<?php if($avgangInfo[0][5]== "10"){echo "selected";} ?>>10</option>	
                 <option value="11"<?php if($avgangInfo[0][5]== "11"){echo "selected";} ?>>11</option>	
                 <option value="12"<?php if($avgangInfo[0][5]== "12"){echo "selected";} ?>>12</option>	
@@ -292,16 +292,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <label for="Klokkelsett" class="col-sm-2 control-label" >Klokkelsett HH:MM</label>
                 <div class="col-sm-5">
                 <select name="klokkeslett"> 
-                  <option value="0"<?php if($avgangInfo[0][6]== "0"){echo "selected";} ?>>0</option>
-                  <option value="1"<?php if($avgangInfo[0][6]== "1"){echo "selected";} ?>>1</option>
-                  <option value="2"<?php if($avgangInfo[0][6]== "2"){echo "selected";} ?>>2</option>
-                  <option value="3"<?php if($avgangInfo[0][6]== "3"){echo "selected";} ?>>3</option>
-                  <option value="4"<?php if($avgangInfo[0][6]== "4"){echo "selected";} ?>>4</option>
-                  <option value="5"<?php if($avgangInfo[0][6]== "5"){echo "selected";} ?>>5</option>
-                  <option value="6"<?php if($avgangInfo[0][6]== "6"){echo "selected";} ?>>6</option>
-                  <option value="7"<?php if($avgangInfo[0][6]== "7"){echo "selected";} ?>>7</option>
-                  <option value="8"<?php if($avgangInfo[0][6]== "8"){echo "selected";} ?>>8</option>
-                  <option value="9"<?php if($avgangInfo[0][6]== "9"){echo "selected";} ?>>9</option>
+                  <option value="0"<?php if($avgangInfo[0][6]== "0"){echo "selected";} ?>>00</option>
+                  <option value="1"<?php if($avgangInfo[0][6]== "1"){echo "selected";} ?>>01</option>
+                  <option value="2"<?php if($avgangInfo[0][6]== "2"){echo "selected";} ?>>02</option>
+                  <option value="3"<?php if($avgangInfo[0][6]== "3"){echo "selected";} ?>>03</option>
+                  <option value="4"<?php if($avgangInfo[0][6]== "4"){echo "selected";} ?>>04</option>
+                  <option value="5"<?php if($avgangInfo[0][6]== "5"){echo "selected";} ?>>05</option>
+                  <option value="6"<?php if($avgangInfo[0][6]== "6"){echo "selected";} ?>>06</option>
+                  <option value="7"<?php if($avgangInfo[0][6]== "7"){echo "selected";} ?>>07</option>
+                  <option value="8"<?php if($avgangInfo[0][6]== "8"){echo "selected";} ?>>08</option>
+                  <option value="9"<?php if($avgangInfo[0][6]== "9"){echo "selected";} ?>>09</option>
                   <option value="10"<?php if($avgangInfo[0][6]== "10"){echo "selected";} ?>>10</option>
                   <option value="11"<?php if($avgangInfo[0][6]== "11"){echo "selected";} ?>>11</option>
                   <option value="12"<?php if($avgangInfo[0][6]== "12"){echo "selected";} ?>>12</option>
@@ -320,17 +320,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 </select>
 
-                <select>
-                  <option value="0"<?php if($avgangInfo[0][6]== "0"){echo "selected";} ?>>0</option>
-                  <option value="1"<?php if($avgangInfo[0][6]== "1"){echo "selected";} ?>>1</option>
-                  <option value="2"<?php if($avgangInfo[0][6]== "2"){echo "selected";} ?>>2</option>
-                  <option value="3"<?php if($avgangInfo[0][6]== "3"){echo "selected";} ?>>3</option>
-                  <option value="4"<?php if($avgangInfo[0][6]== "4"){echo "selected";} ?>>4</option>
-                  <option value="5"<?php if($avgangInfo[0][6]== "5"){echo "selected";} ?>>5</option>
-                  <option value="6"<?php if($avgangInfo[0][6]== "6"){echo "selected";} ?>>6</option>
-                  <option value="7"<?php if($avgangInfo[0][6]== "7"){echo "selected";} ?>>7</option>
-                  <option value="8"<?php if($avgangInfo[0][6]== "8"){echo "selected";} ?>>8</option>
-                  <option value="9"<?php if($avgangInfo[0][6]== "9"){echo "selected";} ?>>9</option>
+                <select name="klokkeslettmin">
+                  <option value="0"<?php if($avgangInfo[0][6]== "0"){echo "selected";} ?>>00</option>
+                  <option value="1"<?php if($avgangInfo[0][6]== "1"){echo "selected";} ?>>01</option>
+                  <option value="2"<?php if($avgangInfo[0][6]== "2"){echo "selected";} ?>>02</option>
+                  <option value="3"<?php if($avgangInfo[0][6]== "3"){echo "selected";} ?>>03</option>
+                  <option value="4"<?php if($avgangInfo[0][6]== "4"){echo "selected";} ?>>04</option>
+                  <option value="5"<?php if($avgangInfo[0][6]== "5"){echo "selected";} ?>>05</option>
+                  <option value="6"<?php if($avgangInfo[0][6]== "6"){echo "selected";} ?>>06</option>
+                  <option value="7"<?php if($avgangInfo[0][6]== "7"){echo "selected";} ?>>07</option>
+                  <option value="8"<?php if($avgangInfo[0][6]== "8"){echo "selected";} ?>>08</option>
+                  <option value="9"<?php if($avgangInfo[0][6]== "9"){echo "selected";} ?>>09</option>
                   <option value="10"<?php if($avgangInfo[0][6]== "10"){echo "selected";} ?>>10</option>
                   <option value="11"<?php if($avgangInfo[0][6]== "11"){echo "selected";} ?>>11</option>
                   <option value="12"<?php if($avgangInfo[0][6]== "12"){echo "selected";} ?>>12</option>
