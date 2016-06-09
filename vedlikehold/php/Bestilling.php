@@ -201,8 +201,9 @@
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT bestillingId, bestillingDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn, antallBebis
-                    FROM bestilling;";
+            $sql = "SELECT bestillingId, bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne + antallBarn, antallVoksne, antallBarn, antallBebis
+                    FROM bestilling
+                    ORDER BY bestillingId DESC;";
             
             $queryBestilling = $db_connection->prepare($sql);
             
