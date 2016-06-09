@@ -3,12 +3,7 @@
     class PrisKat
 {
         
-        // OPPRETTE NY PRIS KATEGORI
-        public function PrisKat()
-        {
-            
-        }
-      
+        // OPPRETTE NY PRIS KATEGORI      
         public function NewPrisKat($prisKatNavn, $prisKatKroner, $logg)
         {   
             include (realpath(dirname(__FILE__)).'/db.php');
