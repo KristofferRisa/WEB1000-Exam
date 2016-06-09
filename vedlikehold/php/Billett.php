@@ -7,46 +7,6 @@
         {
             
         }
-      
-        // public function NewBillett($bestillingId, $avgangId, $seteId, $fornavn, $etternavn, $kjonn, $antBagasje)
-        // {   
-        //     include (realpath(dirname(__FILE__)).'/db.php');;
-            
-        //     $logg->Ny('Forsøker å opprette ny billett.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
-         
-            
-        //     $sql = "
-        //         INSERT INTO billett (bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje)
-        //                     values  (?, ?, ?, ?, ?, ?, ?)";
-            
-        //     $insertBillett = $db_connection->prepare($sql);
-        //     $insertBillett->bind_param('sssssss'
-        //                             , $bestillingId, $avgangId, $seteId, $fornavn, $etternavn, $kjonn, $antBagasje);
-                                    
-        //     $insertBillett->execute();
-        //     $affectedrows=$insertBillett->affected_rows;
-           
-            
-        //     $logg->Ny('Rows affected: '.$affectedrows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
-
-        //     if($insertBillett == false){
-        //         $logg->Ny('Mislyktes å insert: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
-        //         exit;    
-        //     }
-            
-        //     if ($affectedrows == 1) {
-        //         $logg->Ny('Ny billett opprettet.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
-        //     } else {
-        //         $logg->Ny('Klarte ikke å opprette ny billett.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
-        //     } 
-                
-        //     //Lukker databasetilkopling
-        //     $insertBillett->close();
-        //     $db_connection->close(); 
-            
-        //     return $affectedrows;
-        // }
-        
         
         // OPPDATERER EN BILLETT
         public function UpdateBillett ($id, $fornavn, $etternavn, $kjonn, $antBagasje, $logg)
@@ -149,7 +109,38 @@
             return $billett;
         } 
         
+        public function GetBillettByBestillingId($id, $logg)
+        {
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            $sql = "SELECT billettId, bestillingId, avgangId, seteId, fornavn, etternavn, kjonn, antBagasje 
+                    FROM billett WHERE bestillingId=?;";
+            
+            $queryBillett = $db_connection->prepare($sql);
+            
+            $queryBillett->bind_param('i'
+                                    , $id);
+            
+            $queryBillett->execute();
+            
+            //henter result set
+            $resultSet = $queryBillett->get_result();
+            
+            $billett =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryBillett == false){
+                $logg->Ny('Mislyktes å hente fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryBillett->close();
+            $db_connection->close(); 
+            
+            return $billett;
+        } 
         
+
         //SLETTE EN BILLETT WHERE billettId = ?
          public function DeleteBillett($billettId, $logg)
          {
