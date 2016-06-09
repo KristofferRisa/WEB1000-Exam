@@ -1,4 +1,4 @@
-DROP TABLE bruker, billett, bestilling, sete, prisKategori, avgang, rute, destinasjon, flyplass, fly;
+DROP TABLE bruker, billett, bestilling, sete, prisKategori, avgang, destinasjon, flyplass, fly;
 
 
 
@@ -94,7 +94,6 @@ CREATE TABLE bestilling
     bestillerTlf VARCHAR (50) NOT NULL,
     antallVoksne INT NOT NULL,
     antallBarn INT NOT NULL,
-    antallBebis INT NOT NULL,
     endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT pk_bestilling PRIMARY KEY (bestillingId)
 );
