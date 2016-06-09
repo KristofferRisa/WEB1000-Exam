@@ -111,7 +111,7 @@ elseif (!$_POST["antallBagasje"] === 0 || !$_POST["antallBagasje"] === 1 || !$_P
 
             <!-- form start -->
 
-            <form method="POST" class="form-horizontal" onsubmit="return validerRegistrerBilett()">
+            <form method="POST" class="form-horizontal" onsubmit="return validerRegistrerBillett()">
               <div class="box-body">        
 
                       <input type="hidden" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>">
@@ -120,14 +120,14 @@ elseif (!$_POST["antallBagasje"] === 0 || !$_POST["antallBagasje"] === 1 || !$_P
                 <div class="form-group">
                   <label for="fornavn" class="col-sm-2 control-label">Fornavn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="fornavn" name="fornavn" placeholder="Fornavn" value="<?php echo @$billettinfo[0][4] ?>">
+                    <input type="text" class="form-control" id="fornavn" name="fornavn" placeholder="Fornavn" value="<?php echo @$billettinfo[0][4] ?>" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="etternavn" class="col-sm-2 control-label">Etternavn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="etternavn" name="etternavn" placeholder="Etternavn" value="<?php echo @$billettinfo[0][5] ?>">
+                    <input type="text" class="form-control" id="etternavn" name="etternavn" placeholder="Etternavn" value="<?php echo @$billettinfo[0][5] ?>" required>
                   </div>
                 </div>
 

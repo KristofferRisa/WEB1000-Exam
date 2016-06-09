@@ -215,3 +215,34 @@ function validerRegistrerDestinasjon()
         return false;
     }
 }
+
+function validerRegistrerBillett()
+{
+  var fornavn=document.getElementById("fornavn").value;
+  var etternavn=document.getElementById("etternavn").value;
+  var feilmelding="<div class='alert alert-error'> Alle felt må fylles ut. <br />";
+
+
+  if (!fornavn)
+    {
+        feilmelding=feilmelding + "Fornavn er ikke fylt ut. <br />";
+    }
+     if (!etternavn)
+    {
+        feilmelding=feilmelding + "Etternavn er ikke fylt ut. <br />";
+    }
+ 
+
+    else {feilmelding=feilmelding + "</div>"}
+
+  if ( fornavn && etternavn )
+    {
+        return true;
+    }
+  else
+    {
+        document.getElementById("melding").style.color="red"; 
+        document.getElementById("melding").innerHTML=feilmelding; 
+        return false;
+    }
+}
