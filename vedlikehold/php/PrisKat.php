@@ -164,7 +164,11 @@
         
             //  db-tilkopling
             $query = $db_connection->prepare
+<<<<<<< HEAD
             ("SELECT prisKategoriId, navn, kroner, endret FROM prisKategori");
+=======
+            ("SELECT prisKategoriId, navn, endret, kroner FROM prisKategori");
+>>>>>>> FlyEndreVisNy2
             $query->execute();
             $query->bind_result($prisKatId, $navn, $kroner, $endret);
             
@@ -194,7 +198,11 @@
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
+<<<<<<< HEAD
             $sql = "SELECT prisKategoriId, navn, prisKatKr FROM prisKategori WHERE prisKategoriId=?;";
+=======
+            $sql = "SELECT prisKategoriId, navn, kroner FROM prisKategori WHERE prisKategoriId=?;";
+>>>>>>> FlyEndreVisNy2
             
             $queryPrisKat = $db_connection->prepare($sql);
             

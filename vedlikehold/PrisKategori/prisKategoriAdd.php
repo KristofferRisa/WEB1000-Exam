@@ -109,10 +109,17 @@ elseif (strlen($_POST["prisKategoriNavn"]) > 100 ) {
                 </div>
               </div>
 
+<<<<<<< HEAD
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut priskategori pris">
                   <label for="prisKategoriKr" class="col-sm-2 control-label" >Priskategori pris</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="prisKatKroner" name="prisKatKroner" placeholder="Priskategori pris (kr) " value="<?php echo @$_POST['prisKatKroner'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+=======
+              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut prispåslag">
+                  <label for="prisKategoriProsentPaaslag" class="col-sm-2 control-label" >Prispåslag</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="prisKatProsentPaaslag" name="prisKatProsentPaaslag" placeholder="Prispåslag " value="<?php echo @$_POST['prisKatProsentPaaslag'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+>>>>>>> FlyEndreVisNy2
                   
                 </div>
               </div>

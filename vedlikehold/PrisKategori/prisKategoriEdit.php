@@ -122,9 +122,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text" class="form-control" id="prisKatNavn" name="prisKatNavn" placeholder="Priskategori navn" value="<?php echo @$prisKatInfo[0][1]?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                  </div>
                
-  </div>
+
                 <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut priskategori kroner">
                   <label for="kroner" class="col-sm-2 control-label" >Kroner</label>
+
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="kroner" name="kroner" placeholder="Priskategori pris" value="<?php echo @$prisKatInfo[0][2]?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                 </div>
