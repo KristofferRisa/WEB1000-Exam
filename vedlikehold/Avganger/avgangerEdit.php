@@ -62,13 +62,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Henter oppdatert avgang info fra databasen
     $avgangInfo = $avgang->GetAvgang ($id, $logg);
 
-    if($result >= 0 ){
+    if($result == 1 ){
       //Success
              $errorMelding = "<div class='alert alert-success'><strong>Info! </strong>Data lagt inn i database.</div>";
 
     } else {
       //not succesfull
-             $errorMelding = "<div class='alert alert-warning'><strong>Error! </strong>Data ble ikke lagt inn i database. </div>";
+             $errorMelding = "<div class='alert alert-warning'><strong>Error! </strong>Data ble ikke lagt inn i databasen grunnet ingen endringer gjort.  </div>";
 
     }
 

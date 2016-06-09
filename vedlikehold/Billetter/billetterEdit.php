@@ -57,7 +57,7 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
 
      $flyinfo = $fly->GetPlane($id,$logg);
 
-    if($result <=0){
+    if($result == 1){
       //Success
              $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
 

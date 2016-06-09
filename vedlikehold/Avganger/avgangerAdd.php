@@ -166,13 +166,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             <div class="form-group"  data-toggle="tooltip" data-placement="top" value="<?php echo @$_POST['direkte']?>" >
                   <label for="direkte" class="col-sm-2 control-label" >Avgang direkte</label>
 
-                  <div class="col-sm-5">
+                  <div class="col-sm-2">
                     <label class="radio-inline">
                       <input type="radio" name="direkte" checked value="Ja">Ja
                     </label>
                   </div>
 
-                  <div class="col-sm-5">
+                  <div class="col-sm-2">
                     <label class="radio-inline">
                       <input type="radio" name="direkte" value ="Nei">Nei
                     </label>
