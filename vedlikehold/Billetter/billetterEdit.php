@@ -88,7 +88,7 @@ elseif (!$_POST["antallBagasje"] === 0 || !$_POST["antallBagasje"] === 1 || !$_P
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Billetter og bestillinger</li>
-      <li class="active">Endre Billett</li>
+      <li class="active">EndreBillett</li>
     </ol>
   </section>
 
