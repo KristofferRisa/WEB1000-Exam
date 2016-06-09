@@ -24,7 +24,7 @@
             
             $insertPrisKat = $db_connection->prepare($sql);
             $insertPrisKat->bind_param('ss'
-                                    , $navn, $kroner);
+                                    , $prisKatNavn, $prisKatKroner);
                                     
             $insertPrisKat->execute();
             $affectedrows=$insertPrisKat->affected_rows;
