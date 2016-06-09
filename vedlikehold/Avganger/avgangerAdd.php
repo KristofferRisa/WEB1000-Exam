@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             <div class="box-body">        
                  
                  <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Velg fly ID">
-                  <label for="FlyId" class="col-sm-2 control-label">Fly ID</label>
+                  <label for="FlyId" class="col-sm-2 control-label">Fly</label>
                   <div class="col-sm-10">
                       <?php 
                         echo $html->GenerateSearchSelectionbox($dataFly,'flyId','flyId','Velg flyID',''); 
