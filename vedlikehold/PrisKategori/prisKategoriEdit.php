@@ -121,8 +121,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                  </div>
                
   </div>
-                <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut priskategori prosentpåslag">
-                  <label for="prosentPaaslag" class="col-sm-2 control-label" >Prosent påslag</label>
+                <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut prispåslag">
+                  <label for="prosentPaaslag" class="col-sm-2 control-label" >Prispåslag</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="prosentPaaslag" name="prosentPaaslag" placeholder="Priskategori prosentpåslag" value="<?php echo @$prisKatInfo[0][2]?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                 </div>

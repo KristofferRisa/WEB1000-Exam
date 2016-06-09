@@ -112,10 +112,10 @@ elseif (strlen($_POST["prisKategoriNavn"]) > 100 ) {
                 </div>
               </div>
 
-              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut priskategori prosentpåslag">
-                  <label for="prisKategoriProsentPaaslag" class="col-sm-2 control-label" >Prosent Påslag</label>
+              <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut prispåslag">
+                  <label for="prisKategoriProsentPaaslag" class="col-sm-2 control-label" >Prispåslag</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="prisKatProsentPaaslag" name="prisKatProsentPaaslag" placeholder="Priskat prosentpåslag " value="<?php echo @$_POST['prisKatProsentPaaslag'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="prisKatProsentPaaslag" name="prisKatProsentPaaslag" placeholder="Prispåslag " value="<?php echo @$_POST['prisKatProsentPaaslag'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                   
                 </div>
               </div>

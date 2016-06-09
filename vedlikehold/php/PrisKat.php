@@ -52,18 +52,18 @@
         
         
         // OPPDATERER EN PRISKATEGORI
-        public function UpdatePrisKat ($id, $navn, $prosentPaaslag, $logg)
+        public function UpdatePrisKat ($id, $navn, $kroner, $logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE prisKategori
-            SET navn = ?, prosentPaaslag = ?
+            SET navn = ?, kroner = ?
             WHERE prisKategoriId = ?;";
             
             $insertPrisKat = $db_connection->prepare($sql);
             $insertPrisKat->bind_param('sii'
-                                    , $navn, $prosentPaaslag, $id);
+                                    , $navn, $kroner, $id);
                                                                         
             $insertPrisKat->execute();
             $affectedRows = $insertPrisKat->affected_rows;
@@ -125,7 +125,7 @@
             include (realpath(dirname(__FILE__)).'/db.php');;
             $listBox= "";
 
-            $sql = "SELECT prisKategoriId, navn, prosentPaaslag FROM prisKategori;";
+            $sql = "SELECT prisKategoriId, navn, kroner FROM prisKategori;";
             
             $queryPrisKat = $db_connection->prepare($sql);
             
@@ -164,7 +164,7 @@
         
             //  db-tilkopling
             $query = $db_connection->prepare
-            ("SELECT prisKategoriId, navn, prosentPaaslag, endret FROM prisKategori");
+            ("SELECT prisKategoriId, navn, endret, kroner FROM prisKategori");
             $query->execute();
             $query->bind_result($prisKatId, $navn, $prosentPaaslag, $endret);
             
@@ -192,7 +192,7 @@
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT prisKategoriId, navn, prosentPaaslag FROM prisKategori WHERE prisKategoriId=?;";
+            $sql = "SELECT prisKategoriId, navn, kroner FROM prisKategori WHERE prisKategoriId=?;";
             
             $queryPrisKat = $db_connection->prepare($sql);
             
