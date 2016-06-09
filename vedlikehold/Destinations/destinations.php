@@ -1,5 +1,5 @@
 <?php 
-$title = "FLYAVGANG - Admin ";
+$title = "DESTINASJONER - VIS - Admin ";
 
 include('../html/start.php');
 
@@ -7,10 +7,12 @@ include('../html/header.html');
 
 include('../html/admin-start.html');
 
+$errorMelding ="test";
 
-
-
-
+if (@$_GET["deleteRows"] && @$_GET["deleteRows"] == -1)
+{
+  $errorMelding = $html->errorMsg("Kan ikke slette data grunnen fremmednøkler");
+}
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -25,7 +27,7 @@ include('../html/admin-start.html');
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Destinasjoner</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Vis alle destinasjoner</li>
+      <li class="active">Vis destinasjoner</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -38,9 +40,11 @@ include('../html/admin-start.html');
         <div class="box">
           <div class="box-header">
             <h3 class="box-title">Liste over destinasjoner</h3>
+                        
           </div>
           <!-- /.box-header -->
           <div class="box-body">
+          <?php echo $errorMelding; ?>
             <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
               <div class="row">
                 <div class="col-sm-6"></div>

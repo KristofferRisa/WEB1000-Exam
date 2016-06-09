@@ -121,46 +121,46 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
             <form method="POST" class="form-horizontal" onsubmit="return validerRegistrerFly()">
               <div class="box-body">        
 
-                      <input type="hidden" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>">
+                      <input type="hidden" disabled class="form-control" id="inputId" name="inputId" value="<?php echo $id ?>" required>
 
 
                 <div class="form-group">
                   <label for="flyNr" class="col-sm-2 control-label">Flynr</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$flyinfo[0][1] ?>">
+                  <div class="col-sm-10"  data-toggle="tooltip" data-placement="top" title="Flynr må fylles ut">
+                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$flyinfo[0][1] ?>" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyModell" class="col-sm-2 control-label">Flymodell</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$flyinfo[0][2] ?>">
+                  <div class="col-sm-10"  data-toggle="tooltip" data-placement="top" title="Flymodell må fylles ut">
+                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$flyinfo[0][2] ?>" required>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="flyType" class="col-sm-2 control-label">Flytype</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$flyinfo[0][3] ?>">
+                  <div class="col-sm-10"  data-toggle="tooltip" data-placement="top" title="Flytype må fylles ut">
+                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$flyinfo[0][3] ?>" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyAntallPlasser" class="col-sm-2 control-label">Antall sitteplasser</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$flyinfo[0][4] ?>">
+                  <div class="col-sm-10"  data-toggle="tooltip" data-placement="top" title="Antall sitteplasser må fylles ut">
+                    <input type="text" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$flyinfo[0][4] ?>" required>
                      </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$flyinfo[0][5] ?>">
+                  <div class="col-sm-10" data-toggle="tooltip" data-placement="top" title="Årsmodell må fylles ut">
+                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$flyinfo[0][5] ?>" required>
                   </div>
                 </div>
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <div class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
+               <input type="reset" class="btn btn-default" value="Nullstill" onclick="clearForm(this.form);">
 
                 <button type="submit" class="btn btn-info pull-right">Oppdater</button>
               </div>

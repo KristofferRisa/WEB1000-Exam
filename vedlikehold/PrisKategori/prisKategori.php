@@ -6,7 +6,12 @@ include('../html/start.php');
 include('../html/header.html');
 
 include('../html/admin-start.html');
-$errorMelding = "";
+$errorMeldingBitch= "";
+
+if (@$_GET ["deleteRows"] && @$_GET["deleteRows"] == -1)
+{
+  $errorMeldingBitch=$html->errorMsg("Kan ikke slette data grunnet fremmednøkler. Alle tilhørende priskategorier må slettes først.");
+}
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -32,11 +37,12 @@ $errorMelding = "";
         <div class="row">
       <div class="col-xs-12">
         <div class="box">
-          <div class="box-header"><?php echo $errorMelding; ?><div id="melding"></div>
-            <h3 class="box-title">Liste over priskategorier</h3>
+          <div class="box-header">
+             <h3 class="box-title">Liste over priskategorier</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
+          <?php echo $errorMeldingBitch; ?>
             <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
               <div class="row">
                 <div class="col-sm-6"></div>
@@ -48,7 +54,7 @@ $errorMelding = "";
                     <thead>
                       <tr role="row">
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatNavn">Priskategori navn</th>
-                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatProsentPaaslag">Priskategori prosentpåslag</th>
+                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="PrisKatKroner">Priskategori pris</th>
                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Handlinger">Handlinger</th>      
                     </thead>
                     <tbody>
@@ -68,6 +74,16 @@ print ($prisKat->GetAllPrisKat() );
 
 
                     </tbody>
+
+                    
+                    <tfoot>
+                      <tr>
+                        <th rowspan="1" colspan="1">Priskategori navn</th>
+                        <th rowspan="1" colspan="1">Priskategori pris</th>
+                        <th rowspan="1" colspan="1">Handlinger</th>                        
+
+                        </tr>
+                    </tfoot>
 
                   </table>
                 </div>

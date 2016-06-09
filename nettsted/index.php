@@ -15,7 +15,6 @@
         && $_GET['type']
         && $_GET['voksne']
         // && $_GET['barn']
-        // && $_GET['bebis']
         && $_GET['reiseDato']
         //&& $_GET['returDato']
         ){
@@ -36,12 +35,6 @@
             $barn = $saner->data($_GET["barn"]);  
           } else {
             $barn = 0;
-          }
-          
-          if ($_GET['bebis']) {
-            $bebis = $saner->data($_GET["bebis"]);
-          } else {
-            $bebis = 0;
           }
           
           if ($_GET['returDato']) {
@@ -105,10 +98,8 @@
                     <!--<div class="item" data-value="zw"><i class="zw flag"></i>Zimbabwe</div>-->
                     
                     <?php 
-                    
                       echo $html->GenerateSearchSelectionItem($alleDestinasjoner);
-                      
-                    ?>
+                      ?>
                   </div>
                 </div>
               </div>
@@ -176,6 +167,7 @@
           
             <!-- REISE FRA (START)-->
             <div class="col-sm-4">
+            <label>Velg utreise dato</label>
               <div class="form-group">
                   <div class="input-group date">
                     <div class="input-group-addon">
@@ -197,6 +189,7 @@
             
             <!--REISE TIL (START)-->
             <div class="col-sm-4">
+            <label>Velg retur dato</label>
               <div class="form-group" id="fromDatePicker" <?php if(@$type == "Enkel") { echo 'style="display: none;"'; } ?> >
                 <div class="input-group date">
                   <div class="input-group-addon">
@@ -228,6 +221,7 @@
                     <option value="3" <?php if(@$voksne == 3) echo 'selected'; ?> >3voksne</option>
                     <option value="4" <?php if(@$voksne == 4) echo 'selected'; ?> >4 voksne</option>
                   </select>
+                  
                   <select class="form-control" id="barn" name="barn">
                     <option value="0" <?php if(@$barn == 0) echo 'selected'; ?> >0 barn (2-16 år)</option>
                     <option value="1" <?php if(@$barn == 1) echo 'selected'; ?> >1 barn</option>
@@ -235,13 +229,7 @@
                     <option value="3" <?php if(@$barn == 3) echo 'selected'; ?> >3 barn</option>
                     <option value="4" <?php if(@$barn == 4) echo 'selected'; ?> >4 barn</option>
                   </select>
-                  <select class="form-control" id="bebis" name="bebis">
-                    <option value="0" <?php if(@$bebis == 0) echo 'selected'; ?> >0 bebis (0-23 mnd)</option>
-                    <option value="1" <?php if(@$bebis == 1) echo 'selected'; ?> >1 bebis</option>
-                    <option value="2" <?php if(@$bebis == 2) echo 'selected'; ?> >2 bebis</option>
-                    <option value="3" <?php if(@$bebis == 3) echo 'selected'; ?> >3 bebis</option>
-                    <option value="4" <?php if(@$bebis == 4) echo 'selected'; ?> >4 bebis</option>
-                  </select>
+                 
                 </div>
               </div>
               
@@ -252,7 +240,7 @@
        
         <div clas="row top-buffer">
           <div class="col-md-12">
-            <input type="submit" class="btn btn-primary pull-right btn-flat" value="Søk" >
+            <input type="submit" id="sok" class="btn btn-primary pull-right btn-flat" value="Søk" >
           </div>
         </div>     
          <!--ROW SLUTT-->
@@ -290,10 +278,10 @@
                 $isLast = ($i == $last);
                 
                 $resultMsg .= '
-                      <button class="list-group-item avreise" onclick="avreiseBestilling(this);" data-destinasjonId="'.$til.'" data-avgangId="'.$row[0].'" data-antall="'.$antallReisende.'" data-bebis="'.$bebis.'" >
+                      <button class="list-group-item avreise" onclick="avreiseBestilling(this);" data-destinasjonId="'.$til.'" data-avgangId="'.$row[0].'" data-antall="'.$antallReisende.'" >
                          <span class="glyphicon glyphicon-plane"></span>
                          '.$row[1].' kl.'.$row[2].
-                         '<br><span class="glyphicon glyphicon-euro"></span>'.$row[5].'
+                         '<br>'.$row[5].'
                          </button>';
               }
               
@@ -315,7 +303,7 @@
                           <button class="list-group-item retur" onclick="returBestilling(this);" data-destinasjon="'.$row[0].'" >
                             <span class="glyphicon glyphicon-plane"></span>
                             '.$row[1].' kl.'.$row[2].
-                            '<br><span class="glyphicon glyphicon-euro"></span> '.$row[5].'
+                            '<br> '.$row[5].'
                             </button>';
                     
                   }
@@ -336,7 +324,6 @@
                     <input type="hidden" name="reise" id="avgangIdReise" >
                     <input type="hidden" name="retur" id="avgangIdRetur" >
                     <input type="hidden" name="antall" id="antall" >
-                    <input type="hidden" name="bebis" id="antallbebis" >
                     <input type="submit" class="btn btn-primary pull-right btn-flat" id="bestilling" onclick="hentBillettInfo();" disabled value="Bestill">
                   </form>
                 </div>
@@ -356,7 +343,6 @@
     </div>
  
  </div>
- 
  
  
  <!--INNHOLD SLUTT-->
@@ -406,7 +392,6 @@ $(function() {
       }
       
       ?>
-  
   
   
   //når man går ut av reiser fra input så hentes alle mulig til destinasjoner
@@ -481,8 +466,6 @@ function hentBillettInfo(){
   $('#avgangIdReise').val(utReise.attr('data-avgangId'));
   $('#avgangIdRetur').val(retur.attr('data-destinasjon'));  
   $('#antall').val(utReise.attr('data-antall'));
-  $('#antallbebis').val(utReise.attr('data-bebis'));
-  
 }
 
 function validerFinnReiser(){

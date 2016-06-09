@@ -9,7 +9,7 @@
         }
       
         //Lager en bestilling rad og setter inn billetter pr reisene
-        public function NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,$antallVoksne, $antallBarn, $antallBebis, $reisende, $avgangId, $returavgangID, $logg)
+        public function NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,$antallVoksne, $antallBarn, $reisende, $avgangId, $returavgangID, $logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
@@ -23,15 +23,14 @@
             $logg->Ny('Bestillingsdato = '.$bestillingsDato.' & refNo = '.$refNo,'ERROR');
             $logg->Ny('ReiseDato = '.$reiseDato.' & returDato = '.$returDato,'ERROR');
             $logg->Ny('Navn = '.$bestillerFornavn.' '.$bestillerEtternavn.' epost '.$bestillerEpost.' tlf '.$bestillerTlf,'ERROR');
-            $logg->Ny($antallVoksne.' Voksne '.$antallBarn.' barn '.$antallBebis.'bebis');
+            $logg->Ny($antallVoksne.' Voksne '.$antallBarn.' barn ');
             
             try {
                 $db_connection ->begin_transaction();
             
                 $sqlInsertBestilling = "
-                INSERT INTO bestilling (bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf,antallVoksne, antallBarn, antallBebis) 
+                INSERT INTO bestilling (bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf,antallVoksne, antallBarn) 
                 values ( ?
-                        , ?
                         , ?
                         , ?
                         , ?
@@ -76,7 +75,7 @@
             
                 $insertBestilling = $db_connection->prepare($sqlInsertBestilling);
                 
-                $insertBestilling->bind_param('sssssssssss'
+                $insertBestilling->bind_param('ssssssssss'
                                             , $bestillingsDato
                                             , $refNo
                                             , $reiseDato
@@ -86,8 +85,7 @@
                                             , $bestillerEpost
                                             , $bestillerTlf
                                             , $antallVoksne
-                                            , $antallBarn
-                                            , $antallBebis);
+                                            , $antallBarn);
                 
                 $insertBestilling->execute();
                 
@@ -125,7 +123,6 @@
                     $logg->Ny('Bestillingsdato = '.$bestillingsDato.' & refNo = '.$refNo,'ERROR');
                     $logg->Ny('ReiseDato = '.$reiseDato.' & returDato = '.$returDato,'ERROR');
                     $logg->Ny('Navn = '.$bestillerFornavn.' '.$bestillerEtternavn.' epost '.$bestillerEpost.' tlf '.$bestillerTlf,'ERROR');
-                    $logg->Ny($antallVoksne.' Voksne '.$antallBarn.' barn '.$antallBebis.'bebis');
                     
                     $db_connection->rollback();
                     
@@ -155,42 +152,39 @@
         
         
         // OPPDATERER EN BESTILLING
-        public function UpdateBestilling ($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,
-                                      $antallVoksne, $antallBarn, $antallBebis)
+        public function UpdateBestilling ($id,$fornavn,$etternavn, $bestillerEpost, $bestillerTlf,$logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE bestilling
-            SET navn = ?
+            SET bestillerFornavn = ?,bestillerEtternavn =? ,bestillerEpost = ?,bestillerTlf = ? 
             WHERE bestillingId = ?;";
             
-            $insertBestilling = $db_connection->prepare($sql);
-            $insertBestilling->bind_param('sssssssssss'
-                                    , $bestillingDato, $refNo, $reiseDato, $returDato, $bestillerFornavn, $bestillerEtternavn, $bestillerEpost, $bestillerTlf,
-                                      $antallVoksne, $antallBarn, $antallBebis);
+            $updateBestilling = $db_connection->prepare($sql);
+            $updateBestilling->bind_param('ssssi'
+                                    ,$fornavn,$etternavn
+                                    , $bestillerEpost, $bestillerTlf, $id);
                                                                         
-            $insertBestilling->execute();
-            $affectedRows = $insertBestilling->affected_rows;
+            $updateBestilling->execute();
+            $affectedRows = $updateBestilling->affected_rows;
             
-            $insertBestilling->close();
+            $updateBestilling->close();
             $db_connection->close(); 
             
             
             $logg->Ny('Rows affected: '.$affectedRows, 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
 
-            if($insertBestilling == false){
+            if($updateBestilling == false){
                 $logg->Ny('Mislyktes å oppdatere bestilling informasjon'.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');
                 exit;    
             }
             
             if ($affectedRows == 1) {
-                $logg->Ny('Bestillingen ble oppdatert.', 'DEBUG',htmlspecialchars($_SERVER['PHP_SELF']), '');
+                $logg->Ny('Bestilling id '.$id.' ble oppdatert.', 'INFO',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } else {
                 $logg->Ny('Klarte ikke å oppdatere bestilling.', 'ERROR',htmlspecialchars($_SERVER['PHP_SELF']), '');
             } 
-                
-            //Lukker databasetilkopling
             
             return $affectedRows;
         }
@@ -201,8 +195,9 @@
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT bestillingId, bestillingDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn, antallBebis
-                    FROM bestilling;";
+            $sql = "SELECT bestillingId, bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne + antallBarn, antallVoksne, antallBarn
+                    FROM bestilling
+                    ORDER BY bestillingId DESC;";
             
             $queryBestilling = $db_connection->prepare($sql);
             
@@ -231,7 +226,7 @@
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT bestillingId, bestillingDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn, antallBebis
+            $sql = "SELECT bestillingId, bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn
                     FROM bestilling WHERE bestillingId=?;";
             
             $queryBestilling = $db_connection->prepare($sql);
@@ -257,12 +252,43 @@
             
             return $bestilling;
         } 
+
+        public function GetBestillingFromEpost($epost, $logg)
+        {
+            include (realpath(dirname(__FILE__)).'/db.php');;
+            
+            $sql = "SELECT bestillingId, bestillingsDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn
+                    FROM bestilling WHERE bestillerEpost=?;";
+            
+            $queryBestilling = $db_connection->prepare($sql);
+            
+            $queryBestilling->bind_param('i'
+                                    , $epost);
+            
+            $queryBestilling->execute();
+            
+            //henter result set
+            $resultSet = $queryBestilling->get_result();
+            
+            $bestilling =  $resultSet->fetch_all();
+            
+            //Error logging
+            if($queryBestilling == false){
+                $logg->Ny('Mislyktes å hente fra db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $resultSet->free();
+            $queryBestilling->close();
+            $db_connection->close(); 
+            
+            return $bestilling;
+        } 
         
         public function GetBestillingFromUserInfo($fornavn,$etternavn,$epost,$tlf, $logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT bestillingId, bestillingDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn, antallBebis
+            $sql = "SELECT bestillingId, bestillingDato, refNo, reiseDato, returDato, bestillerFornavn, bestillerEtternavn, bestillerEpost, bestillerTlf, antallVoksne, antallBarn
                     FROM bestilling 
                     WHERE bestillerFornavn = ? 
                         AND bestillerEtternav = ?

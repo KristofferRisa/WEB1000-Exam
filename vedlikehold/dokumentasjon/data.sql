@@ -2,18 +2,29 @@ INSERT INTO bruker (brukernavn, fornavn, etternavn, epost, passord,isAdmin)
 VALUES ('admin','admin','admin','admin@admin','$2y$11$588375129575004edc18cunE7l5lf6G1zI2bAHn7apB0mBvwdfYmi','Ja');
 
 
-INSERT INTO fly (flyNr,    flyModell,type, plasser, aarsmodell) 
-VALUES ('A-222', 'Boeing', 'A730',20,2016);
+INSERT INTO fly (flyNr, flyModell, type, plasser, aarsmodell) 
+VALUES  ('A-222', 'Boeing', 'A730',20,2016),
+        ('A-420', 'Boeing', 'A777', 50, 2015),
+        ('B-210', 'SAS', 'K919', 10, 1999); 
 
 
-INSERT INTO flyplass (navn) VALUES ('OSL (GARDEMOEN)'), ('OSL (TORP)'), ('LON GATWICK'), ('LON HEATHROW');
+
+
+INSERT INTO flyplass (navn) 
+VALUES  ('OSL (GARDEMOEN)'), 
+        ('OSL (TORP)'), 
+        ('LON GATWICK'), 
+        ('LON HEATHROW'),
+        ('WAR CHOPIN');
+        
 
 
 INSERT INTO destinasjon (flyplassId ,navn, land , landskode ,stedsnavn,geo_lat, geo_lng)
 VALUES (1, 'OSLO GARDEMOEN', 'NORGE', 'NO', 'Oslo','60.197591', '11.100910'),
        (2, 'OSLO TORP', 'NORGE', 'NO', 'Sandefjord','59.000053', '10.019490'),
        (3, 'LONDON GATWICK', 'ENGLAND', 'EN', 'London', NULL, NULL),
-       (4, 'LONDON HEATHROW', 'ENGLAND', 'EN', 'London','51.469996', '-0.454006');
+       (4, 'LONDON HEATHROW', 'ENGLAND', 'EN', 'London','51.469996', '-0.454006'),
+       (5, 'WARSZAWA CHOPIN', 'POLEN', 'PO', 'Warszawa', NULL, NULL);
 
 
 
@@ -22,13 +33,16 @@ reiseTid, klokkeslett,fastpris)
        
 VALUES (1, 2, 3, '2016-01-01', 'Ja', '02:10', '06:50', 1700),
        (1, 1, 4, '2016-01-01', 'Nei', '04:40', '02:50', 200),
-       (1, 2, 3, '2016-02-02', 'Ja', '02:10', '06:50', 2300);
+       (2, 2, 3, '2016-02-02', 'Ja', '02:10', '06:50', 2300),
+       (3, 3, 5, '2016-06-01', 'Ja', '03:05', '09:50', 800),
+       (1, 3, 2, '2016-01-01', 'Ja', '02:10', '19:20', 400),
+       (2, 3, 2, '2016-02-02', 'Ja', '00:50', '22:30', 1450);
        
        
 INSERT INTO prisKategori (navn, prosentPaaslag)
-VALUES ('standard', 0),
-       ('first class', 200),
-       ('ungdom+', '-30');
+VALUES ('Standard', 0),
+       ('First class', 200),
+       ('Ungdom+', '-30');
        
        
 INSERT INTO sete (flyId, prisKategoriId, seteNr, nodutgang, forklaring)

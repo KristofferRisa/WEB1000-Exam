@@ -3,28 +3,23 @@
     class PrisKat
 {
         
-        // OPPRETTE NY PRIS KATEGORI
-        public function PrisKat()
-        {
-            
-        }
-      
-        public function NewPrisKat($navn, $prosentPaaslag)
+        // OPPRETTE NY PRIS KATEGORI      
+        public function NewPrisKat($prisKatNavn, $prisKatKroner, $logg)
         {   
             include (realpath(dirname(__FILE__)).'/db.php');
             
-            $logg = new Logg;
+            // $logg = new Logg;
             
             $logg->Ny('Forsøker å opprette ny priskategori.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
             
             $sql = "
-                INSERT INTO prisKategori (navn, prosentPaaslag)
+                INSERT INTO prisKategori (navn, kroner)
                             VALUES (?, ?)";
             
             $insertPrisKat = $db_connection->prepare($sql);
             $insertPrisKat->bind_param('ss'
-                                    , $navn, $posentPaaslag);
+                                    , $prisKatNavn, $prisKatKroner);
                                     
             $insertPrisKat->execute();
             $affectedrows=$insertPrisKat->affected_rows;
@@ -52,18 +47,18 @@
         
         
         // OPPDATERER EN PRISKATEGORI
-        public function UpdatePrisKat ($id, $navn, $prosentPaaslag, $logg)
+        public function UpdatePrisKat ($id, $navn, $kroner, $logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE prisKategori
-            SET navn = ?, prosentPaaslag = ?
+            SET navn = ?, kroner = ?
             WHERE prisKategoriId = ?;";
             
             $insertPrisKat = $db_connection->prepare($sql);
             $insertPrisKat->bind_param('sii'
-                                    , $navn, $prosentPaaslag, $id);
+                                    , $navn, $kroner, $id);
                                                                         
             $insertPrisKat->execute();
             $affectedRows = $insertPrisKat->affected_rows;
@@ -96,7 +91,7 @@
         
             $logg->Ny('Forsoeker å alle pris kategorier.');
             
-            $sql = "SELECT prisKategoriId, navn, prosentPaaslag FROM prisKategori;";
+            $sql = "SELECT prisKategoriId, navn, kroner FROM prisKategori;";
             
             $prisKatQuery = $db_connection->prepare($sql);
             
@@ -125,17 +120,17 @@
             include (realpath(dirname(__FILE__)).'/db.php');;
             $listBox= "";
 
-            $sql = "SELECT prisKategoriId, navn, prosentPaaslag FROM prisKategori;";
+            $sql = "SELECT prisKategoriId, navn, kroner FROM prisKategori;";
             
             $queryPrisKat = $db_connection->prepare($sql);
             
             $queryPrisKat->execute();
 
-            $queryPrisKat ->bind_result($id, $prisKatNavn, $prisKatProsentPaaslag);
+            $queryPrisKat ->bind_result($id, $prisKatNavn, $kroner);
             
             while ($queryPrisKat->fetch ())
             {
-                $listBox .="<option value=".$id. ">".$prisKatNavn." (".$prisKatProsentPaaslag.")</option>";
+                $listBox .="<option value=".$id. ">".$prisKatNavn." (".$kroner.")</option>";
             }
 
             
@@ -164,9 +159,11 @@
         
             //  db-tilkopling
             $query = $db_connection->prepare
-            ("SELECT prisKategoriId, navn, prosentPaaslag, endret FROM prisKategori");
+
+            ("SELECT prisKategoriId, navn, endret, kroner FROM prisKategori");
+
             $query->execute();
-            $query->bind_result($prisKatId, $navn, $prosentPaaslag, $endret);
+            $query->bind_result($prisKatId, $navn, $kroner, $endret);
             
             //henter data
             while ($query->fetch()) 
@@ -180,7 +177,9 @@
                     $printOddOrEven = 'odd';
                 }
 
-                $html .= '<tr role="row" class="'.$printOddOrEven.'"><td>'.$navn.'</td><td>'.$prosentPaaslag.'</td><td>       
+                $html .= '<tr role="row" class="'.$printOddOrEven.'">
+                <td>'.$navn.'</td>  
+                <td>'.$kroner.'</td><td>
                 <a href="./PrisKategori/prisKategoriAdd.php">Ny priskategori</a> | <a href="./PrisKategori/prisKategoriEdit.php?id='.$prisKatId.'"">Endre</a> | <a onclick="return confirm(\'Er du sikker du ønsker å slette denne priskategorien?\')" href="./PrisKategori/delete.php?id='.$id.'">Slett</a> </td></tr>';
 
             }
@@ -192,8 +191,9 @@
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-            $sql = "SELECT prisKategoriId, navn, prosentPaaslag FROM prisKategori WHERE prisKategoriId=?;";
-            
+
+            $sql = "SELECT prisKategoriId, navn, kroner FROM prisKategori WHERE prisKategoriId=?;";
+
             $queryPrisKat = $db_connection->prepare($sql);
             
             $queryPrisKat->bind_param('i'

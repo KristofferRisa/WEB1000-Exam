@@ -1,4 +1,4 @@
-DROP TABLE bruker, billett, bestilling, sete, prisKategori, avgang, rute, destinasjon, flyplass, fly;
+DROP TABLE bruker, billett, bestilling, sete, prisKategori, avgang, destinasjon, flyplass, fly;
 
 
 
@@ -60,7 +60,7 @@ CREATE TABLE prisKategori
 (
     prisKategoriId INT NOT NULL AUTO_INCREMENT,
     navn VARCHAR (100) NOT NULL,
-    prosentPaaslag INT,
+    kroner DECIMAL(10,2) NOT NULL,
     endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT pk_prisKategori PRIMARY KEY (prisKategoriId)
 );
@@ -72,7 +72,7 @@ CREATE TABLE sete
     flyId INT NOT NULL,
     prisKategoriId INT NOT NULL, 
     seteNr VARCHAR(10),
-    nodutgang BIT,
+    nodutgang VARCHAR (3),
     forklaring VARCHAR (100), -- gang/midt/vindu
     endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT pk_sete PRIMARY KEY (seteId),
@@ -94,7 +94,6 @@ CREATE TABLE bestilling
     bestillerTlf VARCHAR (50) NOT NULL,
     antallVoksne INT NOT NULL,
     antallBarn INT NOT NULL,
-    antallBebis INT NOT NULL,
     endret TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT pk_bestilling PRIMARY KEY (bestillingId)
 );

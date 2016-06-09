@@ -1,5 +1,5 @@
 <?php 
-$title = "FLY - Admin";
+$title = "DESTINASJON - NY - Admin";
 
 include('../html/start.php');
 
@@ -66,7 +66,7 @@ include('../php/addDestinationFormInput.php');
                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv navn på destinasjonen">
                   <label for="navn" class="col-sm-2 control-label">Navn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="navn" name="navn" placeholder="Navn" value="<?php echo @$_POST['navn'] ?>">
+                    <input type="text" class="form-control" id="navn" name="navn" placeholder="Navn" value="<?php echo @$_POST['navn'] ?>" required>
                   </div>
                 </div>
 
@@ -75,7 +75,7 @@ include('../php/addDestinationFormInput.php');
   <label for="land" class="col-sm-2 control-label">Land</label>
   <div class="col-sm-10">        
   <div class="ui fluid search selection dropdown" id="flyplassLandValg">
-  <input type="hidden" name="landskode" id="landskode" >
+  <input type="hidden" name="landskode" id="landskode" required>
   <i class="dropdown icon"></i>
   <div class="default text">Velg land</div>
   
@@ -335,21 +335,21 @@ include('../php/addDestinationFormInput.php');
                   <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv stedsnavn">
                   <label for="stedsnavn" class="col-sm-2 control-label">Stedsnavn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="stedsnavn" name="stedsnavn" placeholder="Stedsnavn" value="<?php echo @$_POST['stedsnavn'] ?>">
+                    <input type="text" class="form-control" id="stedsnavn" name="stedsnavn" placeholder="Stedsnavn" value="<?php echo @$_POST['stedsnavn'] ?>" required>
                   </div>
                 </div>
 
                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv inn koordinater">
                   <label for="geo_lat" class="col-sm-2 control-label">Geo_lat</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="geo_lat" name="geo_lat" placeholder="geo_lat" value="<?php echo @$_POST['geo_lat'] ?>">
+                    <input type="text" class="form-control" id="geo_lat" name="geo_lat" placeholder="geo_lat" value="<?php echo @$_POST['geo_lat'] ?>" required>
                      </div>
                 </div>
 
                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv inn koordinater">
                   <label for="flyLaget" class="col-sm-2 control-label">Geo_lng</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="geo_lng" name="geo_lng" placeholder="geo_lng" value="<?php echo @$_POST['geo_lng'] ?>">
+                    <input type="text" class="form-control" id="geo_lng" name="geo_lng" placeholder="geo_lng" value="<?php echo @$_POST['geo_lng'] ?>" required>
                      <small><a href="http://www.latlong.net/" target="_new">Finn koordinater</a></small>
                   </div>
                  
@@ -357,7 +357,7 @@ include('../php/addDestinationFormInput.php');
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <button class="btn btn-default" onclick="fjernMelding();clearForm(this.form);return false;">Nullstill</button>
+                <input type="reset" class="btn btn-default" value="Nullstill" onclick="clearForm(this.form);">
 
                 <button type="submit" class="btn btn-info pull-right">Legg til</button>
               </div>

@@ -1,8 +1,9 @@
 <?php 
 include('./../php/AdminClasses.php');
 include('./../php/Logg.php');
+include('./../php/Avgang.php');
 
-$airport = new Airport;
+$avgang = new Avgang;
 
 $logg = new Logg;
 
@@ -10,9 +11,9 @@ $rows = -1;
 
 if($_GET['id']){
   $id = $_GET['id'];
-  $rows = $airport->DeleteAirport($id, $logg);
+  $rows = $avgang->DeleteAvgang($id, $logg);
 }
 
-header('Location: ./airports.php?deleteRows='.$rows);
+header('Location: ./avganger.php?deleteRows='.$rows);
 
 ?>

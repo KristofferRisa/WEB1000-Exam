@@ -35,26 +35,28 @@ $errorMelding = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-  if ( empty($_POST["prisKatNavn"]) ) {
+  if ( empty($_POST["prisKatNavn"]) || empty($_POST["kroner"]) )
+  {
 
     $errorMelding = $html->errorMsg("Error! </strong>Alle felt må fylles ut.");
 
-  } elseif (strlen($_POST["prisKatNavn"]) > 100 ) {
+  } 
+  elseif (strlen($_POST["prisKatNavn"]) > 100 ) {
     $errorMelding = $html->successMsg("Navn må være maks 100 tegn.");
   } else {
     $valider = new ValiderData;
 
     $prisKatNavn = $valider->valider($_POST["prisKatNavn"]);
-    $prosentPaaslag = $valider->valider($_POST["prosentPaaslag"]);
+    $kroner = $valider->valider($_POST["kroner"]);
 
     $prisKat = new prisKat; 
 
-    $result = $prisKat->UpdatePrisKat($id, $prisKatNavn, $prosentPaaslag, $logg);
+    $result = $prisKat->UpdatePrisKat($id, $prisKatNavn, $kroner, $logg);
 
     //Henter oppdatert airport info fra databasen
     $prisKatInfo = $prisKat->getPrisKat($id,$logg);
 
-    if($result == 1){
+    if($result >= 0){
       //Success
              $errorMelding = "<div class='alert alert-success'><strong>Info! </strong>Data lagt inn i database.</div>";
 
@@ -119,12 +121,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="prisKatNavn" name="prisKatNavn" placeholder="Priskategori navn" value="<?php echo @$prisKatInfo[0][1]?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                  </div>
-               
-  </div>
-                <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut priskategori prosentpåslag">
-                  <label for="prosentPaaslag" class="col-sm-2 control-label" >Prosent påslag</label>
+               </div>
+
+                <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut priskategori kroner">
+                  <label for="kroner" class="col-sm-2 control-label" >Kroner</label>
+
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="prosentPaaslag" name="prosentPaaslag" placeholder="Priskategori prosentpåslag" value="<?php echo @$prisKatInfo[0][2]?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="kroner" name="kroner" placeholder="Priskategori pris" value="<?php echo @$prisKatInfo[0][2]?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
                 </div>
               </div>
 

@@ -1,5 +1,5 @@
 <?php 
-$title = "FLY - Admin";
+$title = "FLY - NY - Admin";
 
 include('../html/start.php');
 include('../html/header.html');
@@ -112,42 +112,42 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
 
                 <div class="form-group">
                   <label for="flyNr" class="col-sm-2 control-label">Flynr</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$_POST['flyNr'] ?>">
+                  <div class="col-sm-10" data-toggle="tooltip" data-placement="top" title="Flynr må fylles ut">
+                    <input type="text" class="form-control" id="flyNr" name="flyNr" placeholder="Flynr" value="<?php echo @$_POST['flyNr'] ?>" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyModell" class="col-sm-2 control-label">Flymodell</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$_POST['flyModell'] ?>">
+                  <div class="col-sm-10" data-toggle="tooltip" data-placement="top" title="Flymodell må fylles ut">
+                    <input type="text" class="form-control" id="flyModell" name="flyModell" placeholder="Flymodell" value="<?php echo @$_POST['flyModell'] ?>" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyType" class="col-sm-2 control-label">Flytype</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$_POST['flyType'] ?>">
+                  <div class="col-sm-10" data-toggle="tooltip" data-placement="top" title="Flytype må fylles ut">
+                    <input type="text" class="form-control" id="flyType" name="flyType" placeholder="Flytype" value="<?php echo @$_POST['flyType'] ?>" required>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyAntallPlasser" class="col-sm-2 control-label">Antall sitteplasser</label>
-                  <div class="col-sm-10">
-                    <input type="number" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$_POST['flyAntallPlasser'] ?>">
+                  <div class="col-sm-10" data-toggle="tooltip" data-placement="top" title="Antall sitteplasser må fylles ut">
+                    <input type="number" class="form-control" id="flyAntallPlasser" name="flyAntallPlasser" placeholder="Antall sitteplasser" value="<?php echo @$_POST['flyAntallPlasser'] ?>" required>
                      </div>
                 </div>
 
                 <div class="form-group">
                   <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$_POST['flyAarsmodell'] ?>">
+                  <div class="col-sm-10" data-toggle="tooltip" data-placement="top" title="Årsmodell må fylles ut">
+                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$_POST['flyAarsmodell'] ?>" required>
                   </div>
                 </div>
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <div class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
+                <input type="reset" class="btn btn-default" value="Nullstill" onclick="clearForm(this.form);">
                 
                 <?php if(@$seteButton) { echo $seteButton; } ?>
                 

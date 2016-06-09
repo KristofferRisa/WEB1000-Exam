@@ -60,7 +60,7 @@ if(@$_GET['id']){
   <!-- Content Header (Page header) -->
   <section class="content-header">
       <h1>
-        Vis alle seter tilknyttet flynr <?php echo $flyInfo[0][1]; ?>
+        Vis alle seter tilknyttet flynr <?php echo @$flyInfo[0][1]; ?>
       </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
@@ -82,13 +82,13 @@ if(@$_GET['id']){
           <div class="box box-info">
 
 
-  <div class="box-header with-border">
+        <div class="box-header with-border">
   
-  <div id="melding"></div>
-    
-      <h3 class="box-title">Editer sete informasjon for sete id <?php echo $row[0]; ?></h3>
-          </div>
-          <!-- /.box-header -->
+          <div id="melding"></div>
+            
+              <h3 class="box-title">Editer sete informasjon for sete id <?php echo $row[0]; ?></h3>
+               </div>
+               <!-- /.box-header -->
         
           <!-- form start -->
           <form method="POST" class="form-horizontal" onsubmit="return validerRegistrerFly()">
@@ -119,8 +119,8 @@ if(@$_GET['id']){
                 <label for="flyType" class="col-sm-2 control-label">Er sete ved nødutgang</label>
                 <div class="col-sm-10">
                   <select name="noedutgang" class="form-control">
-                    <option value="0" <?php if ($row[4] == 0) echo 'selected'; ?> >Nei</option>
-                    <option value="1" <?php if ($row[4] == 1) echo 'selected'; ?>  >Ja</option>
+                    <option value="Nei" <?php if ($row[4] == 'Ja') echo 'selected'; ?> >Nei</option>
+                    <option value="Ja" <?php if ($row[4] == 'Nei') echo 'selected'; ?>  >Ja</option>
                   </select>
                 </div>
               </div>
@@ -129,10 +129,17 @@ if(@$_GET['id']){
               <div class="form-group">
                 <label for="flyAntallPlasser" class="col-sm-2 control-label">Velg riktig priskategori</label>
                 <div class="col-sm-10">
-                  <?php echo $html->GenerateSearchSelectionbox($prisKatData,'prisKatId','prisKatId',$prisKat->getPrisKat($row[2],$logg)[0][1], $row[2]); ?>
+                  <?php echo $html->GenerateSearchSelectionbox($prisKatData
+                                                              ,'prisKatId'
+                                                              ,'prisKatId'
+                                                              ,$prisKat->getPrisKat($row[2],$logg)[0][1]
+                                                              , ''
+                                                              , TRUE
+                                                              ,$row[2]); ?>
                 </div>
               </div>
 
+              </div>
               <!-- /.box-body -->
               <div class="box-footer">
                 <button type="submit" class="btn btn-info pull-right">Oppdater</button>
@@ -140,8 +147,6 @@ if(@$_GET['id']){
               <!-- /.box-footer -->
             </form>
 
-
-            
           </div>
           <!-- /.box -->
     <?php } ?>   

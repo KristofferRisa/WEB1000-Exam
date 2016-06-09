@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $airportinfo = $airport->GetAirport($id,$logg);
 
-    if($result == 1){
+    if($result >= 0){
       //Success
              $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
 
@@ -113,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group"  data-toggle="tooltip" data-placement="top" title="Fyll ut flyplass navn">
                   <label for="flyplassNavn" class="col-sm-2 control-label" >Navn</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$airportinfo[0][1]?>">
+                    <input type="text" class="form-control" id="flyplassNavn" name="flyplassNavn" placeholder="Flyplass navn" value="<?php echo @$airportinfo[0][1]?>"  required>
                   </div>
                 </div>
 
@@ -124,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <div class="btn btn-default" onclick="fjernMelding();clearForm(this.form);">Nullstill</div>
+                <input type="reset" class="btn btn-default" value="Nullstill" onclick="clearForm(this.form);">
                 <button type="submit" class="btn btn-info pull-right">Legg til</button>
 
               </div>

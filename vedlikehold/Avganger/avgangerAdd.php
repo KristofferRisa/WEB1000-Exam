@@ -11,6 +11,8 @@ include('../php/Plane.php');
 
 include('../php/Destinasjon.php');
 
+include('../php/AdminClasses.php');
+
 
 $fly = new Planes;
 $dataFly= $fly -> GetPlaneDataset($logg);
@@ -18,23 +20,13 @@ print_r($dataFly);
 
 $destinasjon = new Destinasjon;
 $dataDest= $destinasjon -> GetDestDataset($logg);
-print_r($dataDest);
-
-
-
-// Validering og innsending av skjemadata
-
-
+//print_r($dataDest);
 
 $errorMelding = "";
 
 // Validering av skjemainput
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
-
 {
-
-
   if (empty($_POST["flyId"]) ||  empty($_POST["fraDestId"]) ||  empty($_POST["tilDestId"]) ||
        empty($_POST["dato"]) ||  empty($_POST["direkte"]) ||  empty($_POST["reiseTid"]) ||  empty($_POST["klokkeslett"]) ||
        empty($_POST["fastpris"]) ) 
@@ -124,13 +116,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             <div class="box-body">        
                  
                  <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Velg fly ID">
-                  <label for="FlyId" class="col-sm-2 control-label">Fly ID</label>
+                  <label for="FlyId" class="col-sm-2 control-label">Fly</label>
                   <div class="col-sm-10">
                       <?php 
                         echo $html->GenerateSearchSelectionbox($dataFly,'flyId','flyId','Velg flyID',''); 
                         ?>
 
-                  </div>
+                  
                   </div>
                   </div>
 
@@ -163,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
               <div class="form-group"  data-toggle="tooltip" data-placement="top" title="YYYY-MM-DD">
                   <label for="Dato" class="col-sm-2 control-label" >Dato</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="dato" name="dato" value="<?php echo @$_POST['avgangDato'] ?>" onmouseover="musOverRK(this)" onmouseout="musUt(this)">
+                    <input type="text" class="form-control" id="dato" name="dato" value="<?php echo @$_POST['avgangDato'] ?>">
                   
                 </div>
               </div>
@@ -174,15 +166,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             <div class="form-group"  data-toggle="tooltip" data-placement="top" value="<?php echo @$_POST['direkte']?>" >
                   <label for="direkte" class="col-sm-2 control-label" >Avgang direkte</label>
 
-                  <div class="col-sm-1">
+                  <div class="col-sm-2">
                     <label class="radio-inline">
-                      <input type="radio" name="direkte">Ja
+                      <input type="radio" name="direkte" checked value="Ja">Ja
                     </label>
                   </div>
 
-                  <div class="col-sm-1">
+                  <div class="col-sm-2">
                     <label class="radio-inline">
-                      <input type="radio" name="direkte">Nei
+                      <input type="radio" name="direkte" value ="Nei">Nei
                     </label>
                   </div>
 
@@ -395,15 +387,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv fastprisen">
                   <label for="fastpris" class="col-sm-2 control-label">Fastpris</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="fastpris" name="fastpris" placeholder="fastpris" value="<?php echo @$_POST['fastpris'] ?>" onsubmit="return validerRegistrerAvgang()">
+                    <input type="text" class="form-control" id="fastpris" name="fastpris" placeholder="fastpris" value="<?php echo @$_POST['fastpris'] ?>" onsubmit="return validerRegistrerAvgang()" required>
                   </div>
                 </div>
-                
+                </div>
 
 
               <!-- /.box-body -->
               <div class="box-footer">
-                <button class="btn btn-default" onclick="fjernMelding();clearForm(this.form);return false;">Nullstill</button>
+                <input type="reset" class="btn btn-default" value="Nullstill" onclick="clearForm(this.form);">
                 <button type="submit" class="btn btn-info pull-right">Legg til</button>
 
               </div>
