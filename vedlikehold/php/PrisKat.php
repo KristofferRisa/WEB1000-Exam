@@ -9,11 +9,11 @@
             
         }
       
-        public function NewPrisKat($navn, $kroner)
+        public function NewPrisKat($prisKatNavn, $prisKatKroner, $logg)
         {   
             include (realpath(dirname(__FILE__)).'/db.php');
             
-            $logg = new Logg;
+            // $logg = new Logg;
             
             $logg->Ny('Forsøker å opprette ny priskategori.', 'DEBUG', htmlspecialchars($_SERVER['PHP_SELF']), '');
          
@@ -24,7 +24,7 @@
             
             $insertPrisKat = $db_connection->prepare($sql);
             $insertPrisKat->bind_param('ss'
-                                    , $navn, $posentPaaslag);
+                                    , $navn, $kroner);
                                     
             $insertPrisKat->execute();
             $affectedrows=$insertPrisKat->affected_rows;
@@ -164,11 +164,9 @@
         
             //  db-tilkopling
             $query = $db_connection->prepare
-<<<<<<< HEAD
-            ("SELECT prisKategoriId, navn, kroner, endret FROM prisKategori");
-=======
+
             ("SELECT prisKategoriId, navn, endret, kroner FROM prisKategori");
->>>>>>> FlyEndreVisNy2
+
             $query->execute();
             $query->bind_result($prisKatId, $navn, $kroner, $endret);
             
@@ -194,16 +192,13 @@
         }
         
         //VISE EN PRIS WHERE prisKatId = ?
-        public function getPrisKat($prisKatId, $kroner, $logg)
+        public function getPrisKat($prisKatId, $logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
-<<<<<<< HEAD
-            $sql = "SELECT prisKategoriId, navn, prisKatKr FROM prisKategori WHERE prisKategoriId=?;";
-=======
+
             $sql = "SELECT prisKategoriId, navn, kroner FROM prisKategori WHERE prisKategoriId=?;";
->>>>>>> FlyEndreVisNy2
-            
+
             $queryPrisKat = $db_connection->prepare($sql);
             
             $queryPrisKat->bind_param('i'
