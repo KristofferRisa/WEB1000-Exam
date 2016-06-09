@@ -49,18 +49,18 @@
         
         
         // OPPDATERER EN BILLETT
-        public function UpdateBillett ($bestillingId, $avgangId, $seteId, $fornavn, $etternavn, $kjonn, $antBagasje)
+        public function UpdateBillett ($id, $fornavn, $etternavn, $kjonn, $antBagasje, $logg)
         {
             include (realpath(dirname(__FILE__)).'/db.php');;
             
             $sql = 
             "UPDATE billett
-            SET navn = ?
+            SET  fornavn = ?, etternavn = ?, kjonn = ?, antBagasje = ?
             WHERE billettId = ?;";
             
             $insertBillett = $db_connection->prepare($sql);
-            $insertBillett->bind_param('sssssss'
-                                    , $bestillingId, $avgangId, $seteId, $fornavn, $etternavn, $kjonn, $antBagasje);
+            $insertBillett->bind_param('sssii'
+                                    , $fornavn, $etternavn, $kjonn, $antBagasje, $id);
                                                                         
             $insertBillett->execute();
             $affectedRows = $insertBillett->affected_rows;
@@ -222,6 +222,36 @@
         
         return $html;
     }
+    public function BillettSelectOptions(){
+            include (realpath(dirname(__FILE__)).'/db.php');;
+             $listBox = "";
+            
+            $sql="SELECT billettId, fornavn, etternavn from billett";
+            
+            $queryDestinasjon = $db_connection->prepare($sql);
+            
+            $queryDestinasjon->execute();
+
+            $queryDestinasjon->bind_result($id, $fornavn, $etternavn);
+                        
+            while ($queryDestinasjon->fetch()) {
+                
+                 $listBox .= "<option value=".$id. ">Billett ID: ".$id.", Fornavn: ".$fornavn.", Etternavn: ".$fornavn."</option>";
+            }
+            
+            //$htmlSelect .= '</select>';
+            //Error logging
+            if($queryDestinasjon == false){
+                $logg->Ny('Failed to get from db: '.mysql_error($db_connection), 'ERROR', htmlspecialchars($_SERVER['PHP_SELF']), '');    
+            }
+            
+            $queryDestinasjon->close();
+            $db_connection->close();  
+
+            return $listBox;
+
+         
+         }
  }    
     
     
