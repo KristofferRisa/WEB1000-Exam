@@ -16,7 +16,7 @@ include('../php/AdminClasses.php');
 
 $fly = new Planes;
 $dataFly= $fly -> GetPlaneDataset($logg);
-print_r($dataFly);
+// print_r($dataFly);
 
 $destinasjon = new Destinasjon;
 $dataDest= $destinasjon -> GetDestDataset($logg);
@@ -58,6 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
     $result = $innIDataBaseMedData->NewAvgang($flyId, $fraDestId, $tilDestId, $dato, $direkte, $reiseTid, $klokkeslett, $fastpris, $logg);
 
+    $dataDest= $destinasjon -> GetDestDataset($logg);
+
     if($result == 1){
       //Success
              $errorMelding = "<div class='alert alert-success'><strong>Info! </strong>Data lagt inn i database.</div>";
@@ -89,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Avgang</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Ny avgang</li>
+      <li class="active">NyAvgang</li>
     </ol>
   </section>
  <!-- Main content -->

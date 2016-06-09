@@ -377,9 +377,9 @@ if($_GET
         // print_r($ledig);
         
         //Sjekker først om det fortsatt er ledige plasser på avgangen
-        if(@$ledig[0][1] >= $antallReisende && @$ledigRetur[0][1] >= $antallReisende)
+        if(@$ledig[0][1] >= $antallReisende && (!$_GET['retur'] || @$ledigRetur[0][1] >= $antallReisende))
         {
-            $result = $bestilling->NewBestilling($bestillingsDato, $refNo, $reiseDato, $returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,$antallVoksne
+            $result = $bestilling->NewBestilling($bestillingsDato, $refNo, $reiseDato, @$returDato, $bestillerFornavn,$bestillerEtternavn, $bestillerEpost, $bestillerTlf,$antallVoksne
             , $antallBarn
             , $reisende
             , $utreiseInfo[0][0]

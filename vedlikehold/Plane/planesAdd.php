@@ -19,10 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $errorMelding = $html->errorMsg("Alle felt må fylles ut!");
 
-
-
 }
-
 
 elseif (filter_var($_POST["flyAntallPlasser"], FILTER_VALIDATE_INT) === false || strlen($_POST["flyAntallPlasser"]) > 11 ) {
   $$errorMelding =  $html->errorMsg("Antall plasser må kun være siffer og maks 11 tegn tegn!");
@@ -56,9 +53,6 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
     if($result == 1){
       //Success
       $errorMelding =  $html->successMsg("Data ble lagt inn i databasen.");
-      
-      //Viser rediger sete knapp
-      $seteButton = '<div clas="row"><a href="./sete.php?" class="btn btn-flat btn-link>Rediger seter</a></div>';
       
     } else {
       //not succesfull
@@ -141,17 +135,22 @@ elseif (strlen($_POST["flyAarsmodell"]) !== 4 ) {
                 <div class="form-group">
                   <label for="flyLaget" class="col-sm-2 control-label">Årsmodell</label>
                   <div class="col-sm-10" data-toggle="tooltip" data-placement="top" title="Årsmodell må fylles ut">
-                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="yyyy" value="<?php echo @$_POST['flyAarsmodell'] ?>" required>
+                    <input type="text" class="form-control" id="flyAarsmodell" name="flyAarsmodell" placeholder="2016" value="<?php echo @$_POST['flyAarsmodell'] ?>" required>
                   </div>
                 </div>
 
               <!-- /.box-body -->
               <div class="box-footer">
                 <input type="reset" class="btn btn-default" value="Nullstill" onclick="clearForm(this.form);">
+                <a href="./planes.php" class="btn btn-link" >Tilbake</a>
                 
-                <?php if(@$seteButton) { echo $seteButton; } ?>
+                <?php 
+                if($_POST && $result == 1 ) {  ?>
+                    <a href="./Plane/sete.php?nr=<?php echo $flyNr; ?>" class="btn btn-flat btn-link pull-right">Rediger seter</a>
+                  <?php } else { ?>
+                   <button type="submit" class="btn btn-info pull-right">Legg til</button>
+                 <?php } ?>
                 
-                <button type="submit" class="btn btn-info pull-right">Legg til</button>
               </div>
               <!-- /.box-footer -->
             </form>

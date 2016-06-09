@@ -19,7 +19,7 @@ include('../php/Plane.php');
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Fly og seteoversikt</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Vis fly</li>
+      <li class="active">VisFly</li>
     </ol>
   </section>
  <!-- Main content -->

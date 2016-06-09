@@ -37,32 +37,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
   if ( empty($_POST["flyplassID"]) || empty($_POST["navn"]) || empty($_POST["landskode"]) || empty($_POST["stedsnavn"]) || empty($_POST["geo_lat"]) || empty($_POST["geo_lng"]) )
-  
-   {
-
+  {
     $errorMelding = $html->errorMsg("Alle felt må fylles ut!");
-
-
-
-}
-
-
-elseif (filter_var($_POST["flyplassID"], FILTER_VALIDATE_INT) === false || strlen($_POST["geo_lat"]) > 100 || strlen($_POST["geo_lng"]) > 100 ) {
-  $$errorMelding =  $html->errorMsg("Flyplass id må bestå kun av siffer og Geo data maks 100 tegn!");
-
-}
-
-elseif (strlen($_POST["navn"]) > 500 || strlen($_POST["stedsnavn"]) > 100 ) {
+  } elseif (filter_var($_POST["flyplassID"], FILTER_VALIDATE_INT) === false || strlen($_POST["geo_lat"]) > 100 || strlen($_POST["geo_lng"]) > 100 ) {
+    $$errorMelding =  $html->errorMsg("Flyplass id må bestå kun av siffer og Geo data maks 100 tegn!");
+  } elseif (strlen($_POST["navn"]) > 500 || strlen($_POST["stedsnavn"]) > 100 ) {
   $errorMelding =  $html->errorMsg("Navn, må være maks 500 tegn! Stedsnavn max 100! ");
-}
-elseif (strlen($_POST["landskode"]) !== 2 ) {
+  } elseif (strlen($_POST["landskode"]) !== 2 ) {
   $errorMelding = $html->errorMsg("Landskode må bestå av 2 tegn!");
-}
-
-  
-  else {
-
-
+  } else {
 
     $valider = new ValiderData;
 
@@ -75,11 +58,8 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
 
 
     $result = $destination->UpdateDestinasjon($id, $flyplassID, $navn,$landskode,$stedsnavn,$geo_lat,$geo_lng,$logg);
-//Henter oppdatert info fra databasen
-    
-    //$innIDataBaseMedData = $innIDataBaseMedData->GetDestination($id,$logg);
-   
-    
+  
+    $destinationinfo = $destination->GetDestination($id,$logg); 
     
     if($result == 1){
       //Success
@@ -87,7 +67,7 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
 
     } else {
       //not succesfull
-             $errorMelding = $html->errorMsg("Data ble ikke lagt inn i databasen grunnet ingen endringer gjort.");
+      $errorMelding = $html->errorMsg("Data ble ikke lagt inn i databasen grunnet ingen endringer gjort.");
 
     }
 
@@ -111,7 +91,7 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
       <li><a href="../"><i class="fa fa-dashboard"></i> Start</a></li>
       <li>Destinasjoner</li>
       <!-- Denne lese av script for å sette riktig link aktiv i menyen (husk ID i meny må være lik denne) -->
-      <li class="active">Endre destinasjon</li>
+      <li class="active">EndreDestinasjon</li>
     </ol>
   </section>
  <!-- Main content -->
@@ -151,11 +131,10 @@ elseif (strlen($_POST["landskode"]) !== 2 ) {
                         //print_r($data);
                         $flyplass = $flyplasser->GetAirport($destinationinfo[0][1], $logg);
                         // print_r($flyplass);
-                        echo $html->GenerateSearchSelectionbox($data,'flyplassID','flyplassID',$flyplass[0][1],''); 
+                        echo $html->GenerateSearchSelectionbox($data,'flyplassID','flyplassID',$flyplass[0][1],'','',$flyplass[0][0]); 
                         ?>
                   </div>
                 </div>
-
                 <div class="form-group" data-toggle="tooltip" data-placement="auto bottom" title="Skriv navn på destinasjonen">
                   <label for="navn" class="col-sm-2 control-label">Navn</label>
                   <div class="col-sm-10">
