@@ -1,3 +1,7 @@
+<hr>
+<em>This repository has been archived as it was only used for a school exam and is no longer actively maintained.</em>
+<hr>
+
 # WEB1000 Hjemmeeksamen 2015/2016
 
 ## Vurderingskriterier</h2>
